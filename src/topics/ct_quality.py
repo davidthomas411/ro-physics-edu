@@ -7,6 +7,11 @@ pitch = lambda d, s: d / s
 scan_t = lambda length, d, rot: length / d * rot                          # seconds to cover a length (mm) with table travel d (mm) per rotation of time rot (s)
 noise = lambda mas, s: math.sqrt(1000 / (mas * s))                         # noise relative to 200 mAs and 5 mm, which is taken as 1: noise goes as 1/sqrt(mAs x slice thickness)
 t_p1, t_p15 = scan_t(200, 1.0 * 5, 0.5), scan_t(200, 1.5 * 5, 0.5)
+mu_soft = 0.19                                                             # cm^-1, soft tissue at the effective energy of a CT beam
+mas_for = lambda mas, extra: mas * math.exp(mu_soft * extra)               # the mAs that keeps the noise when the patient is thicker by extra cm: noise follows the number of detected photons
+m_big = mas_for(150, 8)
+sd_a, sd_b = round(RN["sd"][0], 1), round(RN["sd"][2], 1)                  # the measured noise at 50 and 200 mA, as they are quoted in the text
+ma_pred = RN["mA"][0] * (sd_a / sd_b) ** 2                                 # noise goes as 1/sqrt(mA), so the current goes as 1/noise^2
 
 TOPIC = dict(
     id="ct-quality", domain=4, sub="IV.A", title="CT acquisition, image quality, and artifacts",
@@ -22,6 +27,7 @@ TOPIC = dict(
         P("The image-quality parameters of Section 19.1 apply to CT: contrast, noise, and spatial resolution. The noise depends on the collimation or slice thickness, the reconstruction algorithm, the pitch, the kVp, the time, and the mA. CT reconstructions are limited by photon-counting noise, so the SNR is proportional to the square root of mA·s. Thicker slices have a higher SNR, because more photons are collected."),
         P("The spatial resolution depends on the focal spot size, the detector resolution, the pixel size, the reconstruction filter, and the slice thickness. A bone filter in the backprojection distinguishes smaller features, at the cost of a noisier image. Changing the mA affects the noise but not the spatial resolution."),
         EX("Noise and the exposure", STEM("A CT scan uses 100 mAs. The scan is repeated with 400 mAs.", [], "By what factor does the [[SNR]] change?"), ["SNR ∝ √(mA·s)", "√(400 / 100) = √4"], "The SNR doubles. Four times the exposure doubles the SNR and halves the relative noise."),
+        P(f"The size of the patient matters as much as the settings. The number of photons that reach the detector falls as e<sup>−μd</sup> with the thickness d, so a thicker patient gives a noisier image at the same mAs, and the mAs has to rise by e<sup>μΔd</sup> to hold the noise. For soft tissue at the effective energy of the beam, μ is about {mu_soft} cm<sup>−1</sup>, so every {math.log(2) / mu_soft:.1f} cm of extra thickness doubles the mAs that is needed. Scanners adjust the tube current to the thickness of the patient, along the length and around the patient, with automatic exposure control."),
 
         P(f"The images below show these effects on a real CT slice. The slice comes from a head-and-neck patient of the open OpenKBP dataset, and the effects are simulated from the physics, so each image can be compared with a clean reference of the same anatomy. When the exposure falls by a factor of 16 the noise rises {GS['noise_low'] / GS['noise_high']:.1f} times, close to the factor of 4 that 1/√exposure predicts. A smooth reconstruction filter gives {GS['sd_smooth'] / GS['sd_sharp']:.2f} of the noise of the sharp filter, and the fine detail is softer."),
         AVF("ct-gallery-noise"),
@@ -35,6 +41,7 @@ TOPIC = dict(
 
         P(f"The images below show one patient at the same level with a planning CT and with the CBCT acquired at treatment. In the liver the noise is {RB['sd_cbct']:.0f} HU on the CBCT against {RB['sd_ct']:.0f} HU on the planning CT, the contrast between organs is much lower, and the vessels that are bright on the planning CT are not enhanced. The field of view is also limited: at the level of the chest the right side of the patient lies outside the reconstructed region."),
         AVF("real-ct-cbct"),
+        P("The megavoltage treatment beam can also be used for a cone-beam CT. At megavoltage energy the Compton effect is almost the only interaction, so the image shows differences in electron density. Soft tissues differ little in density, so their contrast is much lower than in a kilovoltage CBCT, where the photoelectric effect adds a dependence on the atomic number. The same property makes the megavoltage image robust near metal: a hip prosthesis or another implant causes far fewer streaks. The detector is less efficient at megavoltage energy, so an image needs a higher dose than a kilovoltage CBCT. Kilovoltage imaging is therefore preferred for soft tissue, and megavoltage imaging where metal degrades the kilovoltage image."),
 
         H("CT artifacts"),
         P("Artifacts are features of the image that do not come from the patient. Several come from beam hardening, in which the lower-energy photons are removed and the mean energy of the beam rises as it passes through the patient. Four are common."),
@@ -96,7 +103,8 @@ TERMS = ['pitch', 'cone-beam CT', 'cupping', 'beam hardening']
 TAKE = [
     [('Pitch p = d / S. A larger pitch covers the volume faster, at the cost of a degraded slice sensitivity profile.', 'pitch-time')],
     [('CT noise follows photon counting: the SNR rises as √(mA·s) and with slice thickness. The mA does not change the resolution.', 'ct-noise')],
-    [('CBCT acquires the whole volume in one rotation, with a long acquisition and more scatter, so motion degrades the image and the HU are less accurate.', 'cbct-compare')],
+    [('CBCT acquires the whole volume in one rotation, with a long acquisition and more scatter, so motion degrades the image and the HU are less accurate.', 'cbct-compare'),
+     'A megavoltage CBCT has fewer metal artifacts than a kilovoltage CBCT, but a lower soft-tissue contrast and a higher dose.'],
     [('Cupping, streaking, motion, and ring artifacts each have their own cause: scatter and beam hardening, beam hardening between dense objects, movement, and a faulty detector pixel.', 'ct-artifacts')],
 ]
 
@@ -114,3 +122,21 @@ PROBLEMS += [
          [(1.88, 2.12)], "Time = (200 / (p × 5)) × 0.5 = 20 / p. Setting it to 10 s gives p = 2.0. The level 10 s is not marked on the axis.", lvl="Challenging", note="about 2.0"),
 ]
 INLINE = {0: [1, 2, 4, _n0 + 2], 1: [3, 6, 7, 8], 2: [9, 10], 3: [11, 12, _n0 + 1]}
+
+
+# ---------------------------------------------------------------- patient size, real phantom noise, metal, and megavoltage imaging
+_n1 = len(PROBLEMS)
+PROBLEMS += [
+    PRN(STEM("A scan of a patient with a water-equivalent thickness of 24 cm has an acceptable noise at 150 mAs. A second patient is 8 cm thicker.", ["μ = 0.19 cm<sup>−1</sup> at the effective energy of the beam"], "What [[mAs]] gives the second patient the same noise?"), m_big, [150 * math.sqrt(math.exp(mu_soft * 8)), 150 * mu_soft * 8, 150 * 8], "{:.0f} mAs",
+        f"The number of photons that reach the detector falls by e<sup>−0.19 × 8</sup> = e<sup>−1.52</sup>, a factor of {math.exp(1.52):.2f}. The noise follows the number of detected photons, so the mAs has to rise by the same factor: 150 × {math.exp(1.52):.2f} = {m_big:.0f} mAs. Taking the square root of the factor gives {150 * math.sqrt(math.exp(1.52)):.0f} mAs, which leaves the noise {math.sqrt(math.exp(1.52) / math.sqrt(math.exp(1.52))):.1f} times too high.", lvl="Challenging"),
+    TYPED(STEM(f"A uniform block in a test phantom was scanned at {RN['mA'][0]} mA, and the noise, the standard deviation of the HU in the block, was {sd_a} HU. Every other setting is unchanged.", [], f"What [[tube current]] should give a noise of {sd_b} HU?"), ma_pred, 0.03, "mA",
+          f"The noise goes as 1/√mA, so the current goes as 1/noise². The current is {RN['mA'][0]} × ({sd_a} / {sd_b})² = {ma_pred:.0f} mA. The real scan that gave {sd_b} HU used {RN['mA'][2]} mA.", lvl="Moderate"),
+    PR("The streaks between a metal implant and the surrounding tissue on a CT image arise mainly because the metal:", "attenuates the beam so strongly that few photons reach the detector, and it hardens the beam, so the data along those rays are inconsistent", ["emits radiation of its own that the detector registers", "has a lower density than soft tissue", "makes the patient move during the scan"],
+       "Very few photons are detected along the rays through the metal, and those that arrive have a harder spectrum than the reconstruction assumes. The reconstruction cannot reconcile these projections with the others, and streaks result.", lvl="Moderate"),
+    PR("A planning CT of a patient with a hip prosthesis shows dark and bright streaks across the pelvis. Which approach is most appropriate for the dose calculation?", "Reconstruct with metal artifact reduction if it is available, and contour the prosthesis and assign it a density", ["Use the HU as they are, because the planning system corrects the streaks", "Repeat the scan at a lower kVp to reduce the streaks", "Ignore the prosthesis, because metal does not attenuate the treatment beam"],
+       "The metal and the streaks distort the CT numbers near the implant. Metal artifact reduction improves the image, and the contour with an assigned density replaces the unreliable HU in the dose calculation. A lower kVp hardens the beam more and starves the detector of photons, so it makes the streaks worse, and metal attenuates the treatment beam strongly.", lvl="Moderate"),
+    PR("Compared with a kilovoltage CBCT, a megavoltage CBCT of a patient with a hip prosthesis shows:", "fewer metal streaks, a lower soft-tissue contrast, and a higher dose", ["more metal streaks and a higher soft-tissue contrast", "fewer metal streaks, a higher soft-tissue contrast, and a lower dose", "more metal streaks, a lower soft-tissue contrast, and a lower dose"],
+       "At megavoltage energy the Compton effect dominates, so the image follows the electron density and metal causes little streaking, but soft tissues differ little in density and the contrast is low. The detector is less efficient, so the dose is higher.", lvl="Moderate"),
+]
+INLINE[1].append(_n1 + 2)                                                       # the real phantom noise, in the section on noise
+INLINE[2].append(_n1 + 5)                                                       # megavoltage against kilovoltage CBCT, in the section on cone-beam CT

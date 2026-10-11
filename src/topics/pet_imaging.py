@@ -12,6 +12,10 @@ suv = lambda c, dose_kbq, wt_g: c / (dose_kbq / wt_g)            # activity conc
 suv_a = suv(20, 370000, 74000)
 suv_t = suv(18, 296000, 80000)
 L_4 = math.log(4) / mu511
+suv_dc = lambda c, a_mbq, wt_kg, t, th: c / (a_mbq * 1000 * 2 ** (-t / th) / (wt_kg * 1000))     # SUV with the injected activity decayed to the scan time t (same unit as the half-life th)
+suv_d = suv_dc(12, 370, 75, 60, 109.8)
+suv_nd = suv_dc(12, 370, 75, 0, 109.8)                                                           # the activity at injection, with no decay
+suv_up = suv_dc(12, 370, 75, -60, 109.8)                                                         # the decay applied in the wrong direction
 
 TOPIC = dict(
     id="pet-imaging", domain=4, sub="IV.A", title="PET imaging",
@@ -119,3 +123,15 @@ PROBLEMS += [
          [(L_4 - 2.5, L_4 + 2.5)], f"e<sup>μL</sup> = 4 gives L = ln 4 / μ = {L_4:.1f} cm. The level 4 is not marked on the axis.", lvl="Challenging", note=f"about {L_4:.0f} cm"),
 ]
 INLINE = {0: [1, 2, 3, 5], 1: [6, 7, _n0 + 1], 2: [8, 10, 11, _n0 + 4], 3: [12, 13, _n0 + 2]}
+
+
+# ---------------------------------------------------------------- SUV with decay, and tracers by target
+_n1 = len(PROBLEMS)
+PROBLEMS += [
+    PRN(STEM("A patient of 75 kg is injected with 370 MBq of <sup>18</sup>F-FDG (half-life 109.8 min). The scan starts 60 min after the injection, and the image is decay-corrected to the start of the scan. A tumour has an activity concentration of 12 kBq/mL.", [], "What is the [[SUV]]?"), suv_d, [suv_nd, suv_up, suv_d * 2], "{:.2f}",
+        f"The activity left at the scan is 370 × 2<sup>−60/109.8</sup> = {370 * 2 ** (-60 / 109.8):.0f} MBq, which is {1000 * 370 * 2 ** (-60 / 109.8) / 75000:.2f} kBq/g. SUV = 12 / {1000 * 370 * 2 ** (-60 / 109.8) / 75000:.2f} = {suv_d:.2f}. Leaving out the decay gives {suv_nd:.2f}, and applying it in the wrong direction gives {suv_up:.2f}.", lvl="Challenging"),
+    SORT("Match each PET tracer to the target it binds.", ["Somatostatin receptors", "Prostate-specific membrane antigen", "Benzodiazepine receptor", "D2 receptor"],
+         [("<sup>68</sup>Ga-DOTATATE", 0), ("<sup>68</sup>Ga-PSMA-11", 1), ("<sup>11</sup>C-flumazenil", 2), ("<sup>11</sup>C-raclopride", 3)],
+         "DOTATATE binds somatostatin receptors, which neuroendocrine tumours express. PSMA-11 binds the prostate-specific membrane antigen of prostate cancer cells. Flumazenil binds the benzodiazepine receptor, and raclopride binds the D2 receptor.", lvl="Moderate", mode="match", cap=1),
+]
+INLINE[1].append(_n1 + 1)

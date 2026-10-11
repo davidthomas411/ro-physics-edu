@@ -8,6 +8,8 @@ f_sup, f_inf = larmor(0.9985), larmor(1.0015)
 df = f_inf - f_sup                                             # MHz across the patient, for the gradient in the example
 z_of = lambda f: (f / GAMMA - 1) / 0.00006                     # position in cm for B = 1 + 0.00006 z, z positive toward the inferior end
 B100 = 100 / GAMMA                                             # field at which hydrogen precesses at 100 MHz
+sar = lambda p, m: p / m                                       # specific absorption rate in W/kg, for p watts of RF power absorbed in a mass of m kg
+s_ex, s_q = sar(150, 60), sar(105, 70)
 
 TOPIC = dict(
     id="mri-physics", domain=4, sub="IV.A", title="MRI physics: spin, precession, and signal",
@@ -25,6 +27,13 @@ TOPIC = dict(
         H("Image formation with gradients"),
         P("To form an image the signal must be tied to a position. Extra magnetic fields, much smaller than B<sub>0</sub>, are applied with gradient coils so that the field varies along an axis. If the field along the patient's superior–inferior axis is 1.0000 T at the center, it might be 0.9985 T at the superior end and 1.0015 T at the inferior end. The nuclei then precess a little faster in the inferior region. Choosing the frequency of the excitation chooses the slice, so that only that slice is probed. Gradients in other directions give the position within the slice, and together they allow the image to be formed."),
         EX("A field gradient", STEM("The field varies along the patient from 0.9985 T at the superior end to 1.0015 T at the inferior end.", [], "Find the [[difference in Larmor frequency]] across the patient."), ["f<sub>inf</sub> = 42.6 × 1.0015 = " + f"{f_inf:.4f} MHz", "f<sub>sup</sub> = 42.6 × 0.9985 = " + f"{f_sup:.4f} MHz"], f"{df:.4f} MHz, or {1000 * df:.0f} kHz. The frequency tells where in the patient the signal comes from."),
+
+        H("MRI safety"),
+        P("The scanner exposes the patient, and anything brought into the room, to three kinds of field, and each has its own hazard. The static field B<sub>0</sub> is on at all times, also between scans. It pulls on ferromagnetic objects, so a cylinder, a pair of scissors, or a wheelchair can be accelerated toward the magnet like a projectile, and a ferromagnetic implant feels a force and a torque. The gradient fields are switched on and off rapidly, and by Faraday's law they induce currents in conductors. In the body these can stimulate nerves, which is felt as tingling or twitching, and the gradient coils make a loud noise, so the patient wears ear protection. The radiofrequency field deposits energy in the tissue as heat."),
+        P("The heating is described by the specific absorption rate (SAR), the RF power absorbed per kilogram of tissue. The scanner estimates it from the sequence and the weight of the patient and keeps it below a limit, which for the whole body is 2 W/kg in the normal operating mode. The SAR rises with the square of the main field and with the RF power per unit time, so fast sequences with large flip angles reach the limit first, especially at 3 T. A long conductor, such as an implanted lead, a cable, or a loop formed by skin touching skin, can concentrate the induced current at one point, and the heating there can be much larger than the average SAR suggests."),
+        EX("The specific absorption rate", STEM("A sequence deposits 150 W of RF power in the body of a patient with a mass of 60 kg. The limit is 2 W/kg.", [], "Find the [[whole-body SAR]]."), ["SAR = absorbed power / mass", "SAR = 150 W / 60 kg"], f"{s_ex:.1f} W/kg, above the limit of 2 W/kg, so the scanner has to lower the RF power, for example with a smaller flip angle or a longer TR."),
+        P("Implants are labelled by how they behave in the MR environment. MR Safe means that the item poses no known hazard in any MR environment, as for a plastic object. MR Conditional means that the item is safe only under stated conditions, for example a field strength, a maximum spatial field gradient, a maximum SAR, and a limit on the gradient switching rate, which the label gives. MR Unsafe means a known hazard, as for ferromagnetic scissors."),
+        P("A pacemaker or defibrillator carries three risks. The RF field induces current in the leads, which heats the tissue at the tip of a lead and can injure the heart muscle. The gradient and RF fields can be sensed by the device as if they were a heart signal, which can inhibit the pacing or trigger an inappropriate shock, and the device can change its settings or fail. The static field exerts a force and a torque on the ferromagnetic parts of the device, which is why the label limits the field strength and the spatial field gradient, but the force on a modern device is not enough to pull it out of the chest, so heating and malfunction are the main concerns. A patient whose device is not MR Conditional is generally not scanned. A patient with an MR Conditional system, a generator and leads approved together, can be scanned under the stated conditions, after the device is programmed for the scan and with monitoring during it. MRI uses no ionizing radiation, so no radiation dose reaches the device: the hazards come from the three fields."),
     ],
     cards=[
         F("Basis of MRI", "Nuclei with non-zero spin, usually hydrogen, act as magnets and precess in a strong magnetic field."),
@@ -68,12 +77,14 @@ PROBLEMS = [
        "The signal from one precessing nucleus is tiny. Billions of nuclei in tissue, precessing together, induce a measurable current.", lvl="Challenging"),
 ]
 
-TERMS = ['Larmor frequency', 'gradient', 'resonance', "Faraday's law"]
+TERMS = ['Larmor frequency', 'gradient', 'resonance', "Faraday's law", 'specific absorption rate', 'MR Conditional']
 
 TAKE = [
     [('The Larmor frequency is f = γ̄ B<sub>0</sub>: 42.6 MHz/T for hydrogen, so 63.9 MHz at 1.5 T and 127.8 MHz at 3 T.', 'larmor-field')],
     [('Radiofrequency waves at the Larmor frequency flip the spins. The precessing moments change the flux through the readout coil and induce the signal.', 'precession-coil')],
     [('A field gradient makes the Larmor frequency depend on position, so choosing the excitation frequency chooses the slice.', 'gradient-slice')],
+    ['The static field is always on and pulls on ferromagnetic objects. The switched gradients induce currents that can stimulate nerves, and the RF field heats tissue, which the SAR in W/kg describes.',
+     'Implants are MR Safe, MR Conditional, or MR Unsafe. A pacemaker or defibrillator risks lead-tip heating and malfunction, and an MR Conditional system is scanned only under its stated conditions.'],
 ]
 
 
@@ -90,3 +101,23 @@ PROBLEMS += [
          [(B100 - 0.25, B100 + 0.25)], f"f = 42.6 B gives B = 100 / 42.6 = {B100:.2f} T. The level 100 MHz is not marked on the axis.", lvl="Challenging", note=f"about {B100:.1f} T"),
 ]
 INLINE = {0: [1, 3, 4, 8], 1: [6, 7, _n0 + 1], 2: [9, 10, _n0 + 3]}
+
+
+# ---------------------------------------------------------------- safety questions (they follow the last section, so they appear in the practice set)
+PROBLEMS += [
+    PR("Which field of an MR scanner pulls on a ferromagnetic object that is brought into the room?", "the static field B<sub>0</sub>, which is on at all times", ["the radiofrequency field, during the pulses", "the gradient field, while it switches", "the field of the readout coil, while it receives"],
+       "The static field of a superconducting magnet is on also when no scan is running. The RF and gradient fields are applied during the sequence, and they act through induced currents and heating, not through a pull on iron.", lvl="Easy"),
+    SORT("Which field causes each hazard?", ["Static field B<sub>0</sub>", "Gradient field", "RF field"],
+         [("A pair of scissors accelerates toward the magnet", 0), ("A torque turns a ferromagnetic implant", 0), ("Tingling or twitching from nerve stimulation", 1), ("The loud knocking noise during the scan", 1), ("Heating of the tissue at the tip of a lead", 2), ("A rise of the body temperature that the SAR describes", 2)],
+         "The static field is always on, and it acts on ferromagnetic objects with a force and a torque. The gradients switch rapidly, which induces currents that stimulate nerves, and the vibration of the gradient coils makes the noise. The RF field is absorbed as heat, which the SAR measures, and the heating is largest at the tip of a lead.", lvl="Moderate"),
+    PRN(STEM("A sequence deposits 105 W of RF power in the body of a patient with a mass of 70 kg.", [], "What is the [[whole-body SAR]]?"), s_q, [70 / 105, s_q * 2, s_q / 10], "{:.1f} W/kg",
+        f"SAR = absorbed power / mass = 105 / 70 = {s_q:.1f} W/kg, below the normal-mode limit of 2 W/kg. Inverting the ratio gives {70 / 105:.1f}.", lvl="Moderate"),
+    PR("A pacemaker system is labelled MR Conditional. This means that:", "the patient can be scanned if the stated conditions, such as the field strength and the SAR limit, are met", ["the device is unaffected by any scanner at any setting", "the device contains no metal", "the patient can be scanned as long as the magnet is switched off"],
+       "MR Conditional means that safety has been shown within defined conditions, which the label lists. A superconducting magnet is never switched off between scans, and the conditions also cover the generator and the leads as a system.", lvl="Moderate"),
+    PR("In a patient with a pacemaker, the main cause of tissue injury at the tip of a lead during MRI is:", "heating from the current that the RF field induces in the lead", ["the force of the static field on the lead", "ionizing radiation from the RF coil", "the vibration of the gradient coils"],
+       "The long lead acts as an antenna for the RF field, and the induced current deposits its energy in a small volume of tissue at the tip. The static field exerts a force, but not one that pulls the device out of the chest, and MRI uses no ionizing radiation.", lvl="Challenging"),
+    PRM("A patient with a cardiac pacemaker system labelled MR Conditional is to have an MR simulation of the brain. Which of the following apply before the scan?", ["The field strength and the SAR limit of the scan are within the conditions on the label", "The device is programmed for the scan beforehand, and the patient is monitored during it"], ["The generator is covered with lead during the scan", "The magnet is ramped down before the patient enters the room", "The ionizing dose to the device stays below the labelled limit"],
+        "The label lists the conditions, such as the field strength, the spatial field gradient, and the SAR, and the device is set to its MRI mode before the scan, with monitoring during it. Lead does not shield the static or RF fields, a superconducting magnet is not ramped down between patients, and MRI delivers no ionizing dose.", lvl="Challenging"),
+    PR("The same sequence, with the same flip angles and timing, is run at 3 T instead of 1.5 T. The SAR is approximately:", "four times larger, because it rises with the square of the main field", ["twice as large, because it rises in proportion to the main field", "the same, because the SAR depends only on the flip angle", "half as large, because the signal is higher"],
+       "The electric field that the RF pulse induces in the body rises in proportion to the frequency, which is proportional to B<sub>0</sub>, and the heating rises with the square of that field: (3 / 1.5)<sup>2</sup> = 4.", lvl="Challenging"),
+]

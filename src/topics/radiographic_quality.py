@@ -11,6 +11,8 @@ mag = lambda a, b: (a + b) / a                                                  
 blur = lambda s, a, b: s * b / a                                                           # penumbra of a sharp edge for a source of size s
 m_a, b_a = mag(90, 10), blur(1.0, 90, 10)
 m_b, b_b = mag(70, 30), blur(1.0, 70, 30)
+mas_sid = lambda mas, d1, d2: mas * (d2 / d1) ** 2                                       # the mAs that keeps the exposure at the receptor when the distance changes from d1 to d2
+mas_far = mas_sid(20, 100, 140)
 npix = lambda mas: 2000 * mas                                                              # photons per pixel, illustrative: 2000 per mAs
 snr = lambda n: math.sqrt(n)
 skin = lambda kvp, mas: mas * kvp ** 2                                                     # exposure at the skin is proportional to mA x kVp^2
@@ -36,6 +38,7 @@ TOPIC = dict(
         P("The detector affects resolution too. In an EPID a photon most often interacts in a conversion layer, a copper plate, by Compton scattering, which releases an electron. The electron produces light in a scintillator layer, typically a rare-earth material such as gadolinium oxysulfide. A photodiode array of amorphous silicon registers the light as a charge that is roughly proportional to the number of photons. Each pixel is read out in turn: gate lines select a row, the data lines carry the charge from each pixel, and the image is read row by row. A thicker conversion layer or scintillator detects more photons, but it spreads the light over a larger area and blurs the image. The modulation transfer function describes this trade-off, and it gives the response of the detector for features of different spatial frequency."),
         P("Noise is how grainy an image looks. In x-ray imaging the main source is the random fluctuation in the number of photons registered in a pixel, which follows the Poisson distribution. For a mean of N photons the standard deviation is √N. That is the noise, and N is the signal, so the signal-to-noise ratio is N/√N = √N. More photons give a higher SNR. The user can raise the number of photons with a longer exposure, a higher mA, or a higher kVp, or by imaging a thinner part of the body. The cost is exposure to the patient: the exposure at the skin is proportional to mA·kVp², while the exposure transmitted through the patient rises faster with kVp, roughly as the fifth power."),
         EX("Signal-to-noise ratio", STEM("A pixel registers an average of 10,000 photons.", [], "Find the [[noise]] and the [[SNR]], and the SNR if the exposure is quadrupled."), ["Noise = √N = √10,000", "SNR = N / √N = √N", "4 × the exposure gives 40,000 photons"], f"Noise = {snr(10000):.0f} photons, SNR = {snr(10000):.0f}. With 40,000 photons the SNR is {snr(40000):.0f}, twice as high: the SNR grows as the square root of the exposure."),
+        P("On film, the darkening is measured as the optical density, the base-10 logarithm of the ratio of the light that falls on the film to the light that passes through it. The film darkens more as the exposure to it rises, so at a fixed kVp and distance the mAs sets the darkness. The exposure at the receptor also falls with the square of the source-to-detector distance, so a longer distance needs more mAs: mAs<sub>2</sub> = mAs<sub>1</sub> (d<sub>2</sub> / d<sub>1</sub>)<sup>2</sup>. A digital detector responds over a much wider range and its image is rescaled for display, so a higher exposure does not darken the image. It lowers the noise instead, and an exposure index reports how much exposure the detector received."),
 
         P(f"The figure shows the noise in the same radiograph at three exposures. When the exposure falls by a factor of 16, the noise in −ln(I) rises {DS['noise_low'] / DS['noise_high']:.1f} times, close to the factor of 4 that 1/√exposure predicts, and the grain starts to hide the weak contrast."),
         AVF("drr-gallery-noise"),
@@ -117,3 +120,27 @@ PROBLEMS += [
          [(17.0, 23.0)], "m = 100 / (100 − b) = 1.25 gives b = 20 cm. The level 1.25 is not marked on the axis.", lvl="Challenging", note="about 20 cm"),
 ]
 INLINE = {0: [1, 2, 6], 1: [3, 4, _n0 + 1, _n0 + 3], 2: [7, 8, 11, 12], 3: [10, 13]}
+
+
+# ---------------------------------------------------------------- exposure factors and the interactions behind the contrast
+_n1 = len(PROBLEMS)
+PROBLEMS += [
+    SORT("Which interaction accounts for each feature of a radiograph made at diagnostic energy?", ["Photoelectric effect", "Compton scattering"],
+         [("The attenuation per gram rises steeply with the atomic number", 0), ("Bone shows more contrast against soft tissue at a lower kVp", 0), ("The photon is absorbed and all of its energy goes to one electron", 0),
+          ("Scattered photons reach the detector and lower the contrast", 1), ("The attenuation per electron hardly depends on the atomic number", 1), ("Most of the interactions in soft tissue above about 30 keV", 1)],
+         "The photoelectric effect varies as Z<sup>3</sup>/E<sup>3</sup>. It gives the contrast between bone and soft tissue, and it falls quickly as the energy rises. Compton scattering depends on the electron density, and it produces most of the scatter that reaches the detector and that a grid removes.", lvl="Moderate"),
+    PR("With the kVp and the geometry fixed, the darkness of a screen-film radiograph is set mainly by:", "the mAs, which sets the number of photons that reach the film", ["the focal spot size", "the brightness of the viewing box", "the magnification of the image"],
+       "More photons expose the film more and darken it. The optical density is the logarithm of the ratio of the light that enters the film to the light that passes through it, so it does not depend on the brightness of the viewing box.", lvl="Easy"),
+    PR("A digital radiograph is made with four times the mAs that the image needs, and everything else is unchanged. Compared with the correct exposure, the displayed image has:", "about the same brightness and half the relative noise, and the patient received four times the exposure", ["four times the brightness, as a film would show", "the same noise and four times the contrast", "the same brightness and the same noise, because the detector saturates"],
+       "The signal is rescaled to a standard display range, so a higher exposure does not darken the image. The extra photons lower the quantum noise by a factor of √4 = 2, which looks like a better image. The patient receives the full extra exposure, so an overexposure goes unnoticed unless the exposure index is checked.", lvl="Moderate"),
+    SORT("Which exposure factor mainly sets each property of a radiograph?", ["kVp", "mAs"],
+         [("The penetration of the beam", 0), ("The mean energy of the photons", 0), ("The contrast between bone and soft tissue", 0),
+          ("The number of photons that reach the detector at a fixed kVp", 1), ("The noise at a fixed kVp", 1), ("The exposure at the skin, in direct proportion", 1)],
+         "The kVp sets the energy spectrum, and so the penetration and the subject contrast. The mAs sets the number of photons at a fixed kVp, and with it the noise and the exposure, which rises in proportion.", lvl="Moderate"),
+]
+PROBLEMS += [
+    PRN(STEM("A screen-film radiograph at a source-to-detector distance of 100 cm with 20 mAs gives the right optical density. The distance is increased to 140 cm, with the same kVp and film.", [], "What [[mAs]] keeps the optical density?"), mas_far, [20 * 100 / 140, 20.0, 20 * 140 / 100], "{:.1f} mAs",
+        f"The exposure at the film falls with the square of the distance, by (100 / 140)² = {(100 / 140) ** 2:.2f}, so the mAs has to rise by (140 / 100)² = {(140 / 100) ** 2:.2f}: 20 × {(140 / 100) ** 2:.2f} = {mas_far:.1f} mAs. Leaving the mAs unchanged gives 20.0, scaling with the distance alone gives {20 * 140 / 100:.1f}, and inverting the ratio gives {20 * 100 / 140:.1f}.", lvl="Moderate"),
+]
+INLINE[0].append(_n1 + 1)
+INLINE[2].append(_n1 + 5)
