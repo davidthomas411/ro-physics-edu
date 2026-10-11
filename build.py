@@ -43,8 +43,8 @@ assert all(p['sub'] in subcodes for p in plan), [p for p in plan if p['sub'] not
 _E = [0.03, 0.04, 0.05, 0.06, 0.08, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.25, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0]
 import beamdata as _bd
 bm = dict(MUINF=_bd.MUINF, DELTA=_bd.DELTA, BETA=_bd.BETA, LAM=_bd.LAM, DMAX=_bd.DMAX, SC=sorted(_bd.SC.items()), SP=sorted(_bd.SP.items()))
-import mudata, mucases, cases, gal, mrdata
-DATA = dict(bm=bm, plan=plan, domains=domains, topics=topics, cards=cards, mu=dict(energies=mudata.all_tables(), cases=mucases.CASES), case=cases.CASE, gal=gal.GAL, drr=gal.DRR, mr=mrdata.MR, mrg=mrdata.GAL_MR, nist=nistdata.reference_html(), nistarr=dict(E=_E, w=[nistdata.WATER[e][0] for e in _E], b=[nistdata.BONE[e][0] for e in _E]))
+import mudata, mucases, cases, gal, mrdata, real
+DATA = dict(bm=bm, plan=plan, domains=domains, topics=topics, cards=cards, mu=dict(energies=mudata.all_tables(), cases=mucases.CASES), case=cases.CASE, gal=gal.GAL, drr=gal.DRR, mr=mrdata.MR, mrg=mrdata.GAL_MR, real=real.REAL, nist=nistdata.reference_html(), nistarr=dict(E=_E, w=[nistdata.WATER[e][0] for e in _E], b=[nistdata.BONE[e][0] for e in _E]))
 print(len(topics), "topics,", len(cards), "cards")
 
 CSS = (ROOT / "src" / "style.css").read_text()

@@ -1,6 +1,7 @@
 from blocks import *
-import math, calc, mrdata
+import math, calc, mrdata, real
 MT = mrdata.TISSUE
+RM = real.STATS["mr"]["params"]                                              # read from the DICOM headers of real scans: tools/make_real_mr.py
 
 T1 = {"fat": 250.0, "csf": 3000.0}                              # illustrative longitudinal relaxation times, ms
 T2 = {"brain": 90.0, "csf": 2000.0}                             # illustrative transverse relaxation times, ms
@@ -11,6 +12,12 @@ null = lambda t1: t1 * math.log(2)                              # the time at wh
 fat500, csf500, fat4000, csf4000 = mz(500, T1["fat"]), mz(500, T1["csf"]), mz(4000, T1["fat"]), mz(4000, T1["csf"])
 b15, c15, b100, c100 = mxy(15, T2["brain"]), mxy(15, T2["csf"]), mxy(100, T2["brain"]), mxy(100, T2["csf"])
 tr_04 = -T1["csf"] * math.log(1 - 0.4)                          # time at which M_z of CSF has recovered to 0.4 of M_0
+def t1_nulled(ti, tr):                                          # the T1 that an inversion time ti nulls at a repetition time tr: 1 - 2 exp(-ti/T1) + exp(-tr/T1) = 0, solved by bisection
+    lo, hi = 100.0, 20000.0
+    for _ in range(80):
+        mid = (lo + hi) / 2; lo, hi = (mid, hi) if 1 - 2 * math.exp(-ti / mid) + math.exp(-tr / mid) < 0 else (lo, mid)
+    return (lo + hi) / 2
+T1_FLAIR = t1_nulled(RM["flair"]["ti"], RM["flair"]["tr"])
 
 TOPIC = dict(
     id="mri-sequences", domain=4, sub="IV.A", title="MRI pulse sequences and contrast",
@@ -35,6 +42,8 @@ TOPIC = dict(
         EX("Nulling the CSF", STEM("A tissue with T1 = 3000 ms is to be nulled in an inversion recovery sequence.", [], "Find the [[inversion time]]."), ["t = T1 ln 2 = 3000 × 0.693"], f"{null(3000):.0f} ms. At that time the magnetization of the CSF is zero, so it gives no signal."),
         P(f"The figure shows a real brain slice with a simulated contrast. The signal of each tissue is PD × (1 − 2e<sup>−TI/T1</sup> + e<sup>−TR/T1</sup>) × e<sup>−TE/T2</sup> for an inversion recovery sequence, and PD × (1 − e<sup>−TR/T1</sup>) × e<sup>−TE/T2</sup> without inversion, with illustrative values at 1.5 T: T1 = {MT['WM']['T1']} ms, {MT['GM']['T1']} ms, and {MT['CSF']['T1']} ms and T2 = {MT['WM']['T2']} ms, {MT['GM']['T2']} ms, and {MT['CSF']['T2']} ms for white matter, gray matter, and CSF. Choose a sequence and then change TR, TE, and TI. A short TR and a short TE make the CSF dark and the white matter brighter than the gray matter. A long TE makes the CSF bright. A TI that nulls the CSF removes it from a T2-weighted image, which is FLAIR."),
         AVF("mr-contrast"),
+        P(f"The images below are real, from one session on a 3 T scanner. The T1 sequence is an inversion-prepared gradient echo with TR {RM['t1']['tr']:g} ms, TE {RM['t1']['te']:g} ms, and TI {RM['t1']['ti']:g} ms, and the second T1 image follows an injection of gadolinium. The T2 sequence is a 3D fast spin echo with TR {RM['t2']['tr']:g} ms and an effective TE of {RM['t2']['te']:g} ms. The FLAIR sequence has TR {RM['flair']['tr']:g} ms, TE {RM['flair']['te']:g} ms, and TI {RM['flair']['ti']:g} ms. As in the simulation, the CSF is dark on T1 and FLAIR and bright on T2. The tumour rim enhances after gadolinium, and the surrounding oedema is bright on T2 and FLAIR. The FLAIR inversion time nulls a tissue with a T1 of {T1_FLAIR / 1000:.1f} s at that TR, which is about the T1 of CSF at 3 T."),
+        AVF("real-mr-seq"),
     ],
     cards=[
         F("Longitudinal and transverse magnetization", "M<sub>z</sub> lies along B<sub>0</sub> and M<sub>xy</sub> lies in the plane perpendicular to it."),

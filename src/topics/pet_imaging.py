@@ -1,6 +1,8 @@
 from blocks import *
-import math, calc
+import math, calc, real
 import nistdata as N
+
+RS = real.STATS["pet"]["suv"]                                                    # measured on a real FDG PET/CT: tools/make_real_pet.py
 
 _w = N.WATER                                                     # NIST water: mu/rho at 0.5 and 0.6 MeV, interpolated log-log to 511 keV
 mu511 = math.exp(math.log(_w[0.5][0]) + math.log(0.511 / 0.5) / math.log(0.6 / 0.5) * (math.log(_w[0.6][0]) - math.log(_w[0.5][0])))
@@ -25,14 +27,22 @@ TOPIC = dict(
         EQ("SUV = activity concentration / (injected activity / body weight)"),
         EX("A standardized uptake value", STEM("A tumour has an activity concentration of 20 kBq/mL. The injected activity was 370 MBq in a patient of 74 kg.", [], "Find the [[SUV]]."), ["Injected activity per gram = 370,000 kBq / 74,000 g = 5.0 kBq/g", "SUV = 20 kBq/mL / 5.0 kBq/g"], f"SUV = {suv_a:.1f}. The tumour concentrates the tracer four times more than if it were spread evenly through the body."),
 
+        P(f"A real PET/CT shows where the quantities in the formula come from. The patient below weighed {RS['weight_kg']:.0f} kg and was injected with {RS['dose_MBq']:.0f} MBq of FDG. The scan started {RS['uptake_min']:.0f} min later. With a half-life of {RS['half_life_min']:.1f} min, {RS['act_scan_MBq']:.0f} MBq of the injected activity remained, and the SUV uses that decayed activity. A concentration of {RS['tumour_kbq_ml']:.0f} kBq/mL in the tumour is then an SUV of {RS['tumour_suvmax']:.1f}. The PET pixels are {RS['pet_mm']:.1f} mm and the CT pixels {RS['ct_mm']:.2f} mm, so the PET is resampled onto the CT grid for the fusion and is far coarser than the CT."),
+        AVF("real-pet-suv"),
+
         H("Attenuation correction"),
         P("The annihilation photons are attenuated as they leave the patient, and the attenuation is not uniform. It depends on the tissue and on where the annihilation occurred. Lung, for example, attenuates less than other soft tissue. If the attenuation is not corrected, more counts emerge from the lung, and the lung appears to have activity, although it has none. A PET image without attenuation correction also shows a hot ring around the skin and a bright signal at the lateral edge of the liver. The correction uses the CT in the reconstruction, which is another reason to have a CT in the unit, and it gives a far more realistic image of the activity."),
         P("For a coincidence the two photons travel along the same line, one to each detector. The probability that both escape is e<sup>−μ(x₁ + x₂)</sup> = e<sup>−μL</sup>, where L is the total path through the patient along the line. It does not depend on where along the line the annihilation occurred, so the correction factor for a line is e<sup>μL</sup>, found from the CT."),
         EX("An attenuation correction factor", STEM("A line of response passes through 20 cm of water-equivalent tissue. μ = " + f"{mu511:.4f}" + " cm<sup>−1</sup> at 511 keV.", [], "Find the [[probability that both photons escape]] and the [[correction factor]]."), ["Escape probability = e<sup>−μL</sup> = e<sup>−" + f"{mu511:.4f}" + " × 20</sup>", "Correction factor = e<sup>μL</sup>"], f"{100 * surv(20):.1f}% of the pairs are detected, so the counts along the line must be multiplied by {acf(20):.1f}."),
 
+        P("The images below are the same FDG scan reconstructed without and with attenuation correction. Without it the surface of the body and the arms look hot, the liver almost disappears, and streaks run through the tumour. The DICOM header of the corrected series lists attenuation (ATTN) and scatter (SCAT) among its corrections, and the header of the uncorrected series lists neither."),
+        AVF("real-pet-ac"),
+
         H("PET tracers"),
         P("<sup>18</sup>F-FDG is the most widely used PET radiopharmaceutical, but other compounds probe other processes. <sup>11</sup>C-flumazenil binds the benzodiazepine receptor and is used in epilepsy, and <sup>11</sup>C-raclopride binds the D2 receptor in movement disorders. <sup>13</sup>N-ammonia measures blood perfusion in the myocardium, and <sup>15</sup>O-water and <sup>15</sup>O-carbon dioxide measure blood perfusion in brain activation studies. FDG follows glucose metabolism in oncology, neurology, and cardiology. <sup>18</sup>F-fluoride follows bone metabolism in oncology, and <sup>18</sup>F-fluoromisonidazole (FMISO) shows hypoxia, which matters for the response to radiotherapy."),
         P("The isotopes differ in half-life and positron energy. Those with short half-lives, about 20 min for <sup>11</sup>C, 10 min for <sup>13</sup>N, and 2 min for <sup>15</sup>O, are hard to work with. The half-life of <sup>18</sup>F, 109.8 min, is a large part of its convenience, and it also has the lowest positron energy of the group, so its positron has the shortest range."),
+        P("Other tracers bind specific targets. Ligands of the prostate-specific membrane antigen (PSMA) are labelled with <sup>68</sup>Ga, as in <sup>68</sup>Ga-PSMA-11, or with <sup>18</sup>F and are used in prostate cancer. <sup>68</sup>Ga-DOTATATE binds somatostatin receptors and is used for neuroendocrine tumours. The three F-18 scans below show that the distribution follows the process each tracer probes: FDG follows glucose use, sodium fluoride follows bone formation, and the PSMA ligand follows the antigen."),
+        AVF("real-pet-tracers"),
     ],
     cards=[
         F("PET annihilation photons", "A positron wanders 1 to 2 mm, annihilates with an electron, and gives two 511 keV photons."),

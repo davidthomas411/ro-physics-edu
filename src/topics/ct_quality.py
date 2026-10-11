@@ -1,6 +1,7 @@
 from blocks import *
-import math, calc, gal
+import math, calc, gal, real
 GS = gal.ST
+RC = real.STATS["ct"]; RN, RK, RB = RC["noise"], RC["kernel"], RC["cbct"]                    # measured on real scans: tools/make_real_ct.py
 
 pitch = lambda d, s: d / s
 scan_t = lambda length, d, rot: length / d * rot                          # seconds to cover a length (mm) with table travel d (mm) per rotation of time rot (s)
@@ -24,9 +25,16 @@ TOPIC = dict(
 
         P(f"The images below show these effects on a real CT slice. The slice comes from a head-and-neck patient of the open OpenKBP dataset, and the effects are simulated from the physics, so each image can be compared with a clean reference of the same anatomy. When the exposure falls by a factor of 16 the noise rises {GS['noise_low'] / GS['noise_high']:.1f} times, close to the factor of 4 that 1/√exposure predicts. A smooth reconstruction filter gives {GS['sd_smooth'] / GS['sd_sharp']:.2f} of the noise of the sharp filter, and the fine detail is softer."),
         AVF("ct-gallery-noise"),
+        P(f"Real scans show the same dependence on the exposure. A uniform plastic block in a test phantom was scanned on one scanner at {RN['mA'][0]}, {RN['mA'][1]}, {RN['mA'][2]}, and {RN['mA'][3]} mA, with every other setting fixed. The noise, the standard deviation of the HU in the block, was {RN['sd'][0]:.1f}, {RN['sd'][1]:.1f}, {RN['sd'][2]:.1f}, and {RN['sd'][3]:.1f} HU. A factor of {RN['mA'][3] // RN['mA'][0]} in the tube current lowered the noise by a factor of {RN['sd'][0] / RN['sd'][3]:.2f}, close to √{RN['mA'][3] // RN['mA'][0]} = {math.sqrt(RN['mA'][3] / RN['mA'][0]):.2f}."),
+        AVF("real-ct-noise"),
+        P(f"The reconstruction kernel changes the noise at a fixed exposure. One scan of a phantom, reconstructed with four kernels, gave a noise of {RK['sd'][0]:.0f}, {RK['sd'][1]:.0f}, {RK['sd'][2]:.0f}, and {RK['sd'][3]:.0f} HU in a uniform block with the soft, standard, lung, and edge kernels. In the textured block the soft kernel smooths the fine structure, and the sharper kernels keep it, at the cost of noise. A soft kernel suits soft tissue, where noise limits the visibility of low contrast. A sharp kernel suits lung and bone, where detail matters more."),
+        AVF("real-ct-kernel"),
         H("Cone-beam CT"),
         P("In cone-beam CT (CBCT) the thin-slice acquisition is replaced with a large detector that irradiates a cone through the patient. The whole volume can be acquired in a single revolution. That is an advantage on a C-arm linac, which cannot rotate as fast as a diagnostic scanner, whose rotation period is 1 s or even 0.5 s. A CBCT acquires roughly 700 images in a rotation while the patient stays in one position, so the patient can be imaged in the treatment position immediately before treatment, which makes image-guided radiation therapy possible."),
         P("The cone geometry has disadvantages. The acquisition is long, about 1 minute on a C-arm linac against under 1 second in diagnostic CT, so motion of the patient or of the anatomy degrades the image. The scatter is larger, which lowers the image quality as described in Section 19.1.5. Because of the larger scatter the HU are often not accurate representations of the linear attenuation coefficient, which is a challenge when CBCT is used for dose calculation."),
+
+        P(f"The images below show one patient at the same level with a planning CT and with the CBCT acquired at treatment. In the liver the noise is {RB['sd_cbct']:.0f} HU on the CBCT against {RB['sd_ct']:.0f} HU on the planning CT, the contrast between organs is much lower, and the vessels that are bright on the planning CT are not enhanced. The field of view is also limited: at the level of the chest the right side of the patient lies outside the reconstructed region."),
+        AVF("real-ct-cbct"),
 
         H("CT artifacts"),
         P("Artifacts are features of the image that do not come from the patient. Several come from beam hardening, in which the lower-energy photons are removed and the mean energy of the beam rises as it passes through the patient. Four are common."),
@@ -36,6 +44,8 @@ TOPIC = dict(
            "<b>Ring.</b> A faulty or miscalibrated detector pixel reconstructs as a ring."),
         P(f"Each artifact below was simulated on the same slice. Compare the image on the right with the reference on the left. Beam hardening and scatter both give cupping: the soft tissue in the centre reads {GS['bh_rim'] - GS['bh_core']:.0f} HU and {GS['sc_rim'] - GS['sc_core']:.0f} HU lower than the soft tissue at the periphery. The metal object raises the spread of the soft-tissue values away from it from {GS['metal_ref_sd']:.0f} HU to {GS['metal_sd']:.0f} HU, and the motion raises it to {GS['motion_sd']:.0f} HU. The faulty detector channel gives a ring of {abs(GS['ring_peak']):.0f} HU at {GS['ring_r'] * 0.977:.0f} mm from the centre of rotation."),
         AVF("ct-gallery-artifacts"),
+        P("Metal gives the largest artifacts in radiotherapy planning. The images below are one real chest CT that was reconstructed twice from the same raw data, without and with an iterative metal artifact reduction (iMAR). Metal in the spine and the shoulder gives dark and bright streaks across the soft tissue in the standard reconstruction. The reduction removes most of them, and the vertebra and the soft tissue are easier to see. Near an implant the HU are still unreliable for dose calculation, so planning systems let the user contour the implant and assign it a density."),
+        AVF("real-ct-metal"),
     ],
     cards=[
         F("Fan-beam CT", "The beam is collimated in the superior–inferior direction to 1–5 mm. A multislice detector may have 4, 8, 16, or up to 128 rows."),

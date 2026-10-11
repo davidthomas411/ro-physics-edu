@@ -1587,6 +1587,33 @@ AV['mr-contrast']=root=>{
   btns.forEach((e,k)=>e.addEventListener('click',()=>{rTR.value=PRE[k][0]; rTE.value=PRE[k][1]; rTI.value=PRE[k][2]; draw();})); [rTR,rTE,rTI].forEach(r=>r.addEventListener('input',draw));
   mrLoad().then(()=>{ready=true; draw();}); return {enter(){},leave(){},finish(){}};};
 AV['mr-gallery-artifacts']=root=>galView(root,['distortion','gradient','susceptibility'],'A real brain slice with a simulated B0 distortion, a gradient 5% too strong, and a metal susceptibility artifact, each beside the clean reference','The anatomy is a real axial slice of the ICBM152 average brain, with a 20 mm grid that plays the part of a distortion phantom. Each artifact follows from its physical cause: a change of the local field moves the pixel by the field error divided by the gradient, a stronger gradient compresses the image, and a metal object leaves a signal void and shifts the pixels around it. Left: the clean reference. Right: with the artifact. These are simulations, not scanner images.',DATA.mrg);
+// ---------------------------------------------------------------- real clinical images from TCIA collections (tools/make_real_*.py): a figure is one view of one to four panels, or several views to choose between
+function realFig(root,id){
+  const F=DATA.real.figs[id], noop={enter(){},leave(){},finish(){}}; if(!F){root.remove(); return noop;}
+  const W=420, G=8, LH=19, SH=18, V=F.views;
+  const lay=V.map(v=>{const cw=(W-(v.cols+1)*G)/v.cols, cells=[]; let y=G;                                                                        // every view is laid out first, so that the figure keeps one height whichever view is shown
+    for(let i=0;i<v.panels.length;i+=v.cols){const row=v.panels.slice(i,i+v.cols), ih=Math.max(...row.map(p=>p.h*cw/p.w)), top=y+(row.some(p=>p.label)?LH:0);
+      row.forEach((p,j)=>cells.push({p,x:G+j*(cw+G),y:top,w:cw,h:p.h*cw/p.w,ly:y+14,sy:top+ih+15})); y=top+ih+(row.some(p=>p.sub)?SH:0)+G;}
+    return {cells,h:y};});
+  const {s,c}=avShell(root,W,Math.ceil(Math.max(...lay.map(l=>l.h))),F.label,F.cap), g=sv('g',{},s); let out=null, btns=null;
+  const draw=k=>{g.innerHTML=''; lay[k].cells.forEach(({p,x,y,w,h,ly,sy})=>{
+      if(p.label) stext(g,x+w/2,ly,p.label,{'text-anchor':'middle','font-size':14,'font-weight':700});
+      sv('image',{x,y,width:w,height:h,href:p.img,preserveAspectRatio:'none'},g);
+      if(p.sub) stext(g,x+w/2,sy,p.sub,{'text-anchor':'middle','font-size':13,fill:'var(--mu)'});});
+    if(btns) btns.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===k))); if(out) out.innerHTML=V[k].facts||'';};
+  if(V.length>1){const r=avBtns(c,F.head||'View',V.map(v=>v.label)); btns=r.b; out=r.o; btns.forEach((b,i)=>b.addEventListener('click',()=>draw(i)));}
+  else if(V[0].facts){out=document.createElement('output'); out.className='avo'; out.setAttribute('aria-live','polite'); c.appendChild(out);}
+  draw(0); return noop;}
+AV['real-ct-noise']=root=>realFig(root,'real-ct-noise');
+AV['real-ct-kernel']=root=>realFig(root,'real-ct-kernel');
+AV['real-ct-cbct']=root=>realFig(root,'real-ct-cbct');
+AV['real-ct-metal']=root=>realFig(root,'real-ct-metal');
+AV['real-pet-ac']=root=>realFig(root,'real-pet-ac');
+AV['real-pet-suv']=root=>realFig(root,'real-pet-suv');
+AV['real-pet-tracers']=root=>realFig(root,'real-pet-tracers');
+AV['real-nm-bone']=root=>realFig(root,'real-nm-bone');
+AV['real-mr-seq']=root=>realFig(root,'real-mr-seq');
+
 let avIO=null, avList=[];
 function bindAV(){
   avList.forEach(a=>a.leave()); avList=[]; if(avIO){avIO.disconnect(); avIO=null;}

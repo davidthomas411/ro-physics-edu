@@ -1,5 +1,7 @@
 from blocks import *
-import math, calc
+import math, calc, real
+
+RB = real.STATS["nm"]["bone"]                                                    # measured on a real bone scan: tools/make_real_nm.py
 
 HL = {"Ga-68": 67.6 / 60, "F-18": 109.8 / 60, "Tc-99m": 6.0, "I-123": 13.2, "In-111": 2.81 * 24, "Xe-133": 5.24 * 24, "I-131": 8.01 * 24}      # half-lives in hours, from the book's table
 rem = lambda t, th: 0.5 ** (t / th)                                                                                    # fraction of the activity remaining after time t
@@ -19,6 +21,9 @@ TOPIC = dict(
         H("Gamma camera and SPECT"),
         P("Single photon emission computed tomography (SPECT) images the distribution of a radiopharmaceutical that emits single photons. A common clinical use is the perfusion of the myocardium, to evaluate coronary artery disease. <sup>99m</sup>Tc joined to sestamibi is taken up by the healthy heart muscle. <sup>99m</sup>Tc is an excited, metastable state of Tc, and it decays to its ground state with a 140 keV photon that is used for imaging. SPECT is also used in oncology, for example <sup>123</sup>I for the thyroid and <sup>99m</sup>Tc-MDP for bone metastases, although oncologic SPECT competes with PET, which has higher sensitivity, can quantify uptake, and often has higher spatial resolution."),
         P("In a gamma camera the photons interact with a scintillator in the head, which converts them to optical photons that position-sensitive photomultiplier tubes register. A collimator in front of the scintillator provides the spatial localization: a photon entering at an angle is not transmitted to the scintillator. The assembly rotates around the patient and the images are used to reconstruct the distribution of the isotope, as in CT, but this is emission tomography and not transmission tomography. Many scanners have two heads and are coupled to a CT scanner, which gives a CT immediately before or after the SPECT scan for co-localization."),
+
+        P(f"The simplest gamma-camera image is a planar one, a projection of the activity onto a plane. The whole-body bone scan below was made with a <sup>99m</sup>Tc bone agent. Two heads, one in front and one behind the patient, scan as the patient moves through. The matrix is {RB['matrix'][0]} × {RB['matrix'][1]} pixels of {RB['pixel_mm']:.2f} mm, but the resolution is set mainly by the collimator and is much coarser than the pixel. Each pixel holds few counts, at most {RB['peak_counts']:.0f}, so the statistical noise is visible. Structures at different depths overlap in a projection, and SPECT removes the overlap by collecting projections from many angles and reconstructing them."),
+        AVF("real-nm-bone"),
 
         H("Half-life and remaining activity"),
         P("The half-life matters for the choice of isotope and for the signal. After a time t the fraction of the activity remaining is 2<sup>−t/T½</sup>. A short half-life gives a high count rate for the activity injected, but the activity is lost quickly during preparation, transport, and the wait for uptake. The long half-life of <sup>131</sup>I is useful for therapy and imaging over days, whereas the 110-minute half-life of <sup>18</sup>F is long enough to ship from a cyclotron."),
