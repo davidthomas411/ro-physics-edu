@@ -18,6 +18,7 @@ Follow `skills/house-style/SKILL.md` for every visual and written change: plain 
 - A card shows one question, then Show answer reveals the answer and optional working. No grading, no scores. Keys: Space, right arrow, left arrow. A card counts as seen when its answer is shown.
 - The Reference page holds the coverage table by ABR subsection (rows in red have no cards), the reading table, progress export and import, and the theme toggle.
 - Progress is stored in `localStorage` (`ro.cards`, `ro.theme`). Treat stored values as untrusted.
+- Real images (`src/real_*.json`, drawn by `realFig` in `src/app.js`) are figures of views of one to four panels, each one SVG with its caption. They are rebuilt by `tools/make_real_*.py` from DICOM that the NCI Imaging Data Commons republishes from TCIA. The Reference page lists every source.
 
 ## Rules
 
@@ -26,6 +27,7 @@ Follow `skills/house-style/SKILL.md` for every visual and written change: plain 
 - State conventions that change a formula (for example SSD versus SAD calibration) in the text.
 - Card ids are `topic-id:number`. Add cards at the end of a topic.
 - One idea per card, one short answer. Put calculations in the card's working steps.
+- Real images: only CC BY 3.0 or CC BY 4.0 collections, every caption names the collection and its licence, nothing that identifies a patient is stored (no IDs, dates, or UIDs), and an image is called real only if no part of it is simulated. State what was done to it (resampled, cropped, windowed, aligned by the dataset's authors). Quote numbers from the stored measurements (`real.STATS`), never by hand, and read acquisition values from the DICOM header, but not tags the collection leaves unreliable (the NaF PROSTATE headers name the tracer FDG).
 - Sources: the ABR study guide, the AAPM/ASTRO 2023 core curriculum, standard references, and the group's own lectures as a topic inventory only.
 
 ## Open work

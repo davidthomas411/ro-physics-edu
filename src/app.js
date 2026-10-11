@@ -1613,6 +1613,7 @@ AV['real-pet-suv']=root=>realFig(root,'real-pet-suv');
 AV['real-pet-tracers']=root=>realFig(root,'real-pet-tracers');
 AV['real-nm-bone']=root=>realFig(root,'real-nm-bone');
 AV['real-mr-seq']=root=>realFig(root,'real-mr-seq');
+AV['real-dx-chest']=root=>realFig(root,'real-dx-chest');
 
 let avIO=null, avList=[];
 function bindAV(){
@@ -1851,6 +1852,8 @@ function refView(){
   ${DATA.nist}
   <h2 id="ref-sources">Sources</h2>
   <p class="small">Scope: ABR study guide and the AAPM/ASTRO 2023 curriculum. Attenuation and energy-absorption coefficients are from NIST SRD 126. Half-lives and branching fractions are rounded. Factors in worked examples are illustrative, not machine data. Verify values against your own commissioning data before clinical use.</p>
+  <p class="small">Real images. The scans in the figures marked as real come from open collections of The Cancer Imaging Archive (TCIA), read as DICOM through the NCI Imaging Data Commons. All are released under a Creative Commons Attribution licence, CC BY 3.0 or CC BY 4.0, and the images are de-identified. The platforms are described by Clark et al., J Digit Imaging 2013;26:1045-1057 (TCIA) and Fedorov et al., Cancer Res 2021;81:4188-4193 (NCI Imaging Data Commons). The head-and-neck plan figures use the OpenKBP dataset (Babier et al., Med Phys 2021;48:5549-5561).</p>
+  <ul class="small realsrc">${DATA.real.sources.map(s=>{const used=DATA.topics.filter(t=>s.figs.some(f=>t.html.includes('data-av="'+f+'"'))); return `<li><a href="https://doi.org/${esc(s.doi)}" target="_blank" rel="noopener">${esc(s.collection)}</a> (${esc(s.license)}). ${esc(s.citation)}${used.length?' Used in '+used.map(t=>`<a href="#t/${esc(t.id)}">${esc(t.title)}</a>`).join(', ')+'.':''}</li>`;}).join('')}</ul>
   <h2 id="ref-conventions">Text conventions</h2>
   <p class="small"><span class="v">Blue</span> marks given values, <span class="f">orange</span> marks the quantity to find, and <span class="t">green bold</span> marks a key term where it is first defined.</p>
   <p class="small">Questions come in several forms. Multiple choice has one answer, or says to select all that apply. <b>Sort</b> and <b>True or false</b> put items in bins, <b>Match</b> pairs each item with its partner, and <b>Rank</b> puts items in order. In each of these, drag an item to a bin, or tap the item and then tap the bin. <b>Type the answer</b> takes a number with no options to guess from, and counts an answer within the stated tolerance as correct.</p>

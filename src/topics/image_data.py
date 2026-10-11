@@ -1,6 +1,8 @@
 from blocks import *
-import math, calc, gal
+import math, calc, gal, real
 FOV = gal.FOV
+HDR = real.HDR                                                               # matrix, pixel size, and bit depth read from the DICOM headers of the real images in the guide
+hsize = lambda h: h["rows"] * h["cols"] * h["allocated"] // 8 / 1e6        # uncompressed size of one image in MB
 
 levels = lambda bits: 2 ** bits
 size_b = lambda nx, ny, bits: nx * ny * (bits // 8)                          # bytes for an image of nx x ny pixels
@@ -22,6 +24,8 @@ TOPIC = dict(
         AVF("ct-bits"),
         H("Storage and compression"),
         P("The storage needed for an image is the number of pixels times the number of bytes per pixel. A 1024 × 1024 image stored with 16 bits, which is 2 bytes, needs 1024 × 1024 × 2 = 2,097,152 bytes, about 2.1 MB. A 512 × 512 image at 16 bits needs 0.52 MB, and a CT study of 200 slices needs about 105 MB. The pixel size follows from the field of view: a field of view of 50 cm across 512 pixels gives 500 mm / 512 = 0.98 mm."),
+        P(f"The DICOM headers of the real images in this guide give their matrix, pixel size, and bit depth. One image needs {min(hsize(h) for h in HDR):.2f} to {max(hsize(h) for h in HDR):.0f} MB, a range of more than two orders of magnitude, from a PET slice to a radiograph."),
+        TABLE(["Real image", "Matrix", "Pixel (mm)", "Bits stored", "Size (MB)"], [[h["label"], f"{h['cols']} × {h['rows']}", f"{h['pixel_mm']:.2f}", f"{h['stored']} of {h['allocated']}", f"{hsize(h):.2f}"] for h in sorted(HDR, key=lambda h: -hsize(h))]),
         P("Compression reduces the storage. It relies on the fact that neighbouring pixels are related, so that a black pixel is likely to lie next to another black pixel. Lossless compression allows the exact original image to be recovered, and it saves only a factor of about 2 or 3. Lossy compression saves a factor of 10 or more, but it cannot be reversed and may degrade the image, which can affect diagnosis. Lossy compression may therefore not be suitable for medical images. How an image is displayed also matters: the window and level, which the user controls, set the brightness and the contrast shown on the screen."),
         EX("Storage of a CT study", STEM("A CT study of 200 slices, each 512 × 512 pixels stored with 16 bits per pixel.", [], "Find the [[storage]] for one slice and for the study."), ["One slice: 512 × 512 × 2 bytes", "Study: 200 × one slice"], f"One slice is {s_512:,} bytes, which is {mb(s_512):.2f} MB. The study is {mb(study(200)):.0f} MB."),
 

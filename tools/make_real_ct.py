@@ -48,7 +48,7 @@ for ma in MA:
 exp = [sds[0] * (MA[0] / m) ** 0.5 for m in MA]                                                    # what 1 / sqrt(mA) predicts from the first point
 FIGS["real-ct-noise"] = dict(
     label="Four real CT scans of a uniform block of a test phantom at tube currents of 50, 100, 200, and 400 mA, each with its measured noise",
-    cap="Real scans of a uniform plastic block in a test phantom, on one scanner (GE Discovery STE, 120 kVp, 1.25 mm slices, standard kernel). Only the tube current changes. Each tile is a 34 mm square at a window of ±40 HU around the block's mean. Phantom data: TCIA CC-Radiomics-Phantom-2 (CC BY 3.0).",
+    cap="Real scans of a uniform plastic block in a test phantom, on one scanner (GE Discovery STE, 120 kVp, 1.25 mm slices, standard kernel). Only the tube current changes. Each tile is a 34 mm square at a window of ±40 HU around the block's mean. Data: TCIA CC-Radiomics-Phantom-2 (CC BY 3.0).",
     views=[dict(label="Tube current", cols=4, facts=f"Noise is the standard deviation of the HU in a {mm:.0f} mm square of the block (mean {mean:.0f} HU): <span class=\"f\">{', '.join(f'{s:.1f}' for s in sds[:-1])}, and {sds[-1]:.1f} HU</span> at {', '.join(str(m) for m in MA[:-1])}, and {MA[-1]} mA. "
                f"Noise ∝ 1 / √(tube current) predicts {', '.join(f'{e:.1f}' for e in exp[:-1])}, and {exp[-1]:.1f} HU from the 50 mA value: the measurements agree within {100 * max(abs(s / e - 1) for s, e in zip(sds, exp)):.0f}%.", panels=tiles)])
 STATS_NOISE = dict(mA=list(MA), sd=sds, mean=mean, roi_mm=mm)
@@ -63,7 +63,7 @@ for nm, kern in KN:
     tiles.append(panel(t, nm, f"SD {ksd[-1]:.0f} HU", lossless=True)); preview(f"kernel_{nm}", t); source(PH, r, "real-ct-kernel", r.SeriesDescription)
 FIGS["real-ct-kernel"] = dict(
     label="A real textured block of a test phantom reconstructed with a soft, a standard, a lung, and an edge kernel from the same scan",
-    cap="One scan of a textured block in a test phantom (GE Discovery STE, 120 kVp, 65 mA, 1.25 mm slices), reconstructed with four kernels. Each tile is a 47 mm square. The noise under each tile is the standard deviation of the HU in a uniform block scanned at the same time and reconstructed with the same kernel. Phantom data: TCIA CC-Radiomics-Phantom-2 (CC BY 3.0).",
+    cap="One scan of a textured block in a test phantom (GE Discovery STE, 120 kVp, 65 mA, 1.25 mm slices), reconstructed with four kernels. Each tile is a 47 mm square. The noise under each tile is the standard deviation of the HU in a uniform block scanned at the same time and reconstructed with the same kernel. Data: TCIA CC-Radiomics-Phantom-2 (CC BY 3.0).",
     views=[dict(label="Kernel", cols=4, facts=f"Same raw data, four kernels: the noise in the uniform block is <span class=\"f\">{', '.join(f'{s:.0f}' for s in ksd[:-1])}, and {ksd[-1]:.0f} HU</span>. The soft kernel smooths the texture and the noise, and the edge kernel keeps the finest detail and the most noise.", panels=tiles)])
 STATS_KERNEL = dict(kernels=[k for _, k in KN], sd=ksd)
 
@@ -113,6 +113,6 @@ FIGS["real-ct-metal"] = dict(
 STATS_METAL = msd
 
 json.dump(dict(source="Real CT images from TCIA collections (see sources); tools/make_real_ct.py", idc_index_data=tcia.index_version(), figs=FIGS, sources=list(SOURCES.values()),
-               stats=dict(noise=STATS_NOISE, kernel=STATS_KERNEL, cbct=roi_info, cbct_hdr=HDR_CBCT, metal=STATS_METAL)), open(OUT, "w"), separators=(",", ":"))
+               stats=dict(noise=STATS_NOISE, kernel=STATS_KERNEL, cbct=roi_info, cbct_hdr=HDR_CBCT, metal=STATS_METAL, hdr=[dict(label="CT slice", modality="CT", rows=int(a.Rows), cols=int(a.Columns), pixel_mm=float(a.PixelSpacing[0]), stored=int(a.BitsStored), allocated=int(a.BitsAllocated))])), open(OUT, "w"), separators=(",", ":"))
 print("wrote", os.path.abspath(OUT), round(os.path.getsize(OUT) / 1e3), "KB;", {k: sum(len(p['img']) for v in f['views'] for p in v['panels']) // 1000 for k, f in FIGS.items()}, "KB of images")
 print(json.dumps(dict(noise=STATS_NOISE, kernel=STATS_KERNEL, cbct=roi_info, metal=STATS_METAL), indent=1))

@@ -25,7 +25,8 @@ ia, ip = img(ant[r0:r1]), img(post[r0:r1])
 if PREVIEW:
     from PIL import Image
     os.makedirs(PREVIEW, exist_ok=True); Image.fromarray(np.hstack([ia, ip])).save(os.path.join(PREVIEW, "bone_scan.png"))
-counts = float(a.sum()); STATS["bone"] = dict(matrix=[int(a.shape[2]), int(a.shape[1])], shown_rows=[int(r0), int(r1)], pixel_mm=pix, energy_window_keV=[e_lo, e_hi], counts=counts, nuclide=str(nuc), peak_counts=float(a.max()))
+counts = float(a.sum()); STATS["hdr"] = [dict(label="Planar bone scan", modality="NM", rows=int(ds.Rows), cols=int(ds.Columns), pixel_mm=float(ds.PixelSpacing[0]), stored=int(ds.BitsStored), allocated=int(ds.BitsAllocated))]
+STATS["bone"] = dict(matrix=[int(a.shape[2]), int(a.shape[1])], shown_rows=[int(r0), int(r1)], pixel_mm=pix, energy_window_keV=[e_lo, e_hi], counts=counts, nuclide=str(nuc), peak_counts=float(a.max()))
 panel = lambda x, label: dict(label=label, sub=None, w=int(x.shape[1]), h=int(x.shape[0]), img=tcia.uri(x, quality=88))
 FIGS["real-nm-bone"] = dict(
     label="Anterior and posterior views of a real whole-body Tc-99m bone scan from a dual-head gamma camera",

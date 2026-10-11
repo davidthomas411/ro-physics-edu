@@ -17,6 +17,8 @@ python serve.py --port 8765        # serves dist/ at / ; health check at /health
 python tests/numbers.py            # re-derives every worked-example number independently
 pip install -r requirements-dev.txt && playwright install chromium
 python tests/smoke.py              # pages, decks, keys, progress, dial, dark mode, 390 px width, console errors
+python tests/realdata.py           # real images: licences, attribution, no identifiers, measured numbers
+python tests/realimg.py            # real images in the page: panels, views, decoding, phone width, the Reference sources
 ```
 
 Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change to content or the page.
@@ -29,6 +31,7 @@ Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change t
 - `src/calc.py`: the formulas behind the worked examples. Topic files import them, so no example number is typed by hand.
 - `src/blocks.py`: guide block constructors and the renderer.
 - `src/style.css`, `src/app.js`: the page. `build.py` inlines both.
+- `src/real_*.json`, `src/real.py`: real clinical images from open TCIA collections, with their attribution. `tools/tcia.py` and `tools/make_real_*.py` rebuild them (see RESTORE.md).
 - `skills/house-style/`: the visual and writing style guide.
 - `assets/linac/`: the linac illustration layers for the dial.
 

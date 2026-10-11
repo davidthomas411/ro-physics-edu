@@ -1,7 +1,8 @@
 from blocks import *
-import math, calc, gal
+import math, calc, gal, real
 import nistdata as N
 DS = gal.DRR_ST
+RX = real.STATS["dx"]["dx"]                                                      # read from the DICOM header of a real radiograph: tools/make_real_dx.py
 
 # the bone-to-soft-tissue contrast: 10 cm of soft tissue (water) in which 2 cm is replaced by cortical bone, compared with 10 cm of soft tissue alone
 ratio_bone = lambda E: math.exp(2 * (N.BONE[E][0] * 1.92 - N.WATER[E][0] * 1.00))          # E in MeV, a tabulated energy
@@ -38,6 +39,8 @@ TOPIC = dict(
 
         P(f"The figure shows the noise in the same radiograph at three exposures. When the exposure falls by a factor of 16, the noise in −ln(I) rises {DS['noise_low'] / DS['noise_high']:.1f} times, close to the factor of 4 that 1/√exposure predicts, and the grain starts to hide the weak contrast."),
         AVF("drr-gallery-noise"),
+        P(f"A real radiograph shows what the exposure factors are in practice. The portable chest image below was made at {RX['kvp']:g} kVp and {RX['mas']:.1f} mAs in {RX['ms']:g} ms, on a flat-panel detector with a scintillator, and with no anti-scatter grid. The factors are stored in the DICOM header. The matrix is {RX['cols']} × {RX['rows']} pixels of {RX['pixel_mm']:.3f} mm, a field of {RX['cols'] * RX['pixel_mm'] / 10:.0f} × {RX['rows'] * RX['pixel_mm'] / 10:.0f} cm, and each pixel is stored with {RX['stored']} bits."),
+        AVF("real-dx-chest"),
         H("Scatter and grids"),
         P("Some photons scatter in the patient before they reach the detector. They do not travel in a straight line from the source, so they carry no information about what lies along the path. Scatter raises the signal but it is an unwanted signal, and it lowers the contrast and the SNR. Scatter depends on the geometry. If the patient is farther from the detector, fewer scattered photons reach it. A thinner part of the body, and a smaller field, give less scatter."),
         P("A grid reduces scatter. It consists of thin metal fins arranged to point back toward the source. A photon travelling along a line to the source passes between the fins. A scattered photon does not, so it is stopped by the fins and does not reach the detector."),

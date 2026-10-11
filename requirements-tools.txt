@@ -1,0 +1,8 @@
+# for tools/tcia.py and tools/make_real_*.py (the build and the site need none of these)
+numpy
+scipy
+pillow
+pydicom>=3
+pandas
+pyarrow
+idc-index-data==25.0.0

@@ -522,3 +522,4 @@ body.nolist main{max-width:none}
 .more-body ol,.more-body ul{padding-left:22px}
 .more-body .tip{color:var(--muted)}
 .fb .more{margin:10px 0 2px}
+.realsrc{padding-left:20px}.realsrc li{margin:8px 0;overflow-wrap:anywhere}
