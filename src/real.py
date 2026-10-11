@@ -3,7 +3,7 @@ Each figure is made of views, and each view of one to four panels (see realFig i
 import json, os
 _d = os.path.dirname(os.path.abspath(__file__))
 FIGS, STATS, _src = {}, {}, {}
-for _n in ("ct", "pet", "mr", "nm", "dx"):
+for _n in ("ct", "pet", "mr", "nm", "dx", "4d"):
     _p = os.path.join(_d, f"real_{_n}.json")
     if not os.path.exists(_p): continue
     _j = json.load(open(_p)); FIGS.update(_j["figs"]); STATS[_n] = _j["stats"]

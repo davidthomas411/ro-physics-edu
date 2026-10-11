@@ -20,12 +20,14 @@ Built with Python; the output is one self-contained HTML file (dist/ro-physics.h
 ## Data provenance (check the terms before sharing the site publicly)
 - OpenKBP (Babier et al., Med Phys 2021; github.com/ababier/open-kbp): CT, structures, and dose of clinical head-and-neck plans. tools/make_case.py, make_ct_artifacts.py, make_drr_gallery.py read patient pt_14 from a sparse checkout.
 - ICBM152 (MNI152 2009) average brain and tissue maps, shipped with the nilearn package (pip install nilearn): tools/make_mr.py.
-- TCIA collections (all CC BY 3.0 or CC BY 4.0), read as DICOM from the public buckets of the NCI Imaging Data Commons by tools/tcia.py (pip install -r requirements-tools.txt; the first run downloads about 1 GB, cached in TCIA_CACHE):
+- TCIA collections (all CC BY 3.0 or CC BY 4.0), read as DICOM from the public buckets of the NCI Imaging Data Commons by tools/tcia.py (pip install -r requirements-tools.txt; the first run downloads about 1.2 GB, cached in TCIA_CACHE):
     tools/make_real_ct.py: CC-Radiomics-Phantom-2 (noise against tube current, kernels), Pancreatic-CT-CBCT-SEG (planning CT and CBCT), CMB-LCA (iMAR).
     tools/make_real_pet.py: NSCLC Radiogenomics (FDG without and with attenuation correction, fusion, SUV), NaF PROSTATE, PSMA-PET-CT-Lesions.
     tools/make_real_nm.py: CMB-PCA (planar bone scan).  tools/make_real_mr.py: UPENN-GBM (T1, T1 with gadolinium, T2, FLAIR).  tools/make_real_dx.py: COVID-19-AR (chest radiograph).
-  `bash tools/make_real_all.sh` runs all five.
-  Each JSON file carries the collection name, DOI, licence, and citation text, which the Reference page lists. The scripts pick fixed patients and series, so a rebuild gives the same files. TCIA's own hosts were not reachable from the build environment; the IDC buckets hold the same collections.
+    tools/make_real_4d.py: 4D-Lung (two phases of one 4D-CT, with the lung volume and the movement of the lung base measured on the volumes).
+  `bash tools/make_real_all.sh` runs all six.
+  Each JSON file carries the collection name, DOI, licence, and citation text, which the Reference page lists. The scripts pick fixed patients and series, so a rebuild gives the same files (checked: a rebuild from the cached downloads gave byte-identical JSON). TCIA's own hosts were not reachable from the build environment; the IDC buckets hold the same collections.
+- ROECSG physics study guide (the PDF in the repository root, added by the owner): used only to find gaps and to check the level of the questions, as written up in docs/roecsg-audit.md. None of its wording is used in the site.
 - NIST attenuation tables in src/nistdata.py. Text is written in our own words; Ford (2nd ed.) is the ground truth for content.
 
 ## Rules locked in

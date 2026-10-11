@@ -1,6 +1,7 @@
 from blocks import *
-import math, calc, cases
+import math, calc, cases, real
 CS = cases.ST
+RM = real.STATS["4d"]["motion"]                                                                  # measured on a real 4D-CT: tools/make_real_4d.py
 
 margin = lambda sys, rnd: 2.5 * sys + 0.7 * rnd                 # van Herk recipe: 2.5 x systematic + 0.7 x random, all in the same unit
 m_a, m_b, m_c, m_d = margin(2, 3), margin(1, 3), margin(2, 2), margin(3, 2)
@@ -18,6 +19,8 @@ TOPIC = dict(
 
         P(f"A real example makes the terms concrete. The figure shows a head-and-neck plan from the open OpenKBP dataset. The planning target volumes are contoured at three dose levels, 70, 63, and 56 Gy. The PTV70 is {CS['PTV70']['volume']:.0f} cm³ and the PTV56, which covers the neck, is {CS['PTV56']['volume']:.0f} cm³. The organs at risk are the brainstem, the spinal cord, both parotid glands, and the esophagus. Scroll through the slices and see how the target at the higher dose lies inside the larger lower-dose volume, and how close the organs at risk lie to it."),
         AVF("case-volumes"),
+        P(f"The ITV exists because a target in the chest does not stay in one place. Breathing moves the diaphragm, and a lung tumour near it, up and down in every breath. A four-dimensional CT sorts the images into phases of the breathing cycle, so that the target can be contoured in each phase, and the ITV is the union of those contours. The two slices below are the same coronal plane of one real 4D-CT in two phases. The lungs hold {RM['lung_l'][0]:.1f} L in the 0% phase and {RM['lung_l'][1]:.1f} L in the 50% phase, and the lung base, measured in {RM['shift_mm']['columns']:,} vertical columns through the lungs, lies a median of {RM['shift_mm']['median']:.0f} mm higher in the 50% phase, with half of the columns between {RM['shift_mm']['q1']:.0f} and {RM['shift_mm']['q3']:.0f} mm."),
+        AVF("real-ct-motion"),
         H("Margins"),
         P("The expansion from CTV or ITV to PTV covers the variability of aiming the beam at the patient. Two kinds of setup error contribute. Random errors, with standard deviation σ, are day-to-day variations around the mean position. A systematic error, with standard deviation Σ, is an offset of the mean position from the ideal that affects every fraction in the same direction. A systematic error therefore has the larger effect."),
         EQ("PTV margin = 2.5 Σ + 0.7 σ", "the van Herk recipe: Σ = systematic error,   σ = random error,   both in the same unit"),
@@ -99,3 +102,17 @@ PROBLEMS += [
          [((10 - 0.7 * 3) / 2.5 - 0.3, (10 - 0.7 * 3) / 2.5 + 0.3)], f"Solve 2.5 Σ + 0.7 × 3 = 10: Σ = (10 − 2.1) / 2.5 = {(10 - 2.1) / 2.5:.2f} mm. The margin of 10 mm is not a marked level.", lvl="Challenging", note=f"about {(10 - 2.1) / 2.5:.1f} mm"),
 ]
 INLINE = {0: [1, 2, 3, _n0 + 1], 1: [4, 5, 9, _n0 + 3], 2: [7, 8]}
+
+
+# ---------------------------------------------------------------- motion and the ITV
+_n2 = len(PROBLEMS)
+itv_len = 30 + 14                                                                   # the target length plus the distance between its two extreme positions
+PROBLEMS += [
+    PR("How is the internal target volume obtained from a four-dimensional CT of a lung tumour?", "The target is contoured in every phase of the breathing cycle, or on an image built from all of them, and the ITV is the union of these contours", ["The target is contoured on one phase, and the ITV is that contour with the setup margin added", "The target is contoured on the planning CT with the patient breathing freely, and the ITV is the PTV minus the setup margin", "The ITV is the average of the contours in all the phases, which has the volume of the mean target"],
+       "The ITV has to contain the target wherever it is during the breathing cycle, so it is the union of its positions. One phase shows only one position, and an average would be smaller than the volume that the target sweeps.", lvl="Moderate"),
+    PR("A four-dimensional CT is used for a lung tumour because it:", "shows the position of the target in each phase of the breathing cycle", ["raises the resolution of the planning CT", "gives the electron density without a calibration", "removes the need for any margin for setup error"],
+       "The images are sorted by the phase of the breathing cycle, so the motion of the target and of the organs at risk can be seen and measured. The resolution, the calibration, and the setup margin are not changed by the sorting.", lvl="Easy"),
+    PRN(STEM("A lung tumour is 30 mm long from superior to inferior, and its position moves 14 mm between the two extreme phases of the breathing cycle.", [], "What [[length]] does the ITV have from superior to inferior?"), itv_len, [30.0, 30 + 14 / 2, 30 + 2 * 14], "{:.0f} mm",
+        f"The ITV is the union of the positions, so it is the tumour length plus the distance between the extremes: 30 + 14 = {itv_len} mm. The tumour length alone gives 30 mm, adding half of the motion gives {30 + 14 / 2:.0f} mm, and adding it on both sides gives {30 + 2 * 14} mm.", lvl="Moderate"),
+]
+INLINE[0].append(_n2 + 1)

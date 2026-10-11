@@ -1614,6 +1614,7 @@ AV['real-pet-tracers']=root=>realFig(root,'real-pet-tracers');
 AV['real-nm-bone']=root=>realFig(root,'real-nm-bone');
 AV['real-mr-seq']=root=>realFig(root,'real-mr-seq');
 AV['real-dx-chest']=root=>realFig(root,'real-dx-chest');
+AV['real-ct-motion']=root=>realFig(root,'real-ct-motion');
 
 let avIO=null, avList=[];
 function bindAV(){

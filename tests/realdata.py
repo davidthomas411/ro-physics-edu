@@ -14,7 +14,7 @@ def check(c, m):
     global n; n += 1
     if not c: bad.append(m); print("FAIL", m)
 files = sorted((ROOT / "src").glob("real_*.json")); J = {f.stem[5:]: json.loads(f.read_text()) for f in files}
-check(set(J) == {"ct", "pet", "mr", "nm", "dx"}, f"data files for the five modalities: {sorted(J)}")
+check(set(J) == {"ct", "pet", "mr", "nm", "dx", "4d"}, f"data files for CT, PET, MR, nuclear medicine, radiography, and 4D-CT: {sorted(J)}")
 FIGS, SRC = real.FIGS, real.SOURCES
 decl = {b[1] for t in TOPICS for b in t["guide"] if b[0] == "avf" and b[1].startswith("real-")}
 check(decl == set(FIGS), f"every real figure is placed in a chapter and every placed one has data (placed {len(decl)}, data {len(FIGS)}; difference {decl ^ set(FIGS)})")
@@ -47,7 +47,7 @@ for fid, f in FIGS.items():
 check(max(dims) < 160000 and tot < 1_000_000, f"size: the largest image is {max(dims) // 1000} KB and all images together {tot // 1000} KB")
 # ---- no patient identifiers, dates, or file names in anything that is shipped
 blob = json.dumps(real.REAL)
-for pat in (r"MSB-\d", r"UPENN-GBM-\d", r"R01-\d", r"NaF-PROSTATE-\d", r"Pancreas-CT-CB", r"PSMA_[0-9a-f]{6}", r"COVID-19-AR-\d", r"1\.3\.6\.1\.4\.1\.", r"\b(19|20)\d\d-\d\d-\d\d\b", r"\.dcm"):
+for pat in (r"MSB-\d", r"UPENN-GBM-\d", r"R01-\d", r"NaF-PROSTATE-\d", r"Pancreas-CT-CB", r"PSMA_[0-9a-f]{6}", r"COVID-19-AR-\d", r"\d{3}_HM\d+", r"P\d+\^P\d+", r"1\.3\.6\.1\.4\.1\.", r"\b(19|20)\d\d-\d\d-\d\d\b", r"\.dcm"):
     check(re.search(pat, blob) is None, f"nothing shipped matches the identifier pattern {pat}")
 # ---- the measured numbers
 St = {k: v["stats"] for k, v in J.items()}
@@ -65,6 +65,9 @@ check(su["pet_mm"] > 4 and su["ct_mm"] < 1.2 and su["ct_matrix"] == 512, "the PE
 pr = St["mr"]["params"]
 check(pr["t1"]["ti"] == pr["t1gd"]["ti"] and pr["flair"]["ti"] > 2000 and pr["t2"]["tr"] < pr["flair"]["tr"] and all(p["field"] == 3.0 for p in pr.values()), "MR parameters from the headers: the T1 pair shares its timing, FLAIR has the longest TR and an inversion time")
 bone = St["nm"]["bone"]; check(bone["matrix"] == [256, 1024] and bone["peak_counts"] < 5000 and bone["nuclide"].replace("^", "").lower().startswith("99m"), "the bone scan is a 256 x 1024 Tc-99m acquisition with low counts per pixel")
+mo = St["4d"]["motion"]; sh = mo["shift_mm"]
+check(mo["lung_l"][0] > mo["lung_l"][1] > 2 and 0.05 < 1 - mo["lung_l"][1] / mo["lung_l"][0] < 0.4, f"the lungs hold more air in the 0% phase than in the 50% phase, by a plausible fraction: {mo['lung_l'][0]:.1f} and {mo['lung_l'][1]:.1f} L")
+check(5 <= sh["q1"] <= sh["median"] <= sh["q3"] <= 40 and sh["columns"] > 5000 and mo["slice_mm"] == 3.0, f"the lung base moves toward the head by a plausible distance over many columns: {sh['median']:.0f} mm, {sh['q1']:.0f} to {sh['q3']:.0f}")
 dx = St["dx"]["dx"]; check(dx["kvp"] == 90 and abs(dx["mas"] - 1.9) < 1e-9 and dx["grid"] == "None" and dx["stored"] == 12 and 0.1 < dx["pixel_mm"] < 0.2, f"the radiograph technique is read from its header: {dx['kvp']:g} kVp, {dx['mas']} mAs")
 check(len(real.HDR) == 6 and all(h["stored"] <= h["allocated"] for h in real.HDR) and max(h["rows"] * h["cols"] * h["allocated"] for h in real.HDR) > 100 * min(h["rows"] * h["cols"] * h["allocated"] for h in real.HDR), "header table: six images, and sizes spanning more than two orders of magnitude")
 print(f"realdata: {n} checks"); print("realdata: PASS" if not bad else f"realdata: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)
