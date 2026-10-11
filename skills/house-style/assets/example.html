@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>House style</title>
+<style>
+/* house-style base.css
+   Plain, high-contrast, system fonts. Paste inline into a single HTML file.
+   Tokens first; components below. Delete components that are not used. */
+
+:root{
+  --paper:#FFFFFF; --paper-2:#F6F6F6;
+  --ink:#111111; --text:#1F1F1F; --muted:#5C5C5C;
+  --rule:#E3E3E3; --line:#C9C9C9;
+  --accent:#0B5FD1; --danger:#B3261E;
+  /* data only (plots, charts); never decoration */
+  --plot-1:#1F4E79; --plot-2:#C0561F; --plot-3:#2E7D5B; --plot-4:#6B4C9A;
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121212; --paper-2:#1C1C1C; --ink:#F2F2F2; --text:#E6E6E6; --muted:#A8A8A8;
+    --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --danger:#FF8A7A;
+    --plot-1:#8FBCE6; --plot-2:#E9A271; --plot-3:#7FC8A4; --plot-4:#B79BE0;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121212; --paper-2:#1C1C1C; --ink:#F2F2F2; --text:#E6E6E6; --muted:#A8A8A8;
+  --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --danger:#FF8A7A;
+  --plot-1:#8FBCE6; --plot-2:#E9A271; --plot-3:#7FC8A4; --plot-4:#B79BE0;
+  color-scheme:dark;
+}
+
+/* base */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px;line-height:1.55}
+h1,h2,h3{color:var(--ink);font-weight:700;letter-spacing:-.01em;line-height:1.2}
+h1{font-size:30px;margin:0 0 8px}
+h2{font-size:22px;margin:40px 0 10px}
+h3{font-size:18px;margin:24px 0 8px}
+p{margin:8px 0}
+a{color:var(--accent)}
+.meta,.muted{color:var(--muted);font-size:14px}
+.label{color:var(--muted);font-size:13px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header and tabs */
+.top{border-bottom:1px solid var(--rule)}
+.top .in{max-width:1080px;margin:0 auto;padding:14px 28px;display:flex;align-items:baseline;gap:24px;flex-wrap:wrap}
+.brand{font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand small{display:block;font-size:12px;font-weight:400;color:var(--muted);margin-top:2px}
+.tabs{display:flex;gap:22px;margin-left:auto;align-items:baseline}
+.tabs a{font-size:16px;text-decoration:none;color:var(--text);padding-bottom:3px;border-bottom:2px solid transparent}
+.tabs a:hover{color:var(--ink)}
+.tabs a.on{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
+
+/* layout: content column 760px; sidebar from 900px */
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:44px}
+.wrap.one{grid-template-columns:minmax(0,1fr)}
+main{padding:28px 0 110px;min-width:0;max-width:760px}
+.side{padding:28px 0 40px 16px;position:sticky;top:0;height:100vh;overflow:auto;font-size:15px}
+.side .section{margin:20px 0 4px;font-weight:700;color:var(--ink)}
+.side a{display:flex;gap:10px;padding:3px 0;color:var(--text);text-decoration:none;line-height:1.35;position:relative}
+.side a:hover{text-decoration:underline}
+.side a.on{color:var(--ink);font-weight:600}
+.side a.on::before{content:"";position:absolute;left:-14px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--ink)}
+.phone-nav{display:none}
+
+/* buttons and fields */
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);border-radius:4px;padding:7px 14px;
+  font:inherit;font-size:15px;font-weight:600;line-height:1.2;background:transparent;color:var(--ink);cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--paper-2)}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.sm{padding:4px 10px;font-size:14px}
+.btn.lg{padding:12px 14px;font-size:16px}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.35;pointer-events:none}
+select,input[type=text],input[type=password],input[type=search]{font:inherit;color:var(--text);background:var(--paper);
+  border:1px solid var(--line);border-radius:4px;padding:7px 10px;max-width:100%}
+
+/* table: hairlines, no fills */
+table.data{border-collapse:collapse;width:100%;font-size:15px}
+table.data th,table.data td{padding:7px 10px 7px 0;text-align:left;vertical-align:top;border-top:1px solid var(--rule)}
+table.data th{font-size:13px;color:var(--muted);font-weight:600;border-top:0;border-bottom:1px solid var(--ink)}
+.tblwrap{overflow-x:auto;max-width:100%}
+
+/* figure */
+.fig{border:1px solid var(--rule);border-radius:3px;padding:8px;background:var(--paper);max-width:640px}
+.fig svg,.fig img{display:block;max-width:100%;height:auto;width:100%}
+.cap{font-size:13px;color:var(--muted);margin:2px 0 8px}
+
+/* key points: bold label, plain bullets; no tinted panel */
+.key{margin:12px 0}
+.key .hd{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.key ul{margin:0;padding-left:20px;font-size:16px;line-height:1.5}
+.key li{margin:6px 0}
+
+/* disclosure */
+details{margin:10px 0}
+summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--accent);list-style:none;display:inline-flex;align-items:center;gap:7px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"";width:0;height:0;border-left:5px solid currentColor;border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .15s}
+details[open] summary::before{transform:rotate(90deg)}
+
+/* progress */
+.bar{height:6px;background:var(--paper-2);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ink);transition:width .3s ease}
+
+/* equation block */
+.eq{background:var(--paper-2);border-radius:3px;padding:8px 14px;font-size:16px;line-height:2;margin:4px 0}
+
+/* study slide: prompt, numbered questions, figure, hidden answer, two buttons */
+.slide{border:1px solid var(--rule);border-radius:6px;padding:22px 22px 18px;background:var(--paper)}
+.slide .meta{margin-bottom:6px}
+.slide .prompt{font-size:21px;font-weight:600;line-height:1.35;color:var(--ink);margin:0 0 12px}
+.slide ol.q{margin:0 0 12px;padding-left:22px;font-size:19px;font-weight:600;color:var(--ink)}
+.slide ol.q li{margin:5px 0;line-height:1.4}
+.slide .back{display:none;border-top:1px solid var(--rule);margin-top:16px;padding-top:12px}
+.slide.shown .back{display:block}
+.slide .acts{display:flex;gap:10px;margin-top:18px}
+.slide .acts .btn{flex:1 1 140px;justify-content:center}
+.slide.shown .show{display:none}
+.slide .next{display:none}
+.slide.shown .next{display:flex}
+
+/* motion: none by default */
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* phones */
+@media (max-width:900px){
+  .top .in{padding:12px 16px;gap:10px}
+  .tabs{margin-left:0;width:100%;gap:16px;overflow-x:auto}
+  .tabs a{white-space:nowrap}
+  .wrap{grid-template-columns:1fr;padding:0 16px;gap:0}
+  .side{display:none}
+  .phone-nav{display:block;margin:14px 0 0}
+  main{padding:16px 0 90px}
+  h1{font-size:25px}
+  .slide{padding:16px}
+}
+@media print{.top,.side,.phone-nav,.acts{display:none}.wrap{display:block}main{padding:0;max-width:none}}
+
+/* page only */
+.sw{display:inline-block;width:14px;height:14px;border:1px solid var(--line);border-radius:2px;vertical-align:-2px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em}
+ul.rules{padding-left:20px}ul.rules li{margin:6px 0}
+.specimen{border-top:1px solid var(--rule);padding:14px 0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><a class="brand" href="#rules">House style</a>
+<nav class="tabs"><a href="#rules" class="on">Rules</a><a href="#tokens">Tokens</a><a href="#type">Type</a><a href="#components">Components</a><a href="#slide">Slide</a></nav></div></header>
+<div class="wrap one"><main>
+
+<section id="rules">
+<h1>Rules</h1>
+<h2>Content</h2><ul class="rules"><li>Include only text the reader needs. No taglines, intro paragraphs, slogans, or clever phrasing.</li><li>Titles are nouns or labels ("Year 1", "Reference"). Button labels are literal ("Show answer", "Next question").</li><li>Add no feature, control, badge, panel, animation, or decoration that was not requested. If one seems necessary, say so in one line and ask.</li><li>Keep internal details out of the interface: file names, source decks, build notes.</li><li>Check every fact before writing it. Give a range where a value varies by vendor or edition. Put sources on a reference page.</li><li>Never render an empty control. Hide a dropdown, tab, or button that has nothing to choose or do.</li></ul>
+<h2>Layout and phones</h2><ul class="rules"><li>Header: name on the left, tabs on the right, 1 px rule below. The active tab is bold with a 2 px underline.</li><li>Content column is at most 760 px (about 75 characters per line). From 900 px, a 230 px sidebar is added; below that, one column.</li><li>On phones (390 px wide) nothing scrolls sideways, navigation becomes a dropdown that lists real destinations, and primary buttons use the .lg size.</li><li>Everything shown on desktop needs a phone version, or an explicit decision to drop it. Do not hide a feature on phones by accident.</li><li>Emphasis comes from weight (600/700), not color. Color carries meaning only: accent = interactive, danger = a problem.</li><li>No shadows, gradients, icons, emoji, pills or badges, tinted callout panels, or web fonts.</li></ul>
+<h2>Build and check</h2><ul class="rules"><li>Single self-contained HTML file. Inline images as data URIs. System fonts only. Wrap storage calls in try/catch.</li><li>Paste assets/base.css inline and delete the components that are not used.</li><li>Light by default; follow the system dark setting; a manual toggle goes on the reference or settings page, not in the header.</li><li>Before delivering, take screenshots at 1280 × 900 and 390 × 844 in light and dark, and confirm document.documentElement.scrollWidth equals the viewport width at 390.</li><li>Before delivering, open every route and control, use each keyboard shortcut, and load the page with stale localStorage from an earlier version. Zero console errors.</li><li>Test hover on SVG elements by dispatching events, not by coordinates.</li></ul>
+</section>
+
+<section id="tokens">
+<h2>Tokens</h2>
+<div class="tblwrap"><table class="data"><tr><th>Token</th><th>Role</th><th>Light</th><th>Dark</th><th>Contrast on paper, light / dark</th></tr><tr><td><code>--paper</code></td><td>Page background</td><td><span class="sw" style="background:#FFFFFF"></span> <code>#FFFFFF</code></td><td><span class="sw" style="background:#121212"></span> <code>#121212</code></td><td>non-text</td></tr><tr><td><code>--paper-2</code></td><td>Equation blocks, hover fill, progress track</td><td><span class="sw" style="background:#F6F6F6"></span> <code>#F6F6F6</code></td><td><span class="sw" style="background:#1C1C1C"></span> <code>#1C1C1C</code></td><td>non-text</td></tr><tr><td><code>--ink</code></td><td>Headings, button fill, active tab</td><td><span class="sw" style="background:#111111"></span> <code>#111111</code></td><td><span class="sw" style="background:#F2F2F2"></span> <code>#F2F2F2</code></td><td>18.9 / 16.7</td></tr><tr><td><code>--text</code></td><td>Body text</td><td><span class="sw" style="background:#1F1F1F"></span> <code>#1F1F1F</code></td><td><span class="sw" style="background:#E6E6E6"></span> <code>#E6E6E6</code></td><td>16.5 / 15.0</td></tr><tr><td><code>--muted</code></td><td>Metadata and captions, 13 px and up</td><td><span class="sw" style="background:#5C5C5C"></span> <code>#5C5C5C</code></td><td><span class="sw" style="background:#A8A8A8"></span> <code>#A8A8A8</code></td><td>6.7 / 7.9</td></tr><tr><td><code>--accent</code></td><td>Links, disclosure labels, focus ring</td><td><span class="sw" style="background:#0B5FD1"></span> <code>#0B5FD1</code></td><td><span class="sw" style="background:#7FB3FF"></span> <code>#7FB3FF</code></td><td>5.9 / 8.7</td></tr><tr><td><code>--danger</code></td><td>Overtime, missing items, errors</td><td><span class="sw" style="background:#B3261E"></span> <code>#B3261E</code></td><td><span class="sw" style="background:#FF8A7A"></span> <code>#FF8A7A</code></td><td>6.5 / 8.2</td></tr><tr><td><code>--rule</code></td><td>Hairlines between rows and sections</td><td><span class="sw" style="background:#E3E3E3"></span> <code>#E3E3E3</code></td><td><span class="sw" style="background:#303030"></span> <code>#303030</code></td><td>non-text</td></tr><tr><td><code>--line</code></td><td>Input borders, inactive strokes</td><td><span class="sw" style="background:#C9C9C9"></span> <code>#C9C9C9</code></td><td><span class="sw" style="background:#4A4A4A"></span> <code>#4A4A4A</code></td><td>non-text</td></tr></table></div>
+<p class="meta">Body and heading text exceed 15:1 in both modes. Muted, accent, and danger meet AA (4.5:1) but not AAA (7:1) on white: use them for metadata, links, and warnings.</p>
+<h3>Plot palette (data only)</h3>
+<div class="tblwrap"><table class="data"><tr><th>Token</th><th>Light</th><th>Dark</th></tr><tr><td><code>--plot-1</code></td><td><span class="sw" style="background:#1F4E79"></span> <code>#1F4E79</code></td><td><span class="sw" style="background:#8FBCE6"></span> <code>#8FBCE6</code></td></tr><tr><td><code>--plot-2</code></td><td><span class="sw" style="background:#C0561F"></span> <code>#C0561F</code></td><td><span class="sw" style="background:#E9A271"></span> <code>#E9A271</code></td></tr><tr><td><code>--plot-3</code></td><td><span class="sw" style="background:#2E7D5B"></span> <code>#2E7D5B</code></td><td><span class="sw" style="background:#7FC8A4"></span> <code>#7FC8A4</code></td></tr><tr><td><code>--plot-4</code></td><td><span class="sw" style="background:#6B4C9A"></span> <code>#6B4C9A</code></td><td><span class="sw" style="background:#B79BE0"></span> <code>#B79BE0</code></td></tr></table></div>
+<p style="margin-top:16px"><button class="btn sm" id="theme">Light / dark</button></p>
+</section>
+
+<section id="type">
+<h2>Type</h2>
+<p class="meta">System stack: <code>-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif</code></p>
+<div class="specimen"><h1 style="margin:0">Heading 1, 30 px</h1></div>
+<div class="specimen"><h2 style="margin:0">Heading 2, 22 px</h2></div>
+<div class="specimen"><h3 style="margin:0">Heading 3, 18 px</h3></div>
+<div class="specimen"><p style="margin:0">Body text, 17 px with 1.55 line height, at most about 75 characters per line. Emphasis uses <strong>weight</strong>, not color.</p></div>
+<div class="specimen"><p class="meta" style="margin:0">Metadata and captions, 14 px, muted.</p></div>
+<div class="tblwrap" style="margin-top:12px"><table class="data"><tr><th>Element</th><th>Size</th><th>Weight</th><th>Note</th></tr><tr><td>Body</td><td>17 px / 1.55</td><td>400</td><td>System sans</td></tr><tr><td>Metadata, captions</td><td>13–14 px</td><td>400</td><td>--muted</td></tr><tr><td>h1</td><td>30 px / 1.2 (25 px on phones)</td><td>700</td><td>letter-spacing −0.01em</td></tr><tr><td>h2</td><td>22 px</td><td>700</td><td>40 px above, 10 px below</td></tr><tr><td>h3</td><td>18 px</td><td>700</td><td></td></tr><tr><td>Slide prompt</td><td>21 px (clamp up to 32 px when presenting)</td><td>600</td><td></td></tr><tr><td>Slide questions</td><td>19 px</td><td>600</td><td>numbered list</td></tr><tr><td>Button</td><td>15 px (14 small, 16 large)</td><td>600</td><td></td></tr></table></div>
+</section>
+
+<section id="components">
+<h2>Components</h2>
+<h3>Buttons and links</h3>
+<div class="row"><a class="btn primary" href="#components">Primary</a><a class="btn" href="#components">Secondary</a><button class="btn sm">Small</button><button class="btn" disabled>Disabled</button><a href="#components">Link</a></div>
+<h3>Fields</h3>
+<div class="row"><input type="text" placeholder="Text field"><select aria-label="Select"><option>Option 1</option><option>Option 2</option></select></div>
+<h3>Table</h3>
+<div class="tblwrap"><table class="data"><tr><th>Item</th><th>Value</th><th>Unit</th></tr><tr><td>Example row</td><td>10</td><td>cm</td></tr><tr><td>Example row</td><td>2.5</td><td>mm</td></tr></table></div>
+<h3>Figure</h3>
+<div class="fig"><svg viewBox="0 0 400 200" role="img" aria-label="Example plot" style="font-family:inherit;font-size:12px">
+<line x1="40" y1="170" x2="390" y2="170" stroke="var(--ink)"/><line x1="40" y1="170" x2="40" y2="15" stroke="var(--ink)"/>
+<path d="M40,150 C120,60 200,70 390,135" fill="none" stroke="var(--plot-1)" stroke-width="2.2"/>
+<path d="M40,165 C120,120 220,100 390,92" fill="none" stroke="var(--plot-2)" stroke-width="2.2"/>
+<text x="120" y="52" fill="var(--plot-1)">Series A</text><text x="75" y="160" fill="var(--plot-2)">Series B</text>
+<text x="215" y="192" text-anchor="middle" fill="var(--muted)">x</text><text x="14" y="95" fill="var(--muted)" transform="rotate(-90 14 95)" text-anchor="middle">y</text></svg></div>
+<p class="cap">Example data. Labels sit beside the lines.</p>
+<h3>Key points</h3>
+<div class="key"><div class="hd">Key points</div><ul><li>A plain list under a bold label.</li><li>No tinted panel.</li></ul></div>
+<h3>Disclosure</h3>
+<details><summary>Details</summary><p>Hidden content.</p></details>
+<h3>Progress</h3>
+<div class="bar" style="max-width:320px"><i style="width:40%"></i></div>
+<h3>Equation</h3>
+<div class="eq">HVL = ln 2 / &mu; &approx; 0.693 / &mu;</div>
+</section>
+
+<section id="slide">
+<h2>Slide</h2>
+<p class="meta" id="count">Slide 1 of 2</p>
+<div class="bar" style="margin-bottom:14px"><i id="prog" style="width:0%"></i></div>
+<div class="slide" id="s">
+  <div class="meta" id="topic"></div>
+  <p class="prompt" id="prompt"></p>
+  <ol class="q" id="qs"></ol>
+  <div class="back"><div class="key"><div class="hd">Key points</div><ul id="keys"></ul></div></div>
+  <div class="acts show"><button class="btn primary lg" id="show">Show answer</button></div>
+  <div class="acts next"><button class="btn primary lg" id="next">Next question</button></div>
+</div>
+<p class="meta">Space shows the answer; the right arrow moves on.</p>
+</section>
+
+</main></div>
+<script>
+const S=[
+ {topic:'Radiation physics · Attenuation',prompt:'Define half-value layer.',qs:['How is it related to the attenuation coefficient?','What fraction remains after 3 half-value layers?'],keys:['HVL = ln 2 / \u03bc \u2248 0.693 / \u03bc.','After n HVLs the intensity is (1/2)^n of the original; after 3 it is 12.5%.']},
+ {topic:'Radiation physics · Attenuation',prompt:'Define tenth-value layer.',qs:['How many half-value layers make one tenth-value layer?'],keys:['TVL = ln 10 / \u03bc \u2248 2.303 / \u03bc, which is 3.32 HVL.']}
+];
+let i=0; const $=id=>document.getElementById(id), box=$('s');
+function render(){const s=S[i]; box.classList.remove('shown'); $('topic').textContent=s.topic; $('prompt').textContent=s.prompt;
+  $('qs').innerHTML=s.qs.map(q=>'<li>'+q+'</li>').join(''); $('keys').innerHTML=s.keys.map(k=>'<li>'+k+'</li>').join('');
+  $('count').textContent='Slide '+(i+1)+' of '+S.length; $('prog').style.width=(100*i/S.length)+'%';}
+function reveal(){box.classList.add('shown');}
+function advance(){i=(i+1)%S.length; render();}
+$('show').onclick=reveal; $('next').onclick=advance; render();
+document.addEventListener('keydown',e=>{if(e.target.matches('input,select,textarea')) return; if(e.key===' '){e.preventDefault(); reveal();} else if(e.key==='ArrowRight') advance();});
+document.querySelectorAll('.tabs a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.tabs a').forEach(b=>b.classList.toggle('on',b===a));}));
+$('theme').onclick=()=>{const r=document.documentElement, c=r.dataset.theme; if(c==='dark') r.dataset.theme='light'; else if(c==='light') delete r.dataset.theme; else r.dataset.theme='dark';};
+</script>
+</body>
+</html>
