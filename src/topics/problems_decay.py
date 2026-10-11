@@ -51,7 +51,7 @@ DECAY_MODES = [
     PRM("Which radiations can follow an electron-capture event in the daughter atom?", ["Characteristic x-rays", "Auger electrons"], ["511 keV annihilation photons", "β⁻ particles"],
         "Capture leaves an inner-shell vacancy, which is filled with emission of a characteristic x-ray or an Auger electron. No positron is emitted, so there are no annihilation photons.", lvl="Easy"),
     PR("A nuclide has a decay energy (atomic mass difference) of <v>0.80 MeV</v> between parent and daughter. Which proton-rich <f>decay</f> can occur?", "Electron capture only", ["β⁺ decay only", "Both β⁺ decay and electron capture", "Neither"],
-       "β⁺ decay needs at least 1.022 MeV (two electron masses) of available energy. Electron capture has no such threshold.", lvl="Moderate"),
+       "β⁺ decay needs at least 1.022 MeV (two electron masses) of available energy. Electron capture needs only a positive decay energy, which 0.80 MeV satisfies.", lvl="Moderate"),
     PR("Why does a positron emitter produce two 511 keV photons?", "The positron annihilates with an electron, and momentum conservation sends two photons in opposite directions",
        ["The nucleus emits two γ-rays at each decay", "The positron splits into two photons in flight", "Electron capture accompanies every β⁺ decay"],
        "Annihilation turns the two rest masses (2 × 511 keV) into radiation. Starting at rest, the photons must be back to back.", lvl="Moderate"),
@@ -66,7 +66,7 @@ DECAY_MODES = [
        ["β⁻ decay, which converts a proton into a neutron", "α emission only", "γ emission, which changes the neutron-to-proton ratio"],
        "A proton-rich nucleus lies below the stable band. Turning a proton into a neutron (β⁺ or EC) moves it back. β⁻ does the opposite, and γ emission changes neither Z nor N.", lvl="Challenging"),
     PR("Why is an α emitter such as Ra-223 a small external hazard but effective in radiopharmaceutical therapy?", "Its α particles travel only tens of micrometres, so they are stopped by skin but deposit a high LET inside tissue next to the nuclide",
-       ["Its α particles are highly penetrating and escape the body", "α particles have low LET, so only a small dose is delivered", "It emits mainly γ-rays that treat the tumour"],
+       ["Its α particles penetrate the body and escape it", "α particles have low LET, so only a small dose is delivered", "It emits mainly γ-rays that treat the tumour"],
        "A 5–7 MeV α particle travels less than 100 µm in tissue. Outside the body it cannot pass the outer skin layer; inside it delivers its energy within a few cell diameters.", lvl="Challenging"),
 ]
 
@@ -81,12 +81,12 @@ EQUILIBRIUM = [
         "A<sub>d</sub>/A<sub>p</sub> = T<sub>p</sub>/(T<sub>p</sub> − T<sub>d</sub>) = 12.0 / (12.0 − 2.0) = 1.20.", lvl="Moderate"),
     PRN(STEM("", ["parent T<sub>1/2</sub> = 36 h", "daughter T<sub>1/2</sub> = 4 h", "no daughter present at t = 0"], "At what [[time]] does the daughter activity peak?"), tmax, [tmax / 2, 20.0, 36.0], "{:.1f} h",
         f"t<sub>max</sub> = ln(λ<sub>d</sub>/λ<sub>p</sub>) / (λ<sub>d</sub> − λ<sub>p</sub>) = ln(9) / ({ld:.4f} − {lp:.4f}) = {tmax:.1f} h.", lvl="Moderate"),
-    PRN(STEM("A sealed Sr-90 source has stood for weeks.", ["Sr-90: T<sub>1/2</sub> = 28.8 y, A = 40 MBq", "Y-90: T<sub>1/2</sub> = 64 h"], "What is the [[activity of the Y-90 daughter]]?"), 40.0, [4.0, 20.0, 80.0], "{:g} MBq",
+    PRN(STEM("A sealed Sr-90 source has stood for six weeks.", ["Sr-90: T<sub>1/2</sub> = 28.8 y, A = 40 MBq", "Y-90: T<sub>1/2</sub> = 64 h"], "What is the [[activity of the Y-90 daughter]]?"), 40.0, [4.0, 20.0, 80.0], "{:g} MBq",
         "Sr-90 is long-lived compared with Y-90, so the pair is in secular equilibrium and the daughter activity equals the parent's, 40 MBq.", lvl="Moderate"),
     PR("In transient equilibrium the daughter activity is:", "higher than the parent's, by the factor T<sub>p</sub>/(T<sub>p</sub> − T<sub>d</sub>)", ["equal to the parent's", "lower than the parent's", "zero"],
        "With a shorter-lived daughter the activity ratio is above one: each daughter atom decays faster, so a given number of atoms gives more activity.", lvl="Moderate"),
     PRN("Ignoring branching, what is the <f>ratio of Tc-99m to Mo-99 activity</f> at transient equilibrium (T<sub>1/2</sub> = <v>6.01 h</v> and <v>65.94 h</v>)?", mo_tc, [1 / mo_tc, 1.0, 1.5], "{:.2f}",
-        f"65.94 / (65.94 − 6.01) = {mo_tc:.2f}. (The real ratio is about 0.96 because only about 88% of Mo-99 decays feed Tc-99m.)", lvl="Moderate"),
+        f"65.94 / (65.94 − 6.01) = {mo_tc:.2f}. (The real ratio is about 0.97 because only about 88% of Mo-99 decays feed Tc-99m.)", lvl="Moderate"),
     PRN("In secular equilibrium starting with no daughter, what <f>percentage</f> of the final daughter activity has grown in after <v>one daughter half-life</v>?", 50.0, [25.0, 63.2, 75.0], "{:g}%",
         "The daughter activity grows as 1 − 2<sup>−t/T<sub>d</sub></sup>. At t = T<sub>d</sub> that is 1 − ½ = 50%. (63.2% is the answer for one mean life.)", lvl="Challenging"),
     PRN("In secular equilibrium, about how many <f>daughter half-lives</f> are needed to reach <v>99%</v> of the equilibrium activity?", n_hl, [3.3, 5.0, 10.0], "{:.1f}",
@@ -137,8 +137,8 @@ _n_f = len(DECAY_LAW)
 DECAY_LAW += [
     FIGQ(STEM("An I-125 source decays as shown.", ["T<sub>1/2</sub> = 59.4 d"], "Tap the [[time]] at which its activity has fallen to 25% of the initial value."), _fig_decay, [(2 * _t12 - 8, 2 * _t12 + 8)],
          "25% is two half-lives, because ½ × ½ = ¼. That is 2 × 59.4 = 118.8 d. On the graph, follow the 25% line across to the curve and read the time below it.", lvl="Easy", note="about 119 d"),
-    FIGQ(STEM("The same I-125 source.", ["T<sub>1/2</sub> = 59.4 d"], "Tap the [[mean life]] τ on the time axis."), _fig_decay, [(_t12 / math.log(2) - 8, _t12 / math.log(2) + 8)],
-         "The mean life is τ = T<sub>1/2</sub> / 0.693 = 1.44 × T<sub>1/2</sub> = 85.7 d. It is the time at which the activity has fallen to 1/e = 36.8%, not to 50%. The half-life (59.4 d) and two half-lives (118.8 d) are both wrong places.", lvl="Moderate", note="about 86 d"),
+    FIGQ(STEM("An I-125 source.", ["T<sub>1/2</sub> = 59.4 d"], "Tap the [[mean life]] τ on the time axis."), _fig_decay, [(_t12 / math.log(2) - 8, _t12 / math.log(2) + 8)],
+         "The mean life is τ = T<sub>1/2</sub> / 0.693 = 1.44 × T<sub>1/2</sub> = 85.7 d. It is the time at which the activity has fallen to 1/e = 36.8%, not to 50%.", lvl="Moderate", note="about 86 d"),
 ]
 PLACE["decay-law"].setdefault(1, []).extend([_n_f + 1, _n_f + 2])
 _lp, _ld = math.log(2) / 65.94, math.log(2) / 6.0067

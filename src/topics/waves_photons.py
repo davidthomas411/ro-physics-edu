@@ -67,7 +67,7 @@ TOPIC = dict(
         C("What does doubling the intensity of a monochromatic beam change?", "The number of photons per unit time and area doubles. Each photon's energy and wavelength are unchanged."),
         C("How many joules are in 1 eV? In 1 MeV?", "1 eV = 1.602 × 10<sup>−19</sup> J. 1 MeV = 1.602 × 10<sup>−13</sup> J."),
         C("What is the wavelength of a 100 keV photon?", f"{lam_100k_pm:.1f} pm (0.0124 nm, 0.124 Å).", w=["λ = 1240 eV·nm / 10<sup>5</sup> eV = 0.0124 nm."]),
-        C("State the de Broglie relation. What is it good for here?", f"λ = h/p. Particles have wavelengths: a 100 keV electron has {lam_e100_pm:.1f} pm, far below atomic spacing, so electron beams resolve atoms."),
+        C("State the de Broglie relation and what it says about electron beams.", f"λ = h/p. Particles have wavelengths: a 100 keV electron has {lam_e100_pm:.1f} pm, far below atomic spacing, so electron beams resolve atoms."),
     ],
 )
 
@@ -100,7 +100,7 @@ PROBLEMS = [
         calc=CALC("Hz", [TILE("E", 140, "keV"), TILE("h", 4.136e-15, "eV·s", disp="4.136 × 10⁻¹⁵"), CONV("keV", "eV", 1e3), TILE("c", 3.00e8, "m/s", disp="3.00 × 10⁸"), TILE("hc", 1240, "eV·nm")], solution=["E", "×", "keV→eV", "÷", "h"])),
     PR("The intensity of a monochromatic x-ray beam is doubled with no change in wavelength. What happens?", "The number of photons per second doubles; each photon's energy is unchanged",
        ["The energy of each photon doubles", "The wavelength halves", "Each photon's energy halves because the beam is spread over more photons"],
-       "Intensity counts photons. Photon energy is set by wavelength, which did not change.", lvl="Moderate"),
+       "At a fixed photon energy, intensity is proportional to the number of photons. Photon energy is set by wavelength, which did not change.", lvl="Moderate"),
     PRN("What is the <f>wavelength</f> of a <v>511 keV</v> annihilation photon?", lam_511_pm, [lam_511_pm / 10, lam_511_pm * 10, lam_511_pm * 100], "{:.3g} pm",
         f"λ = 1240 eV·nm / (5.11 × 10<sup>5</sup> eV) = 2.43 × 10<sup>−3</sup> nm = {lam_511_pm:.2f} pm. This is the Compton wavelength of the electron.", lvl="Challenging",
         calc=CALC("pm", [TILE("hc", 1240, "eV·nm"), TILE("E", 511, "keV"), CONV("keV", "eV", 1e3), CONV("nm", "pm", 1e3), TILE("h", 4.136e-15, "eV·s", disp="4.136 × 10⁻¹⁵")], solution=["hc", "÷", "E", "÷", "keV→eV", "×", "nm→pm"])),
@@ -119,7 +119,7 @@ TERMS = ['electromagnetic waves', 'photons', 'electron-volt', 'de Broglie']
 TAKE = [
     [("In practical units, λ (nm) = 1240 / E (eV); equivalently E (keV) × λ (Å) = 12.4.", "wave-energy"),
      ("x-rays and γ-rays differ in origin, not energy.", "photon-origin"),
-     ("Intensity counts photons; photon energy is set by frequency alone.", "intensity-energy")],
+     ("At a fixed photon energy, intensity is proportional to the number of photons; photon energy is set by frequency alone.", "intensity-energy")],
     [("1 eV = 1.602 × 10<sup>−19</sup> J, so 1 MeV = 1.602 × 10<sup>−13</sup> J.", "ev-gain"),
      ("Length units: 1 nm = 10 Å = 1000 pm.", "length-units")],
     [("A particle has wavelength λ = h/p. It matters only at atomic scales: a 100 keV electron has λ = 3.7 pm.", "matter-wave")],

@@ -71,8 +71,8 @@ PROBLEMS = [
     PRN(STEM("", ["M(<sup>1</sup>H) = 1.007825 u", "m<sub>n</sub> = 1.008665 u", "M(<sup>2</sup>H) = 2.014102 u"], "What is the [[binding energy]] of the deuteron?"), be_h2, [be_h2 / 2, 2 * be_h2, calc.ME], "{:.2f} MeV",
         f"Δm = {dm_h2:.6f} u, so BE = {dm_h2:.6f} × 931.5 = {be_h2:.2f} MeV. Half of that, {be_h2 / 2:.2f} MeV, is the value per nucleon.", lvl="Moderate",
         calc=CALC("MeV", [TILE("M(¹H)", 1.007825, "u", id="H1"), TILE("mₙ", 1.008665, "u", id="n"), TILE("M(²H)", 2.014102, "u", id="H2"), CONV("u", "MeV", 931.5), TILE("mₑ", 0.000549, "u", id="me")], ops=("×", "÷", "+", "−", "(", ")"), solution=["(", "H1", "+", "n", "−", "H2", ")", "×", "u→MeV"])),
-    PRN("The He-4 nucleus has a total binding energy of <v>28.3 MeV</v>. What is its <f>binding energy per nucleon</f>?", be_he4 / 4, [be_he4 / 8, be_he4 / 2, be_he4], "{:.2f} MeV",
-        "28.3 MeV / 4 nucleons = 7.07 MeV per nucleon.", lvl="Moderate"),
+    PRN(f"The He-4 nucleus has a total binding energy of <v>{be_he4:.3f} MeV</v>. What is its <f>binding energy per nucleon</f>?", be_he4 / 4, [be_he4 / 8, be_he4 / 2, be_he4], "{:.2f} MeV",
+        f"{be_he4:.3f} MeV / 4 nucleons = {be_he4 / 4:.2f} MeV per nucleon.", lvl="Moderate"),
     PR("Why do heavy stable nuclei contain more neutrons than protons?", "Extra neutrons add strong-force attraction without adding Coulomb repulsion",
        ["Neutrons carry the positive charge that stabilizes the nucleus", "Neutrons are lighter than protons, so they lower the total mass", "The strong force acts only between neutrons"],
        "Protons repel one another over long range. Neutrons dilute that repulsion while still binding through the strong force.", lvl="Moderate"),
@@ -120,7 +120,7 @@ _n1 = len(PROBLEMS)
 PROBLEMS += [
     FIGQ(STEM("A small part of the chart of the nuclides. Each square is one nuclide.", ["reference nuclide: C-14 (Z = 6, N = 8)"], "Tap the [[isotone of C-14]] in the nitrogen row (Z = 7)."), _chart, [(7.5, 8.5, 6.5, 7.5)],
          "Isotones have the same number of neutrons. C-14 has N = 8, so the isotone in the nitrogen row is N-15 (7 protons, 8 neutrons). It sits directly above C-14 in the chart.", lvl="Moderate", note="N-15"),
-    FIGQ(STEM("The same chart.", ["reference nuclide: C-14 (A = 14)"], "Tap the [[isobar of C-14]] in the nitrogen row (Z = 7)."), _chart, [(6.5, 7.5, 6.5, 7.5)],
+    FIGQ(STEM("A chart of the nuclides.", ["reference nuclide: C-14 (A = 14)"], "Tap the [[isobar of C-14]] in the nitrogen row (Z = 7)."), _chart, [(6.5, 7.5, 6.5, 7.5)],
          "Isobars have the same mass number A = Z + N. In the nitrogen row, A = 14 means N = 7, so the isobar is N-14. Isobars lie along a diagonal in the chart.", lvl="Moderate", note="N-14"),
 ]
 INLINE.setdefault(0, []).extend([_n1 + 1, _n1 + 2])

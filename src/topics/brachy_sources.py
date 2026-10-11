@@ -13,12 +13,12 @@ TOPIC = dict(
     ref=dict(aapm="", khan="15", ford="4"),
     guide=[
         H("Dose-rate classes"),
-        P("Brachytherapy treats with sealed radioactive sources placed in or next to the tumour. The name comes from the Greek word for short: the source sits a short distance from the tissue it treats. ICRU Report 38 sorts treatments by the dose rate at the reference point."),
+        P("Brachytherapy treats with sealed radioactive sources placed in or next to the tumour. ICRU Report 38 sorts treatments by the dose rate at the reference point."),
         TABLE(["Class", "Dose rate", "Delivery", "Typical sources"],
               [["Low (LDR)", "below 2 Gy/h", "Permanent seeds, or temporary implants left for days", "I-125, Pd-103, Cs-131; Cs-137 and Ra-226 in the past"],
                ["Medium (MDR)", "2 to 12 Gy/h", "Rarely used", "—"],
                ["High (HDR)", "above 12 Gy/h", "Temporary: minutes per fraction, by remote afterloader", "Ir-192; Co-60 in some units"]]),
-        P("A permanent seed implant delivers its dose at a very low rate, a few cGy per hour at first, and the dose accumulates over months as the activity decays. An HDR treatment delivers its prescription in minutes and is repeated in fractions. Cells repair sublethal damage during a long, low-rate exposure, so LDR and HDR schedules are not interchangeable at the same total dose."),
+        P("A permanent seed implant delivers its dose at a low rate, a few cGy per hour at first, and the dose accumulates over months as the activity decays. An HDR treatment delivers its prescription in minutes and is repeated in fractions. Cells repair sublethal damage during a long, low-rate exposure, so LDR and HDR schedules are not interchangeable at the same total dose."),
 
         H("Isotopes"),
         P("LDR isotopes decay by electron capture and emit low-energy photons. The photons are absorbed within a few centimetres, so the dose stays in the target and shielding needs are modest. Their half-lives are days to weeks, which suits a permanent implant: most of the dose is delivered while the seeds are in place, and they remain as inert metal."),
@@ -35,13 +35,13 @@ TOPIC = dict(
         EX("Activity of an HDR source", STEM("An Ir-192 HDR source.", ["initial activity = 10 Ci", "T<sub>1/2</sub> = 73.8 d", "time in use = 90 d"], "Find the [[activity]] after 90 d."),
            [f"Fraction remaining = ½<sup>90/73.8</sup> = ½<sup>{90 / IR_T:.2f}</sup> = {a90 / 10:.3f}", f"A = 10 Ci × {a90 / 10:.3f}"], f"{a90:.1f} Ci."),
         EX("When to replace the source", STEM("An Ir-192 HDR source.", ["initial activity = 10 Ci", "replacement activity = 4 Ci"], "After how many [[days]] does the source fall to 4 Ci?"),
-           ["Fraction = 4 / 10 = 0.40", f"t = T<sub>1/2</sub> × log<sub>2</sub>(1 / 0.40) = 73.8 × {math.log2(2.5):.2f}"], f"{t4:.1f} d, about three months."),
+           ["Fraction = 4 / 10 = 0.40", f"t = T<sub>1/2</sub> × log<sub>2</sub>(1 / 0.40) = 73.8 × {math.log2(2.5):.3f}"], f"{t4:.1f} d, about three months."),
 
         H("Source construction"),
         P("Most seeds are a sealed titanium capsule about 4.5 mm long and 0.8 mm across, small enough to pass through a 17- or 18-gauge needle. The capsule contains the radionuclide. Its thin wall, 0.05 mm of titanium in the I-125 Model 6711, absorbs electrons and the lowest-energy x-rays that would add dose at the seed surface without reaching the target. A dense marker, a silver rod in the 6711 or a lead marker in the Pd-103 Model 200, makes the seed visible on radiographs and CT."),
         P("The marker, the end welds, and the capsule wall absorb photons travelling along the seed axis, so the dose there is lower than at the same distance on the transverse axis. This anisotropy is part of the TG-43 dose calculation."),
         P("An HDR source is a pellet of Ir-192, about 3.6 mm long, in a stainless steel capsule laser-welded to the end of a flexible cable. A new source holds about 10 Ci (370 GBq), far too active to handle. A remote afterloader stores it in a shield, drives the cable through catheters or applicators to programmed dwell positions, and retracts it, all from outside a shielded room."),
-        P("Other forms exist. Electronic brachytherapy uses a miniature x-ray tube or an electron source inside an applicator, so no radionuclide is involved. Radiopharmaceutical therapy places unsealed sources in the body, for example I-131 for thyroid cancer or Y-90 microspheres for liver tumours."),
+        P("Other forms of internal radiation therapy exist. Electronic brachytherapy uses a miniature x-ray tube or an electron source inside an applicator, so no radionuclide is involved. Radiopharmaceutical therapy places unsealed sources in the body, for example I-131 for thyroid cancer or Y-90 microspheres for liver tumours."),
     ],
     cards=[
         C("State the ICRU 38 dose-rate limits for LDR and HDR brachytherapy.", "LDR: below 2 Gy/h. HDR: above 12 Gy/h. Medium dose rate (MDR) lies between them."),
@@ -56,7 +56,7 @@ TOPIC = dict(
         C("Why is HDR brachytherapy delivered by a remote afterloader?", "The source holds about 10 Ci, too active to handle. The afterloader drives it through catheters from a shielded room."),
         C("What is the approximate activity of a new HDR Ir-192 source?", "About 10 Ci (370 GBq)."),
         C("Why do LDR seeds use low-energy photons?", "They are absorbed within a few centimetres, so the dose stays in the target and shielding and radiation protection are easier."),
-        C("Name two forms of brachytherapy that do not use seeds.", "Electronic brachytherapy, with a miniature x-ray tube, and radiopharmaceutical therapy with unsealed sources."),
+        C("Name two forms of brachytherapy that do not use seeds.", "HDR afterloading with a single Ir-192 source on a cable, and electronic brachytherapy with a miniature x-ray tube."),
     ],
 )
 
@@ -109,12 +109,12 @@ PROBLEMS += [
          [("Cs-131", 0), ("Pd-103", 1), ("I-125", 2), ("Ir-192", 3)],
          "Cs-131 is 9.7 d, Pd-103 is 17.0 d, I-125 is 59.4 d, and Ir-192 is 73.8 d. The three seed isotopes are all shorter than Ir-192, and the shortest-lived deliver their dose fastest.", lvl="Moderate", mode="rank", cap=1),
     TYPED(STEM("An Ir-192 HDR source.", ["initial activity = 10 Ci", "T<sub>1/2</sub> = 73.8 d", "replacement activity = 3 Ci"], "After how many [[days]] does the activity reach 3 Ci?"), t3, 0.015, "d",
-          f"The fraction is 3 / 10 = 0.30, and t = T<sub>1/2</sub> log<sub>2</sub>(1 / 0.30) = 73.8 × {math.log2(1 / 0.3):.2f} = {t3:.1f} d. Using the natural logarithm instead gives {IR_T * math.log(1 / 0.3):.1f} d, which is wrong.", lvl="Challenging"),
+          f"The fraction is 3 / 10 = 0.30, and t = T<sub>1/2</sub> log<sub>2</sub>(1 / 0.30) = 73.8 × {math.log2(1 / 0.3):.3f} = {t3:.1f} d. Using the natural logarithm in place of log<sub>2</sub> gives {IR_T * math.log(1 / 0.3):.1f} d.", lvl="Challenging"),
     FIGQ(STEM("Each point is a brachytherapy isotope, plotted by half-life and mean photon energy. The points are not labelled.", [], "Tap the isotope used in most [[HDR afterloaders]]."), _fig_iso, [(50, 110, 250, 570)],
          "Ir-192 has a half-life of 73.8 d and a mean photon energy of about 380 keV. The three seed isotopes (Cs-131, Pd-103, I-125) are at 21 to 30 keV, and the sources at similar or higher energy (Cs-137 at 662 keV, Ra-226, Co-60 at 1250 keV) have half-lives of years or centuries.", lvl="Moderate", note="Ir-192 (73.8 d, 380 keV)"),
-    FIGQ(STEM("The same unlabelled plot.", [], "Tap the isotope whose source emits a [[662 keV photon]], which comes from its daughter Ba-137m."), _fig_iso, [(6000, 20000, 520, 850)],
+    FIGQ(STEM("Each point is a brachytherapy isotope, plotted by half-life and mean photon energy. The points are not labelled.", [], "Tap the isotope whose source emits a [[662 keV photon]], which comes from its daughter Ba-137m."), _fig_iso, [(6000, 20000, 520, 850)],
          "Cs-137 has a half-life of 30.1 y, about 11,000 d, and decays to Ba-137m, which emits the 662 keV photon. Co-60 emits two photons that average 1250 keV, and Ra-226 averages about 830 keV.", lvl="Moderate", note="Cs-137 (30.1 y, 662 keV)"),
-    FIGQ(STEM("The same unlabelled plot. A permanent implant of one of these isotopes delivers 90% of its total dose in about two months, or 60 days.", [], "Tap the [[isotope]]."), _fig_iso, [(12.5, 24, 14, 32)],
+    FIGQ(STEM("Each point is a brachytherapy isotope, plotted by half-life and mean photon energy. The points are not labelled. A permanent implant of one of these isotopes delivers 90% of its total dose in about two months, or 60 days.", [], "Tap the [[isotope]]."), _fig_iso, [(12.5, 24, 14, 32)],
          "90% of the total dose is delivered after 3.32 half-lives, so a half-life of about 60 / 3.32 = 18 d is needed. The point near 17 d is Pd-103 (17.0 d, 21 keV), which delivers 90% in 3.32 × 17.0 = 56 d. Cs-131 (9.7 d) would take 32 d, I-125 (59.4 d) 197 d, and Ir-192 (73.8 d) 245 d.", lvl="Challenging", note="Pd-103 (17.0 d)"),
 ]
 INLINE = {0: [1, 3, _n0 + 1], 1: [2, 5, 7, _n0 + 2, _n0 + 4, _n0 + 5, _n0 + 6], 2: [4, 8]}

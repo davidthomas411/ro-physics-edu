@@ -12,6 +12,8 @@ ci = lambda n: S[n] / calc.CI_BQ
 lam_i = calc.LN2 / (59.4 * calc.DAY_S); atoms_i = calc.NA / 124.90
 m_seed_ng = 0.50e-3 * calc.CI_BQ / S["I-125"] * 1e9
 m_ir_mg = 370e9 / S["Ir-192"] * 1e3
+m_ir_given_mg = 370e9 / 3.4e14 * 1e3                               # from the rounded S printed in the question
+m_seed_given_ng = 0.50e-3 * calc.CI_BQ / 6.5e14 * 1e9
 m_cs_mg = 370e9 / S["Cs-137"] * 1e3
 m_co_g = 185e12 / S["Co-60"]
 lu = calc.spec_act_bq_g(6.647 * calc.DAY_S, 176.94)
@@ -31,14 +33,14 @@ TOPIC = dict(
         P("These are theoretical maxima for pure, carrier-free material. Real sources are lower. Ir-192 is made by neutron capture on stable Ir-191, so most of the atoms in an iridium source are still stable iridium."),
 
         H("Source size and carrier"),
-        P(f"In brachytherapy, specific activity sets how small a source can be. 370 GBq (10 Ci) of Ir-192 is {m_ir_mg:.2f} mg of iridium, small enough for near-point geometry. The same activity of Cs-137 is {m_cs_mg:.0f} mg, {m_cs_mg / m_ir_mg:.0f} times the mass and too bulky for an HDR catheter."),
+        P(f"In brachytherapy, specific activity sets how small a source can be. 370 GBq (10 Ci) of Ir-192 is about {m_ir_mg:.1f} mg of iridium, small enough for near-point geometry. The same activity of Cs-137 is {m_cs_mg:.0f} mg, {m_cs_mg / m_ir_mg:.0f} times the mass and too bulky for an HDR catheter."),
         P(f"In radiopharmaceutical therapy, specific activity sets how much non-radioactive carrier is given with the activity, and carrier can compete for receptor sites. Lu-177 made by neutron capture on Lu-176 keeps stable Lu-176 in the product. Irradiating Yb-176 gives Yb-177, which decays to Lu-177 that can be separated chemically and approaches the theoretical {sci(lu)} Bq/g."),
 
         EX("Specific activity of I-125", STEM("", ["T<sub>1/2</sub> = 59.4 d", "molar mass M = 124.9 g/mol"], "Find the [[specific activity]] S of I-125."),
            [f"λ = 0.693 / (59.4 × 86,400 s) = {sci(lam_i, 4)} s<sup>−1</sup>", f"Atoms per gram = 6.022 × 10<sup>23</sup> / 124.9 = {sci(atoms_i, 4)}", f"S = λ × atoms per gram = {sci(S['I-125'], 3)} Bq/g"],
            f"{sci(S['I-125'])} Bq/g, or {ci('I-125'):,.0f} Ci/g."),
         EX("Mass of a seed", STEM("", ["seed activity = 0.50 mCi", f"S (I-125) = {sci(S['I-125'])} Bq/g"], "Find the [[mass of I-125]] in the seed."),
-           ["0.50 mCi × 3.7 × 10<sup>7</sup> Bq/mCi = 1.85 × 10<sup>7</sup> Bq", f"m = A / S = 1.85 × 10<sup>7</sup> / {sci(S['I-125'])}"], f"{m_seed_ng:.1f} ng."),
+           ["0.50 mCi × 3.7 × 10<sup>7</sup> Bq/mCi = 1.85 × 10<sup>7</sup> Bq", f"m = A / S = 1.85 × 10<sup>7</sup> / {sci(S['I-125'])}"], f"{m_seed_given_ng:.1f} ng."),
         EX("Mass of a teletherapy source", STEM("A Co-60 teletherapy source.", ["activity = 185 TBq (5000 Ci)", "S (Co-60) = 4.19 × 10<sup>13</sup> Bq/g"], "Find the [[mass of Co-60]]."),
            ["m = A / S = 1.85 × 10<sup>14</sup> / 4.19 × 10<sup>13</sup>"], f"{m_co_g:.1f} g of pure Co-60."),
     ],
@@ -60,19 +62,19 @@ PROBLEMS = [
     PR("Which unit is used for specific activity?", "Bq/g", ["Gy/s", "Bq·s", "Ci·h"], "Becquerels (or curies) per gram of radioactive material.", lvl="Easy"),
     PR("Two radionuclides have the same atomic mass. Which has the higher specific activity?", "The one with the shorter half-life", ["The one with the longer half-life", "They are equal", "The one that emits higher-energy photons"],
        "S ∝ 1/(T<sub>1/2</sub> · M). With M equal, a shorter half-life means more decays per atom per second.", lvl="Easy"),
-    PR("Why is a high specific activity valuable for an HDR brachytherapy source?", "A high activity fits in a very small, nearly point-like source", ["It lengthens the half-life", "It raises the photon energy", "It lowers the exposure rate constant"],
+    PR("Why is a high specific activity valuable for an HDR brachytherapy source?", "A high activity fits in a small, nearly point-like source", ["It lengthens the half-life", "It raises the photon energy", "It lowers the exposure rate constant"],
        "A small source passes through narrow catheters and approximates a point, which simplifies dose calculation.", lvl="Easy"),
     PRN(STEM("A hypothetical nuclide.", ["T<sub>1/2</sub> = 100 d", "molar mass = 100 g/mol"], "What is its [[specific activity]]?"), hyp, [hyp / calc.LN2, hyp * 86400, hyp * 100], lambda v: sci(v) + " Bq/g",
         f"λ = 0.693 / (100 × 86,400 s) = 8.02 × 10<sup>−8</sup> s<sup>−1</sup>. Atoms per gram = 6.022 × 10<sup>23</sup> / 100 = 6.02 × 10<sup>21</sup>. S = {sci(hyp)} Bq/g. Leaving out the ln 2 gives {sci(hyp / calc.LN2)}; leaving the half-life in days gives {sci(hyp * 86400)}; forgetting to divide by the molar mass gives {sci(hyp * 100)}.", lvl="Moderate"),
-    PRN(STEM("", ["S (Ir-192) = 3.4 × 10<sup>14</sup> Bq/g", "activity = 370 GBq (10 Ci)"], "About what [[mass of Ir-192]] gives this activity?"), m_ir_mg, [m_ir_mg / 10, m_ir_mg * 10, m_ir_mg * 100], "{:.3g} mg",
-        f"m = A/S = 3.7 × 10<sup>11</sup> Bq / 3.4 × 10<sup>14</sup> Bq/g = {sci(m_ir_mg / 1e3, 3)} g = {m_ir_mg:.2f} mg.", lvl="Moderate",
+    PRN(STEM("", ["S (Ir-192) = 3.4 × 10<sup>14</sup> Bq/g", "activity = 370 GBq (10 Ci)"], "About what [[mass of Ir-192]] gives this activity?"), m_ir_given_mg, [m_ir_given_mg / 10, m_ir_given_mg * 10, m_ir_given_mg * 100], "{:.3g} mg",
+        f"m = A/S = 3.7 × 10<sup>11</sup> Bq / 3.4 × 10<sup>14</sup> Bq/g = {sci(m_ir_given_mg / 1e3, 3)} g = {m_ir_given_mg:.2f} mg.", lvl="Moderate",
         calc=CALC("mg", [TILE("A", 370, "GBq"), TILE("S", 3.4e14, "Bq/g", disp="3.4 × 10¹⁴"), CONV("GBq", "Bq", 1e9), CONV("g", "mg", 1e3), TILE("T½", 73.8, "d", id="T")], solution=["A", "×", "GBq→Bq", "÷", "S", "×", "g→mg"])),
     PR("Which has the higher specific activity: 1 g of Co-60 or 1 g of Cs-137?", "Co-60, because of its shorter half-life and lower atomic mass", ["Cs-137, because of its longer half-life", "They are equal", "It cannot be determined without knowing the activity"],
        f"Co-60: {sci(S['Co-60'])} Bq/g. Cs-137: {sci(S['Cs-137'])} Bq/g, more than ten times lower.", lvl="Moderate"),
     PR("The activity of 1 g of Ra-226 is closest to:", "1 Ci (3.7 × 10<sup>10</sup> Bq)", ["1 mCi", "1 GBq", "1 kCi"],
-       f"S = {sci(S['Ra-226'])} Bq/g = {ci('Ra-226'):.2f} Ci/g. The curie was defined from this.", lvl="Moderate"),
-    PRN(STEM("", ["seed activity = 0.50 mCi", "S (I-125) = 6.5 × 10<sup>14</sup> Bq/g"], "About what [[mass of I-125]] does the seed contain?"), m_seed_ng, [m_seed_ng / 10, m_seed_ng * 10, m_seed_ng * 100], "{:.3g} ng",
-        f"A = 0.50 mCi × 3.7 × 10<sup>7</sup> Bq/mCi = 1.85 × 10<sup>7</sup> Bq. m = A/S = {m_seed_ng:.1f} ng.", lvl="Moderate"),
+       f"S = {sci(S['Ra-226'], 3)} Bq/g = {ci('Ra-226'):.2f} Ci/g. The curie was defined from this.", lvl="Moderate"),
+    PRN(STEM("", ["seed activity = 0.50 mCi", "S (I-125) = 6.5 × 10<sup>14</sup> Bq/g"], "About what [[mass of I-125]] does the seed contain?"), m_seed_given_ng, [m_seed_given_ng / 10, m_seed_given_ng * 10, m_seed_given_ng * 100], "{:.3g} ng",
+        f"A = 0.50 mCi × 3.7 × 10<sup>7</sup> Bq/mCi = 1.85 × 10<sup>7</sup> Bq. m = A/S = {m_seed_given_ng:.1f} ng.", lvl="Moderate"),
     PRN(STEM("Compare two seed isotopes.", ["Pd-103: T<sub>1/2</sub> = 17.0 d, M = 102.9 g/mol", "I-125: T<sub>1/2</sub> = 59.4 d, M = 124.9 g/mol"], "The specific activity of Pd-103 is how many [[times that of I-125]]?"), pd_over_i, [1.0, 0.24, 12.0], "{:.2g}",
         f"S ∝ 1/(T<sub>1/2</sub> · M). Ratio = (59.4 / 17.0) × (124.9 / 102.9) = {59.4 / 16.99:.2f} × {124.9 / 102.9:.2f} = {pd_over_i:.1f}.", lvl="Moderate"),
     PR("Why is the specific activity of a real Ir-192 source lower than the theoretical value?", "It is made by neutron capture on stable Ir-191, so stable iridium remains in the source",

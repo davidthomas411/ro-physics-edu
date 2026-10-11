@@ -21,7 +21,7 @@ TOPIC = dict(
         EQ("D = TERMA ⊗ kernel", "radiological path length = Σ ρ<sub>i</sub> Δx<sub>i</sub>   (density times thickness, summed along the ray)"),
         EX("Radiological path length", STEM("A ray crosses three layers on its way to a point.", ["3.0 cm of soft tissue, ρ = 1.0 g/cm³", "6.0 cm of lung, ρ = 0.3 g/cm³", "3.0 cm of soft tissue, ρ = 1.0 g/cm³"], "Find the [[radiological path length]]."),
            ["3.0 × 1.0 + 6.0 × 0.3 + 3.0 × 1.0 = 3.0 + 1.8 + 3.0"], f"{rad:.1f} g/cm², compared with a physical depth of {phys:.0f} cm."),
-        EX("Dose beyond lung", STEM("The same ray, for a 10 × 10 cm field.", ["TMR(d) = e<sup>−0.0282 (d − 1.5)</sup>", f"physical depth = {phys:.0f} cm,   radiological depth = {rad:.1f} cm"], "How many [[times larger]] is the dose from the radiological depth than from the physical depth?"),
+        EX("Dose beyond lung", STEM("A ray that crosses lung, for a 10 × 10 cm field.", ["TMR(d) = e<sup>−0.0282 (d − 1.5)</sup>", f"physical depth = {phys:.0f} cm,   radiological depth = {rad:.1f} cm"], "How many [[times larger]] is the dose from the radiological depth than from the physical depth?"),
            [f"TMR({rad:.1f}) = e<sup>−0.0282 × {rad - 1.5:.1f}</sup> = {_tmr_simple(rad):.3f}", f"TMR({phys:.0f}) = e<sup>−0.0282 × {phys - 1.5:.1f}</sup> = {_tmr_simple(phys):.3f}"], f"{ratio_lung:.3f}: about {100 * (ratio_lung - 1):.0f}% more dose, because the lung attenuates less than the same thickness of soft tissue."),
 
         H("Algorithm classes"),
@@ -32,7 +32,7 @@ TOPIC = dict(
                ["Acuros XB", "Boltzmann transport equation on a grid", "High"], ["Monte Carlo", "Individual particle histories", "Reference standard"]]),
 
         H("Beam model and dose reporting"),
-        P("Whatever the algorithm, the planning system needs a beam model: a description of the source and of the devices that shape the beam, such as the MLC, with parameters fitted to measured data. The photon energy spectrum sets the slope of the PDD, because a harder spectrum falls off more slowly. The flux of electrons from the head sets the dose near the surface. The size of the source sets the penumbra. Some systems let the user adjust many parameters and others lock most of them. The beam model is one of the most important tasks of the physicist, because it affects every patient."),
+        P("Whatever the algorithm, the planning system needs a beam model: a description of the source and of the devices that shape the beam, such as the MLC, with parameters fitted to measured data. The photon energy spectrum sets the slope of the PDD, because a harder spectrum falls off more slowly. The flux of electrons from the head sets the dose near the surface. The size of the source sets the penumbra. Some systems let the user adjust many parameters and others lock most of them."),
         P("Dose can be reported as dose to water or dose to the medium. They differ because the stopping powers of the secondary electrons differ between tissue and water. Averaged over tissues, dose to medium is about 1% lower than dose to water. Current recommendations favour commissioning the system to report dose to medium (AAPM TG-329)."),
 
         H("Lung and bone"),

@@ -22,7 +22,7 @@ TOPIC = dict(
         P("The PDD of an electron beam has a surface dose that is already high, a broad region of maximum dose, a steep fall-off, and a small tail at depth. The tail is not electrons, because they have stopped. It is bremsstrahlung photons, produced in the head of the linac, mainly in the scattering foil, and in the patient. This photon contamination is about 1% to 5% of the maximum dose and is larger at higher energy, because the radiative stopping power rises with energy."),
 
         H("Range parameters and rules of thumb"),
-        P("The PDD is described by the depths at which the dose has fallen to a given percentage of the maximum: R<sub>90</sub>, R<sub>80</sub>, and R<sub>50</sub>. The practical range R<sub>p</sub> is the depth where the steepest part of the fall-off, extended as a straight line, reaches zero dose. It is the farthest depth that electrons can reach and is useful in many contexts."),
+        P("The PDD is described by the depths at which the dose has fallen to a given percentage of the maximum: R<sub>90</sub>, R<sub>80</sub>, and R<sub>50</sub>. The practical range R<sub>p</sub> is the depth where the steepest part of the fall-off, extended as a straight line, meets the bremsstrahlung tail. It is close to the greatest depth that electrons reach."),
         EQ("R<sub>90</sub> ≈ E / 3.3     R<sub>80</sub> ≈ E / 3     R<sub>50</sub> ≈ E / 2.33     R<sub>p</sub> ≈ E / 2", "depths in cm for a beam energy E in MeV"),
         P("The electron dose maximum covers a wide range of depths, so calibration is not done at d<sub>max</sub>. The reference depth is d<sub>ref</sub> = 0.6 R<sub>50</sub> − 0.1 cm, which is the calibration depth in dosimetry protocols and plays the role that d<sub>max</sub> plays for photons."),
         TABLE(["Energy (MeV)", "R<sub>90</sub> (cm)", "R<sub>80</sub> (cm)", "R<sub>50</sub> (cm)", "R<sub>p</sub> (cm)"], [[str(E), f"{r90(E):.1f}", f"{r80(E):.1f}", f"{r50(E):.1f}", f"{rp(E):.1f}"] for E in (6, 9, 12, 16, 20)]),
@@ -38,7 +38,7 @@ TOPIC = dict(
         F("Fall-off of the electron PDD", "It is not sharp, because the beam has a spectrum of energies and the electrons scatter. Higher-energy electrons go farther."),
         F("Photon contamination", "The dose at depth beyond the electron range, about 1% to 5% of the maximum, from bremsstrahlung in the head (mainly the scattering foil) and in the patient. It is larger at higher energy."),
         F("R<sub>90</sub>, R<sub>80</sub>, and R<sub>50</sub>", "The depths at which the dose has fallen to 90%, 80%, and 50% of the maximum."),
-        F("Practical range R<sub>p</sub>", "The depth where the steepest part of the fall-off, extended as a straight line, reaches zero dose. The farthest depth the electrons reach."),
+        F("Practical range R<sub>p</sub>", "The depth where the steepest part of the fall-off, extended as a straight line, meets the bremsstrahlung tail. It is close to the greatest depth the electrons reach."),
         F("Rules of thumb for range", "R<sub>90</sub> ≈ E/3.3, R<sub>80</sub> ≈ E/3, R<sub>50</sub> ≈ E/2.33, and R<sub>p</sub> ≈ E/2, in cm for E in MeV."),
         F("Reference depth for electron calibration", "d<sub>ref</sub> = 0.6 R<sub>50</sub> − 0.1 cm. It replaces d<sub>max</sub>, because the dose maximum covers a wide range of depths."),
         F("Choosing the electron energy", "Choose the energy whose R<sub>90</sub> (or R<sub>80</sub>) reaches the distal edge of the target: E ≈ 3.3 × depth for R<sub>90</sub>."),
@@ -92,7 +92,7 @@ _n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Rank these depths for one electron beam, most superficial first.", ["1st (most superficial)", "2nd", "3rd", "4th (deepest)"],
          [("R<sub>90</sub>", 0), ("R<sub>80</sub>", 1), ("R<sub>50</sub>", 2), ("R<sub>p</sub>", 3)],
-         "The dose falls with depth, so the depth at 90% is shallower than the depth at 80%, which is shallower than the depth at 50%. The practical range is the deepest, where the steepest fall-off reaches zero.", lvl="Moderate", mode="rank", cap=1),
+         "The dose falls with depth, so the depth at 90% is shallower than the depth at 80%, which is shallower than the depth at 50%. The practical range is the deepest, where the steepest fall-off meets the bremsstrahlung tail.", lvl="Moderate", mode="rank", cap=1),
     TYPED(STEM("An 18 MeV electron beam.", [], "What is [[R<sub>80</sub>]]?"), r80(18), 0.015, "cm",
           f"R<sub>80</sub> ≈ E / 3 = 18 / 3 = {r80(18):.1f} cm.", lvl="Moderate"),
     FIGQ(STEM("The graph shows a schematic PDD of a 12 MeV electron beam.", [], "Tap the [[depth of the 80% dose, R<sub>80</sub>]], on the fall-off."),

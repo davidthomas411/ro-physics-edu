@@ -12,8 +12,8 @@ TOPIC = dict(
     ref=dict(aapm="TG-25", khan="14", ford="15"),
     guide=[
         H("Penumbra and collimation"),
-        P("The penumbra of an electron beam depends on energy and depth. Near the surface, the penumbra of an 18 MeV beam is smaller than that of an 8 MeV beam, because electron scattering is more forward-directed at higher energy. As the depth increases, the penumbra becomes very wide, especially at higher energy: the high isodose lines tuck in toward the center of the field while the low isodose lines bulge out."),
-        P("An electron field is defined by an applicator, or cone, and a cutout. Typical applicators are 6, 10, 15, 20, and 25 cm square, and the cutout is a shaped piece of Cerrobend at the end of the applicator. In the usual setup the patient is at SSD 100 cm, the end of the cone is 95 cm from the source, and a 5 cm air gap remains between the cone and the skin. The cutout is drawn about 1 cm wider on each side than the intended treatment area, to allow for the penumbra. This is only a rough rule."),
+        P("The penumbra of an electron beam depends on energy and depth. Near the surface, the penumbra of an 18 MeV beam is smaller than that of an 8 MeV beam, because electron scattering is more forward-directed at higher energy. As the depth increases, the penumbra widens, especially at higher energy: the high isodose lines constrict toward the center of the field while the low isodose lines bulge outward."),
+        P("An electron field is defined by an applicator, or cone, and a cutout. Typical applicators are 6, 10, 15, 20, and 25 cm square, and the cutout is a shaped piece of Cerrobend at the end of the applicator. In the usual setup the patient is at SSD 100 cm, the end of the cone is 95 cm from the source, and a 5 cm air gap remains between the cone and the skin. The cutout is drawn about 1 cm wider on each side than the intended treatment area, to allow for the penumbra. The margin needed depends on the energy and the depth of the target."),
         P("A patient can be treated at an extended SSD of 105 or 110 cm, for example to keep the cone clear of the shoulder. Three things change. The penumbra is larger, with the high-dose lines pinching in more and the low-dose lines bulging out. The output falls, and an inverse-square correction from a virtual source is needed. The light field no longer follows the edge of the radiation field."),
         EX("Cutout size", STEM("A target.", ["width of the treatment area = 6 cm", "margin for the penumbra = 1 cm on each side"], "Find the [[cutout width]]."), ["Width = 6 + 1 + 1"], "8 cm."),
 
@@ -33,11 +33,11 @@ TOPIC = dict(
            [f"Bare beam: R<sub>90</sub> = 9 / 3.3 = {9 / 3.3:.2f} cm", "The bolus uses 1.0 cm of that range"], f"{9 / 3.3 - 1.0:.2f} cm below the skin, so the deep edge at 2.4 cm is not covered. A 12 MeV beam gives 12 / 3.3 − 1.0 = {12 / 3.3 - 1.0:.2f} cm and covers it."),
     ],
     cards=[
-        F("Electron penumbra and energy", "Near the surface the penumbra is smaller at higher energy, because scattering is more forward-directed. At depth it becomes very wide, especially at higher energy."),
-        F("Isodose lines at depth in an electron beam", "The high isodose lines tuck in toward the center of the field and the low isodose lines bulge out, more so at higher energy."),
+        F("Electron penumbra and energy", "Near the surface the penumbra is smaller at higher energy, because scattering is more forward-directed. At depth it widens, more so at higher energy."),
+        F("Isodose lines at depth in an electron beam", "The high isodose lines constrict toward the center of the field and the low isodose lines bulge outward, more so at higher energy."),
         F("Electron applicators", "Typically 6, 10, 15, 20, and 25 cm square, with a Cerrobend cutout at the end."),
         F("Standard electron setup", "SSD 100 cm. The end of the cone is 95 cm from the source, so a 5 cm air gap remains to the skin."),
-        F("Cutout margin", "Drawn about 1 cm wider on each side than the treatment area, to allow for the penumbra. A rough rule."),
+        F("Cutout margin", "Drawn about 1 cm wider on each side than the treatment area, to allow for the penumbra."),
         F("Extended SSD in electron therapy", "Larger penumbra, lower output (inverse square from a virtual source), and a light field that no longer follows the radiation field edge."),
         F("Electron–photon junction with no gap", "A hot spot on the photon side near the electron d<sub>max</sub>, about 30% in one example (6 MeV with 6 MV)."),
         F("Gap at an electron–photon junction", "A gap reduces the hot spot, but a larger gap leaves a low-dose region at the surface."),
@@ -51,7 +51,7 @@ TOPIC = dict(
 
 PROBLEMS = [
     PR("At a shallow depth, the penumbra of an 18 MeV electron beam compared with an 8 MeV beam is:", "smaller, because the scattering is more forward-directed", ["larger, because the electrons scatter more", "the same", "larger, because the range is longer"],
-       "At higher energy the electrons are scattered less sideways near the surface. At greater depth the situation reverses and the penumbra becomes very wide.", lvl="Easy"),
+       "At higher energy the electrons are scattered less sideways near the surface. At greater depth the order reverses and the 18 MeV penumbra is wider.", lvl="Easy"),
     PR("In the usual electron setup with the patient at SSD 100 cm, the end of the applicator is about how far from the skin?", "5 cm", ["0 cm", "10 cm", "20 cm"],
        "The end of the cone is 95 cm from the source, so a 5 cm air gap remains.", lvl="Easy"),
     PR("Which statement about treating electron fields at an extended SSD is correct?", "The penumbra becomes larger and the output falls", ["The penumbra becomes smaller and the output rises", "The light field follows the radiation field more closely", "The output does not depend on the SSD"],
@@ -70,7 +70,7 @@ PROBLEMS = [
         "The prominence shortens the path to the tissue under it, so the dose shifts toward the source. Electrons scattered out of the prominence add dose beside it, more at higher energy.", lvl="Moderate"),
     PR("An internal eye shield of tungsten has an aluminium cap on the side facing the beam. The cap is there to:", "absorb electrons backscattered from the tungsten, protecting the tissue in front of it", ["increase the attenuation of the beam", "raise the dose behind the shield", "make the shield lighter"],
        "A high-Z metal backscatters electrons strongly. A low-Z layer in front of it absorbs them, so the tissue in front of the shield is not overdosed.", lvl="Challenging"),
-    PR("Under a tissue defect in an electron beam, the isodose lines are:", "shifted away from the source, with hot spots immediately inside the edges of the defect", ["shifted toward the source, with a cold line at the edges", "unchanged", "shifted toward the source, with hot spots at the center"],
+    PR("Under a tissue defect in an electron beam, the isodose lines are:", "shifted away from the source, with hot spots immediately inside the edges of the defect", ["shifted toward the source, with a line of low dose at the edges", "unchanged", "shifted toward the source, with hot spots at the center"],
        "The path to the tissue under the defect is longer, so the dose is shifted away from the source. Electrons scattered from the sides add dose immediately inside the edges.", lvl="Challenging"),
     PR("Two 6 MeV electron fields are matched with no gap. Compared with the dose elsewhere in the fields, the dose at the junction is:", "about 10% higher", ["about 30% higher", "about 10% lower", "the same"],
        "Electron–electron junctions have a smaller hot spot than electron–photon junctions, about 10% for two 6 MeV fields.", lvl="Challenging"),
@@ -81,7 +81,7 @@ INLINE = {0: [1, 2, 4], 1: [6, 7], 2: [5, 9]}
 TERMS = ['cutout', 'feathering', 'virtual source']
 
 TAKE = [
-    [('At shallow depth a higher energy gives a smaller penumbra, but at depth it becomes much wider and the high isodose lines tuck in. Extended SSD widens the penumbra and lowers the output.', 'electron-penumbra')],
+    [('At shallow depth a higher energy gives a smaller penumbra, but at depth it becomes much wider and the high isodose lines constrict toward the center. Extended SSD widens the penumbra and lowers the output.', 'electron-penumbra')],
     [('An electron–photon junction with no gap has a hot spot of about 30% on the photon side. A gap lowers it but leaves a low-dose region at the surface, and feathering spreads the effect.', 'electron-matching')],
     [('Oblique incidence moves the dose maximum toward the surface. A prominence shifts the dose toward the source, with hot spots beside it, and a defect shifts it away.', 'electron-obliquity')],
     ['Bolus acts as extra tissue. It raises the surface dose, smooths an irregular surface, and shortens the range, so the 90% line lies at R<sub>90</sub> minus the bolus thickness below the skin.',
@@ -113,7 +113,7 @@ PROBLEMS += [
     PRN(STEM("A 12 MeV electron beam is used with 1.5 cm of tissue-equivalent bolus on the skin. Take R<sub>90</sub> = E / 3.3 cm for a bare beam.", [], "How deep below the skin is the [[90% line]]?"), r90_b, [12 / 3.3, 12 / 3.3 - 2 * 1.5, 12 / 3.3 + 1.5], "{:.1f} cm",
         f"Bare beam: R<sub>90</sub> = 12 / 3.3 = {12 / 3.3:.2f} cm. The bolus uses 1.5 cm of the range, so the 90% line is at {r90_b:.2f} cm below the skin. Ignoring the bolus gives {12 / 3.3:.1f} cm, subtracting it twice gives {12 / 3.3 - 3.0:.1f} cm, and adding it gives {12 / 3.3 + 1.5:.1f} cm.", lvl="Moderate"),
     PRN(STEM("A skin cancer is treated in 20 fractions with an electron beam and bolus. On one fraction the bolus is left out. Without bolus the dose at the skin surface is 80% of the dose with it (illustrative).", [], "By what [[percentage]] is the total dose at the skin surface below the plan?"), miss, [20.0, 4.0, 100 * (1 - 0.80) / 19], "{:.2f}%",
-        f"On that fraction the surface dose is short by 20%. Spread over 20 fractions the total is short by 20% / 20 = {miss:.2f}%. The shortfall on the single fraction is 20%, and using the 80% in place of the 20% gives 4.0%. The error should still be reported, but it is small.", lvl="Moderate"),
+        f"On that fraction the surface dose is short by 20%. Spread over 20 fractions the total is short by 20% / 20 = {miss:.2f}%. The shortfall on the single fraction is 20%, and using the 80% in place of the 20% gives 4.0%.", lvl="Moderate"),
     PR("A direct electron field is treated with a sheet of bolus on the skin. The SSD is usually measured to:", "the upper surface of the bolus", ["the skin under the bolus", "the depth of the dose maximum in the patient", "the distal edge of the target"],
        "The bolus is treated as part of the patient, so the beam is set up with the nominal SSD to its upper surface. The output and the PDD are then those of the beam entering a tissue-equivalent surface at that distance.", lvl="Easy"),
 ]

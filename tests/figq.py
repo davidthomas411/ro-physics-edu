@@ -61,6 +61,10 @@ def qid(pg, phrase): return pg.evaluate("ph=>{const c=DATA.cards.find(c=>c.opts&
 def open_q(pg, phrase):
     pg.goto(U + "#ref"); c = qid(pg, phrase); assert c, phrase; pg.goto(U + "#home"); pg.goto(U + "#t/" + c.split(":")[0]); pg.wait_for_timeout(250)
     q = pg.locator(f'.pq[data-id="{c}"]'); pg.evaluate("el=>{const r=el.querySelector('.fgb').getBoundingClientRect(); window.scrollTo(0, r.top+scrollY-140)}", q.element_handle()); pg.wait_for_timeout(80); return c, q
+def uniq(p):                                                                     # the shortest prefix of the question text, at least 60 characters, that no other tap question shares
+    s = plain(p["q"]); others = [plain(o["q"]) for _, o in FIGS if o is not p]; n = 60
+    while n < len(s) and any(o.startswith(s[:n]) for o in others): n += 1
+    return s[:n]
 def centre(p):                                                                   # the middle of the first target, in data coordinates
     t = p["targets"][0]; S = p["spec"]; x0 = t[0] if t[0] is not None else S["x"]["min"]; x1 = t[1] if t[1] is not None else S["x"]["max"]
     xm = math.sqrt(x0 * x1) if S["x"].get("log") else (x0 + x1) / 2
@@ -69,7 +73,7 @@ with sync_playwright() as pw:
     b = pw.chromium.launch(executable_path=os.environ.get("CHROME_PATH") or None)
     ctx = b.new_context(viewport={"width": 1100, "height": 900}, color_scheme="light"); pg = ctx.new_page(); errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
     for tid, p in FIGS:
-        key = plain(p["q"])[:46]; ph = plain(p["q"]).split("Tap the ")[-1][:30] if False else plain(p["q"])[:60]
+        ph = uniq(p)
         c, q = open_q(pg, ph); x, y = centre(p); pos = q.evaluate("(el,a)=>{const r=el._fig.toClient(a[0],a[1]); return [r.x,r.y]}", [x, y])
         pg.mouse.click(pos[0], pos[1]); pg.wait_for_timeout(60); q.locator(".chk").click(); res = q.locator(".res").inner_text()
         check(res == "Correct." and q.locator(".tgt").count() >= 1 and "You tapped" in q.locator(".tapped").inner_text(), f"{tid}: a tap in the middle of the target is correct, the region is shown, and the tap is reported ('{q.locator('.tapped').inner_text()}')")

@@ -24,7 +24,7 @@ TOPIC = dict(
         P("Two kinds of value are read from a DVH. D<sub>x%</sub> is the dose that at least x% of the volume receives, for example D<sub>95%</sub> of the PTV for coverage. V<sub>x Gy</sub> is the volume that receives at least x Gy, for example V<sub>30 Gy</sub> of an organ at risk. The mean dose and the maximum dose are also reported. ICRU Report 83 prefers D<sub>2%</sub> as the near-maximum and D<sub>98%</sub> as the near-minimum, because the exact extremes depend on single voxels."),
         EX("Reading a DVH", STEM("A cumulative PTV DVH.", ["50 Gy: 90% of the volume", "48 Gy: 97% of the volume", "52 Gy: 50% of the volume"], "Find [[D<sub>95%</sub>]] by linear interpolation, and V<sub>50 Gy</sub>."), ["95% lies between 97% at 48 Gy and 90% at 50 Gy", "D<sub>95%</sub> = 48 + (97 − 95) / (97 − 90) × 2"], f"D<sub>95%</sub> = {d95:.2f} Gy, and V<sub>50 Gy</sub> = 90%."),
 
-        P(f"The figure shows the cumulative DVHs of a real head-and-neck IMRT plan from the OpenKBP dataset. The curve of the PTV70 stays near 100% and then falls steeply close to the prescription: its D<sub>95%</sub> is {CS['PTV70']['D95']:.1f} Gy, which is {d95_pct:.1f}% of 70 Gy, and its mean dose is {CS['PTV70']['mean']:.1f} Gy. The curves of the parotid glands fall from 100% almost at once, which shows sparing. Their mean doses are {CS['LeftParotid']['mean']:.1f} Gy and {CS['RightParotid']['mean']:.1f} Gy, although a part of each gland lies close to the target and receives a high dose. Pick a structure to read its D<sub>95%</sub>, D<sub>50%</sub>, and D<sub>2%</sub> and its V at 66.5 Gy."),
+        P(f"In the cumulative DVHs of a real head-and-neck IMRT plan from the OpenKBP dataset, the curve of the PTV70 stays near 100% and then falls steeply close to the prescription: its D<sub>95%</sub> is {CS['PTV70']['D95']:.1f} Gy, which is {d95_pct:.1f}% of 70 Gy, and its mean dose is {CS['PTV70']['mean']:.1f} Gy. The curves of the parotid glands fall from 100% almost at once, which shows sparing. Their mean doses are {CS['LeftParotid']['mean']:.1f} Gy and {CS['RightParotid']['mean']:.1f} Gy, although a part of each gland lies close to the target and receives a high dose."),
         AVF("case-dvh"),
         H("Conformity and homogeneity"),
         P("The conformity index quantifies how closely the dose distribution wraps around the PTV, which matters most for the high doses per fraction of SRS and SBRT. One definition is CI = V<sub>P</sub> / V<sub>T</sub>, where V<sub>P</sub> is the volume receiving the prescription dose and V<sub>T</sub> is the target volume. The ideal value is 1. It is usually larger than 1, and it can be below 1 when the target is not covered. It ignores where the dose volume is, so a prescription isodose displaced from the target can still give a CI of 1."),
@@ -46,7 +46,7 @@ TOPIC = dict(
         F("Near-maximum and near-minimum dose", "ICRU 83 prefers D<sub>2%</sub> and D<sub>98%</sub>, because the exact maximum and minimum depend on single voxels."),
         F("Conformity index", "CI = V<sub>P</sub> / V<sub>T</sub>: the volume receiving the prescription dose over the target volume. Ideal 1, usually above 1, below 1 if the target is not covered."),
         F("Limit of the conformity index", "It ignores where the dose volume is. A displaced prescription isodose can still give a CI of 1."),
-        F("Paddick index", "Coverage × selectivity, with coverage V<sub>TP</sub>/V<sub>T</sub> and selectivity V<sub>TP</sub>/V<sub>P</sub>. Always below 1 and approaching 1 for an ideal plan."),
+        F("Paddick index", "Coverage × selectivity, with coverage V<sub>TP</sub>/V<sub>T</sub> and selectivity V<sub>TP</sub>/V<sub>P</sub>. Between 0 and 1, and equal to 1 for an ideal plan."),
         F("Homogeneity index", "HI = (D<sub>2%</sub> − D<sub>98%</sub>) / D<sub>50%</sub> (ICRU 83). Zero is a uniform dose."),
         F("Serial organ", "Fails if any part is damaged, such as the spinal cord. The limit is on the maximum dose to a small volume."),
         F("Parallel organ", "Many independent units, such as lung or liver. The limits are on the mean dose and on the volume above a threshold, such as V<sub>20 Gy</sub>."),
@@ -57,7 +57,7 @@ TOPIC = dict(
 PROBLEMS = [
     PR("In a cumulative DVH, the value of the curve at a dose D is:", "the percentage of the volume that receives at least D", ["the percentage of the volume that receives exactly D", "the average dose to the structure", "the maximum dose to the structure"],
        "The curve starts at 100% at zero dose, because all of the volume receives at least zero.", lvl="Easy"),
-    PR("A PTV DVH that drops sharply near the prescription dose indicates:", "a uniform dose to the PTV", ["a large hot spot", "an under-dosed target", "a very large target"],
+    PR("A PTV DVH that drops sharply near the prescription dose indicates:", "a uniform dose to the PTV", ["a large hot spot", "an under-dosed target", "a large target"],
        "A steep fall means most of the volume receives nearly the same dose.", lvl="Easy"),
     PR("The spinal cord is a serial organ, so its main limit is on:", "the maximum dose to a small volume", ["the mean dose", "the V<sub>20 Gy</sub>", "the total volume"],
        "Damage to any part can cause loss of function, so the highest dose matters most.", lvl="Easy"),

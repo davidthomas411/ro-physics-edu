@@ -10,6 +10,7 @@ dlg_err = lambda g, dlg, d: d / (g + dlg)                          # fractional 
 sw_mu = lambda rate, g, v: rate * g / v                            # MU through a sliding gap g (cm) at leaf speed v (cm/s), dose rate in MU/s
 sw_rate = lambda mu, g, v: mu * v / g                              # the highest dose rate (MU/s) that still delivers mu at speed v
 rate_s = 600 / 60
+r2 = lambda v: f"{math.floor(v * 100 + 0.5 + 1e-9) / 100:.2f}"      # round half up: 13.125 is written 13.13
 
 TOPIC = dict(
     id="mlc-imrt", domain=3, sub="III.D", title="MLC effects in IMRT",
@@ -22,10 +23,12 @@ TOPIC = dict(
         H("Rounded leaf ends"),
         P("The ends of a leaf are rounded so that the penumbra is nearly the same wherever the leaf is. The rounded end transmits some radiation through its thin edge, even when two opposing leaves are nominally touching or are separated by a small gap. The radiation through the gap therefore behaves as if the gap were wider than its nominal size by an amount called the dosimetric leaf gap, DLG, typically 1 to 2 mm. The planning system uses a measured DLG when it models the leaves."),
         EQ("output through a gap g  ∝  g + DLG", "g = nominal gap,   DLG = dosimetric leaf gap, both in mm"),
+        FIG("mlc_dlg", "Schematic with exaggerated proportions. Two opposing leaves with rounded ends, closed and with a gap g, and the relative fluence below them. The thin edges of the rounded ends transmit, so the fluence has the same area as an opening of width g + DLG (dashed). For closed leaves the equivalent opening has width DLG."),
         P("The DLG matters most for small gaps, which IMRT uses throughout. The same error in the DLG gives a much larger fractional error in the dose when the gap is small."),
         EX("An error in the leaf gap", STEM("The DLG used by the planning system is wrong by 0.5 mm. The true DLG is 1.5 mm.", ["a sliding gap of 5 mm", "a sliding gap of 20 mm"], "Find the [[fractional dose error]] for each gap."), ["Error = 0.5 / (g + DLG)", "g = 5 mm: 0.5 / 6.5", "g = 20 mm: 0.5 / 21.5"], f"{100 * dlg_err(5, 1.5, 0.5):.1f}% for the 5 mm gap and {100 * dlg_err(20, 1.5, 0.5):.1f}% for the 20 mm gap. Small gaps are about {dlg_err(5, 1.5, 0.5) / dlg_err(20, 1.5, 0.5):.1f} times more sensitive."),
         H("Tongue and groove"),
         P("Neighbouring leaves interlock along their sides with a tongue and a groove, so that radiation does not pass straight between them. The interlocking edge is thinner than the full leaf. When adjacent leaves are at different positions in a segment, a narrow strip along their boundary is shielded by part of the neighbouring leaf, and the strip can receive less dose than it should. Over a whole IMRT delivery this tongue-and-groove effect can leave lines of underdose along leaf boundaries. For a single field the underdose can be a few percent, and several fields from different angles, or leaf sequences that avoid it, average it out. Some planning systems model the effect, and many do not."),
+        FIG("mlc_tg", "Schematic. End view of three neighbouring leaves: the tongue of one leaf fits the groove of the next, so the beam has no straight path through the joint. Beam's-eye view of two neighbouring leaves at different positions: the tongue of the extended leaf shields a narrow strip of the open field along the boundary."),
         H("Leaf speed and dose rate"),
         P("In sliding-window delivery, a point receives dose while it lies in the gap between two leaves that move together at speed v. A gap of width g crosses the point in a time g / v, so the monitor units delivered at that point are the dose rate times that time."),
         EQ("MU = R × g / v", "R = dose rate (MU/s),   g = gap width (cm),   v = leaf speed (cm/s)"),
@@ -34,13 +37,13 @@ TOPIC = dict(
         P("The width of a leaf, projected to the isocenter, sets how closely the field edge follows a curved target. Narrow leaves of 2.5 to 5 mm suit small targets, and wider ones are acceptable for large targets, where the edge matters less."),
     ],
     cards=[
-        F("MU in IMRT", "Most of each field is blocked at any moment, so IMRT needs commonly several times the MU of a conventional plan for the same dose."),
+        F("MU in IMRT", "Most of each field is blocked at any moment, so IMRT commonly needs several times the MU of a conventional plan for the same dose."),
         F("Leakage in IMRT", "The leaves transmit 1% to 1.5% and about twice that leaks between them. More MU means proportionally more leakage dose to the whole body."),
         F("Neutrons in high-energy IMRT", "Photons above about 10 MV produce neutrons in the head, and more MU per gray raises the neutron dose, so IMRT is usually at 6 MV or 10 MV."),
         F("Rounded leaf ends", "They keep the penumbra nearly the same wherever the leaf is, and they transmit some radiation through the thin edge."),
         F("Dosimetric leaf gap", "DLG: the amount, typically 1 to 2 mm, by which the radiation through a small gap behaves as if the gap were wider than its nominal size."),
         F("Output through a small gap", "Proportional to g + DLG, with g the nominal gap."),
-        F("DLG error", "The same DLG error gives a larger fractional dose error for a smaller gap: error = δ / (g + DLG)."),
+        F("DLG error", "A given DLG error produces a larger fractional dose error for a smaller gap: error = δ / (g + DLG)."),
         F("Tongue and groove", "The interlocking sides of neighbouring leaves. When adjacent leaves are at different positions, a strip along their boundary can be underdosed."),
         F("Reducing the tongue-and-groove effect", "Several fields from different angles, or leaf sequences that avoid it, average it out. Some planning systems model it and many do not."),
         F("Sliding-window MU", "MU = R × g / v: the dose rate times the time g / v that a gap of width g takes to pass a point at leaf speed v."),
@@ -56,8 +59,8 @@ PROBLEMS = [
        "The leakage dose is proportional to the MU delivered.", lvl="Easy"),
     PR("Why is IMRT usually delivered at 6 MV or 10 MV rather than at higher energies?", "Higher energies produce neutrons, and the larger MU raise the neutron dose", ["Higher energies cannot be used with an MLC", "Higher energies have a higher surface dose", "Higher energies have a larger penumbra from the jaws"],
        "Photons above about 10 MV produce neutrons in the head of the linac, and more MU per gray raises the neutron dose.", lvl="Easy"),
-    PRN(STEM("A conventional plan uses 250 MU, and an IMRT plan for the same dose uses 875 MU.", ["leaf transmission = 1.5%", "output = 1 cGy/MU"], "What is the [[leakage dose]] to a point under the leaves in the IMRT plan?"), leak_i, [leak_c, 875.0, 875 * TL * 2], "{:.2f} cGy",
-        f"Dose = 875 × 0.015 = {leak_i:.2f} cGy. The conventional plan would give {leak_c:.2f} cGy, and counting the interleaf leakage as well would give {875 * TL * 2:.2f}.", lvl="Moderate"),
+    PRN(STEM("A conventional plan uses 250 MU, and an IMRT plan for the same dose uses 875 MU.", ["leaf transmission = 1.5%", "output = 1 cGy/MU"], "What is the [[leakage dose]] to a point under the leaves in the IMRT plan?"), leak_i, [leak_c, 875.0, 875 * TL * 2], lambda v: r2(v) + " cGy",
+        f"Dose = 875 × 0.015 = {r2(leak_i)} cGy. The conventional plan would give {r2(leak_c)} cGy, and a transmission of 3% would give {r2(875 * TL * 2)} cGy.", lvl="Moderate"),
     PR("The dosimetric leaf gap exists because the:", "rounded leaf ends transmit radiation, so a small gap acts wider than its nominal size", ["leaves are too thick", "jaws are open behind the leaves", "beam energy changes with the gap"],
        "The radiation through the gap behaves as if the gap were larger by the DLG, typically 1 to 2 mm.", lvl="Moderate"),
     PRN(STEM("The output through a gap is proportional to g + DLG.", ["DLG = 1.5 mm", "nominal gap g = 5 mm"], "What is the [[output relative to the nominal gap]], (g + DLG) / g?"), dlg_ratio(5, 1.5), [1.5 / 5, 5 / 6.5, 1.0], "{:.2f}",

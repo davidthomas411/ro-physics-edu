@@ -156,7 +156,7 @@ mu-calc:3|Dose per MU, SAD technique
 mu-calc:4|Fields used for S<sub>c</sub> and S<sub>p</sub>
 mu-calc:5|Collimator setting for 12 × 12 cm at SSD 120 cm
 mu-calc:6|MU for 200 cGy at 8 cm depth, SSD 100 cm
-mu-calc:7|MU for the same treatment at SSD 120 cm
+mu-calc:7|MU for 200 cGy at 8 cm depth, SSD 120 cm
 mu-calc:8|MU per field for a 6 MV AP/PA pair
 mu-calc:9|MU rise at an extended SSD
 mu-calc:10|Wedge factor 0.60 and the MU
@@ -166,7 +166,7 @@ mu-calc:13|TMR rather than PDD for isocentric calculations
 mu-calc:14|SSD calibration and SAD calibration
 mu-calc:15|Inverse-square term rule
 mu-calc:16|Inverse-square terms for each calibration and technique
-mu-calc:17|Example 1 with a SAD calibration
+mu-calc:17|MU for 200 cGy at 8 cm with a SAD calibration
 profiles:1|Beam profile
 profiles:2|Field edge on a profile
 profiles:3|80%–20% penumbra
@@ -264,7 +264,6 @@ HEADS = {
     "scatter:6": "9.0 cm: s = 2ab/(a + b) for a 6 × 18 cm rectangle.",
     "scatter:9": "S<sub>cp</sub> = 0.975, the product of S<sub>c</sub> = 0.985 and S<sub>p</sub> = 0.990.",
     "mu-calc:6": "262 MU for a 6 MV beam calibrated 1 cGy/MU at d<sub>max</sub> = 1.5 cm, with S<sub>c</sub> = 1.012, S<sub>p</sub> = 1.008, and PDD = 74.8%.",
-    "mu-calc:7": "373 MU at SSD 120 cm, with PDD = 76.2% and the inverse-square term 0.698.",
     "mu-calc:8": "121 MU per field for 100 cGy per field at an 11 cm mid-plane isocenter, with S<sub>c</sub> = 1.021, S<sub>p</sub> = 1.013, and TMR = 0.776.",
     "profiles:13": "The planning system predicts dose far from the field poorly and should not be used for it. AAPM TG-158 covers out-of-field dose.",
 }

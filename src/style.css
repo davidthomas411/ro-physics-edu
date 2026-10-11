@@ -85,6 +85,7 @@ table.data th{font-size:13px;color:var(--muted);font-weight:600;border-top:0;bor
 /* figure */
 .fig{border:1px solid var(--rule);border-radius:3px;padding:8px;background:var(--paper);max-width:640px}
 .fig svg,.fig img{display:block;max-width:100%;height:auto;width:100%}
+.fig .panels{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:flex-start}
 .cap{font-size:13px;color:var(--muted);margin:2px 0 8px}
 
 /* key points: bold label, plain bullets; no tinted panel */

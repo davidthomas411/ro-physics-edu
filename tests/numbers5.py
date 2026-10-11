@@ -55,7 +55,7 @@ b5, w5 = t["rows"][0.05][0], t["rows"][0.05][2]; check("at 50 keV the ratio is l
 p = find("kerma-dose", "photon energy = 1.25 MeV"); check("energy fluence", right(p), 3.0e12 * 1.25 * EJ, 1e-9)
 p = find("kerma-dose", "energy fluence Ψ = 0.80 J/m²"); t = tables_in(p["q"])[0]; men = t["rows"][1.0][1]; check("collision kerma, 1 MeV (mGy)", right(p), 0.80 * men * 0.1 * 1000, 1e-9)
 p = find("kerma-dose", "Monoenergetic 2.0 MeV photons"); t = tables_in(p["q"])[0]; men = t["rows"][2.0][1]; check("collision kerma, 2 MeV (mGy)", right(p), 5.0e11 * 2.0 * EJ * men * 0.1 * 1000, 1e-9)
-p = find("kerma-dose", "same energy fluence of 100 keV photons"); t = tables_in(p["q"])[0]; r = t["rows"][0.1]; check("bone to water energy absorption per gram at 100 keV", right(p), r[1] / r[3], 1e-9)
+p = find("kerma-dose", "100 keV with the same energy fluence"); t = tables_in(p["q"])[0]; r = t["rows"][0.1]; check("bone to water energy absorption per gram at 100 keV", right(p), r[1] / r[3], 1e-9)
 check("at 6 MeV the two absorb about equally per gram", t["rows"][6.0][1] / t["rows"][6.0][3], 0.99, 1e-2)
 p = find("kerma-dose", "β = 1.03"); t = tables_in(p["q"])[0]; men = t["rows"][2.0][1]; check("absorbed dose beyond dmax (mGy)", right(p), 1.03 * 0.50 * men * 0.1 * 1000, 1e-9)
 p = find("kerma-dose", "X = 25 R"); check("dose to air from 25 R (cGy), by C/kg and W/e", right(p), 25 * 2.58e-4 * 33.97 * 100, 2e-3)

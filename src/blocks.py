@@ -98,7 +98,13 @@ def SORT(stem, bins, items, why, lvl="Moderate", mode="sort", cap=None, fig=None
     return dict(q=stem, opts=[], a=[ans, why], w=[], fig=fig, lvl=lvl, key=key, multi=False, calc=None, vals=None, sig=sig, kind="sort", mode=mode, bins=list(bins), chips=chips, cap=cap)
 
 def _fmt_ans(v):
+    if v != 0 and 1e4 <= abs(v) < 1e5: return f"{round(v):,}"
     return sci(v, 3) if v != 0 and (abs(v) >= 1e5 or abs(v) < 1e-3) else f"{v:.4g}"
+
+_EXP = re.compile(r"\d+(?:\.\d+)?e[+-]\d+")
+def _noexp(s):
+    """A formatter must not put exponent notation on the page: 2.84e+03 is written 2,840 and 1.5e-05 is written 0.000015."""
+    return _EXP.sub(lambda m: f"{float(m.group(0)):,.0f}" if abs(float(m.group(0))) >= 1 else f"{float(m.group(0)):.8f}".rstrip("0"), s)
 
 def TYPED(stem, answer, tol, unit, why, lvl="Moderate", w=None, fig=None):
     """A typed numeric answer, correct within the relative tolerance tol. Mark the quantity to find in the stem with [[...]]."""
@@ -251,7 +257,8 @@ def PRN(stem, correct, wrong, fmt, why, w=None, lvl="Moderate", fig=None, calc=N
     interchangeable, so the engine picks which of them to show, placing the correct value at a rank set by a hash of the stem
     (whenever the kept traps allow it). The right answer's position then follows no pattern. Skipped for percentages and v/c,
     where scaled decoys could be impossible values."""
-    f = fmt if callable(fmt) else (lambda v: fmt.format(v))
+    g = fmt if callable(fmt) else (lambda v: fmt.format(v))
+    f = lambda v: _noexp(g(v))
     wrong = list(wrong)
     skip = isinstance(fmt, str) and ("%" in fmt or fmt.rstrip().endswith("c"))
     if not skip and len(wrong) == 3 and correct > 0:

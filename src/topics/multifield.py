@@ -16,7 +16,7 @@ TOPIC = dict(
         H("Parallel-opposed fields"),
         P("Real treatments rarely use a single beam. Two parallel-opposed beams enter from opposite sides of the patient, and the dose along the central axis is the sum of the two PDDs, one counted from each surface. Near each entrance surface the beam entering there is at its maximum dose, and the beam leaving there adds its exit dose, so the superficial dose is higher than the dose at the midplane. These superficial regions are hot spots."),
         EQ("hot spot ratio = [ PDD(d<sub>max</sub>) + PDD(S − d<sub>max</sub>) ] / [ 2 PDD(S / 2) ]", "equal weights and equal SSD,   S = separation of the entrance surfaces,   dose at the midplane = 2 PDD(S / 2)"),
-        P("The ratio grows with the separation of the entrance surfaces, because the midplane dose falls while the superficial dose does not. The table shows illustrative 6 MV values for a 10 × 10 cm field."),
+        P("The ratio grows with the separation of the entrance surfaces, because the midplane dose falls while the superficial dose does not (illustrative 6 MV values for a 10 × 10 cm field)."),
         TABLE(["Separation (cm)", "Hot spot ratio"], [[str(S), f"{hs(S):.2f}"] for S in (10, 20, 30, 40, 50)]),
         EX("Hot spot of a pair", STEM("A parallel-opposed pair of 6 MV beams, equal weights.", ["separation S = 20 cm", f"PDD(1.5 cm) = 100%,   PDD(18.5 cm) = {p20a}%", f"PDD(10 cm) = {p20b}%"], "Find the [[hot spot ratio]]."),
            [f"Dose near one surface = 100 + {p20a} = {100 + p20a:.1f} (own beam plus the exit dose of the other)", f"Dose at the midplane = 2 × {p20b} = {2 * p20b:.1f}", f"Ratio = {100 + p20a:.1f} / {2 * p20b:.1f}"], f"{h20:.3f}, about {100 * (h20 - 1):.0f}% above the midplane dose."),
@@ -68,7 +68,7 @@ PROBLEMS = [
         f"Ratio = (100 + {p40a}) / (2 × {p40b}) = {h40:.2f}. The midplane dose is low at this depth, so the superficial dose is about {100 * (h40 - 1):.0f}% higher.", lvl="Challenging"),
     PR("A parallel-opposed pair is replaced by a four-field box that delivers the same dose at the isocenter. The superficial dose at each entrance surface:", "falls, because the entrance dose is shared among four surfaces", ["rises, because more beams enter", "stays the same", "becomes uniform and zero"],
        "Each beam delivers a smaller share of the isocenter dose, so each entrance surface receives less.", lvl="Challenging"),
-    PR("The hot spot ratio of a parallel-opposed pair is 1.0 when:", "the PDD at the midplane equals the dose at the entrance, which only happens for a very thin patient", ["the field is larger than 20 × 20 cm", "the beam energy is 6 MV", "the beams are unweighted"],
+    PR("The hot spot ratio of a parallel-opposed pair is 1.0 when:", "the PDD at the midplane equals the dose at the entrance, which only happens for a patient of negligible thickness", ["the field is larger than 20 × 20 cm", "the beam energy is 6 MV", "the beams are unweighted"],
        "The ratio is [ PDD(d<sub>max</sub>) + PDD(S − d<sub>max</sub>) ] / [ 2 PDD(S / 2) ]. It approaches 1 as S falls toward 2 d<sub>max</sub>, where the two entrance maxima meet in the middle.", lvl="Challenging"),
 ]
 

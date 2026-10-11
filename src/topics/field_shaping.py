@@ -19,12 +19,14 @@ TOPIC = dict(
 
         H("Multileaf collimators"),
         P("A multileaf collimator is a bank of thin tungsten leaves stacked side by side. Each leaf is moved by its own motor. A leaf is 5.5 to 7.5 cm thick in the direction of the beam to attenuate it, and its width projected to the isocenter is 0.5 to 1 cm. The leaf width sets how closely the edge can follow a curved shape, because the edge is stepped."),
+        FIG("mlc_bank", "Schematic. Side view of two opposing leaves, and beam's-eye view of the same circular target shaped by leaves 1.0 cm and 0.5 cm wide at the isocenter. The edge is stepped, and narrower leaves follow the curve more closely."),
         P("The leaves slide past each other, so there is a small air gap between them, and many leaves have a tongue and groove along their sides. Transmission through the full thickness of a leaf is 1% to 1.5%. The leakage between leaves is about twice that. The interlocking edges also smear the dose fall-off at the sides of a leaf, which is the tongue-and-groove effect. Some planning systems model it and many do not."),
         TABLE(["Feature", "Typical value"], [["Leaf thickness along the beam", "5.5 to 7.5 cm of tungsten"], ["Leaf width at the isocenter", "0.5 to 1 cm"], ["Transmission through a leaf", "1% to 1.5%"], ["Interleaf leakage", "About twice the leaf transmission"]]),
         EX("Leakage behind the leaves", STEM("An open field gives 200 cGy.", ["leaf transmission = 1.25%", "interleaf leakage = 2.5%"], "Find the [[dose behind a leaf and between two leaves]]."), ["Behind a leaf: 0.0125 × 200 cGy", "Between leaves: 0.025 × 200 cGy"], f"{200 * leaf / 100:.1f} cGy behind a leaf and {200 * inter / 100:.1f} cGy between leaves."),
 
         H("Edges and penumbra"),
         P("The edge of a collimator determines the penumbra. An ideal edge diverges exactly with the beam and gives a small penumbra, but an edge that is straight stops diverging with the beam as it moves away from the central axis. Some machines mount the leaves on a circular track so that the edge always matches the divergence. Most MLCs use rounded leaf ends instead. A rounded end does not give an ideal penumbra, but the penumbra is nearly independent of where the leaf is in the field."),
+        FIG("mlc_leaf_ends", "Schematic side view of the ends of two opposing leaves, one near the axis and one far from it. The shaded band is the part of the beam that crosses only part of a leaf end, and its width on the plane is the penumbra from the leaf end. A straight end gives a narrow band near the axis and a wide band far from it. A divergent end follows the beam and keeps the band narrow everywhere, but the leaf has to move on a circular track. A rounded end gives a wider band that is nearly the same everywhere. Proportions are exaggerated."),
         P("The distance from the source to the collimator also matters, because the geometric penumbra is w = s [ (f + d) / SCD − 1 ]. If a collimator could be placed on the skin, the penumbra at the skin would be zero. The edge of a shaped field is placed outside the target by a margin that accounts for the penumbra."),
     ],
     cards=[
@@ -37,7 +39,7 @@ TOPIC = dict(
         F("Leaf transmission", "1% to 1.5% through the full thickness of a leaf."),
         F("Interleaf leakage", "Leakage through the small gaps between leaves, about twice the leaf transmission."),
         F("Tongue-and-groove effect", "The interlocking leaf edges smear the dose fall-off at the sides of a leaf. Some planning systems model it and many do not."),
-        F("Rounded leaf ends", "They give a penumbra that is nearly independent of leaf position, although it is not ideal."),
+        F("Rounded leaf ends", "They give a penumbra that is nearly independent of leaf position."),
         F("Penumbra with the collimator on the skin", "Zero: the geometric penumbra w = s [ (f + d) / SCD − 1 ] vanishes when SCD equals the source-to-skin distance."),
     ],
 )

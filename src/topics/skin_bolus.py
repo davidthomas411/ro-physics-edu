@@ -22,8 +22,8 @@ TOPIC = dict(
     ref=dict(aapm="", khan="9, 13", ford="10"),
     guide=[
         H("Skin dose"),
-        P("The skin cells most at risk lie in the basal layer, 0.05 to 0.4 mm below the surface. Physicists commonly use 0.1 mm as the reference depth, and ICRU Report 38 recommends 0.07 mm. For a 6 MV beam the dose at these depths is about 20% to 40% of the d<sub>max</sub> dose. This is skin sparing: the build-up of secondary electrons keeps the surface dose low. It is not zero, because electrons produced in the head of the linac, in the flattening filter and the collimators, and in the air reach the skin."),
-        P("The skin dose depends on field size, energy, devices in the beam, and the angle of the beam. A larger field sends more electrons from the head to the patient, and the skin dose of a 40 × 40 cm field is about twice that of a 10 × 10 cm field. A higher energy lowers the dose in the first centimetre, but the dose at the skin itself changes little. A beam that meets the skin at a glancing angle gives a higher skin dose than one perpendicular to it."),
+        P("The skin cells most at risk lie in the basal layer, 0.05 to 0.4 mm below the surface. Physicists commonly use 0.1 mm as the reference depth, and the ICRU recommends 0.07 mm for the skin dose. For a 6 MV beam the dose at these depths is about 20% to 40% of the d<sub>max</sub> dose. This is skin sparing: the build-up of secondary electrons keeps the surface dose low. It is not zero, because electrons produced in the head of the linac, in the flattening filter and the collimators, and in the air reach the skin."),
+        P("The skin dose depends on field size, energy, devices in the beam, and the angle of the beam. A larger field sends more electrons from the head to the patient, and the skin dose of a 40 × 40 cm field is about twice that of a 10 × 10 cm field. A higher energy lowers the dose in the first centimetre; the dose at the skin falls only slightly. A beam that meets the skin at a glancing angle gives a higher skin dose than one perpendicular to it."),
         TABLE(["Factor", "Effect on the skin dose"], [["Larger field", "Higher: about double from 10 × 10 to 40 × 40 cm"], ["Higher energy", "Lower in the first centimetre; small change at the skin itself"], ["Device in the beam", "Higher"], ["Beam at a glancing angle", "Higher"]]),
         EX("Skin dose and field size", STEM("A 6 MV beam.", ["dose at d<sub>max</sub> = 200 cGy", "skin dose = 30% of the d<sub>max</sub> dose for a 10 × 10 cm field", "a 40 × 40 cm field doubles the skin dose"], "Find the [[skin dose]] for each field."),
            ["10 × 10 cm: 0.30 × 200 cGy = 60 cGy", "40 × 40 cm: 2 × 60 cGy = 120 cGy"], f"{skin10:.0f} cGy for 10 × 10 cm and {skin40:.0f} cGy for 40 × 40 cm."),
@@ -40,15 +40,15 @@ TOPIC = dict(
         EQ("Dose at depth d below the skin with bolus of thickness t = PDD(t + d)"),
         EX("Dose at the target with bolus", STEM("A 6 MV, 10 × 10 cm field at SSD 100 cm.", ["prescription = 200 cGy at 3 cm below the skin, MU set without bolus", f"PDD(3 cm) = {p3}%,   PDD(4 cm) = {p4}%", "1.0 cm bolus is added and the MU are unchanged"], "Find the [[dose at the target]]."),
            ["The target is now at depth 1.0 + 3.0 = 4.0 cm in the beam", f"Dose = 200 cGy × PDD(4 cm) / PDD(3 cm) = 200 × {p4} / {p3}"], f"{dose_b:.1f} cGy, about {100 * (1 - dose_b / 200):.1f}% low."),
-        EX("Restoring the dose", STEM("The same plan.", [f"PDD(3 cm) = {p3}%,   PDD(4 cm) = {p4}%"], "By what [[percentage]] must the MU increase to restore 200 cGy at the target?"),
+        EX("Restoring the dose", STEM("A 6 MV, 10 × 10 cm field at SSD 100 cm, with 1.0 cm of bolus added to a plan that prescribes 200 cGy at 3 cm below the skin.", [f"PDD(3 cm) = {p3}%,   PDD(4 cm) = {p4}%"], "By what [[percentage]] must the MU increase to restore 200 cGy at the target?"),
            [f"MU factor = PDD(3) / PDD(4) = {p3} / {p4}"], f"{mu_up:.1f}% more MU."),
     ],
     cards=[
-        C("Which skin layer matters most in radiotherapy, and how deep is it?", "The basal layer, 0.05 to 0.4 mm below the surface. The reference depth is 0.1 mm, and ICRU 38 recommends 0.07 mm."),
+        C("Which skin layer matters most in radiotherapy, and how deep is it?", "The basal layer, 0.05 to 0.4 mm below the surface. The reference depth is 0.1 mm, and the ICRU recommends 0.07 mm for the skin dose."),
         C("What is the dose at the skin for a 6 MV beam, as a fraction of the d<sub>max</sub> dose?", "About 20% to 40%. This is skin sparing."),
         C("Why is the skin dose not zero in a megavoltage beam?", "Electrons produced in the head of the linac (flattening filter, collimators) and in the air reach the skin."),
         C("How does the skin dose change with field size?", "It rises. A 40 × 40 cm field gives about twice the skin dose of a 10 × 10 cm field, because more electrons from the head reach the patient."),
-        C("How does beam energy affect the skin dose?", "A higher energy lowers the dose in the first centimetre, but the dose at the skin itself changes little."),
+        C("How does beam energy affect the skin dose?", "A higher energy lowers the dose in the first centimetre; the dose at the skin falls only slightly."),
         C("How does the beam angle affect the skin dose?", "A glancing angle of incidence gives a higher skin dose than perpendicular incidence."),
         C("What are the two effects of the couch on a beam passing through it?", "About 2% attenuation at depth, and a higher skin dose."),
         C("Name devices in the beam that raise the skin dose.", "The couch, vacuum immobilization bags, thermoplastic masks, and plastic block trays."),
@@ -63,8 +63,8 @@ TOPIC = dict(
 )
 
 PROBLEMS = [
-    PR("The skin reference depth recommended by ICRU Report 38 is:", "0.07 mm", ["0.7 mm", "7 mm", "1.5 cm"],
-       "The basal layer lies 0.05 to 0.4 mm deep. Physicists commonly use 0.1 mm, and ICRU 38 recommends 0.07 mm.", lvl="Easy"),
+    PR("The depth that the ICRU recommends for the skin dose is:", "0.07 mm", ["0.7 mm", "7 mm", "1.5 cm"],
+       "The basal layer lies 0.05 to 0.4 mm deep. Physicists commonly use 0.1 mm, and the ICRU recommends 0.07 mm.", lvl="Easy"),
     PR("Compared with a 10 × 10 cm field, the skin dose from a 40 × 40 cm field in a 6 MV beam is about:", "twice as large", ["half as large", "the same", "ten times as large"],
        "More electrons from the head of the linac reach the skin as the field grows.", lvl="Easy"),
     PR("In a megavoltage photon beam, the dose at the skin is delivered mainly by:", "electrons produced in the head of the linac, in the air, and in the patient", ["photons absorbed directly at the surface", "neutrons from the target", "characteristic x-rays from the skin"],
@@ -92,7 +92,7 @@ INLINE = {0: [1, 2], 1: [4, 5], 2: [8]}
 TERMS = ['basal layer', 'skin sparing', 'bolus']
 
 TAKE = [
-    [('The dose at the skin is about 20%–40% of the d<sub>max</sub> dose for 6 MV. It rises with field size (about double from 10 × 10 to 40 × 40 cm) and changes little with energy.', 'skin-dose')],
+    [('The dose at the skin is about 20%–40% of the d<sub>max</sub> dose for 6 MV. It rises with field size (about double from 10 × 10 to 40 × 40 cm) and falls only slightly with energy.', 'skin-dose')],
     [('The couch, immobilization devices, and trays add electrons and raise the skin dose. The couch also attenuates the beam by about 2%.', 'device-skin')],
     [('Bolus of thickness t shifts the build-up curve toward the skin. The dose at depth d below the skin is the PDD at depth t + d.', 'bolus-shift')],
 ]

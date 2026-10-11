@@ -13,7 +13,7 @@ def _q_html(simple=None, steps=None, tip=None, how="How the calculation is done"
     out = []
     if simple: out.append(f"<p>{simple}</p>")
     if steps: out.append(f'<div class="mh">{how}</div><ol>' + "".join(f"<li>{s}</li>" for s in steps) + "</ol>")
-    if tip: out.append(f'<p class="tip"><b>Watch for.</b> {tip}</p>')
+    if tip: out.append(f'<p class="tip">{tip}</p>')
     return "".join(out)
 
 def q(topic, start, simple=None, steps=None, tip=None, check=None, how="How the calculation is done"):
@@ -62,7 +62,7 @@ q(T, "An electron and a positron, both at rest, annihilate.",
   steps=[f"The particles at rest have a total rest energy of {ME} + {ME} = {2 * ME:.3f} MeV.", f"All of it becomes photon energy. The two photons are equal, so each carries {ME} MeV, which is 511 keV.", "The photons leave 180° apart so that their momenta cancel."],
   tip="One photon, or two photons going the same way, would leave a net momentum that did not exist before.")
 q(T, "How much energy is equivalent to a mass of 0.0020 u?",
-  simple="Mass and energy are two forms of the same thing, linked by E = mc². For atomic masses the conversion has a ready-made factor: one atomic mass unit is equivalent to 931.5 MeV.",
+  simple="Mass and energy are two forms of the same thing, linked by E = mc². For atomic masses, one atomic mass unit is equivalent to 931.5 MeV.",
   steps=["Write the mass in u: 0.0020 u.", f"Multiply by 931.5 MeV per u: 0.0020 × 931.5 = {0.0020 * 931.5:.3f} MeV.", "Round to the precision of the data: 1.86 MeV."],
   tip="The factor is 931.5 MeV per u. The electron rest energy, 0.511 MeV, is a different quantity and is not used here.", check=1.86)
 q(T, "What is the speed of an electron with 1.0 MeV of kinetic energy?",
@@ -77,22 +77,22 @@ q(T, "What is the threshold photon energy for pair production in the field of a 
   steps=[f"The electron has a rest energy of {ME} MeV, and the positron has the same.", f"Threshold = 2 × {ME} = {2 * ME:.3f} MeV.", "At exactly the threshold the pair is created with no kinetic energy. Any photon energy above 1.022 MeV becomes kinetic energy of the pair."],
   tip="The nucleus is needed to take up momentum. It is heavy, so it takes negligible energy and the threshold stays at 1.022 MeV.", check=2 * ME)
 q(T, "A 3.0 MeV photon undergoes pair production",
-  simple="The photon's energy works like a budget. The first 1.022 MeV pays for the mass of the pair. What is left becomes motion of the two particles.",
+  simple="The first 1.022 MeV of the photon energy becomes the rest energy of the pair. What is left becomes kinetic energy of the two particles.",
   steps=["Photon energy: 3.000 MeV.", f"Subtract the rest energy of the pair: 3.000 − {2 * ME:.3f} = {3.0 - 2 * ME:.3f} MeV.", "This is the combined kinetic energy of the electron and the positron. It is shared between them, not always equally. The nucleus takes a negligible amount."], check=3.0 - 2 * ME)
 q(T, "What is the total energy, including rest energy, of an electron with 2.0 MeV of kinetic energy?",
   simple="Total energy is the energy of the particle as a whole: its motion plus the energy it has at rest. Kinetic energy is the motion part alone.",
   steps=["Kinetic energy: 2.000 MeV.", f"Rest energy of an electron: {ME} MeV.", f"Total = 2.000 + {ME} = {2.0 + ME:.3f} MeV."],
   tip=f"The total energy is the same as γm₀c². Here γ = {(2.0 + ME) / ME:.3f}.", check=2.0 + ME)
 q(T, "A therapy proton has 100 MeV of kinetic energy.",
-  simple=f"The proton rest energy is {MP} MeV, so 100 MeV is about {100 / MP * 100:.0f}% of it. The proton is only moderately relativistic, and the classical formula is a poor estimate but not an absurd one.",
+  simple=f"The proton rest energy is {MP} MeV, so 100 MeV is about {100 / MP * 100:.0f}% of it. The proton is only moderately relativistic, and the classical formula overestimates the speed by about 8%.",
   steps=[f"Divide the kinetic energy by the rest energy: 100 / {MP} = {100 / MP:.4f}.", f"γ = 1 + {100 / MP:.4f} = {1 + 100 / MP:.4f}.", f"γ² = {(1 + 100 / MP) ** 2:.4f}, so 1/γ² = {1 / (1 + 100 / MP) ** 2:.4f}.", f"1 − {1 / (1 + 100 / MP) ** 2:.4f} = {1 - 1 / (1 + 100 / MP) ** 2:.4f}.", f"β = √{1 - 1 / (1 + 100 / MP) ** 2:.4f} = {beta(100, MP):.4f}. The speed is {beta(100, MP):.2f}c."],
   tip=f"The classical formula gives β = √(2 × 100 / {MP}) = {math.sqrt(200 / MP):.3f}, about {100 * (math.sqrt(200 / MP) / beta(100, MP) - 1):.0f}% too high.", check=beta(100, MP))
 q(T, "An electron and a positron, each with 1.00 MeV of kinetic energy, annihilate in flight",
   simple="Energy is conserved. The energy of the photons afterwards is the total energy of both particles before the annihilation, and the total energy includes the rest energy.",
-  steps=[f"Each particle has a kinetic energy of 1.00 MeV and a rest energy of {ME} MeV, so each has {1.0 + ME:.3f} MeV.", f"Together: 2 × {1.0 + ME:.3f} = {2 * (1.0 + ME):.3f} MeV.", "All of it becomes photon energy. The photons are not 511 keV each, because the particles were moving. The total momentum is not zero, so the photons need not be equal or back to back."],
+  steps=[f"Each particle has a kinetic energy of 1.00 MeV and a rest energy of {ME} MeV, so each has {1.0 + ME:.3f} MeV.", f"Together: 2 × {1.0 + ME:.3f} = {2 * (1.0 + ME):.3f} MeV.", "All of it becomes photon energy. The photons are not 511 keV each, because the particles were moving. The total momentum need not be zero, so the photons need not be equal or back to back."],
   tip="Using the kinetic energies alone gives 2.00 MeV, which leaves out the rest energy that is converted.", check=2 * (1.0 + ME))
 q(T, "What photon energy creates a pair in which the electron and the positron each receive 0.50 MeV",
-  simple="The photon's energy pays for two things: the mass of the pair, and the motion of the particles.",
+  simple="The photon energy equals the rest energy of the pair plus the kinetic energies of the two particles.",
   steps=["Photon energy = rest energy of the pair + kinetic energy of the electron + kinetic energy of the positron.", f"Rest energy of the pair: {2 * ME:.3f} MeV.", "Kinetic energies: 0.50 + 0.50 = 1.00 MeV.", f"Photon energy: {2 * ME:.3f} + 1.00 = {2 * ME + 1.0:.3f} MeV."], check=2 * ME + 1.0)
 
 # ================================================================ 1.7 Decay law and activity
@@ -107,7 +107,7 @@ g(T, "Half-life and mean life", MORE("Working with half-lives, logarithms, and p
        f"<b>Half-life from a percentage lost per interval.</b> If p is lost per interval, the fraction remaining is 1 − p. Then λ = −ln(1 − p) and T½ = 0.693 / λ. For 6% per day, λ = −ln 0.94 = {-math.log(0.94):.4f} per day and T½ = {LN2 / -math.log(0.94):.1f} d."),
     "The percentage lost compounds from interval to interval, so λ is not equal to the percentage. The approximation λ ≈ p is acceptable for small p and gets worse as p grows:",
     TABLE(["Lost per day", "Exact λ = −ln(1 − p), per day", "Approximation λ ≈ p", "Error of the approximation"], pct_rows),
-    "Keep the units the same. If the half-life is in days and the time in hours, convert one of them first: 6.5 h is 0.271 d. A quick check: one half-life leaves 50% and two leave 25%, so an answer outside the range set by these is wrong.",
+    "The half-life and the time must be in the same units. If the half-life is in days and the time in hours, convert one of them first: 6.5 h is 0.271 d. A quick check: one half-life leaves 50% and two leave 25%, so an answer outside the range set by these is wrong.",
     simple="A half-life is a repeating halving. In every interval of one half-life the activity is cut to half of what it was at the start of that interval. Parts of a half-life work the same way, so after 1.5 half-lives the activity is one half and then a further factor of 0.707. A calculator, or a table of powers of two, does the arithmetic."))
 fr_rows = [[f"{n:g}", f"{100 * (1 - 2 ** (-n)):.1f}%"] for n in (0.5, 1, 2, 3, 4, 7)]
 g(T, "Permanent implants", MORE("Where D∞ = Ḋ₀τ comes from",
@@ -123,7 +123,7 @@ g(T, "Permanent implants", MORE("Where D∞ = Ḋ₀τ comes from",
 q(T, "An activity of 1.48 GBq is how many millicuries?",
   simple="A curie is a much larger unit than a becquerel, so the number of curies is smaller than the number of becquerels. The conversion is 1 mCi = 37 MBq.",
   steps=["Write 1.48 GBq in MBq: 1.48 × 1000 = 1480 MBq.", f"Divide by 37 MBq per mCi: 1480 / 37 = {1480 / 37:.1f} mCi."],
-  tip="1 Ci = 3.7 × 10<sup>10</sup> Bq. A slip of a power of ten gives 4 or 400, so check that the answer is smaller than the number of MBq.", check=40.0)
+  tip="1 Ci = 3.7 × 10<sup>10</sup> Bq, so the number of millicuries is smaller than the number of megabecquerels.", check=40.0)
 q(T, "A Tc-99m syringe is calibrated at 08:00.",
   simple="Every 6.0 h the activity halves. At 6.5 h, a little more than one half-life has passed, so the activity should be a little less than half of 925 MBq.",
   steps=["Find the elapsed time: 08:00 to 14:30 is 6.5 h.", f"Divide by the half-life, in the same unit: n = 6.5 / 6.0 = {6.5 / 6.0:.3f} half-lives.", f"The fraction left is 2<sup>−n</sup> = 2<sup>−{6.5 / 6.0:.3f}</sup> = {2 ** (-6.5 / 6.0):.4f}.", f"Multiply the starting activity by the fraction: 925 × {2 ** (-6.5 / 6.0):.4f} = {925 * 2 ** (-6.5 / 6.0):.1f} MBq."], check=925 * 2 ** (-6.5 / 6.0))
@@ -155,7 +155,7 @@ q(T, "What percentage of the total dose from a permanent I-125 implant has been 
   steps=["119 d is two half-lives, because 2 × 59.4 = 118.8 d.", "The fraction not yet delivered is 2<sup>−2</sup> = 1/4 = 25%.", "The fraction delivered is 1 − 1/4 = 75%."], check=75.0)
 q(T, "What is the mean life of Tc-99m",
   simple="The mean life is the average lifetime of a nucleus. It is longer than the half-life because a few nuclei survive much longer than most.",
-  steps=[f"τ = T½ / 0.693 = 6.0 / {LN2:.4f} = {6.0 / LN2:.2f} h."], tip="τ = 1.443 × T½. Multiplying by 0.693 instead gives the wrong direction (4.16 h).", check=6.0 / LN2)
+  steps=[f"τ = T½ / 0.693 = 6.0 / {LN2:.4f} = {6.0 / LN2:.2f} h."], tip="τ = 1.443 × T½. Multiplying by 0.693 instead gives 4.16 h, which is shorter than the half-life.", check=6.0 / LN2)
 q(T, "A Co-60 source with T1/2 = 5.27 y.",
   simple="Ten years is nearly two half-lives, so the activity should be a little more than a quarter of the starting value.",
   steps=[f"n = 10 / 5.27 = {10 / 5.27:.4f} half-lives.", f"Fraction left = 2<sup>−{10 / 5.27:.4f}</sup> = {2 ** (-10 / 5.27):.4f}.", f"As a percentage: {100 * 2 ** (-10 / 5.27):.2f}%."], check=100 * 2 ** (-10 / 5.27))
@@ -166,7 +166,7 @@ q(T, "A source loses 2.0% of its activity each day.",
 q(T, "An I-125 source decays as shown",
   simple="Each half-life takes the activity to half of what it was. Two half-lives take it to half of a half, which is a quarter.",
   steps=["25% is ½ × ½, so it is two half-lives.", f"t = 2 × 59.4 = {2 * 59.4:.1f} d.", "On the graph, find 25% on the vertical axis, move across to the curve, and read straight down to the time axis."])
-q(T, "The same I-125 source.",
+q(T, "An I-125 source.T1/2 = 59.4 dTap the mean life",
   simple="The mean life is the average lifetime of a nucleus. It is longer than the half-life, because a few nuclei last much longer than most.",
   steps=[f"τ = 1.443 × T½ = 1.443 × 59.4 = {59.4 / LN2:.1f} d.", "At t = τ the activity has fallen to 1/e, which is 36.8% of the starting value. Tap where the curve is at 36.8%, which is between the 50% and 25% levels, closer to 25%."],
   tip="The half-life (59.4 d) is where the curve reaches 50%. Two half-lives (118.8 d) is where it reaches 25%.")
@@ -195,17 +195,17 @@ q(T, "Which parent–daughter pair shows transient equilibrium?",
   simple="Transient equilibrium needs a parent that outlives its daughter by a modest factor. Mo-99 has a half-life of 65.9 h and Tc-99m has 6.0 h, a factor of about 11. The other three parents live thousands of times longer than their daughters, which gives secular equilibrium.")
 q(T, "A parent decays to a daughter.parent T1/2 = 12.0 hdaughter T1/2 = 2.0 h",
   simple="Each daughter nucleus decays faster than a parent nucleus, so a given number of daughter nuclei gives more decays per second. In transient equilibrium the daughter activity is therefore larger than the parent activity, by a fixed factor.",
-  steps=["Check that the parent half-life (12.0 h) is longer than the daughter's (2.0 h), but not by a very large factor. It is 6 times longer, so the equilibrium is transient.", "Use A<sub>d</sub>/A<sub>p</sub> = T<sub>p</sub> / (T<sub>p</sub> − T<sub>d</sub>).", f"Substitute: 12.0 / (12.0 − 2.0) = 12.0 / 10.0 = {12.0 / 10.0:.2f}."],
-  tip="Reversing the half-lives gives 0.83, which would mean the daughter has the lower activity.", check=1.2)
+  steps=["Check that the parent half-life (12.0 h) is longer than the daughter's (2.0 h), but not by a large factor. It is 6 times longer, so the equilibrium is transient.", "Use A<sub>d</sub>/A<sub>p</sub> = T<sub>p</sub> / (T<sub>p</sub> − T<sub>d</sub>).", f"Substitute: 12.0 / (12.0 − 2.0) = 12.0 / 10.0 = {12.0 / 10.0:.2f}."],
+  tip="Inverting the ratio gives 0.83, which would mean the daughter has the lower activity.", check=1.2)
 q(T, "parent T1/2 = 36 hdaughter T1/2 = 4 hno daughter present at t = 0",
   simple="The daughter activity grows while production from the parent exceeds its own decay, and falls once its decay exceeds production. The peak is the moment when the two are equal, which is when the daughter activity equals the parent activity.",
   steps=[f"λ<sub>p</sub> = 0.693 / 36 = {LN2 / 36:.4f} per hour, and λ<sub>d</sub> = 0.693 / 4 = {LN2 / 4:.4f} per hour.", f"The ratio λ<sub>d</sub>/λ<sub>p</sub> = {(LN2 / 4) / (LN2 / 36):.0f}, and ln 9 = {math.log(9):.4f}.", f"The difference λ<sub>d</sub> − λ<sub>p</sub> = {LN2 / 4 - LN2 / 36:.4f} per hour.", f"t<sub>max</sub> = ln(λ<sub>d</sub>/λ<sub>p</sub>) / (λ<sub>d</sub> − λ<sub>p</sub>) = {math.log(9):.4f} / {LN2 / 4 - LN2 / 36:.4f} = {math.log(9) / (LN2 / 4 - LN2 / 36):.1f} h."],
   tip="The peak is earlier than one parent half-life (36 h) and later than one daughter half-life (4 h).", check=math.log(9) / (LN2 / 4 - LN2 / 36))
-q(T, "A sealed Sr-90 source has stood for weeks.",
+q(T, "A sealed Sr-90 source has stood for six weeks.",
   simple="The parent lives for 28.8 years and the daughter for 64 hours, so the parent hardly decays while the daughter builds up. The daughter ends up decaying as fast as it is fed.",
-  steps=["Compare the half-lives: 28.8 y is about 252,000 h, which is about 3900 times the daughter's 64 h. The parent is much longer-lived, so this is secular equilibrium.", f"Equilibrium needs about seven daughter half-lives, 7 × 64 h = {7 * 64} h = {7 * 64 / 24:.1f} d. Weeks are longer than that.", "In secular equilibrium A<sub>d</sub> = A<sub>p</sub>, so the Y-90 activity is 40 MBq."], check=40.0)
+  steps=["Compare the half-lives: 28.8 y is about 252,000 h, which is about 3900 times the daughter's 64 h. The parent is much longer-lived, so this is secular equilibrium.", f"Equilibrium needs about seven daughter half-lives, 7 × 64 h = {7 * 64} h = {7 * 64 / 24:.1f} d. Six weeks is longer than that.", "In secular equilibrium A<sub>d</sub> = A<sub>p</sub>, so the Y-90 activity is 40 MBq."], check=40.0)
 q(T, "In transient equilibrium the daughter activity is:",
-  simple="Activity is the number of nuclei times the decay constant. The daughter has a larger decay constant than the parent, so even though there are fewer daughter nuclei the activity ratio comes out above 1: T<sub>p</sub>/(T<sub>p</sub> − T<sub>d</sub>).")
+  simple="Activity is the number of nuclei times the decay constant. The daughter has a larger decay constant than the parent, so the activity ratio comes out above 1: T<sub>p</sub>/(T<sub>p</sub> − T<sub>d</sub>).")
 q(T, "Ignoring branching, what is the ratio of Tc-99m to Mo-99 activity at transient equilibrium",
   simple="The Tc-99m decays faster than the Mo-99, so each Tc-99m nucleus counts for more activity. The ratio is the longer half-life divided by the difference between the half-lives.",
   steps=["Use A<sub>d</sub>/A<sub>p</sub> = T<sub>p</sub> / (T<sub>p</sub> − T<sub>d</sub>).", f"Substitute T<sub>p</sub> = 65.94 h and T<sub>d</sub> = 6.01 h: 65.94 / (65.94 − 6.01) = 65.94 / {65.94 - 6.01:.2f} = {65.94 / (65.94 - 6.01):.3f}."],
@@ -216,13 +216,13 @@ q(T, "In secular equilibrium starting with no daughter, what percentage of the f
   tip="63.2% is the fraction reached after one mean life, not after one half-life.", check=50.0)
 q(T, "In secular equilibrium, about how many daughter half-lives are needed to reach 99%",
   simple="After each half-life, half of the remaining gap is closed. The gap must shrink to 1%, which is 1/100, and the number of halvings needed is the base-2 logarithm of 100.",
-  steps=["Reaching 99% means the gap is 1%, so 2<sup>−n</sup> = 0.01.", f"n = log₂ 100 = ln 100 / ln 2 = {math.log(100):.3f} / {LN2:.3f} = {math.log2(100):.2f}.", "About 6.6 half-lives. Seven is a convenient round figure."], check=math.log2(100))
+  steps=["Reaching 99% means the gap is 1%, so 2<sup>−n</sup> = 0.01.", f"n = log₂ 100 = ln 100 / ln 2 = {math.log(100):.3f} / {LN2:.3f} = {math.log2(100):.2f}.", "About 6.6 half-lives."], check=math.log2(100))
 q(T, "Which statement about transient equilibrium is correct?",
   simple="In transient equilibrium the daughter activity is above the parent's by a constant factor, and both fall with the parent's half-life. Equal activities are the secular case, and they also occur at the single instant of the daughter's peak.")
 q(T, "Mo-99 (T1/2 = 65.94 h) decays to Tc-99m",
   simple="After elution the Tc-99m grows in while the Mo-99 slowly decays. The Tc-99m activity peaks when its production equals its decay, which is when its activity equals the Mo-99 activity.",
   steps=[f"λ<sub>p</sub> = 0.693 / 65.94 = {lp:.5f} per hour, and λ<sub>d</sub> = 0.693 / 6.007 = {ld:.4f} per hour.", f"The ratio λ<sub>d</sub>/λ<sub>p</sub> = {ld / lp:.2f}, and ln({ld / lp:.2f}) = {math.log(ld / lp):.3f}.", f"The difference λ<sub>d</sub> − λ<sub>p</sub> = {ld - lp:.4f} per hour.", f"t<sub>max</sub> = {math.log(ld / lp):.3f} / {ld - lp:.4f} = {math.log(ld / lp) / (ld - lp):.2f} h."],
-  tip="A common slip is to use half-lives in place of decay constants in this formula. It needs λ.", check=math.log(ld / lp) / (ld - lp))
+  tip="The formula needs decay constants, not half-lives.", check=math.log(ld / lp) / (ld - lp))
 q(T, "A Mo-99/Tc-99m generator is eluted at time zero.",
   simple="The Tc-99m grows in until its activity equals the Mo-99 activity, and the Mo-99 curve alone does not show where that happens. The time comes from the formula.",
   steps=[f"t<sub>max</sub> = ln(λ<sub>d</sub>/λ<sub>p</sub>) / (λ<sub>d</sub> − λ<sub>p</sub>) = ln({ld / lp:.2f}) / {ld - lp:.4f} = {math.log(ld / lp) / (ld - lp):.1f} h.", "Tap the time axis at about 23 h."],
@@ -248,8 +248,8 @@ g(T, "Compton scattering", MORE("Using the Compton equation",
        f"Put both into E′ = E / [ 1 + (E / 0.511 MeV)(1 − cos θ) ]. At 90° the bracket is 1 + {1.0 / ME:.3f} × 1 = {1 + 1.0 / ME:.3f}, so E′ = {cs(1.0, 90):.3f} MeV.",
        "The electron receives what the photon lost: E<sub>electron</sub> = E − E′."),
     TABLE(["Angle θ", "1 − cos θ", "Scattered photon (MeV)", "Electron (MeV)"], ang_rows),
-    f"The photon always keeps some energy. As the incident energy becomes very large, the scattered photon at 90° approaches 0.511 MeV and at 180° it approaches {ME / 2:.3f} MeV.",
-    "Common slips are using cos θ in place of 1 − cos θ, giving the electron's energy as the scattered photon's, and mixing keV with MeV.",
+    f"The photon always keeps some energy. As the incident energy increases, the scattered photon at 90° approaches 0.511 MeV and at 180° it approaches {ME / 2:.3f} MeV.",
+    "Common errors are using cos θ in place of 1 − cos θ, giving the electron's energy as the scattered photon's, and mixing keV with MeV.",
     simple="In Compton scattering the photon bounces off an electron that is nearly free, and it gives up part of its energy. The more the photon is deflected, the more energy the electron receives. The electron gets nothing for no deflection and the most for a photon that comes straight back."))
 g(T, "Interaction processes", MORE("How the interactions depend on atomic number and energy",
     UL("<b>Photoelectric effect.</b> The photon is absorbed by a bound electron, so the effect is strong in high-Z materials and at low energy. The mass attenuation coefficient varies as Z<sup>3</sup>/E<sup>3</sup>, with sharp rises at absorption edges. Doubling the photon energy reduces it by a factor of 8.",
@@ -265,7 +265,7 @@ q(T, "A lead shield (illustrative value).HVL = 0.80 cm",
 q(T, "A shielding material.HVL = 2.2 cm",
   simple="A half-value layer cuts the beam to a half, and a tenth-value layer cuts it to a tenth. Cutting to a tenth takes a little more than three halvings, because 2<sup>3</sup> = 8 and 2<sup>3.32</sup> = 10.",
   steps=["The number of HVLs in one TVL is log₂ 10 = ln 10 / ln 2 = 2.303 / 0.693 = 3.32.", f"TVL = 3.32 × 2.2 = {math.log2(10) * 2.2:.2f} cm."], check=math.log2(10) * 2.2)
-q(T, "A narrow beam of Co-60 photons, taking 1.25 MeV, in water.",
+q(T, "A narrow beam of Co-60 photons in water.",
   simple="The table gives the attenuation per gram per cm². Multiplying by the density turns it into the attenuation per centimetre, and the half-value layer follows from it.",
   steps=["Read the mass attenuation coefficient at 1.25 MeV from the μ/ρ column: 0.06323 cm²/g.", "Multiply by the density: μ = 0.06323 × 1.00 = 0.06323 cm<sup>−1</sup>.", f"HVL = 0.693 / μ = 0.693 / 0.06323 = {LN2 / 0.06323:.2f} cm."],
   tip="The μ<sub>en</sub>/ρ column answers a different question, the energy deposited, and gives 23.4 cm.", check=LN2 / 0.06323)
@@ -288,21 +288,21 @@ q(T, "Cortical bone and water at a photon energy of 6 MeV.",
   tip="The ratio is close to the density ratio, 1.92, because the mass coefficients are nearly equal.", check=0.02734 * 1.92 / 0.0277)
 q(T, "A narrow beam of 1.5 MeV photons strikes a lead shield.",
   simple="Lead attenuates strongly because it is dense. Convert the coefficient from per gram to per centimetre by multiplying by the density, then use the exponential.",
-  steps=[f"μ = 0.0522 × 11.35 = {0.0522 * 11.35:.3f} cm<sup>−1</sup>.", f"μx = {0.0522 * 11.35:.3f} × 5.0 = {0.0522 * 11.35 * 5:.2f}.", f"I/I₀ = e<sup>−{0.0522 * 11.35 * 5:.2f}</sup> = {math.exp(-0.0522 * 11.35 * 5):.4f}, which is about {100 * math.exp(-0.0522 * 11.35 * 5):.1f}%."], check=100 * math.exp(-0.0522 * 11.35 * 5))
+  steps=[f"μ = 0.05222 × 11.35 = {0.05222 * 11.35:.4f} cm<sup>−1</sup>.", f"μx = {0.05222 * 11.35:.4f} × 5.0 = {0.05222 * 11.35 * 5:.3f}.", f"I/I₀ = e<sup>−{0.05222 * 11.35 * 5:.3f}</sup> = {math.exp(-0.05222 * 11.35 * 5):.4f}, which is about {100 * math.exp(-0.05222 * 11.35 * 5):.1f}%."], check=100 * math.exp(-0.05222 * 11.35 * 5))
 q(T, "A photon is Compton scattered.incident energy = 2.0 MeVscattering angle = 60°",
   simple="The electron gets the energy that the scattered photon does not keep.",
   steps=[f"E / 0.511 = 2.0 / 0.511 = {2.0 / ME:.3f}.", f"1 − cos 60° = 1 − 0.5 = 0.5.", f"E′ = 2.0 / [1 + {2.0 / ME:.3f} × 0.5] = 2.0 / {1 + 2.0 / ME * 0.5:.3f} = {cs(2.0, 60):.3f} MeV.", f"Electron energy = 2.0 − {cs(2.0, 60):.3f} = {2.0 - cs(2.0, 60):.3f} MeV."], check=2.0 - cs(2.0, 60))
-q(T, "A narrow photon beam is attenuated by a uniform absorber, as shown.",
+q(T, "A narrow photon beam is attenuated by a uniform absorber, as shown.Tap the thickness that halves",
   simple="The half-value layer is the thickness that cuts the beam to half. On the graph it is where the curve crosses the 50% level.",
   steps=["Find 50% on the vertical axis.", "Move across to the curve.", "Read straight down to the thickness axis. This is the half-value layer, about 3.5 cm for this absorber."])
-q(T, "The same absorber.Tap the thickness that leaves one eighth",
+q(T, "A narrow photon beam is attenuated by a uniform absorber, as shown.Tap the thickness that leaves one eighth",
   simple="One eighth is half of a half of a half. The beam must pass through three half-value layers.",
   steps=["One eighth is (½)<sup>3</sup>, so n = 3 half-value layers.", f"Read one half-value layer at the 50% level of the graph: 3.47 cm.", f"Thickness = 3 × 3.47 = {3 * 3.47:.1f} cm."],
   tip="The 12.5% level is not marked on the axis, so the thickness is found from the half-value layer.")
 
 # ================================================================ 1.8 Specific activity
 T = "specific-activity"
-NA, DAY, YR = 6.022e23, 86400.0, 3.156e7
+NA, DAY, YR = 6.02214076e23, 86400.0, 3.156e7
 spec = lambda t_s, M: LN2 / t_s * NA / M                     # Bq/g from the half-life in seconds and the molar mass in g/mol
 S_I = spec(59.4 * DAY, 124.9); S_H = spec(100 * DAY, 100.0)
 g(T, "Activity per gram", MORE("Calculating specific activity step by step",
@@ -313,19 +313,19 @@ g(T, "Activity per gram", MORE("Calculating specific activity step by step",
        "<b>Convert to curies if needed.</b> Divide by 3.7 × 10<sup>10</sup> Bq per Ci."),
     f"For I-125 (T½ = 59.4 d, M = 124.9 g/mol): T½ = {59.4 * DAY:,.0f} s, λ = {sci(LN2 / (59.4 * DAY), 4)} s<sup>−1</sup>, atoms per gram = {sci(NA / 124.9, 4)}, and S = {sci(S_I, 3)} Bq/g, which is {S_I / 3.7e10:,.0f} Ci/g.".replace("e+14", " × 10<sup>14</sup>").replace("e+21", " × 10<sup>21</sup>").replace("e-07", " × 10<sup>−7</sup>"),
     f"A shortcut for comparing nuclides is S ∝ 1/(T½ × M). For Pd-103 against I-125, S<sub>Pd</sub>/S<sub>I</sub> = (59.4 / 17.0) × (124.9 / 102.9) = {59.4 / 17.0:.2f} × {124.9 / 102.9:.2f} = {(59.4 / 17.0) * (124.9 / 102.9):.1f}.",
-    "Common slips: leaving out ln 2 (the result is 1.44 times too large) and leaving the half-life in days (the result in Bq/g is 86,400 times too small).",
+    "Common errors: leaving out ln 2 (the result is 1.44 times too large) and leaving the half-life in days (the result in Bq/g is 86,400 times too large).",
     simple="Specific activity counts the decays per second that come from one gram. One gram contains a fixed number of atoms, N<sub>A</sub> / M. Each atom has a probability λ of decaying every second. The number of atoms times λ is the specific activity."))
 g(T, "Source size and carrier", MORE("From activity to mass",
     OL("Put the activity in becquerels. For 0.50 mCi, 0.50 × 3.7 × 10<sup>7</sup> = 1.85 × 10<sup>7</sup> Bq.",
        "Divide by the specific activity: m = A / S. For I-125, 1.85 × 10<sup>7</sup> / 6.5 × 10<sup>14</sup> = 2.8 × 10<sup>−8</sup> g.",
        "Express the mass in a convenient unit: 2.8 × 10<sup>−8</sup> g = 28 ng."),
     f"The same method gives {370e9 / 3.4e14 * 1000:.2f} mg for 370 GBq of Ir-192 (S = 3.4 × 10<sup>14</sup> Bq/g) and {185e12 / 4.19e13:.2f} g for 185 TBq of Co-60 (S = 4.19 × 10<sup>13</sup> Bq/g). For the same activity the mass is proportional to 1/S, so Cs-137 (S = 3.2 × 10<sup>12</sup> Bq/g) needs about {3.41e14 / 3.21e12:.0f} times the mass of Ir-192.",
-    simple="Mass is activity divided by specific activity. A nuclide with a very high specific activity needs only a tiny mass for a large activity, which is why short-lived sources can be made small."))
+    simple="Mass is activity divided by specific activity. A nuclide with a high specific activity needs only a small mass for a large activity, which is why short-lived sources can be made small."))
 
 q(T, "A hypothetical nuclide.T1/2 = 100 dmolar mass = 100 g/molWhat is its specific activity?",
   simple="Specific activity is the number of atoms in a gram multiplied by the chance that each decays every second.",
   steps=[f"Half-life in seconds: 100 × 86,400 = {100 * DAY:,.0f} s.", f"λ = 0.693 / {100 * DAY:,.0f} = {sci(LN2 / (100 * DAY), 4)} s<sup>−1</sup>.", f"Atoms per gram = 6.022 × 10<sup>23</sup> / 100 = {sci(NA / 100, 4)}.", f"S = {sci(LN2 / (100 * DAY), 4)} × {sci(NA / 100, 4)} = {sci(S_H, 3)} Bq/g."],
-  tip="Leaving out ln 2 gives 7.0 × 10<sup>14</sup>, and leaving the half-life in days gives a value 86,400 times too small.", check=S_H)
+  tip="Leaving out ln 2 gives 7.0 × 10<sup>14</sup>, and leaving the half-life in days gives a value 86,400 times too large.", check=S_H)
 q(T, "A hypothetical nuclide.T1/2 = 100 dmolar mass = 100 g/molWhat is its specific activity in Ci/g?",
   simple="Work out the specific activity in Bq/g first, then change the unit. One curie is 3.7 × 10<sup>10</sup> Bq.",
   steps=[f"S = ln 2 × N<sub>A</sub> / (T½ × M) = {sci(S_H, 4)} Bq/g, with T½ in seconds.", f"Divide by 3.7 × 10<sup>10</sup> Bq/Ci: {sci(S_H, 4)} / 3.7 × 10<sup>10</sup> = {S_H / 3.7e10:,.0f} Ci/g."], check=S_H / 3.7e10)
@@ -342,7 +342,7 @@ q(T, "seed activity = 0.50 mCiS (I-125) = 6.5",
   simple="Mass is activity divided by specific activity, and the activity must be in becquerels.",
   steps=["Convert the activity: 0.50 mCi × 3.7 × 10<sup>7</sup> Bq/mCi = 1.85 × 10<sup>7</sup> Bq.", f"m = A / S = 1.85 × 10<sup>7</sup> / 6.5 × 10<sup>14</sup> = {sci(1.85e7 / 6.5e14, 3)} g.".replace("e-08", " × 10<sup>−8</sup>"), f"A nanogram is 10<sup>−9</sup> g, so m = {1.85e7 / 6.5e14 * 1e9:.1f} ng."], check=1.85e7 / 6.5e14 * 1e9)
 q(T, "Compare two seed isotopes.",
-  simple="Specific activity is proportional to 1 / (half-life × molar mass). Compare the two products, with the shorter-lived and lighter nuclide ahead.",
+  simple="Specific activity is proportional to 1 / (half-life × molar mass). The shorter-lived, lighter nuclide has the larger value of 1 / (half-life × molar mass), so its specific activity is larger.",
   steps=["S ∝ 1/(T½ × M), so S<sub>Pd</sub>/S<sub>I</sub> = (T½,I × M<sub>I</sub>) / (T½,Pd × M<sub>Pd</sub>).", f"= (59.4 × 124.9) / (17.0 × 102.9) = {59.4 * 124.9:,.0f} / {17.0 * 102.9:,.0f} = {(59.4 * 124.9) / (17.0 * 102.9):.2f}."], check=(59.4 * 124.9) / (17.0 * 102.9))
 q(T, "A Co-60 teletherapy source.",
   simple="Mass is activity divided by specific activity, with both in becquerels.",
@@ -402,7 +402,7 @@ q(T, "Which transition in hydrogen emits the highest-energy photon?",
 q(T, "A 6.0 MeV electron moves perpendicular to a uniform 0.20 T magnetic field.",
   simple="The magnetic force bends the path into a circle. A larger momentum gives a larger circle and a stronger field gives a smaller one. At 6 MeV the electron is relativistic, so the momentum must come from the relativistic formula.",
   steps=[f"pc = √(KE² + 2·KE·m₀c²) = √({6.0 ** 2:.1f} + 2 × 6.0 × 0.511) = √{6.0 ** 2 + 2 * 6.0 * ME:.3f} = {pc_of(6.0):.3f} MeV.", f"r = pc / (299.8 × B) = {pc_of(6.0):.3f} / (299.8 × 0.20) = {pc_of(6.0) / (299.8 * 0.2):.4f} m.", f"In centimetres: {rad_cm(6.0, 0.2):.1f} cm."],
-  tip=f"The classical momentum, pc = √(2 m KE), gives {100 * math.sqrt(2 * ME * 6.0) / (299.8 * 0.2):.1f} cm, which is wrong by a factor of 2.6.", check=rad_cm(6.0, 0.2))
+  tip=f"The classical momentum, p = √(2 m KE), gives pc = {math.sqrt(2 * ME * 6.0):.2f} MeV and a radius of {100 * math.sqrt(2 * ME * 6.0) / (299.8 * 0.2):.1f} cm, which is wrong by a factor of 2.6.", check=rad_cm(6.0, 0.2))
 q(T, "Two protons 2.0 fm apart repel with a force of 57.7 N.",
   simple="The force falls with the square of the distance. The force dropped by a factor of 4, so the distance grew by the square root of 4, which is 2.",
   steps=[f"Ratio of the forces: 57.7 / 14.4 = {57.7 / 14.4:.2f}, close to 4.", f"F ∝ 1/r², so r grows by the square root of the ratio: √{57.7 / 14.4:.2f} = {math.sqrt(57.7 / 14.4):.2f}.", f"New distance = 2.0 × {math.sqrt(57.7 / 14.4):.2f} = {2.0 * math.sqrt(57.7 / 14.4):.1f} fm."], check=4.0)
@@ -419,7 +419,7 @@ M1H, MN = 1.007825, 1.008665
 def defect(Z, N, M): return Z * M1H + N * MN - M
 d2, d16 = defect(1, 1, 2.014102), defect(8, 8, 15.994915)
 g(T, "Nuclide notation and classification", MORE("Telling isotopes, isobars, isotones, and isomers apart",
-    OL("Write Z (the proton number, fixed by the element) and A (the mass number, the number after the name) for each nuclide.", "Find the neutron number N = A − Z. For Ir-192, N = 192 − 77 = 115.", "Compare the numbers the two nuclides share, using the table below."),
+    OL("Write Z (the proton number, fixed by the element) and A (the mass number, the number after the name) for each nuclide.", "Find the neutron number N = A − Z. For Ir-192, N = 192 − 77 = 115.", "Compare the numbers the two nuclides share, using the table."),
     TABLE(["Relationship", "What is the same", "Example"], [["Isotopes", "Z", "I-125 and I-131 (Z = 53)"], ["Isobars", "A", "Co-60 and Ni-60 (A = 60)"], ["Isotones", "N", "C-14 (N = 8) and N-15 (N = 8)"], ["Isomers", "Z and A, with a different energy state", "Tc-99m and Tc-99"]]),
     "The prefix is the clue: iso- means same, and the second part says what is the same. Isotopes share the number of protons, which is why they are the same element. Isobars share the mass number. Isotones share the neutron number. Isomers are the same nuclide in different energy states.",
     simple="Four words say which numbers two nuclides have in common. Same proton number: isotopes, so the same element. Same mass number: isobars. Same neutron number: isotones. Same protons and mass number but a different energy state: isomers."))
@@ -438,9 +438,9 @@ q(T, "M(1H) = 1.007825 umn = 1.008665 uM(2H) = 2.014102 u",
   simple="The deuteron is made of one proton and one neutron. Its measured mass is a little less than the sum of the two parts, and that missing mass is the binding energy in mass form.",
   steps=[f"Add the separate parts: 1.007825 + 1.008665 = {M1H + MN:.6f} u.", f"Subtract the atomic mass of H-2: {M1H + MN:.6f} − 2.014102 = {d2:.6f} u.", f"BE = {d2:.6f} × 931.5 = {d2 * 931.5:.3f} MeV."],
   tip="Half of this, 1.11 MeV, is the energy per nucleon, not the total.", check=d2 * 931.5)
-q(T, "The He-4 nucleus has a total binding energy of 28.3 MeV.",
+q(T, "The He-4 nucleus has a total binding energy of 28.296 MeV.",
   simple="Binding energy per nucleon is the total divided by the number of nucleons.",
-  steps=["He-4 has A = 4 nucleons.", f"28.3 / 4 = {28.3 / 4:.3f} MeV per nucleon."], check=28.3 / 4)
+  steps=["He-4 has A = 4 nucleons.", f"28.296 / 4 = {28.296 / 4:.3f} MeV per nucleon."], check=28.296 / 4)
 q(T, "Why do heavy stable nuclei contain more neutrons than protons?",
   simple="Every proton repels every other proton, and that repulsion reaches across the whole nucleus. The strong force acts only between close neighbours. Neutrons add strong-force attraction without adding repulsion, so a heavy nucleus needs extra neutrons to stay bound.")
 q(T, "Which nucleus has the highest binding energy per nucleon of those listed?",
@@ -460,11 +460,11 @@ q(T, "D–T fusion: 17.6 MeV from 5 nucleons",
 # ================================================================ 1.5 Decay modes
 T = "decay-modes"
 g(T, "Stability and decay mode", MORE("Finding the daughter, and which mode applies",
-    OL("Write down Z and A of the parent. The element name fixes Z, and the number after the name is A.", "Apply the change that the decay makes to Z and A, using the table below.", "Find the element with the new Z. That, with the new A, is the daughter."),
+    OL("Write down Z and A of the parent. The element name fixes Z, and the number after the name is A.", "Apply the change that the decay makes to Z and A, using the table.", "Find the element with the new Z. That, with the new A, is the daughter."),
     TABLE(["Decay", "What happens in the nucleus", "Z", "A", "Example"], [["α", "Two protons and two neutrons are emitted", "−2", "−4", "Po-210 (Z = 84) → Pb-206 (Z = 82)"], ["β⁻", "A neutron becomes a proton and an electron is emitted", "+1", "same", "I-131 (Z = 53) → Xe-131 (Z = 54)"],
                                                                                ["β⁺", "A proton becomes a neutron and a positron is emitted", "−1", "same", "F-18 → O-18"], ["Electron capture", "A proton and an orbital electron become a neutron", "−1", "same", "I-125 → Te-125"], ["γ or isomeric transition", "An excited nucleus drops to a lower state", "same", "same", "Tc-99m → Tc-99"]]),
-    "The mode depends on where the nucleus sits relative to the stable band. A nucleus with too many neutrons turns a neutron into a proton: β⁻. A nucleus with too many protons turns a proton into a neutron: β⁺ or electron capture. A very heavy nucleus sheds mass by α emission. An excited nucleus, with Z and N already right, only has to lose energy: γ emission.",
-    simple="A nucleus decays to move toward the band of stable nuclei. Too many neutrons: a neutron turns into a proton. Too many protons: a proton turns into a neutron. Very heavy: an α particle carries away two protons and two neutrons. An excited nucleus with the right numbers of protons and neutrons gives off its extra energy."))
+    "The mode depends on where the nucleus sits relative to the stable band. A nucleus with too many neutrons turns a neutron into a proton: β⁻. A nucleus with too many protons turns a proton into a neutron: β⁺ or electron capture. A heavy nucleus sheds mass by α emission. An excited nucleus, with Z and N already right, only has to lose energy: γ emission.",
+    simple="A nucleus decays to move toward the band of stable nuclei. Too many neutrons: a neutron turns into a proton. Too many protons: a proton turns into a neutron. Heavy: an α particle carries away two protons and two neutrons. An excited nucleus with the right numbers of protons and neutrons gives off its extra energy."))
 g(T, "Decay modes", MORE("The energy needed for β⁺ decay and the maximum positron energy",
     OL("Find the energy available, the difference between the atomic masses of the parent and the daughter, expressed in MeV.",
        "Compare it with 1.022 MeV. β⁺ decay creates a positron (0.511 MeV) and the atom must also shed one extra orbital electron (0.511 MeV), so it needs at least two electron rest energies.",
@@ -487,8 +487,8 @@ q(T, "What is the daughter nuclide when Po-210 (Z = 84) decays by α emission?",
 q(T, "Which radiations can follow an electron-capture event in the daughter atom?",
   simple="In electron capture a proton and an inner-shell electron become a neutron. The missing inner electron leaves a vacancy, and an outer electron falls in to fill it. The energy released appears as a characteristic x-ray or as an Auger electron. No positron is emitted, so there are no annihilation photons.")
 q(T, "A nuclide has a decay energy (atomic mass difference) of 0.80 MeV",
-  simple="β⁺ decay needs enough energy to create a positron and to shed an extra electron from the atom. Electron capture has no such requirement.",
-  steps=["The energy needed for β⁺ decay is 2 × 0.511 = 1.022 MeV.", "The energy available is 0.80 MeV, which is less than 1.022 MeV, so β⁺ decay cannot occur.", "Electron capture has no threshold, so it is the only proton-rich decay that can occur."])
+  simple="β⁺ decay needs enough energy to create a positron and to shed an extra electron from the atom. Electron capture needs only a positive decay energy.",
+  steps=["The energy needed for β⁺ decay is 2 × 0.511 = 1.022 MeV.", "The energy available is 0.80 MeV, which is less than 1.022 MeV, so β⁺ decay cannot occur.", "Electron capture needs only a positive decay energy, which 0.80 MeV satisfies, so it is the only proton-rich decay that can occur."])
 q(T, "Why does a positron emitter produce two 511 keV photons?",
   simple="A positron soon slows down and meets an electron. They annihilate, and their rest energy, 2 × 511 keV, becomes radiation. Starting almost at rest they have no net momentum, so the photons must leave in opposite directions with equal energies.",
   steps=["Rest energy of the two particles: 0.511 + 0.511 = 1.022 MeV.", "Zero net momentum requires two photons with equal energy in opposite directions.", "Each photon carries 1.022 / 2 = 0.511 MeV, which is 511 keV."])
@@ -503,7 +503,7 @@ q(T, "A positron emitter has an atomic mass difference of 1.70 MeV",
 q(T, "A nuclide has too few neutrons for its number of protons.",
   simple="Too few neutrons means too many protons, so the nucleus lies on the proton-rich side of the stable band. To move toward the band, a proton must change into a neutron. β⁺ decay and electron capture both do that. β⁻ decay does the opposite, and γ emission changes neither number.")
 q(T, "Why is an α emitter such as Ra-223 a small external hazard",
-  simple="An α particle has a large charge and a large mass, so it loses its energy in a very short distance. In tissue it travels less than 100 µm, so from outside the body it does not get through the outer layer of skin to living cells. Inside the body, the same short range deposits all of its energy within a few cell diameters, which suits radiopharmaceutical therapy.")
+  simple="An α particle has a large charge and a large mass, so it loses its energy in a short distance. In tissue it travels less than 100 µm, so from outside the body it does not get through the outer layer of skin to living cells. Inside the body, the same short range deposits all of its energy within a few cell diameters, which suits radiopharmaceutical therapy.")
 q(T, "Which decay raises Z by one without changing A?",
   simple="Raising Z by one with the same number of nucleons means a neutron has become a proton. That is what happens in β⁻ decay, where an electron is emitted at the same time.")
 q(T, "Which of these radionuclides is a positron emitter used for PET?",
@@ -516,7 +516,7 @@ T = "decay-schemes"
 g(T, "Reading a decay scheme", MORE("Reading a scheme and adding up the radiation",
     OL("Find the level that the decay feeds. A decay scheme plots energy upward, so a lower arrow end means less energy. For Co-60, almost every decay feeds the 2.505 MeV level of Ni-60.",
        "Follow the transitions down to the ground state. If every decay passes through the same cascade, every decay emits one photon of each energy. For Co-60 that is 1.173 MeV and 1.332 MeV, and together 1.173 + 1.332 = 2.505 MeV, the energy of the level.",
-       "Multiply the branching fractions along the path to count the photons that are emitted. For Cs-137, 94.4% of decays reach Ba-137m, and about 90% of Ba-137m transitions emit a photon (the rest are internal conversions). Per 1000 Cs-137 decays, 1000 × 0.944 × 0.90 = 850 photons of 662 keV.",
+       "Multiply the branching fractions along the path to count the photons that are emitted. For Cs-137, 94.4% of decays reach Ba-137m, and about 90.2% of Ba-137m transitions emit a photon (the rest are internal conversions). Per 1000 Cs-137 decays, 1000 × 0.944 × 0.902 = 851 photons of 662 keV.",
        f"For the energy of the β particle, take the decay energy to the ground state and subtract the energy of the level fed. For Co-60, 2.824 − 2.505 = {2.824 - 2.505:.3f} MeV is the maximum β energy, and the mean is about one third of that, near 0.1 MeV."),
     "The direction of an arrow tells the process. Atomic number increases to the right, so an arrow down and to the right is β⁻. An arrow down and to the left is β⁺ or electron capture, and a longer one to the left is α emission. A vertical arrow is γ emission or internal conversion, with Z and A unchanged.",
     simple="A decay scheme is a map of energy levels. Going down means the nucleus loses energy, and moving to the right means that Z goes up. Each arrow is one process, labelled with how often it happens and the energy involved. To count the radiation, follow the arrows from the level that the decay feeds and multiply the fractions."))
@@ -548,7 +548,7 @@ q(T, "A Co-60 nucleus emits γ-rays of 1.173 MeV and 1.332 MeV in cascade.",
   steps=["Add the two photon energies: 1.173 + 1.332 = 2.505 MeV.", "This equals the energy of the Ni-60 level that the decay feeds."], check=1.173 + 1.332)
 q(T, "1000 Cs-137 decays94.4% of decays reach Ba-137m",
   simple="Not every decay leads to a photon. The photon comes from Ba-137m, and only some of the Ba-137m transitions emit it. Multiply the fractions along the path.",
-  steps=["Number of decays that reach Ba-137m: 1000 × 0.944 = 944.", "Of those, about 90% emit a photon: 944 × 0.90 = 850.", "About 850 photons, which rounds to the choice 851. The remaining Ba-137m transitions are internal conversions, which emit an electron and not a photon."], check=1000 * 0.944 * 0.90)
+  steps=["Number of decays that reach Ba-137m: 1000 × 0.944 = 944.", "Of those, about 90.2% emit a photon: 944 × 0.902 = 851.", "About 851 photons. The remaining Ba-137m transitions are internal conversions, which emit an electron and not a photon."], check=1000 * 0.944 * 0.902)
 q(T, "Which production route is used for Ir-192 sources for HDR brachytherapy?",
   simple="Ir-191 is a stable and abundant isotope of iridium. Placing it in a reactor lets it capture a neutron and become Ir-192. The reaction is written <sup>191</sup>Ir(n,γ)<sup>192</sup>Ir.")
 q(T, "A nuclide produced by neutron capture in a reactor will most likely decay by:",
@@ -580,7 +580,7 @@ g(T, "Electromagnetic waves and photons", MORE("Converting between wavelength, f
        f"<b>Frequency to energy.</b> E = hν. For 2.45 GHz, E = 4.136 × 10<sup>−15</sup> × 2.45 × 10<sup>9</sup> = {sci(HEV * 2.45e9, 2)} eV."),
     TABLE(["Energy unit", "Value of hc", "Wavelength comes out in"], [["eV", "1240 eV·nm", "nm"], ["keV", "12.4 keV·Å", "Å (10<sup>−10</sup> m)"], ["MeV", "1.24 MeV·pm", "pm (10<sup>−12</sup> m)"]]),
     f"Use the row that matches the unit of the energy. For 511 keV (0.511 MeV), λ = 1.24 / 0.511 = {1.24 / 0.511:.2f} pm. For 6.0 MeV, λ = 1.24 / 6.0 = {1.24 / 6.0:.3f} pm.",
-    "Two checks catch most mistakes. Higher energy means a shorter wavelength, so halving the wavelength doubles the energy. And the prefixes must be handled with care: GHz is 10<sup>9</sup> Hz, and 1 nm is 10<sup>−9</sup> m.",
+    "Higher energy means a shorter wavelength, so halving the wavelength doubles the energy. The prefixes must be converted with care: GHz is 10<sup>9</sup> Hz, and 1 nm is 10<sup>−9</sup> m.",
     simple="Frequency, wavelength, and photon energy describe the same wave in three ways. The wavelength and the frequency are tied together by the speed of light, and the photon energy is set by the frequency alone. A short wavelength means a high frequency and a high photon energy."))
 g(T, "Units and prefixes", MORE("Converting prefixes and units",
     OL("Write the number in scientific notation with the prefix as a power of ten: 140 keV = 140 × 10<sup>3</sup> eV = 1.40 × 10<sup>5</sup> eV.",
@@ -603,10 +603,10 @@ q(T, "Light has a known frequency.",
   simple="Light travels at c, so the wavelength is the speed divided by the frequency. A high frequency gives a short wavelength.",
   steps=[f"λ = c / ν = 3.00 × 10<sup>8</sup> / 6.0 × 10<sup>14</sup> = {CC / 6.0e14:.1e} m.".replace("e-07", " × 10<sup>−7</sup>"), f"Convert to nanometres: {CC / 6.0e14 * 1e9:.0f} nm."], check=CC / 6.0e14 * 1e9)
 q(T, "How many joules are in 1.0 MeV?",
-  simple="An electron-volt is a very small unit of energy. One eV is 1.602 × 10<sup>−19</sup> J, and a megaelectron-volt is a million of them.",
+  simple="One eV is 1.602 × 10<sup>−19</sup> J, and a megaelectron-volt is a million of them.",
   steps=["1.0 MeV = 1.0 × 10<sup>6</sup> eV.", f"Multiply by 1.602 × 10<sup>−19</sup> J per eV: 10<sup>6</sup> × 1.602 × 10<sup>−19</sup> = {sci(1.602e-13, 4)} J."], check=1.602e-13)
 q(T, "The most energetic photon in a 6 MV x-ray beam.",
-  simple="A photon's wavelength is inversely proportional to its energy, so a 6 MeV photon has a very short wavelength. Use the version of hc that matches MeV.",
+  simple="A photon's wavelength is inversely proportional to its energy, so a 6 MeV photon has a short wavelength. Use the version of hc that matches MeV.",
   steps=["hc = 1.24 MeV·pm, which gives the wavelength in picometres for an energy in MeV.", f"λ = 1.24 / 6.0 = {1.24 / 6.0:.4f} pm."], tip="This is 0.207 pm, or 2.07 × 10<sup>−4</sup> nm. It is far smaller than an atom.", check=1.24 / 6.0)
 q(T, "A linac is driven at a microwave frequency.",
   simple="Microwaves are electromagnetic waves, so the wavelength is the speed of light divided by the frequency.",
@@ -625,7 +625,7 @@ q(T, "The intensity of a monochromatic x-ray beam is doubled",
   simple="Photon energy depends only on wavelength. Doubling the intensity at the same wavelength means twice as many photons each second, each with the same energy as before.")
 q(T, "What is the wavelength of a 511 keV annihilation photon?",
   simple="Use hc = 1.24 MeV·pm and the energy in MeV.",
-  steps=["511 keV = 0.511 MeV.", f"λ = 1.24 / 0.511 = {1.24 / 0.511:.2f} pm."], tip="This is the Compton wavelength of the electron.", check=1.24 / 0.511)
+  steps=["511 keV = 0.511 MeV.", f"λ = 1.24 / 0.511 = {1.24 / 0.511:.2f} pm."], check=1.24 / 0.511)
 q(T, "Compare two photons.",
   simple="Compare the two energies in the same unit. The x-ray energy is given in electron-volts, so convert the microwave frequency to an energy in electron-volts with E = hν.",
   steps=["Microwave photon: E = hν = 4.136 × 10<sup>−15</sup> × 2.45 × 10<sup>9</sup> = 1.01 × 10<sup>−5</sup> eV.", "X-ray photon: E = 100 keV = 1.00 × 10<sup>5</sup> eV.", f"Ratio = 1.00 × 10<sup>5</sup> / 1.01 × 10<sup>−5</sup> = {1.0e5 / (HEV * 2.45e9):.2e}, about 10<sup>10</sup>.".replace("e+09", " × 10<sup>9</sup>")], check=math.log10(1.0e5 / (HEV * 2.45e9)))      # the answer options are powers of ten, stored as the exponent
@@ -640,13 +640,13 @@ H_, M_ = "How to decide", None
 # ---- 1.2
 T = "particles-energy"
 q(T, "What is the rest energy of an electron?",
-  simple="Mass and energy are two forms of the same thing, E = mc². An electron at rest has the energy equivalent of its mass, and that value, 0.511 MeV, is used throughout radiation physics.",
+  simple="Mass and energy are two forms of the same thing, E = mc². An electron at rest has the energy equivalent of its mass, 0.511 MeV.",
   steps=["The electron mass is 9.109 × 10<sup>−31</sup> kg, and c = 2.998 × 10<sup>8</sup> m/s.", f"E = mc² = 9.109 × 10<sup>−31</sup> × (2.998 × 10<sup>8</sup>)² = {sci(9.109e-31 * 2.998e8 ** 2, 3)} J.", f"Divide by 1.602 × 10<sup>−13</sup> J per MeV: {9.109e-31 * 2.998e8 ** 2 / 1.602e-13:.3f} MeV."])
 q(T, "Approximately how many times heavier is a proton than an electron?",
   simple="The rest energies are proportional to the masses, so the ratio of the rest energies is the ratio of the masses.",
   steps=[f"Proton: 938.3 MeV. Electron: 0.511 MeV.", f"Ratio = 938.3 / 0.511 = {938.3 / 0.511:.0f}."])
 q(T, "Which of these particles carry no electric charge?",
-  simple="Only two of the common particles are neutral: the neutron and the photon. The positron has a charge of +1, the proton +1, and the α particle +2, because it is a helium nucleus with two protons.",
+  simple="Only two of the particles listed are neutral: the neutron and the photon. The positron has a charge of +1, the proton +1, and the α particle +2, because it is a helium nucleus with two protons.",
   steps=["Neutron: charge 0. Photon: charge 0.", "Positron: +1. Proton: +1. α particle: +2. Electron: −1."], how=H_)
 # ---- 1.3
 T = "charges-atom"
@@ -654,7 +654,7 @@ q(T, "The distance between two charges is doubled.",
   simple="The Coulomb force falls with the square of the distance. Twice as far means the force is one quarter as large.",
   steps=["F ∝ 1/r².", "Replace r by 2r: F′ ∝ 1/(2r)² = 1/(4r²) = F/4."])
 q(T, "What did the scattering of α particles from gold foil show?",
-  simple="Most α particles passed straight through the foil, but a few bounced back through large angles. That could only happen if the positive charge and most of the mass were packed into a very small core, the nucleus, with the electrons far outside it.")
+  simple="Most α particles passed straight through the foil, but a few bounced back through large angles. That could only happen if the positive charge and most of the mass were packed into a small core, the nucleus, with the electrons far outside it.")
 q(T, "What energy is needed to ionize a hydrogen atom in its ground state?",
   simple="The ground state has an energy of −13.6 eV, which means 13.6 eV of energy is needed to lift the electron to zero energy, free of the atom.",
   steps=["E<sub>1</sub> = −13.6 eV / 1² = −13.6 eV.", "Ionization takes the electron to E = 0, so the energy needed is 0 − (−13.6) = 13.6 eV."], tip="Ionizing from n = 2 needs only 3.40 eV.")
@@ -667,7 +667,7 @@ q(T, "How many neutrons are in an Ir-192 nucleus",
   simple="The mass number counts all the nucleons, protons and neutrons together. The neutron number is what is left after the protons are taken away.",
   steps=["N = A − Z.", "A = 192 and Z = 77, so N = 192 − 77 = 115."])
 q(T, "Which force holds protons together in the nucleus",
-  simple="The protons repel each other by the Coulomb force. At distances of a few femtometres, the strong nuclear force between neighbouring nucleons is stronger than that repulsion and binds the nucleus. It acts only over very short range.")
+  simple="The protons repel each other by the Coulomb force. At distances of a few femtometres, the strong nuclear force between neighbouring nucleons is stronger than that repulsion and binds the nucleus. It acts only over short range.")
 q(T, "Tc-99m and Tc-99 are best described as:",
   simple="Both are technetium with 99 nucleons, so they have the same Z and the same A. They differ only in energy: Tc-99m is an excited state with a measurable lifetime, and the m stands for metastable. Nuclides that differ only in energy state are isomers.")
 q(T, "Is each pair of nuclides isotopes, isotones, isobars, or isomers?",
@@ -676,14 +676,14 @@ q(T, "Is each pair of nuclides isotopes, isotones, isobars, or isomers?",
 q(T, "A small part of the chart of the nuclides.",
   simple="On the chart of the nuclides, protons run up the vertical axis and neutrons along the horizontal axis. Isotones have the same number of neutrons, so they lie in the same vertical column.",
   steps=["C-14 has N = 8. An isotone must also have N = 8.", "In the nitrogen row (Z = 7), N = 8 means A = 15, so the nuclide is N-15.", "It sits directly above C-14 in the chart."])
-q(T, "The same chart.",
+q(T, "A chart of the nuclides.",
   simple="Isobars have the same mass number. On the chart, A = Z + N, so isobars lie along a diagonal line.",
   steps=["C-14 has A = 14.", "In the nitrogen row (Z = 7), A = 14 means N = 7, so the nuclide is N-14.", "It lies on the diagonal through C-14 in the chart."])
 # ---- 1.5
 T = "decay-modes"
 q(T, "Sort each radionuclide into the decay mode it mainly uses.",
   simple="The mode depends on whether the nucleus has too many neutrons or too many protons, and on how much energy is available.",
-  steps=["Neutron-rich nuclides decay by β⁻. Y-90, Lu-177, I-131, and Ir-192 are made by neutron capture or fission, so they have extra neutrons.", "F-18 is proton-rich and has more than 1.022 MeV available, so it decays mainly by β⁺.", "I-125 and Pd-103 are proton-rich, but their decay energies are below 1.022 MeV (about 0.19 MeV and 0.54 MeV), so β⁺ is not possible. They decay by electron capture.", "Ra-223 is a very heavy nucleus and decays by α emission."], how=H_)
+  steps=["Neutron-rich nuclides decay by β⁻. Y-90, Lu-177, I-131, and Ir-192 are made by neutron capture or fission, so they have extra neutrons.", "F-18 is proton-rich and has more than 1.022 MeV available, so it decays mainly by β⁺.", "I-125 and Pd-103 are proton-rich, but their decay energies are below 1.022 MeV (about 0.19 MeV and 0.54 MeV), so β⁺ is not possible. They decay by electron capture.", "Ra-223 is a heavy nucleus and decays by α emission."], how=H_)
 q(T, "Match each decay to what it does to the nucleus.",
   simple="The changes in Z and A follow from what leaves the nucleus or changes inside it.",
   steps=["β⁻: a neutron becomes a proton, so Z increases by 1 and A is unchanged.", "β⁺ and electron capture: a proton becomes a neutron, so Z decreases by 1 and A is unchanged.", "α: two protons and two neutrons leave, so Z decreases by 2 and A by 4."], how=H_)
@@ -722,8 +722,8 @@ q(T, "Two radionuclides have the same atomic mass.",
   simple="With equal molar masses, a gram of each contains the same number of atoms. The one with the shorter half-life has the larger decay constant, so each atom is more likely to decay in any second, and the activity per gram is higher.",
   steps=["S = λ × (atoms per gram) = ln 2 × N<sub>A</sub> / (T½ × M).", "With M equal, S is proportional to 1/T½. The shorter half-life gives the higher S."])
 q(T, "Why is a high specific activity valuable for an HDR brachytherapy source?",
-  simple="A high specific activity means that a large activity fits in a very small mass. A small source can pass through a narrow catheter and acts nearly like a point, which makes the dose calculation simpler.",
-  steps=[f"For 370 GBq of Ir-192 (S = 3.4 × 10<sup>14</sup> Bq/g), m = A / S = {370e9 / 3.4e14 * 1000:.2f} mg.", f"The same activity of Cs-137 would need about {370e9 / 3.2e12:.0f} mg, which is far too bulky for an HDR source."])
+  simple="A high specific activity means that a large activity fits in a small mass. A small source can pass through a narrow catheter and acts nearly like a point, which makes the dose calculation simpler.",
+  steps=[f"For 370 GBq of Ir-192 (S = 3.4 × 10<sup>14</sup> Bq/g), m = A / S = {370e9 / 3.4e14 * 1000:.2f} mg.", f"The same activity of Cs-137 would need about {370e9 / 3.2e12 * 1000:.0f} mg, which is far too bulky for an HDR source."])
 q(T, "Why is the specific activity of a real Ir-192 source lower than the theoretical value?",
   simple="The theoretical value assumes that every atom in the sample is Ir-192. A real source is made by placing stable Ir-191 in a reactor, and only a small fraction of its atoms capture a neutron. The rest stay as stable iridium. They add mass but no activity, so the activity per gram is lower.")
 q(T, "Rank these nuclides by specific activity, highest first.",
@@ -743,13 +743,13 @@ q(T, "The attenuation of a narrow beam of monoenergetic photons",
   simple="Every thin layer of the absorber removes the same fraction of the photons that reach it. A constant fraction removed per layer is an exponential fall with thickness.",
   steps=["After a layer of thickness x, the fraction that is left is e<sup>−μx</sup>.", "So I = I₀ e<sup>−μx</sup>, where μ is the linear attenuation coefficient."])
 q(T, "In water, which interaction dominates for photons from about 30 keV to 24 MeV?",
-  simple="The photoelectric effect dominates below about 30 keV and pair production above about 24 MeV. Between them, which includes every therapy beam, Compton scattering is the main interaction.")
+  simple="The photoelectric effect dominates below about 30 keV and pair production above about 24 MeV. Between them, which includes every megavoltage therapy beam, Compton scattering is the main interaction.")
 q(T, "What is the threshold photon energy for pair production in the field of a nucleus?",
   simple="Pair production turns a photon's energy into the mass of an electron and a positron. Each has a rest energy of 0.511 MeV, so the photon must carry at least 1.022 MeV.",
   steps=["2 × 0.511 = 1.022 MeV.", "In the field of an electron (triplet production), the threshold is 2.044 MeV, because the struck electron also takes up recoil energy."])
 q(T, "Which of the following are true of Compton scattering?",
-  simple="Compton scattering is an interaction with loosely bound electrons. Three statements are true of it, and the other two belong to different interactions.",
-  steps=["True: the electron receives the most energy when the photon is scattered straight back (180°).", "True: the scattered photon at 90° has energy E / (1 + E/0.511), which approaches 0.511 MeV for very high E and never exceeds it.", "True: it involves loosely bound electrons, so per electron it does not depend on Z.", "Not Compton: a characteristic x-ray follows the photoelectric effect, and a threshold of 1.022 MeV belongs to pair production."], how=H_)
+  simple="Compton scattering is an interaction with loosely bound electrons. Three statements are true of it, and the other three describe other interactions.",
+  steps=["True: the electron receives the most energy when the photon is scattered straight back (180°).", "True: the scattered photon at 90° has energy E / (1 + E/0.511), which approaches 0.511 MeV as E increases and never exceeds it.", "True: it involves loosely bound electrons, so per electron it does not depend on Z.", "Not Compton: a characteristic x-ray follows the photoelectric effect, complete absorption of the photon is the photoelectric effect, and a threshold of 1.022 MeV belongs to pair production."], how=H_)
 q(T, "Is each radiation directly or indirectly ionizing?",
   simple="Charged particles ionize directly along their tracks. Uncharged radiation has to transfer energy to a charged particle first.",
   steps=["Electrons, protons, and α particles are charged: directly ionizing.", "Photons and neutrons are uncharged: indirectly ionizing."], how=H_)
@@ -792,7 +792,7 @@ q(T, "Which statement about electric current is correct?",
   steps=["Conventional current points from the positive terminal toward the negative terminal.", "In a metal wire the electrons move from the negative terminal toward the positive one, opposite to the conventional current.", "Direct current keeps one direction, and alternating current reverses periodically. The unit of current is the ampere, one coulomb per second."], how=H_)
 q(T, "The current through a resistor and the potential difference across it are to be measured.",
   simple="The two instruments measure different things in different ways. Current is the flow through the component, so the meter has to sit in the path of that flow. Potential difference compares two points, so the meter is connected across them.",
-  steps=["Ammeter: in series, so that all of the current passes through it. Its resistance is very small, so it hardly changes the current.", "Voltmeter: in parallel, across the component. Its resistance is very large, so it draws almost no current."], how=H_)
+  steps=["Ammeter: in series, so that all of the current passes through it. Its resistance is small, so it hardly changes the current.", "Voltmeter: in parallel, across the component. Its resistance is large, so it draws almost no current."], how=H_)
 q(T, "In the accelerating waveguide of a linac, the electrons gain energy from:",
   simple="An electron gains energy when it crosses a potential difference. A constant voltage of several million volts across the whole structure would be hard to build, so the linac uses an alternating field at microwave frequency and times the electrons so that the field points forward whenever they are in a gap. Each gap adds a little energy, and the sum along the structure is the final energy.",
   steps=["Microwaves at about 3 GHz set up an electric field along the waveguide.", "The gun injects bunches so that the field points forward when the electrons are in the accelerating gaps.", "Each gap adds qΔV. A magnetic field only bends the path, because the magnetic force does no work."], how=H_)
@@ -806,7 +806,7 @@ q(T, "Electrons of 50 keV strike a tungsten target.",
 T = "nuclear-structure"
 q(T, "Which list orders the four fundamental forces from the strongest to the weakest?",
   simple="The strong force holds the nucleons together against the repulsion between the protons, so it is the strongest. The electromagnetic force comes next. The weak force acts in beta decay and is weaker than electromagnetism. Gravity is far weaker than all of them.",
-  steps=["Strong: binds nucleons, over about 1 to 3 fm.", "Electromagnetic: acts between charges, over long range.", "Weak: acts in beta decay, over a very short range.", "Gravitational: far weaker than the other three."], how=H_)
+  steps=["Strong: binds nucleons, over about 1 to 3 fm.", "Electromagnetic: acts between charges, over long range.", "Weak: acts in beta decay, over a short range.", "Gravitational: far weaker than the other three."], how=H_)
 q(T, "Which nucleus is especially stable because both its proton number and its neutron number are magic numbers?",
   simple="Protons and neutrons fill shells in the nucleus, in the way that electrons fill shells in an atom. A shell is closed at the magic numbers 2, 8, 20, 28, 50, 82, and 126, and a nucleus with closed shells is held more tightly than its neighbours.",
   steps=["Pb-208: 82 protons and 208 − 82 = 126 neutrons. Both are magic.", "Co-60: 27 protons and 33 neutrons. Neither is magic.", "Ir-192: 77 protons and 115 neutrons. Neither is magic.", "I-131: 53 protons and 78 neutrons. Neither is magic."], how=H_)
@@ -821,7 +821,7 @@ q(T, "A radionuclide has a half-life of 10 days.",
   tip="The activity of a sample is low after three half-lives because few nuclei are left, not because the survivors are less likely to decay.", how=H_)
 T = "photon-interactions"
 q(T, "A radiograph is made at 100 kVp, with an effective photon energy of about 50 keV.",
-  simple="Two questions are mixed here: which interaction happens most often, and which interaction makes the picture. Compton scattering happens most often in soft tissue at this energy. The photoelectric effect depends strongly on the atomic number, so it makes the difference between bone and soft tissue, and that difference is the contrast.",
+  simple="Frequency and contrast depend on different interactions. Compton scattering happens most often in soft tissue at this energy. The photoelectric effect depends strongly on the atomic number, so it makes the difference between bone and soft tissue, and that difference is the contrast.",
   steps=["Frequency: in water at 50 keV Compton scattering is roughly 80% of the attenuation, and the photoelectric effect and coherent scattering share the rest.", "Contrast: per gram, bone attenuates about 1.9 times as much as water at 50 keV, but only about 1.1 times as much at 100 keV. The extra comes from the photoelectric effect, which varies as Z<sup>3</sup>.", "Electrons per gram differ little between bone and soft tissue, so Compton scattering gives little contrast.", "Pair production needs a photon of more than 1.022 MeV, so it does not occur at 50 keV."], how=H_)
 q(T, "A lead barrier must reduce a beam to 1.0% of the unshielded intensity.",
   simple="The build-up factor says that scattered photons add to the transmitted beam, so the barrier has to remove more of the primary beam than the narrow-beam calculation suggests. Dividing the required transmission by the build-up factor gives the attenuation that the exponential has to supply.",

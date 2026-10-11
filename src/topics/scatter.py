@@ -25,7 +25,7 @@ TOPIC = dict(
         P("Output and depth-dose tables are measured for square fields. A rectangle is replaced by the square with the same area-to-perimeter ratio (Sterling's A/P rule)."),
         EQ("rectangle a × b: A/P = ab / [2(a + b)]", "square of side s: A/P = s/4", "s = 2ab / (a + b)"),
         EX("Equivalent square", STEM("", ["rectangular field = 6 × 18 cm"], "Find the [[equivalent square]]."), ["s = 2 × 6 × 18 / (6 + 18) = 216/24."], f"{es:.1f} cm."),
-        P("The rule is least accurate for very elongated rectangles. For irregular fields, Clarkson integration divides the field around the calculation point into sectors and sums their scatter contributions. Planning systems and second-check software do this; a hand calculation uses the equivalent square."),
+        P("The rule is least accurate for elongated rectangles. For irregular fields, Clarkson integration divides the field around the calculation point into sectors and sums their scatter contributions. Planning systems and second-check software do this; a hand calculation uses the equivalent square."),
 
     ],
     cards=[
@@ -62,7 +62,7 @@ q_interp_area = 0.976 + ((6 * 18) ** 0.5 - 8) / 2 * (1.000 - 0.976)
 
 PROBLEMS = [
     PR("The collimator scatter factor S<sub>c</sub> depends on:", "the jaw (collimator) opening", ["the field that irradiates the phantom", "the depth in the phantom", "the SSD"],
-       "S<sub>c</sub> is the in-air output ratio. It changes with the jaw opening because scatter in the treatment head changes the fluence that leaves the machine. It does not know about the patient or phantom.", lvl="Easy"),
+       "S<sub>c</sub> is the in-air output ratio. It changes with the jaw opening because scatter in the treatment head changes the fluence that leaves the machine. It does not depend on the patient or phantom.", lvl="Easy"),
     PR("The phantom scatter factor S<sub>p</sub> is obtained as:", "S<sub>cp</sub> divided by S<sub>c</sub>", ["S<sub>cp</sub> multiplied by S<sub>c</sub>", "S<sub>c</sub> divided by S<sub>cp</sub>", "a direct measurement with a chamber in air"],
        "S<sub>p</sub> cannot be measured on its own. A phantom measurement gives S<sub>cp</sub>, which contains both effects, and an in-air measurement gives S<sub>c</sub>. Then S<sub>p</sub> = S<sub>cp</sub> / S<sub>c</sub>.", lvl="Easy"),
     PR("Which statement is true for the 10 × 10 cm reference field?", "S<sub>c</sub>, S<sub>p</sub>, and S<sub>cp</sub> all equal 1.000", ["S<sub>c</sub> equals 1.000 but S<sub>p</sub> does not", "S<sub>cp</sub> equals 1.000 but S<sub>c</sub> and S<sub>p</sub> do not", "None of them is defined for this field"],
@@ -86,8 +86,8 @@ PROBLEMS = [
     PRN(STEM("A rectangular field.", ["8 × 20 cm"], "What is the side of its [[equivalent square]]?"), q_es820, [(8 * 20) ** 0.5, (8 + 20) / 2, 8 * 20 / (8 + 20)], "{:.1f} cm",
         f"s = 2ab/(a + b) = 2 × 8 × 20 / 28 = {q_es820:.1f} cm. The equal-area square gives {(8 * 20) ** 0.5:.1f} cm, the average of the sides gives 14.0 cm, and leaving out the factor of 2 gives {8 * 20 / 28:.1f} cm.", lvl="Moderate",
         calc=CALC("cm", [TILE("2", 2), TILE("a", 8, "cm"), TILE("b", 20, "cm")], ops=("+", "×", "÷", "(", ")"), solution=["2", "×", "a", "×", "b", "÷", "(", "a", "+", "b", ")"])),
-    PR("For which field is the equivalent square from the area-to-perimeter rule least accurate?", "A very elongated rectangle, such as 2 × 30 cm", ["A 10 × 10 cm square", "A 10 × 12 cm rectangle", "A 15 × 15 cm square"],
-       "The rule is an approximation that works well for fields close to square. It is least reliable for very elongated rectangles, and irregular fields need Clarkson integration.", lvl="Moderate"),
+    PR("For which field is the equivalent square from the area-to-perimeter rule least accurate?", "An elongated rectangle, such as 2 × 30 cm", ["A 10 × 10 cm square", "A 10 × 12 cm rectangle", "A 15 × 15 cm square"],
+       "The rule is an approximation that works well for fields close to square. It is least reliable for elongated rectangles, and irregular fields need Clarkson integration.", lvl="Moderate"),
     PRN(STEM("A rectangular field of 6 × 18 cm is looked up in a table of output factors.", ["S<sub>cp</sub>(8 × 8) = 0.976", "S<sub>cp</sub>(10 × 10) = 1.000"], "Estimate its [[S<sub>cp</sub>]] by linear interpolation at the equivalent square."), q_interp, [q_interp_area, 0.976, 1.000], "{:.3f}",
         f"The equivalent square is 2 × 6 × 18 / 24 = {q_es618:.1f} cm, halfway between 8 and 10 cm, so S<sub>cp</sub> = (0.976 + 1.000)/2 = {q_interp:.3f}. The equal-area square (10.4 cm) extrapolates to {q_interp_area:.3f}. Reading the 8 × 8 or the 10 × 10 row gives 0.976 or 1.000.", lvl="Challenging"),
 ]

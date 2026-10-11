@@ -3,8 +3,9 @@ import re, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
-import blocks
+import blocks, figs
 from topics import TOPICS
+FIGS = figs.build()
 bad = []
 def one(where, html):
     h = blocks._mark(blocks.autostem(html))
@@ -23,8 +24,7 @@ for t in TOPICS:
             n_ex += 1; h = one(f"{t['id']} example '{b[1]}'", b[2])
             if 'class="f"' not in h: bad.append((f"{t['id']} example '{b[1]}'", "worked example without a marked quantity to find", ""))
     if t.get("terms"):
-        html = blocks.render(t["guide"], {"decay_curve": "", "nuclide_chart": "", "equilibrium": "", "pdd_curves": "", "pdd_vs_tmr": "", "scatter_geometry": "", "interaction_regions": "", "kerma_dose": "",
-                                          "beta_vs_ke": "", "bohr_levels": "", "be_curve": "", "decay_schemes": ""}, tid=t["id"], terms=t["terms"])
+        html = blocks.render(t["guide"], FIGS, tid=t["id"], terms=t["terms"])
         got = re.findall(r'<span class="t">(.*?)</span>', html, re.S)
         miss = [x for x in t["terms"] if x.lower() not in {g.lower() for g in got}]
         if miss: bad.append((t["id"], "key terms not found in the text", miss))

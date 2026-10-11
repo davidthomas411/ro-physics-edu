@@ -349,8 +349,190 @@ def decay_schemes():
     p.append(txt(ox + 65, base + 20, "Z = 55", 12, "middle", "var(--mu)")); p.append(txt(ox + 225, base + 20, "Z = 56", 12, "middle", "var(--mu)"))
     return svg(W, Hh, ARROW + "".join(p), "Decay schemes of Co-60 and Cs-137: energy upward, atomic number to the right")
 
+# ================================================================== multileaf collimator leaves (panels: one svg each, so that they stack on a phone)
+def _panel(w, h, body, label):
+    """One panel of a multi-panel figure: its own svg, so that panels sit side by side on a wide screen and stack on a phone."""
+    return (f'<svg viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{esc(label)}" '
+            f'style="{FS}font-size:13px;display:block;flex:0 1 {w}px;width:{w}px;max-width:100%;height:auto">{ARROW}{body}</svg>')
+
+def _panels(*ps): return '<div class="panels">' + "".join(ps) + "</div>"
+
+def _poly(pts, color="var(--fg)", w=1.5, fill="none", op=1, dash=None):
+    return path("M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts) + " Z", color, w, dash, fill, op)
+
+def _tickv(x, y1, y2, color="var(--fg)", w=1.3, cap=4):
+    return line(x, y1, x, y2, color, w) + line(x - cap, y1, x + cap, y1, color, w) + line(x - cap, y2, x + cap, y2, color, w)
+
+def _tickh(x1, x2, y, color="var(--fg)", w=1.3, cap=4):
+    return line(x1, y, x2, y, color, w) + line(x1, y - cap, x1, y + cap, color, w) + line(x2, y - cap, x2, y + cap, color, w)
+
+def _title(x, s): return txt(x, 18, s, 14, "start", "var(--fg)", 700)
+
+def _halo(t): return t.replace("<text ", '<text stroke="var(--paper)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" ', 1)   # a label that stays readable over a thin line
+
+# ------------------------------------------------------------------ the leaf bank: side view and beam's-eye view
+def mlc_bank():
+    H = 266
+    # side view of two opposing leaves under the source
+    b = [_title(6, "Side view")]
+    sx, sy = 108, 42; yt, yb = 104, 164; ym = (yt + yb) / 2; R = 44.0; s = R - math.sqrt(R * R - (ym - yt) ** 2); tl, tr = 92, 124; plane = 232
+    b.append(circ(sx, sy, 5, "var(--fg)", "var(--fg)", 1) + txt(sx + 10, sy + 4, "Source", 12, "start", "var(--mu)"))
+    k = (plane - sy) / (ym - sy)
+    for xt in (tl, tr): b.append(line(sx, sy, sx + (xt - sx) * k, plane, "var(--mu)", 1.2, "5 4"))
+    b.append(path(f"M 6,{yt} L {tl - s:.1f},{yt} A {R:g} {R:g} 0 0 1 {tl - s:.1f},{yb} L 6,{yb} Z", "var(--fg)", 1.5, None, "var(--gr)"))
+    b.append(path(f"M 194,{yt} L {tr + s:.1f},{yt} A {R:g} {R:g} 0 0 0 {tr + s:.1f},{yb} L 194,{yb} Z", "var(--fg)", 1.5, None, "var(--gr)"))
+    b.append(line(16, yt + 1, 16, yb - 1, "var(--fg)", 1.2, marker=True)); b.append(line(16, yb - 1, 16, yt + 1, "var(--fg)", 1.2, marker=True)); b.append(txt(24, ym + 4, "thickness", 12, "start"))
+    b.append(line(20, yt - 12, 64, yt - 12, "var(--fg)", 1.2, marker=True)); b.append(line(64, yt - 12, 20, yt - 12, "var(--fg)", 1.2, marker=True)); b.append(txt(42, yt - 20, "travel", 12, "middle", "var(--mu)"))
+    b.append(txt((tr + s + 194) / 2, ym + 4, "tungsten", 12, "middle", "var(--fg)"))
+    b.append(line(36, plane, 180, plane, "var(--fg)", 1.2))
+    xl, xr = sx + (tl - sx) * k, sx + (tr - sx) * k
+    b.append(line(xl, plane - 7, xl, plane + 7, "var(--fg)", 1.5)); b.append(line(xr, plane - 7, xr, plane + 7, "var(--fg)", 1.5))
+    b.append(txt(108, plane + 24, "isocenter plane", 12, "middle", "var(--mu)"))
+    P = [_panel(200, H, "".join(b), "Side view of two opposing tungsten leaves with rounded ends, with the beam from the source passing between them to the isocenter plane")]
+    # beam's-eye view of the same circular target with wide and narrow leaves
+    def bev(rowh):
+        w = 190; xc = w / 2; cy = 118; r = 56; top = cy - 90; n = int(180 / rowh)
+        out = [_title(6, f"{rowh / 20:.1f} cm leaves"), txt(6, 36, "Beam's-eye view", 12, "start", "var(--mu)")]
+        for i in range(n):
+            ya, yb2 = top + i * rowh, top + (i + 1) * rowh
+            dmin = 0 if ya <= cy <= yb2 else min(abs(ya - cy), abs(yb2 - cy))
+            half = math.sqrt(r * r - dmin * dmin) if dmin < r else 0.0
+            out.append(rect(2, ya, xc - half - 2, rowh, "var(--gr)", "var(--fg)", 1)); out.append(rect(xc + half, ya, w - 2 - xc - half, rowh, "var(--gr)", "var(--fg)", 1))
+        out.append(path(f"M {xc - r},{cy} A {r} {r} 0 1 1 {xc + r},{cy} A {r} {r} 0 1 1 {xc - r},{cy} Z", "var(--c2)", 2.2, "6 4"))
+        out.append(txt(xc, cy + 4, "target", 13, "middle", "var(--c2)", 600))
+        yr = top + (n // 2 + 1) * rowh                              # one row on the right, marked with its width
+        out.append(_tickv(w - 14, yr, yr + rowh, "var(--fg)", 1.5, 4)); out.append(txt(w - 21, yr + rowh / 2 + 5, "w", 13, "end", "var(--fg)", 700))
+        return _panel(w, 218, "".join(out), f"Beam's-eye view of a circular target shaped by two opposing banks of leaves {rowh / 20:.1f} cm wide at the isocenter, with a stepped edge")
+    P += [bev(20), bev(10)]
+    return _panels(*P)
+
+# ------------------------------------------------------------------ leaf ends: straight, divergent, rounded
+MLC_END = dict(ys=-300.0, y1=118.0, y2=188.0, yp=262.0, R=50.0, edges={-1: -14.0, 1: 60.0})   # geometry of the leaf-end figure in drawing units: the source (above the panel), the top and bottom of the leaf, the plane, the radius of the rounded end, and the edges (left near the axis, right far from it)
+
+def _end_kx(y): return (y - MLC_END["ys"]) / (MLC_END["y1"] - MLC_END["ys"])           # how far a ray from the source has spread at height y, relative to the top of the leaf
+
+def _end_face(design, side, e):
+    """Lateral position of the end face at height y, for an edge e from the axis at the top of the leaf."""
+    y1, y2, R = MLC_END["y1"], MLC_END["y2"], MLC_END["R"]; ym = (y1 + y2) / 2
+    if design == "straight": return lambda y: e
+    if design == "divergent": return lambda y: e * _end_kx(y)
+    em = e * _end_kx(ym)                                        # rounded: the tip lies on the ray through the middle of the leaf
+    if side < 0:
+        cx = em - R; return lambda y: cx + math.sqrt(R * R - (y - ym) ** 2)
+    cx = em + R; return lambda y: cx - math.sqrt(R * R - (y - ym) ** 2)
+
+def _end_rays(bx):
+    """Offsets, at the top of the leaf, of the ray that first crosses all of the leaf and of the ray that first touches it (the smaller offset first)."""
+    yy = [MLC_END["y1"] + (MLC_END["y2"] - MLC_END["y1"]) * i / 120 for i in range(121)]
+    def root(which):
+        lo, hi = -300.0, 300.0
+        for _ in range(80):
+            m = (lo + hi) / 2; d = [m * _end_kx(y) - bx(y) for y in yy]; v = (min(d), max(d))[which]
+            lo, hi = (m, hi) if v < 0 else (lo, m)
+        return (lo + hi) / 2
+    return root(1), root(0)
+
+def mlc_end_bands():
+    """Width, at the top of the leaf, of the part of the beam that crosses only part of a leaf end, for each design and side."""
+    out = {}
+    for d in ("straight", "divergent", "rounded"):
+        out[d] = {}
+        for side, e in MLC_END["edges"].items():
+            lo, hi = _end_rays(_end_face(d, side, e)); out[d][side] = hi - lo
+    return out
+
+def mlc_leaf_ends():
+    H = 330
+    ys, y1, y2, yp = MLC_END["ys"], MLC_END["y1"], MLC_END["y2"], MLC_END["yp"]
+    ym = (y1 + y2) / 2; R = MLC_END["R"]; hh = (y2 - y1) / 2
+    kx, face, rays = _end_kx, _end_face, _end_rays
+    E = MLC_END["edges"]
+    out = []
+    for pi, (d, name, note) in enumerate((("straight", "Straight end", ("narrow near the axis,", "wide far from it")), ("divergent", "Divergent end", ("narrow everywhere", "")), ("rounded", "Rounded end", ("nearly the same width", "everywhere")))):
+        w = 197; ax = 56.0; xr = w - 8; b = [_title(6, name)]
+        b.append(line(ax, 48, ax, yp, "var(--mu)", 1, "2 4")); b.append(txt(w / 2, 38, "from the source", 12, "middle", "var(--mu)"))
+        if pi == 0: b.append(_halo(txt(ax + 5, 100, "axis", 12, "start", "var(--mu)")))
+        for side in (-1, 1):
+            bx = face(d, side, E[side]); lo_, hi_ = rays(bx)
+            free, full = (hi_, lo_) if side < 0 else (lo_, hi_)
+            xf = lambda t0, y: ax + t0 * kx(y)
+            b.append(_poly([(xf(free, y2), y2), (xf(full, y2), y2), (xf(full, yp), yp), (xf(free, yp), yp)], "none", 0, "var(--c2)", 0.30))
+            b.append(line(xf(free, 58), 58, xf(free, y1), y1, "var(--mu)", 1.2, "5 4"))
+            for t0 in (free, full): b.append(line(xf(t0, y2), y2, xf(t0, yp), yp, "var(--c2)", 1.6))
+            if d == "rounded":
+                s = R - math.sqrt(R * R - hh * hh); em = E[side] * kx(ym)
+                if side < 0:
+                    tx = ax + em - s; b.append(path(f"M 6,{y1} L {tx:.1f},{y1} A {R:g} {R:g} 0 0 1 {tx:.1f},{y2} L 6,{y2} Z", "var(--fg)", 1.5, None, "var(--gr)"))
+                else:
+                    tx = ax + em + s; b.append(path(f"M {xr},{y1} L {tx:.1f},{y1} A {R:g} {R:g} 0 0 0 {tx:.1f},{y2} L {xr},{y2} Z", "var(--fg)", 1.5, None, "var(--gr)"))
+            else:
+                pts = [(6, y1), (ax + bx(y1), y1), (ax + bx(y2), y2), (6, y2)] if side < 0 else [(xr, y1), (ax + bx(y1), y1), (ax + bx(y2), y2), (xr, y2)]
+                b.append(_poly(pts, "var(--fg)", 1.5, "var(--gr)"))
+            b.append(line(xf(free, yp), yp, xf(full, yp), yp, "var(--c2)", 5))
+            if pi == 0 and side > 0: b.append(_halo(txt(xf(free, 236) - 6, 226, "partly", 12, "end", "var(--c2)", 600))); b.append(_halo(txt(xf(free, 236) - 6, 240, "transmitted", 12, "end", "var(--c2)", 600)))
+        if pi == 0: b.append(txt(xr - 10, y1 + 40, "leaf", 12, "end", "var(--mu)"))
+        b.append(line(6, yp, xr, yp, "var(--fg)", 1.2))
+        if pi == 0: b.append(txt(6, yp + 18, "isocenter plane", 12, "start", "var(--mu)"))
+        b.append(txt(w / 2, yp + 42, note[0], 13, "middle", "var(--fg)"))
+        if note[1]: b.append(txt(w / 2, yp + 59, note[1], 13, "middle", "var(--fg)"))
+        out.append(_panel(w, H, "".join(b), f"Side view of the ends of two opposing leaves, one near the beam axis and one far from it, with a {name.lower()} and the part of the beam that crosses only part of the leaf end"))
+    return _panels(*out)
+
+# ------------------------------------------------------------------ rounded ends, the gap, and the dosimetric leaf gap
+def mlc_dlg():
+    H = 302
+    t = 80.0; yt, yb = 64.0, 144.0; R = 58.0; s = R - math.sqrt(R * R - (t / 2) ** 2)           # s = 16: the lateral extent of the rounded end
+    base, top, leak = 258.0, 180.0, 3.0                          # zero and full fluence under the leaves, and the transmission of a leaf
+    out = []
+    for name, g in (("Closed, g = 0", 0.0), ("Open, gap g", 30.0)):
+        w = 292; xc = w / 2 + 6; xl, xr = xc - g / 2, xc + g / 2; L, Rr = 22.0, w - 4.0
+        b = [_title(6, name)]
+        for k in range(8): xx = 36 + k * 34; b.append(line(xx, 28, xx, 56, "var(--mu)", 1.3, None, True))
+        b.append(path(f"M {L},{yt} L {xl - s:.1f},{yt} A {R:g} {R:g} 0 0 1 {xl - s:.1f},{yb} L {L},{yb} Z", "var(--fg)", 1.5, None, "var(--gr)"))
+        b.append(path(f"M {Rr},{yt} L {xr + s:.1f},{yt} A {R:g} {R:g} 0 0 0 {xr + s:.1f},{yb} L {Rr},{yb} Z", "var(--fg)", 1.5, None, "var(--gr)"))
+        pts = [(L, base - leak), (xl - s, base - leak), (xl, top), (xr, top), (xr + s, base - leak), (Rr, base - leak)]
+        pts = [p for i, p in enumerate(pts) if i == 0 or p != pts[i - 1]]
+        b.append(_poly([(L, base)] + pts + [(Rr, base)], "none", 0, "var(--c1)", 0.28)); b.append(path("M " + " L ".join(f"{x:.1f},{y:.1f}" for x, y in pts), "var(--c1)", 2))
+        b.append(line(L, base, Rr, base, "var(--fg)", 1.2))
+        ex0, ex1 = xl - s / 2, xr + s / 2                        # each rounded end adds s/2 to the width of the equal-area opening
+        b.append(rect(ex0, top, ex1 - ex0, base - leak - top, "none", "var(--c2)", 1.8, 0, 1, "5 4"))
+        b.append(txt(4, top - 10, "fluence", 12, "start", "var(--mu)")); b.append(txt(4, top + 4, "1", 12, "start", "var(--mu)")); b.append(txt(4, base + 4, "0", 12, "start", "var(--mu)"))
+        if g > 0:
+            b.append(_tickh(xl, xr, (yt + yb) / 2)); b.append(txt(xc, (yt + yb) / 2 - 8, "g", 14, "middle", "var(--fg)", 700))
+            b.append(_tickh(ex0, ex1, base + 16, "var(--c2)")); b.append(txt(xc, base + 34, "g + DLG", 14, "middle", "var(--c2)", 700))
+        else:
+            b.append(txt(xc, yb + 18, "tips touch", 12, "middle", "var(--mu)"))
+            b.append(_tickh(ex0, ex1, base + 16, "var(--c2)")); b.append(txt(xc, base + 34, "DLG", 14, "middle", "var(--c2)", 700))
+        out.append(_panel(w, H, "".join(b), f"{name}: two leaves with rounded ends and the relative fluence below them, with an opening of equal area (dashed)"))
+    return _panels(*out)
+
+# ------------------------------------------------------------------ tongue and groove
+def mlc_tg():
+    H = 236
+    Wd, tau, gp = 72.0, 16.0, 4.0; ytop, ybot = 92.0, 192.0; ym = (ytop + ybot) / 2
+    b = [_title(6, "End view of three leaves")]
+    for i in range(3):
+        X = 8 + i * (Wd + gp)
+        b.append(_poly([(X + tau, ytop), (X + Wd + tau, ytop), (X + Wd + tau, ym), (X + Wd, ym), (X + Wd, ybot), (X, ybot), (X, ym + gp), (X + tau, ym + gp)], "var(--fg)", 1.5, "var(--gr)"))
+    xj = 8 + Wd + tau + gp / 2                                   # the upper vertical gap of the first joint
+    b.append(line(xj, 40, xj, ym + gp - 1, "var(--mu)", 1.3, "5 4", True)); b.append(txt(xj + 8, 52, "beam", 12, "start", "var(--mu)"))
+    b.append(line(xj - 6, ym + gp + 3, xj + 6, ym + gp + 3, "var(--c2)", 2.6))
+    b.append(txt(xj + 8, ym + gp + 20, "blocked", 12, "start", "var(--fg)"))
+    jx, jy = 8 + Wd + tau / 2, ym + gp / 2                       # the horizontal part of the air gap, under the tongue
+    b.append(txt(jx - 26, ybot + 28, "tongue and groove", 12, "start", "var(--fg)")); b.append(line(jx, ybot + 16, jx, jy + 2, "var(--mu)", 1)); b.append(circ(jx, jy, 2.2, "var(--fg)", "var(--fg)", 1))
+    A = _panel(290, H, "".join(b), "End view of three neighbouring leaves with interlocking tongues and grooves, and a beam that cannot pass straight through the joint")
+    w2 = 272; yA, w = 62.0, 56.0; yB = yA + w; xA, xB = 104.0, 206.0; xl = 4.0; tau2 = 12.0
+    b = [_title(6, "Beam's-eye view of two leaves")]
+    b.append(rect(xl, yA, xA - xl, w, "var(--gr)", "var(--fg)", 1.5)); b.append(rect(xl, yB, xB - xl, w + 8, "var(--gr)", "var(--fg)", 1.5))
+    b.append(rect(xl, yB - tau2, xA - xl, tau2, "var(--gr)", "var(--fg)", 1.5)); b.append(rect(xA, yB - tau2, xB - xA, tau2, "var(--c2)", "var(--c2)", 1.5, 0, 0.4))
+    b.append(txt(xl + 10, yA + 32, "leaf A", 13, "start")); b.append(txt(xl + 10, yB + 38, "leaf B", 13, "start"))
+    b.append(txt(xA + 12, yA + 22, "strip shielded by", 12, "start", "var(--c2)", 600)); b.append(txt(xA + 12, yA + 38, "the tongue of leaf B", 12, "start", "var(--c2)", 600))
+    B = _panel(w2, 200, "".join(b), "Beam's-eye view of two neighbouring leaves at different positions, with the strip along their boundary that the tongue of the extended leaf shields")
+    return _panels(A, B)
+
 def build():
     return dict(decay_curve=decay_curve(), nuclide_chart=nuclide_chart(), equilibrium=equilibrium(),
                 pdd_curves=pdd_curves(), pdd_vs_tmr=pdd_vs_tmr(), scatter_geometry=scatter_geometry(),
                 interaction_regions=interaction_regions(), kerma_dose=kerma_dose(),
-                beta_vs_ke=beta_vs_ke(), bohr_levels=bohr_levels(), be_curve=be_curve(), decay_schemes=decay_schemes())
+                beta_vs_ke=beta_vs_ke(), bohr_levels=bohr_levels(), be_curve=be_curve(), decay_schemes=decay_schemes(),
+                mlc_bank=mlc_bank(), mlc_leaf_ends=mlc_leaf_ends(), mlc_dlg=mlc_dlg(), mlc_tg=mlc_tg())

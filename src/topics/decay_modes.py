@@ -10,7 +10,7 @@ TOPIC = dict(
         TABLE(["Nuclear state", "Typical decay", "Effect"], [
             ["Too many neutrons", "β⁻", "n → p"],
             ["Too many protons", "β⁺ or electron capture", "p → n"],
-            ["Very heavy", "α", "Z − 2, A − 4"],
+            ["Heavy", "α", "Z − 2, A − 4"],
             ["Excited state", "γ emission or internal conversion", "Z and A unchanged"]]),
 
         H("Decay modes"),
@@ -60,7 +60,7 @@ TOPIC = dict(
 TERMS = ['internal conversion', 'Auger electron']
 
 TAKE = [
-    [("Neutron-rich nuclei decay by β⁻, proton-rich nuclei by β⁺ or EC, and very heavy nuclei by α.", "decay-map")],
+    [("Neutron-rich nuclei decay by β⁻, proton-rich nuclei by β⁺ or EC, and heavy nuclei by α.", "decay-map")],
     [("β⁻, β⁺, and EC change Z by one and leave A unchanged. α changes Z by 2 and A by 4.", "decay-steps"),
      ("β⁺ needs more than 1.022 MeV of available energy; below that only EC occurs.", "beta-plus-threshold"),
      ("A positron ends as two 511 keV photons at about 180°.", "pet-coincidence")],

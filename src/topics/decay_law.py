@@ -76,7 +76,7 @@ TAKE = [
     [("A = λN and A = A<sub>0</sub>e<sup>−λt</sup>.", "decay-atoms"),
      ("1 Ci = 3.7 × 10<sup>10</sup> Bq, so 1 mCi = 37 MBq.", "ci-bq")],
     [("T<sub>1/2</sub> = 0.693/λ and τ = 1/λ = 1.443 T<sub>1/2</sub>. After one mean life, 36.8% remains.", "half-life-mean-life")],
-    [("After n half-lives, (½)<sup>n</sup> remains. Keep time units consistent.", "half-life-steps"),
+    [("After n half-lives, (½)<sup>n</sup> remains. The time and the half-life must be in the same units.", "half-life-steps"),
      ("“x% per time” means λ = −ln(1 − x), not λ = x.", "percent-per-time")],
     None,
     [("Total dose from a permanent implant = initial dose rate × mean life (1.443 T<sub>1/2</sub>).", "implant-dose")],

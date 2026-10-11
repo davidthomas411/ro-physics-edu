@@ -65,9 +65,9 @@ for row in (4, H_ - 5):
         xo = min(np.arange(0, W_, 0.05), key=lambda x: abs(x - dxf(x, row) - xin)); res.append((row, xin, line_pos(dist, row, round(xo)), xo))
 check(all(abs(m_ - xo) <= 1.0 for r_, xi, m_, xo in res), f"distortion: the grid lines are where ΔB / G puts them (measured and predicted positions {[(m_, round(xo, 1)) for r_, xi, m_, xo in res]})")
 check(max(abs(m_ - xi) for r_, xi, m_, xo in res) >= 3, "distortion: at least one grid line has moved by 3 pixels or more")
-gres = [(xin, line_pos(grad, 4, round(xc + (xin - xc) / S["scale"])), xc + (xin - xc) / S["scale"]) for xin in (20, 40, 120, 140)]
-check(all(abs(m_ - xo) <= 1.0 for xi, m_, xo in gres), f"gradient: the grid lines are compressed by the factor {S['scale']} about the centre ({[(m_, round(xo, 1)) for xi, m_, xo in gres]})")
-check(abs(S["w_true"] / S["w_comp"] - S["scale"]) < 0.02, f"gradient: the brain is {S['w_true']:.0f} mm wide, and {S['w_comp']:.0f} mm in the compressed image")
+gres = [(xin, line_pos(grad, 4, round(xc + (xin - xc) * S["scale"])), xc + (xin - xc) * S["scale"]) for xin in (20, 40, 120, 140)]
+check(all(abs(m_ - xo) <= 1.0 for xi, m_, xo in gres), f"gradient: the grid lines are stretched by the factor {S['scale']} about the centre ({[(m_, round(xo, 1)) for xi, m_, xo in gres]})")
+check(abs(S["w_str"] / S["w_true"] - S["scale"]) < 0.02, f"gradient: the brain is {S['w_true']:.0f} mm wide, and {S['w_str']:.0f} mm in the stretched image")
 yy, xx = np.mgrid[:H_, :W_]; rr = np.hypot(xx - S["sus_x0"], yy - S["sus_y0"]); rm = S["sus_r"]
 check(sus[rr < rm].mean() < 5 and ref[rr < rm].mean() > 100, f"susceptibility: the metal region is a signal void ({sus[rr < rm].mean():.0f} grey levels, against {ref[rr < rm].mean():.0f} in the reference)")
 ring = (rr >= 1.6 * rm) & (rr < 2.6 * rm); check((sus - ref)[ring].max() > 25 and (sus - ref)[ring].min() < -25, f"susceptibility: pile-up and loss of signal around the void (the difference runs from {(sus - ref)[ring].min():.0f} to {(sus - ref)[ring].max():.0f} grey levels)")

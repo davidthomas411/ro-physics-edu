@@ -46,6 +46,32 @@ Closed, with the question ids on the site:
 
 Not changed: the unbuilt chapters (kV beams, linac, calibration, ultrasound, simulation, 4D-CT and motion management, CBCT workflow, MR simulation, special procedures, particles, SRS and SBRT, QA, protection, safety), which are all on the plan; the internal Easy, Moderate and Challenging labels; and the observation in section c2 about the position of the key in sorted numeric choices. Open items from the lists below: interface effects at lung (Q133), internal shield thickness (Q138, the guide's rule is approximate), IMRT energy against whole-body dose (Q143, Q144, settle the source first), ICRU objectives and ICRU 62 injury classes (Q148, Q158), dose in free space and TAR (Q94), the penumbra, output and off-axis items (Q119, Q122, Q126), nuclear reaction types (Q39), equal-effect prescription for I-125 and Pd-103 (Q191), and pulsed-dose-rate brachytherapy (Q195).
 
+## Later review of wording and facts
+
+After the questions above were written, all text on the site was read again against the house style and its facts were checked a second time. The review changed the wording of about 150 cards, problems and worked examples, removed purpose statements and filler from the chapters, and made every question and example stand on its own. It added, removed, or moved no card or problem, so every id in this document is still correct (505 cards, 714 problems).
+
+Statements that were wrong, with the items that now carry the corrected text:
+
+| Earlier statement | Corrected statement | Ids |
+|---|---|---|
+| A gradient larger than the system assumes compresses the MR image | It stretches it, because a point at x is placed at x G / G₀. The 5% example gives 210 mm, and the brain-slice simulation stretches the image | `mri-artifacts:7`, `:11`, `:16` |
+| The chemical shift artifact is a shift at an interface | Fat protons precess about 3.5 ppm more slowly than water protons, so the fat signal is displaced along the frequency-encoding direction | `mri-artifacts:8` |
+| Non-collinearity of the annihilation photons comes from momentum given to the nucleus | It comes from the net momentum of the positron and electron when they annihilate | `pet-imaging:9` |
+| A positron travels 1 to 2 mm | For F-18 the mean range in water is about 0.6 mm and the maximum 2.4 mm; emitters with a higher positron energy travel farther | `pet-imaging:1` |
+| The practical range of an electron beam is where the extended fall-off reaches zero | It is where the extended fall-off meets the bremsstrahlung tail | `electron-pdd:5`, `:25` |
+| ICRU Report 38 recommends 0.07 mm as the skin depth | The ICRU recommends 0.07 mm; Report 38 covers gynecologic brachytherapy | `skin-bolus:1`, `:16` |
+| Exposure at the skin is proportional to mA·kVp² | It is proportional to mAs·kVp² | `radiographic-quality:12` |
+| The Paddick index is always below 1 | It lies between 0 and 1 and equals 1 for an ideal plan | `dvh-metrics:8` |
+| Helium has zero spin | Helium-4 has zero spin; helium-3 has spin ½ | `mri-physics:5`, `:14` |
+| Proton-rich isotopes decay by β⁺ | By β⁺ or electron capture, which needs only a positive decay energy | `spect:6`, `:15`, `decay-modes:17` |
+| Specific activity with the half-life left in days is 86,400 times too small | It is 86,400 times too large | `specific-activity:13` |
+| Cs-137 gives 850 photons of 662 keV per 1000 decays | 851, with 90.2% of Ba-137m transitions emitting a photon | `decay-schemes:17` |
+| The FLAIR example nulled CSF at a T1 of 20 s | 4.23 s, from a corrected search for the null | the FLAIR paragraph of `mri-sequences` |
+
+To confirm against a reference: the direction of the gradient scaling (first row). It follows from the system converting frequency to position with the gradient it assumes.
+
+`tests/style.py` now also rejects the intensifiers "very" and "highly", colloquial words, purpose statements, references to another question, example, or chapter, a stem that starts with "The same", and exponent notation in answer options. A flash card shows its title and its fact, not the question written in the topic file, so the test scans the titles in `src/facts.py` as well.
+
 ## a. Method and limits
 
 **What was compared.** I read every guide question with its explanation and every site topic: guide text, 505 cards (255 of them fact cards) and 659 problems (507 single-answer, 23 select-several, 47 sorting, 44 figure, 38 typed number), in 143 guide sections. A TF-IDF pass (unigram and bigram, scikit-learn) proposed candidate matches only. Of the 369 matches I cited (one site item can be cited for several questions), 238 (64%) were in the TF-IDF candidate lists, and 131 of the 161 matched questions had at least one cited item there: reading found matches that word overlap misses, and I rejected topical neighbours that did not test the concept.
@@ -307,7 +333,7 @@ Side finding on the site: in the 199 single-answer problems whose numeric option
 | Q185 (C) | icru-volumes:3 (card); icru-volumes:18 (C, Mo) | similar | Guide: widen margins when motion cannot be controlled. Site: ITV definition and the margin recipe (2.5 Sigma + 0.7 sigma) with systematic against random error. |
 
 **Conclusion for F.** Right depth for CT, MR and PET physics; the clinical-workflow half is missing. Fine: ct-reconstruction:15-16, :21, :26 against Q164; mri-sequences:21 against Q168; pet-imaging:22-24 and :31 (SUV, attenuation correction) go beyond the guide's PET item. Eight of the guide's 24 imaging questions are clinical scenarios (technique selection for a patient); the site has none in this area.
-- Too easy: image-data:16-19 (bit, byte, DICOM, grey levels), mri-physics:14 (helium has zero spin), spect:13 (definition of a radiopharmaceutical).
+- Too easy: image-data:16-19 (bit, byte, DICOM, grey levels), mri-physics:14 (helium-4 has zero spin), spect:13 (definition of a radiopharmaceutical).
 - Too hard: none clearly; mri-artifacts:17 (field uniformity in ppm for a 0.1 mm shift) and mri-physics:21 are specialised.
 - Missing: see section d.
 

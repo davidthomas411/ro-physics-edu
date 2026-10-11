@@ -115,7 +115,7 @@ PROBLEMS += [
           f"S<sub>K</sub> = 0.876 Γ A = 0.876 × 1.45 × 0.50 = {sk_i125:.3f} U. A typical I-125 seed is a little over half a unit.", lvl="Moderate"),
     FIGQ(STEM("The exposure rate in air from a point source is plotted as a percentage of its value at 1 cm.", [], "Tap the [[distance at which the rate has fallen to one ninth]] of its value at 1 cm."),
          _fig_inv, [(2.6, 3.4)], "The rate scales as 1/r², so one ninth means r² = 9 and r = 3 cm. The curve is at 11% there, which is not a marked level, so the distance has to be worked out.", lvl="Moderate", note="3 cm"),
-    FIGQ(STEM("The same curve.", [], "Tap the [[distance at which the rate is 1%]] of its value at 1 cm."),
+    FIGQ(STEM("The exposure rate in air from a point source is plotted as a percentage of its value at 1 cm.", [], "Tap the [[distance at which the rate is 1%]] of its value at 1 cm."),
          _fig_inv, [(9.3, 10.7)], "1% means 1/r² = 1/100, so r = 10 cm. At that distance the curve lies almost on the axis and cannot be read, so the inverse-square law has to be applied.", lvl="Challenging", note="10 cm"),
 ]
 INLINE = {0: [1], 1: [3, 4], 2: [2, 8, _n0 + 3, _n0 + 4], 3: [5, 7, _n0 + 1, _n0 + 2]}

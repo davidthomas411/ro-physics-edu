@@ -25,7 +25,7 @@ close(MS.null(3000), 3000 * math.log(2), 1e-12, "inversion time"); close(MS.null
 p = fig(T["mri-sequences"], "40% of"); s = p["spec"]["series"][0]["pts"]; xt = min(s, key=lambda q: abs(q[1] - 0.4))[0]
 close(xt, MS.tr_04, 0.02, "the curve reaches 0.4 at 1532 ms"); close(1 if inside(p, MS.tr_04) and not inside(p, 3000 * math.log(2)) and not inside(p, 3000) else 0, 1, 0, "the time target holds 1532 ms and rejects the half-recovery time and T1")
 # ---- 4.7 distortion
-close(MA.s_a, 0.05 / 10 * 1000, 1e-12, "shift 5 mm"); close(MA.s_b, 10.0, 1e-12, "shift 10 mm"); close(MA.shift(0.02, 10), 2.0, 1e-12, "typed shift"); close(MA.c_a, 200 / 1.05, 1e-12, "apparent length"); close(MA.c_a, 190.476, 1e-5, "190.5 mm")
+close(MA.s_a, 0.05 / 10 * 1000, 1e-12, "shift 5 mm"); close(MA.s_b, 10.0, 1e-12, "shift 10 mm"); close(MA.shift(0.02, 10), 2.0, 1e-12, "typed shift"); close(MA.g_a, 200 * 1.05, 1e-12, "apparent length"); close(MA.g_a, 210.0, 1e-9, "210 mm: a point at x is placed at x G / G0")
 close(MA.ppm(0.001, 1.5), 0.6667, 1e-3, "0.67 ppm"); close(MA.p_a, 0.01e-3 / 1.5 * 1e6, 1e-12, "6.7 ppm for 1 mm"); close(MA.dB_3, 0.03, 1e-12, "field error for 3 mm")
 p = fig(T["mri-artifacts"], "moves a pixel by 3 mm"); s = p["spec"]["series"][0]["pts"]; xd = min(s, key=lambda q: abs(q[1] - 3))[0]
 close(xd, 0.03, 0.02, "3 mm at 0.03 mT"); close(1 if inside(p, 0.03) and not inside(p, 0.05) and not inside(p, 0.02 - 0.01) else 0, 1, 0, "the field-error target holds 0.03 mT and rejects 0.05")

@@ -1,6 +1,7 @@
 from blocks import *
 import math, calc, gal
 PK = {k: v['hu'] for k, v in gal.PICKS.items()}
+sg = lambda v: f"{v}".replace("-", "−")                                   # a signed number with a true minus sign
 
 hu = lambda mu, muw: 1000 * (mu - muw) / muw                       # Hounsfield units from linear attenuation coefficients
 mu_of = lambda h, muw: muw * (1 + h / 1000)                       # the attenuation coefficient for a given HU
@@ -14,7 +15,7 @@ TOPIC = dict(
     ref=dict(aapm="TG-66", khan="", ford="19"),
     guide=[
         H("Filtered backprojection"),
-        P("In computed tomography an x-ray source and a detector rotate around the patient. At each angle the detector records a profile of photon fluences. Reconstruction works by backprojecting each profile through the reconstruction space, which smears the signal along the path of the beam. A single backprojection shows that something dense lies along that path, but not where along it. Rotating the source and detector gives many angles, and when the backprojections from all of them are added they build a faithful image of the object."),
+        P("In computed tomography an x-ray source and a detector rotate around the patient. At each angle the detector records a profile of photon fluences. Reconstruction works by backprojecting each profile through the reconstruction space, which smears the signal along the path of the beam. A single backprojection shows that something dense lies along that path, but not where along it. Rotating the source and detector gives many angles, and when the backprojections from all of them are added they build up an image of the object."),
         P("The algorithm is properly called filtered backprojection. A frequency filter has to be applied to the profiles before they are backprojected for the reconstruction to be mathematically exact. Without the filter, the sum of the backprojections is blurred."),
 
         H("Hounsfield units"),
@@ -23,7 +24,7 @@ TOPIC = dict(
         P("Higher-density materials have larger HU. The composition matters too, because μ depends on the atomic number through the photoelectric effect. The HU also depends on the x-ray spectrum: a softer beam has more low-energy photons, where μ is larger and the contrast between materials of different Z is greater. The HU of a material therefore depends on its density, its composition, and the spectrum of the beam."),
         EX("Hounsfield units from μ", STEM("A material is scanned with an effective water coefficient of μ<sub>water</sub> = 0.19 cm<sup>−1</sup>.", ["material 1: μ is 10% larger than water", "material 2: μ is 25% smaller than water"], "Find the [[HU]] of each."), ["HU = 1000 × (μ − μ<sub>water</sub>) / μ<sub>water</sub> = 1000 × (μ/μ<sub>water</sub> − 1)", "Material 1: 1000 × (1.10 − 1)", "Material 2: 1000 × (0.75 − 1)"], f"{hu_a:+.0f} HU and {hu_b:+.0f} HU. The HU is a fractional difference in μ in parts per thousand."),
 
-        P(f"The figure shows a real CT slice of a head-and-neck patient. Tap the airway, a region of fat, a muscle, and a bone to read their Hounsfield units. In this slice the airway reads {PK['air']} HU, the fat {PK['fat']} HU, the muscle {PK['muscle']} HU, and the bone {PK['bone']} HU. The window and the level choose which range of HU is spread over the grey scale: a narrow window of 400 HU centred on 40 HU shows the soft tissue, and a wide window shows the bone but flattens the soft tissue."),
+        P(f"In a real CT slice of a head-and-neck patient the airway reads {sg(PK['air'])} HU, the fat {sg(PK['fat'])} HU, the muscle {sg(PK['muscle'])} HU, and the bone {sg(PK['bone'])} HU. The window and the level choose which range of HU is spread over the grey scale: a narrow window of 400 HU centred on 40 HU shows the soft tissue, and a wide window shows the bone but flattens the soft tissue."),
         AVF("ct-hu-explorer"),
         H("From HU to density"),
         P("For radiation therapy, the HU must be converted to a mass density, which the dose calculation needs. The relationship between HU and density is not linear, and it differs between scanners and tube voltages, so a calibration has to be established for each scanner. It is usually measured by scanning a phantom that has inserts of known density and building a table of HU against density. The same table is used for every patient scanned with the same technique."),
@@ -32,7 +33,7 @@ TOPIC = dict(
     cards=[
         F("CT reconstruction", "A source and detector rotate around the patient. The profile of fluence at each angle is backprojected through the reconstruction space."),
         F("Backprojection from one angle", "It smears the signal along the beam path, showing that a dense object lies along it but not where."),
-        F("Many angles in CT", "Adding the backprojections from many angles builds a faithful image of the object."),
+        F("Many angles in CT", "Adding the backprojections from many angles builds up an image of the object. Without the filter the sum is blurred."),
         F("Filtered backprojection", "A frequency filter is applied to the profiles before backprojection, which makes the reconstruction mathematically exact."),
         F("CT pixel value", "The linear attenuation coefficient μ of that pixel, from I = I₀e<sup>−μx</sup>."),
         F("Hounsfield unit", "HU = 1000 × (μ − μ<sub>water</sub>) / μ<sub>water</sub>: the attenuation coefficient relative to water."),
@@ -52,7 +53,7 @@ PROBLEMS = [
     PR("The value in each pixel of a CT image represents:", "the linear attenuation coefficient of that pixel", ["the mass density of that pixel", "the number of photons in that pixel", "the atomic number of that pixel"],
        "CT derives μ from the transmission I = I₀e<sup>−μx</sup>. The HU expresses it relative to water.", lvl="Easy"),
     PRN(STEM("A material has a linear attenuation coefficient 10% larger than that of water.", [], "What is its [[Hounsfield unit]]?"), hu_a, [10.0, 1000 * 1.1, -100.0], "{:.0f} HU",
-        f"HU = 1000 × (1.10 − 1) = {hu_a:.0f}. Using the 10% as 10 HU, or multiplying 1000 by 1.10, are common slips.", lvl="Moderate"),
+        f"HU = 1000 × (1.10 − 1) = {hu_a:.0f}. Multiplying 1000 by 1.10 gives 1100.", lvl="Moderate"),
     PRN(STEM("A material has a linear attenuation coefficient 25% smaller than that of water.", [], "What is its [[Hounsfield unit]]?"), hu_b, [-25.0, 750.0, 250.0], "{:.0f} HU",
         f"HU = 1000 × (0.75 − 1) = {hu_b:.0f}.", lvl="Moderate"),
     PRN(STEM("A pixel has −500 HU. The linear attenuation coefficient of water is 0.19 cm<sup>−1</sup>.", [], "What is the [[attenuation coefficient]] of the pixel?"), mu_lung, [0.19 * 1.5, 0.19 * 500 / 1000 * 2, 0.5], "{:.3f} cm<sup>−1</sup>",

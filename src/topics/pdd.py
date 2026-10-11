@@ -70,7 +70,7 @@ q_ratio = 70.0 / 67.0
 
 PROBLEMS = [
     PR("Dose builds up over the first centimetres of a megavoltage photon beam because:", "electrons set in motion upstream travel forward and deposit their energy deeper, until charged-particle equilibrium is reached",
-       ["the photon fluence increases with depth", "the inverse-square law raises the dose just below the surface", "low-energy photons are absorbed in the first centimetres"],
+       ["the photon fluence increases with depth", "the inverse-square law raises the dose immediately below the surface", "low-energy photons are absorbed in the first centimetres"],
        "Photons transfer energy to electrons, and those electrons travel downstream before depositing it. The dose rises until the electrons entering a small volume balance those leaving it, at about one electron range. That depth is d<sub>max</sub>.", lvl="Easy"),
     PR("For a 6 MV photon beam and a 10 × 10 cm field, d<sub>max</sub> is about:", "1.5 cm", ["0.5 cm", "3.0 cm", "5.0 cm"],
        "About 1.5 cm for 6 MV. Co-60 is about 0.5 cm and 15 to 18 MV is about 3 cm, because higher energy sends the electrons farther forward.", lvl="Easy"),
@@ -153,9 +153,9 @@ _n0 = len(PROBLEMS)
 PROBLEMS += [
     FIGQ(STEM("A 6 MV beam, 10 × 10 cm field, SSD 100 cm. The graph shows the percent depth dose (illustrative).", [], "Tap the [[depth of d<sub>max</sub>]]."),
          FS(x=dict(min=0, max=6, ticks=[0, 1, 2, 3, 4, 5, 6], label="Depth (cm)"), y=dict(min=0, max=100, ticks=[0, 20, 40, 60, 80, 100], label="Percent depth dose", fmt="pct"), series=[dict(pts=PTS(_pdd_curve, 0, 6), color="plot-1")], xunit=" cm", xdec=1, xname="Depth", label="Percent depth dose against depth near the surface"),
-         [(1.0, 2.0)], "d<sub>max</sub> is the depth of the maximum dose, where the curve peaks. For a 6 MV beam it is about 1.5 cm. Dose rises over the first centimetre or so as the secondary electrons build up, and then falls slowly as the beam is attenuated.", lvl="Easy", note="about 1.5 cm"),
-    FIGQ(STEM("The same 6 MV beam, now over the full depth range.", [], "Tap the [[depth at which the PDD is 50%]]."),
+         [(1.0, 2.0)], "d<sub>max</sub> is the depth of the maximum dose, where the curve peaks. For a 6 MV beam it is about 1.5 cm. Dose rises over the first 1.5 cm as the secondary electrons build up, and then falls slowly as the beam is attenuated.", lvl="Easy", note="about 1.5 cm"),
+    FIGQ(STEM("A 6 MV beam, 10 × 10 cm field, SSD 100 cm. The graph shows the percent depth dose (illustrative) over the full depth range.", [], "Tap the [[depth at which the PDD is 50%]]."),
          FS(x=dict(min=0, max=25, ticks=[0, 5, 10, 15, 20, 25], label="Depth (cm)"), y=dict(min=0, max=100, ticks=[0, 25, 50, 75, 100], label="Percent depth dose", fmt="pct"), series=[dict(pts=PTS(_pdd_curve, 0, 25, 200), color="plot-1")], xunit=" cm", xdec=1, xname="Depth", label="Percent depth dose against depth"),
-         [(_d50 - 1.2, _d50 + 1.2)], f"Follow the 50% line across to the curve and read the depth below it: about {_d50:.0f} cm for this illustrative 6 MV curve. The PDD at 10 cm is about 67%, so 50% is well beyond it.", lvl="Easy", note=f"about {_d50:.0f} cm"),
+         [(_d50 - 1.2, _d50 + 1.2)], f"The curve reaches 50% at about {_d50:.0f} cm for this illustrative 6 MV curve. The PDD at 10 cm is about 67%, so 50% is well beyond it.", lvl="Easy", note=f"about {_d50:.0f} cm"),
 ]
 INLINE.setdefault(0, []).append(_n0 + 1); INLINE.setdefault(1, []).append(_n0 + 2)

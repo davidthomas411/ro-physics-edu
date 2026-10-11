@@ -99,5 +99,14 @@ close(bed_numeric(0.50, 72, 10), 43.56, 5e-3, "worked example by numerical integ
 close(value(prob("bed-tcp", "0.60 Gy/h for 60 h")), 66.0, 2e-3, "66.0 Gy")
 close(bed_numeric(0.60, 60, 10), 45.0, 5e-3, "the tumour value used as a decoy"); close(bed_numeric(0.60, 60, 3), 36 * (1 + 0.8658 * 0.964), 5e-3, "the bracket")
 close(1 if bed_numeric(0.60, 60, 3) - 36 > bed_numeric(0.60, 60, 10) - 36 > 0 else 0, 1, 0, "the repair term is larger for the low alpha/beta")
+# ---- the T1 that the FLAIR inversion time of the real images nulls, quoted in the MRI sequences chapter
+import mri_sequences as MS
+fl = real.STATS["mr"]["params"]["flair"]
+null_f = lambda t1: 1 - 2 * math.exp(-fl["ti"] / t1) + math.exp(-fl["tr"] / t1)
+close(null_f(MS.T1_FLAIR), 0.0, 1e-9, "the quoted T1 makes the signal 1 - 2 exp(-TI/T1) + exp(-TR/T1) zero")
+close(1 if 3800 < MS.T1_FLAIR < 4600 else 0, 1, 0, f"the nulled T1 is a CSF-like value near 4 s ({MS.T1_FLAIR:.0f} ms)")
+first = next(t for t in range(100, 20000, 10) if null_f(t) < 0)                                  # the signal changes sign once, so a scan finds the same root
+close(MS.T1_FLAIR, first, 3e-3, "a scan for the sign change gives the same T1")
+
 for b in bad: print("FAIL", b)
 print(f"numbers16: {n} numbers re-derived"); print("numbers16: PASS" if not bad else f"numbers16: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)

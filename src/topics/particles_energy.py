@@ -53,7 +53,7 @@ TOPIC = dict(
         C("When is KE = ½mv² valid?", "When KE is small compared with the rest energy (under about 10%). For electrons that is below ~50 keV, so therapy electrons need the relativistic expressions."),
         C("How fast is a 6 MeV electron?", f"About {b6:.4f}c (γ = {g6:.1f}).", w=[f"γ = 1 + 6/0.511 = {g6:.2f}", "β = √(1 − 1/γ²)"]),
         C("What happens when a positron at rest meets an electron at rest?", "They annihilate into two 511 keV photons emitted in opposite directions."),
-        C("What is the threshold photon energy for pair production? What happens to any excess?", "1.022 MeV (2m₀c²). The excess is shared as kinetic energy of the electron and positron."),
+        C("What is the threshold photon energy for pair production?", "1.022 MeV (2m₀c²). Any excess is shared as kinetic energy of the electron and positron."),
         C("A 3.0 MeV photon creates an electron–positron pair. What is their combined kinetic energy?", "3.0 − 1.022 = 1.978 MeV."),
         C("Which is moving faster, a 20 MeV electron or a 150 MeV proton?", f"The electron: {calc.beta_ke(20, calc.ME):.5f}c against {calc.beta_ke(150, calc.MP):.2f}c. Electrons saturate near c; protons do not at therapy energies.", fig="beta_vs_ke"),
     ],

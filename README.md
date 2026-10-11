@@ -19,6 +19,8 @@ pip install -r requirements-dev.txt && playwright install chromium
 python tests/smoke.py              # pages, decks, keys, progress, dial, dark mode, 390 px width, console errors
 python tests/realdata.py           # real images: licences, attribution, no identifiers, measured numbers
 python tests/realimg.py            # real images in the page: panels, views, decoding, phone width, the Reference sources
+python tests/style.py              # house-style patterns in all text, including the flash-card titles
+python tests/mlcfigs.py            # the MLC figures: leaf-end bands and the equal-area opening re-derived from the stated geometry
 ```
 
 Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change to content or the page.
@@ -28,6 +30,7 @@ Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change t
 - `src/blueprint.py`: the seven ABR domains and their 20 subsections, with the ABR weights.
 - `src/topics/`: one file per topic (guide blocks and cards). `__init__.py` lists them; the order is the study order inside each domain.
 - `src/figs.py`: original figures as inline SVG that follow light and dark.
+- `src/facts.py`: the title of every flash card. A flash card shows its title and its answer, not the question written in the topic file, so both must stand alone.
 - `src/calc.py`: the formulas behind the worked examples. Topic files import them, so no example number is typed by hand.
 - `src/blocks.py`: guide block constructors and the renderer.
 - `src/style.css`, `src/app.js`: the page. `build.py` inlines both.
