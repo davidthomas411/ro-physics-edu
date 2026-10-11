@@ -32,5 +32,7 @@ Follow `skills/house-style/SKILL.md` for every visual and written change: plain 
 
 ## Open work
 
+- `docs/roecsg-audit.md` compares the question bank with the ROECSG physics study guide: what is covered, the level, and the gaps that remain (mostly chapters that have no topic yet). Use the guide to find gaps and never copy from it.
+
 - Domains 2, 4, 5, 6, 7 and most of 1 and 3 have no topics yet. The Reference page lists the gaps.
 - Ford chapter numbers in each topic's `ref` come from chapter titles and need checking against the book.

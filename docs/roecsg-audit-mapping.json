@@ -1,0 +1,5799 @@
+[
+ {
+  "n": 2,
+  "chapter": 1,
+  "section": "1.2",
+  "concept": "transverse versus longitudinal waves (light, sound)",
+  "coverage": "not covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "waves-photons",
+    "why": "describes EM waves as coupled fields; never contrasts transverse and longitudinal waves or mentions sound"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "waves-photons",
+  "section_title": "Classical Mechanics",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 3,
+  "chapter": 1,
+  "section": "1.2",
+  "concept": "photon wavelength, frequency and energy move together (shorter wavelength, higher energy)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "waves-photons:2",
+    "why": "card gives E = hν = hc/λ"
+   },
+   {
+    "id": "waves-photons:16",
+    "why": "problem: halving the wavelength doubles the energy"
+   },
+   {
+    "id": "waves-photons:19",
+    "why": "problem separating intensity from photon energy"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "C",
+  "home": "waves-photons",
+  "level_why": "site items are numeric (hc in eV·nm, keV·Å); guide item is a qualitative direction question",
+  "section_title": "Classical Mechanics",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 4,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "properties of electric charge and which meter reads what (voltmeter versus ammeter)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "charges-atom",
+    "why": "states the elementary charge 1.602e-19 C and like/unlike forces; no charge conservation, no circuit meters"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "charges-atom",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 5,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "SI unit of electric field",
+  "coverage": "not covered",
+  "planned": false,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "charges-atom",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 6,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "Coulomb force between point charges (inverse square, repel or attract, along the line joining them)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "charges-atom:1",
+    "why": "card: F = kq1q2/r2, doubling distance gives one quarter"
+   },
+   {
+    "id": "charges-atom:10",
+    "why": "easy problem on doubling the distance"
+   },
+   {
+    "id": "charges-atom:14",
+    "why": "numeric force between two protons at 2 fm"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "C",
+  "home": "charges-atom",
+  "level_why": "site adds numerical force at nuclear distances and a scaling problem (22)",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 7,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "electric current: direction, unit, direct versus alternating current, RF acceleration in linacs",
+  "coverage": "not covered",
+  "planned": false,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "charges-atom",
+  "note": "the linac RF statement also belongs to the planned linac RF topic",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 8,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "work done moving a charge through a potential difference (W = qV)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "waves-photons",
+    "why": "text defines the electron-volt as the energy gained crossing one volt, which is W = qV for one charge"
+   },
+   {
+    "id": "waves-photons:7",
+    "why": "card converts eV and MeV to joules"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "K",
+  "home": "waves-photons",
+  "level_why": "the guide item is one multiplication; the site only uses the idea through eV",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 9,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "definition of the electron-volt and its joule value",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "waves-photons",
+    "why": "guide text defines the eV and gives 1 eV = 1.602e-19 J"
+   },
+   {
+    "id": "waves-photons:7",
+    "why": "card on joules per eV and MeV"
+   },
+   {
+    "id": "waves-photons:12",
+    "why": "problem converting 1.0 MeV to joules"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "waves-photons",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is waves-photons:12 (one-step calculation, Easy)",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 10,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "magnetic field properties and its SI unit (tesla, not gauss)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "mri-physics",
+    "why": "gives B0 in tesla and the Earth's field in tesla; nothing on field lines or gauss"
+   },
+   {
+    "id": "charges-atom:3",
+    "why": "path of a charge in a magnetic field"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "charges-atom",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is charges-atom:3 (one-step calculation, card)",
+  "note": "parsed as one string (options inline); answer D as parsed",
+  "parse_issue": "options were parsed inline as one string (A-E); answer D read from the explanation",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 11,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "charged particle in a uniform magnetic field (circular path, no energy change)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "charges-atom:2",
+    "why": "card: the force does no work, only bends the path"
+   },
+   {
+    "id": "charges-atom:11",
+    "why": "problem: kinetic energy stays constant"
+   },
+   {
+    "id": "charges-atom:20",
+    "why": "problem: radius of a 6 MeV electron path"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "C",
+  "home": "charges-atom",
+  "level_why": "site also asks for the relativistic radius r = pc/(qB)",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 12,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "ordering of EM radiation types by frequency (radio to gamma)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "waves-photons:4",
+    "why": "card orders microwave, infrared, visible, ultraviolet, x-ray by photon energy"
+   },
+   {
+    "id": "waves-photons",
+    "why": "guide table lists regions with wavelength and energy"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "waves-photons",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is waves-photons:4 (recall, card)",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 13,
+  "chapter": 1,
+  "section": "1.3",
+  "concept": "photon energy is proportional to frequency",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "waves-photons:2",
+    "why": "card E = hν"
+   },
+   {
+    "id": "waves-photons:16",
+    "why": "problem on halving wavelength"
+   },
+   {
+    "id": "waves-photons:18",
+    "why": "problem: frequency of a 140 keV photon"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "waves-photons",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is waves-photons:18 (one-step calculation, Moderate)",
+  "section_title": "Electricity and Magnetism",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 14,
+  "chapter": 1,
+  "section": "1.4",
+  "concept": "the speed of light as the upper speed limit",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "particles-energy:16",
+    "why": "problem: classical KE gives speed above c, so relativistic forms are needed"
+   },
+   {
+    "id": "particles-energy",
+    "why": "'Explain further' text states nothing can go faster than light"
+   },
+   {
+    "id": "particles-energy:5",
+    "why": "card: a 6 MeV electron is at 0.9969c"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "particles-energy",
+  "level_why": "stated implicitly; no card says 'speed limit' in those words",
+  "section_title": "Basic Special Relativity",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 15,
+  "chapter": 1,
+  "section": "1.4",
+  "concept": "relativistic mass (inertia) increase as speed approaches c",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "particles-energy",
+    "why": "guide text: added energy raises momentum and total energy, not speed (gamma formalism, not 'mass increase')"
+   },
+   {
+    "id": "particles-energy:9",
+    "why": "card: electrons saturate near c"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "particles-energy",
+  "level_why": "site teaches gamma and total energy rather than the older relativistic-mass wording",
+  "section_title": "Basic Special Relativity",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 16,
+  "chapter": 1,
+  "section": "1.4",
+  "concept": "mass equivalent of the energy of a photon (E/c2)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "particles-energy:14",
+    "why": "problem: mass to energy with 931.5 MeV/u"
+   },
+   {
+    "id": "particles-energy",
+    "why": "table lists the photon with zero rest energy"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Guide calls E/c2 the 'rest mass' of a photon. A photon has zero rest (invariant) mass; E/c2 is the old 'relativistic mass'. The site table lists photon rest energy 0, which is the standard statement. Settle with Khan ch. 2 or any modern relativity text.",
+  "qtype": "K",
+  "home": "particles-energy",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is particles-energy:14 (recall, Moderate)",
+  "parse_issue": "option text garbled by the PDF extraction (fractions); answer A",
+  "section_title": "Basic Special Relativity",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 17,
+  "chapter": 1,
+  "section": "1.4",
+  "concept": "elastic versus inelastic collisions (kinetic energy and momentum conservation)",
+  "coverage": "not covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "particles-energy:11",
+    "why": "uses momentum conservation for annihilation only"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "particles-energy",
+  "section_title": "Basic Special Relativity",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 18,
+  "chapter": 1,
+  "section": "1.4",
+  "concept": "linear energy transfer defined as energy given to the medium per unit track length",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "decay-modes:12",
+    "why": "card uses 'high LET' for alpha particles without defining it"
+   },
+   {
+    "id": "decay-modes:24",
+    "why": "problem: alpha LET and range in tissue"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Stopping power and range of charged particles",
+  "note": "no card or section defines LET, restricted LET or mass stopping power",
+  "section_title": "Basic Special Relativity",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 19,
+  "chapter": 1,
+  "section": "1.4",
+  "concept": "Compton scattering of a photon through 180 degrees: energy shared with the electron",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "photon-interactions:11",
+    "why": "card: scattered photon and electron energy at 90 degrees"
+   },
+   {
+    "id": "photon-interactions:12",
+    "why": "card: scattered photon tends to 255 keV at 180 degrees"
+   },
+   {
+    "id": "photon-interactions:30",
+    "why": "typed problem: recoil electron energy at 60 degrees"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Question gives no incident photon energy, so the electron energy is undetermined. The quoted answer 0.256 MeV equals the limiting scattered PHOTON energy at 180 degrees (m_e c2/2, reached for very high incident energy), and the explanation ('half the energy goes to the photon') is not a general result. Settle with the Compton formula in Khan ch. 5.",
+  "qtype": "K",
+  "home": "photon-interactions",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is photon-interactions:11 (one-step calculation, card)",
+  "section_title": "Basic Special Relativity",
+  "chapter_title": "Fundamental physics"
+ },
+ {
+  "n": 20,
+  "chapter": 2,
+  "section": "2.1",
+  "concept": "nuclide notation: element symbol, mass number A, atomic number Z",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "nuclear-structure:1",
+    "why": "card: Z, N, A and A = Z + N"
+   },
+   {
+    "id": "nuclear-structure:12",
+    "why": "problem: neutrons in Ir-192"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "nuclear-structure",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is nuclear-structure:12 (one-step calculation, Easy)",
+  "section_title": "The atom",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 22,
+  "chapter": 2,
+  "section": "2.1",
+  "concept": "ranking the four fundamental forces by strength",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "nuclear-structure:13",
+    "why": "problem: strong force beats Coulomb repulsion in the nucleus"
+   },
+   {
+    "id": "nuclear-structure:4",
+    "why": "card: strong force short range, Coulomb long range"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "R",
+  "home": "nuclear-structure",
+  "level_why": "site compares strong, Coulomb and (in distractors) gravity; weak force and a full ranking are absent",
+  "section_title": "The atom",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 23,
+  "chapter": 2,
+  "section": "2.1",
+  "concept": "figure: recognising characteristic emission after an inner-shell vacancy",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "charges-atom:7",
+    "why": "card: how a characteristic x-ray is produced"
+   },
+   {
+    "id": "charges-atom:21",
+    "why": "problem separating characteristic x-ray and Auger emission"
+   },
+   {
+    "id": "photon-interactions",
+    "why": "photoelectric row: vacancy leads to characteristic x-ray or Auger electron"
+   }
+  ],
+  "level_note": "site harder",
+  "verify": "Figure is not in the parsed text. The explanation says characteristic radiation 'or the photoelectric effect' and describes an incoming electron ejecting a shell electron; those are two different processes (electron-impact ionisation in a tube versus photon absorption). Check the figure and Khan ch. 3.",
+  "qtype": "F",
+  "home": "charges-atom",
+  "level_why": "rank rule: guide item is figure-based; hardest matched site item is charges-atom:21 (conceptual, Challenging)",
+  "section_title": "The atom",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 24,
+  "chapter": 2,
+  "section": "2.1",
+  "concept": "which characteristic lines an electron of a given energy can produce in tungsten from the K, L and M binding energies",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "charges-atom:17",
+    "why": "problem: L to K photon energy from binding-energy difference"
+   },
+   {
+    "id": "charges-atom",
+    "why": "worked example for tungsten K and L shells"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "M",
+  "home": "charges-atom",
+  "level_why": "site asks for one transition; guide needs the extra step that the electron energy must exceed the K binding energy before any line can occur",
+  "section_title": "The atom",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 25,
+  "chapter": 2,
+  "section": "2.1",
+  "concept": "Auger electron: vacancy energy ejects another orbital electron",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "charges-atom:8",
+    "why": "card on Auger electrons"
+   },
+   {
+    "id": "charges-atom:21",
+    "why": "problem: Auger versus characteristic x-ray"
+   },
+   {
+    "id": "decay-modes:8",
+    "why": "card: Auger electrons after EC or internal conversion"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "charges-atom",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is charges-atom:21 (conceptual, Challenging)",
+  "section_title": "The atom",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 26,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "which named processes are decay modes",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-modes",
+    "why": "guide table of decay modes"
+   },
+   {
+    "id": "decay-modes:26",
+    "why": "sort: what each decay does to Z and A"
+   },
+   {
+    "id": "decay-modes:25",
+    "why": "sort radionuclides by decay mode"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "decay-modes",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is decay-modes:26 (sorting, Easy)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 27,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "Co-60 source facts and the usual HDR source",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-schemes:4",
+    "why": "card: Co-60 emits 1.173 and 1.332 MeV"
+   },
+   {
+    "id": "decay-law:28",
+    "why": "typed problem: Co-60 activity after 10 y"
+   },
+   {
+    "id": "brachy-sources:15",
+    "why": "problem: Ir-192 is the usual HDR nuclide"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "decay-schemes",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is decay-law:28 (one-step calculation, Moderate)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 28,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "half-life of Ir-192 (about 74 d)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "brachy-sources:5",
+    "why": "card: 73.8 d and what it implies"
+   },
+   {
+    "id": "decay-modes",
+    "why": "table lists 73.8 d"
+   },
+   {
+    "id": "decay-law:19",
+    "why": "problem: Ir-192 activity after 120 d"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "brachy-sources",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is decay-law:19 (multi-step calculation, Moderate)",
+  "note": "site quotes 73.8 d, guide rounds to 74 d",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 29,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "probability that a nucleus decays within one half-life",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-law:1",
+    "why": "card: decay constant is a probability per unit time"
+   },
+   {
+    "id": "decay-law:16",
+    "why": "problem: fraction left after five half-lives"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "C",
+  "home": "decay-law",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is decay-law:1 (recall, card)",
+  "note": "parsed with fewer than two options (answers inline a-d); answer A, 50%. The statement 'each nucleus has a 50% chance in one half-life' is implied, not written.",
+  "parse_issue": "options parsed inline (a-d); parsed with fewer than two options; answer A",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 30,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "half-life from mean life (T1/2 = 0.693 tau)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-law:4",
+    "why": "card relating half-life, decay constant and mean life"
+   },
+   {
+    "id": "decay-law:17",
+    "why": "problem: mean life = 1.44 half-life"
+   },
+   {
+    "id": "decay-law:27",
+    "why": "problem: mean life of Tc-99m"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "K",
+  "home": "decay-law",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is decay-law:27 (one-step calculation, Challenging)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 31,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "decay constant and half-life relation (lambda = 0.693/T1/2)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-law:4",
+    "why": "card"
+   },
+   {
+    "id": "decay-law:23",
+    "why": "problem ranking decay constants by half-life"
+   },
+   {
+    "id": "decay-law",
+    "why": "guide equation block"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "decay-law",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is decay-law:23 (one-step calculation, Moderate)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 32,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "number of nuclei left after a time, written with the decay constant",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-law:2",
+    "why": "card: N(t) = N0 e^-λt"
+   },
+   {
+    "id": "decay-law:18",
+    "why": "problem: Tc-99m activity at a later time"
+   },
+   {
+    "id": "decay-law:21",
+    "why": "problem: half-life from two activities"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "K",
+  "home": "decay-law",
+  "level_why": "site problems evaluate the number; the guide item picks the correct expression",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 33,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "fraction remaining after a whole number of half-lives",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-law:6",
+    "why": "card: 4 and 10 half-lives"
+   },
+   {
+    "id": "decay-law:16",
+    "why": "problem: five half-lives"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "K",
+  "home": "decay-law",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is decay-law:6 (recall, card)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 34,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "specific activity of Ra-226 from decay constant and atom count",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "specific-activity:5",
+    "why": "card: Ra-226 is about 3.7e10 Bq/g"
+   },
+   {
+    "id": "specific-activity:16",
+    "why": "problem: activity of 1 g Ra-226"
+   },
+   {
+    "id": "specific-activity:24",
+    "why": "typed problem: full S = ln2 NA/(T M) chain"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "M",
+  "home": "specific-activity",
+  "level_why": "specific-activity:24 asks for the same derivation (lambda from T1/2, atoms per gram, conversion to Ci/g); the automatic type label under-rated it",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 35,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "highest binding energy per nucleon (Fe-56 region)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "nuclear-structure:19",
+    "why": "problem: highest BE per nucleon"
+   },
+   {
+    "id": "nuclear-structure:8",
+    "why": "card: shape of the curve"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "nuclear-structure",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is nuclear-structure:19 (recall, Moderate)",
+  "note": "parser put this under a wrong section label (a 0.975 Ci/g line); true section 2.2",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 36,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "nuclear stability: N/Z of stable nuclei, band of stability, magic numbers",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "nuclear-structure:18",
+    "why": "problem: why heavy stable nuclei have N > Z"
+   },
+   {
+    "id": "nuclear-structure",
+    "why": "chart-of-nuclides figure and text; no magic numbers"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "nuclear-structure",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is nuclear-structure:18 (conceptual, Moderate)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 37,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "Ir-192 decays by beta-minus to Pt-192",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-modes:10",
+    "why": "card: 95% beta-minus to Pt-192, 5% EC to Os-192"
+   },
+   {
+    "id": "brachy-sources:4",
+    "why": "card on Ir-192 decay"
+   },
+   {
+    "id": "decay-modes:25",
+    "why": "sort radionuclides by decay mode"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "decay-modes",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is brachy-sources:4 (conceptual, card)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 38,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "definition of parent-daughter equilibrium",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "equilibrium:1",
+    "why": "card: transient condition and ratio"
+   },
+   {
+    "id": "equilibrium:2",
+    "why": "card: secular condition"
+   },
+   {
+    "id": "equilibrium:21",
+    "why": "problem separating transient from secular"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Guide answer 'decay rates equal, constant ratio' fits secular equilibrium only. In transient equilibrium the ratio Ad/Ap = Tp/(Tp - Td) is constant but above 1; the guide's 'transient (parent significantly longer)' wording is garbled. The site states the ratio correctly. Settle with Khan ch. 2 or Cherry, Physics in Nuclear Medicine.",
+  "qtype": "C",
+  "home": "equilibrium",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is equilibrium:21 (conceptual, Challenging)",
+  "parse_issue": "answer parsed as None; raw text gives A (answer block sits in the stem)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 39,
+  "chapter": 2,
+  "section": "2.2",
+  "concept": "which processes count as nuclear reactions",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "nuclear-structure:9",
+    "why": "card: why fusion and fission both release energy"
+   },
+   {
+    "id": "decay-schemes:6",
+    "why": "card: reading target(projectile, ejected)product reactions"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "nuclear-structure",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is nuclear-structure:9 (conceptual, card)",
+  "section_title": "Basic radioactivity and decay",
+  "chapter_title": "Atomic and nuclear structure"
+ },
+ {
+  "n": 40,
+  "chapter": 3,
+  "section": "3.1",
+  "concept": "figure: recognising bremsstrahlung (electron deflected near a nucleus)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "decay-schemes:2",
+    "why": "card: bremsstrahlung has a continuous spectrum"
+   },
+   {
+    "id": "electron-pdd:3",
+    "why": "card: bremsstrahlung tail in electron beams"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "F",
+  "home": "Bremsstrahlung and characteristic x-rays",
+  "note": "the production mechanism itself is not taught anywhere",
+  "section_title": "Basic physics of x-ray beam production",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 41,
+  "chapter": 3,
+  "section": "3.1",
+  "concept": "features of the x-ray tube spectrum (continuous plus lines, end-point set by tube voltage, filtration)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "charges-atom:7",
+    "why": "characteristic line origin"
+   },
+   {
+    "id": "decay-schemes:2",
+    "why": "continuous versus discrete spectra"
+   }
+  ],
+  "level_note": "n/a",
+  "verify": "Explanation says the minimum wavelength varies as one over the voltage squared. Duane-Hunt: lambda_min = 1240/V (nm, V in volts), i.e. it varies as 1/V, and the maximum photon energy equals eV. One option also mixes the inverse relation for wavelength with a proportional relation for energy. Settle with Khan ch. 3.",
+  "qtype": "C",
+  "home": "Filtration, kV spectra, and beam quality",
+  "section_title": "Basic physics of x-ray beam production",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 42,
+  "chapter": 3,
+  "section": "3.1",
+  "concept": "what a '6 MV' beam means: nominal peak energy, polyenergetic, effective energy, HVL",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "waves-photons:14",
+    "why": "problem: most energetic photon in a 6 MV beam is 6 MeV"
+   },
+   {
+    "id": "photon-interactions:6",
+    "why": "card: HVL of a polyenergetic beam grows with depth"
+   }
+  ],
+  "level_note": "n/a",
+  "verify": "The explanation's 6 MV lead HVL (a few millimetres) and an 'effective energy' close to the nominal peak look wrong. An NCRP 151 primary-beam lead TVL of roughly 5.7 cm (NCRP 151 Appendix B) puts the HVL at about 1.5-1.7 cm, and the mean photon energy of a 6 MV beam is about one third of the peak (about 2 MeV). Settle with Khan ch. 3 and NCRP 151 Appendix B.",
+  "qtype": "C",
+  "home": "Bending magnet, target, and flattening filter",
+  "section_title": "Basic physics of x-ray beam production",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 43,
+  "chapter": 3,
+  "section": "3.1",
+  "concept": "effects of the flattening filter versus an unfiltered MV beam (hardening, dose rate, head scatter)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "profiles:11",
+    "why": "card: central rays cross the thickest part of the filter, which hardens the beam"
+   },
+   {
+    "id": "profiles",
+    "why": "profile shape with and without depth"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "Bending magnet, target, and flattening filter",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is profiles:11 (conceptual, card)",
+  "note": "negative-stem item; flattening-filter-free operation is not named in PLAN but belongs here and in the built profiles topic",
+  "section_title": "Basic physics of x-ray beam production",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 45,
+  "chapter": 3,
+  "section": "3.1",
+  "concept": "x-ray production efficiency rises with target Z and tube voltage",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Bremsstrahlung and characteristic x-rays",
+  "section_title": "Basic physics of x-ray beam production",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 46,
+  "chapter": 3,
+  "section": "3.1",
+  "concept": "figure: angular distribution of x-rays from a thin target and its change with electron energy",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "F",
+  "home": "Bremsstrahlung and characteristic x-rays",
+  "section_title": "Basic physics of x-ray beam production",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 47,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "components of a diagnostic x-ray tube",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "X-ray tube components and the heel effect",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 48,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "figure: average x-ray energy is about one third of the maximum (peak voltage)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "F",
+  "home": "Filtration, kV spectra, and beam quality",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 49,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "reading the tube voltage from the end-point of a spectrum",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "F",
+  "home": "Filtration, kV spectra, and beam quality",
+  "note": "options mis-split by the parser; answer A (200 keV)",
+  "parse_issue": "options mis-split (A-D inline in stem); answer A",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 50,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "what filtration does to a beam (removes low-energy photons, hardens, lowers fluence)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "photon-interactions:6",
+    "why": "card: beam hardening raises the HVL"
+   },
+   {
+    "id": "ct-quality",
+    "why": "beam hardening described for CT artifacts"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "Filtration, kV spectra, and beam quality",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is photon-interactions:6 (conceptual, card)",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 51,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "line-focus principle (actual versus effective focal spot, anode angle)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "radiographic-quality:4",
+    "why": "nearest: blur from source size s·b/a; no target angle"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "X-ray tube components and the heel effect",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 52,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "anode heel effect (lower intensity on the anode side)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "X-ray tube components and the heel effect",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 53,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "purpose of a rotating anode (heat spreading)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "X-ray tube components and the heel effect",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 54,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "thermionic emission occurs at the heated cathode filament",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "X-ray tube components and the heel effect",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 55,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "inherent versus added filtration of a tube",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Filtration, kV spectra, and beam quality",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 56,
+  "chapter": 3,
+  "section": "3.2",
+  "concept": "diagnostic versus therapy tube features (energy, hooded anode, dominant interaction, voltage)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Explanation attributes the hooded anode to imaging tubes. Khan describes the hooded (Cu/W) anode as a feature of therapy (orthovoltage) tubes to absorb stray electrons; diagnostic tubes use rotating tungsten anodes. Answer B stays false either way because linacs have no hooded anode. Settle with Khan ch. 3.",
+  "qtype": "C",
+  "home": "X-ray tube components and the heel effect",
+  "section_title": "Generation of beams",
+  "chapter_title": "Production of kilovoltage xray"
+ },
+ {
+  "n": 57,
+  "chapter": 4,
+  "section": "4",
+  "concept": "order of linac components from modulator to collimators",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Linac components and the waveguide",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 58,
+  "chapter": 4,
+  "section": "4",
+  "concept": "number of couch degrees of freedom",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Linac components and the waveguide",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 59,
+  "chapter": 4,
+  "section": "4",
+  "concept": "gantry angle convention for a head-first supine patient (IEC scale)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Linac components and the waveguide",
+  "note": "parsed without answer text (answer A in raw text); IEC 61217 puts gantry 90 degrees on the patient's left for head-first supine, consistent with A",
+  "parse_issue": "answer parsed as None; raw text gives A",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 60,
+  "chapter": 4,
+  "section": "4",
+  "concept": "mechanical versus radiation isocenter definitions",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "tmr",
+    "why": "uses 'isocentric' only as a technique; never defines the isocenter"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Linac components and the waveguide",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 61,
+  "chapter": 4,
+  "section": "4",
+  "concept": "source-axis distance of a C-arm linac",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "pdd:12",
+    "why": "card: 100 cm is the SAD and a compromise SSD"
+   },
+   {
+    "id": "mu-calc:36",
+    "why": "problem: SSD calibration puts the point at 100 + dmax"
+   },
+   {
+    "id": "tmr:5",
+    "why": "card: SAD technique uses TMR"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "mu-calc",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is pdd:12 (conceptual, card)",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 62,
+  "chapter": 4,
+  "section": "4",
+  "concept": "SSD for a direct electron field with bolus (measured to the bolus surface)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-fields:4",
+    "why": "card: standard electron setup SSD 100 cm, cone 95 cm from source"
+   },
+   {
+    "id": "skin-bolus",
+    "why": "bolus text for photons only"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "electron-fields",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is electron-fields:4 (recall, card)",
+  "note": "the convention 'SSD to bolus surface' is not stated",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 63,
+  "chapter": 4,
+  "section": "4",
+  "concept": "relative penetration of different radiation types",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "decay-modes:12",
+    "why": "card: alpha range under 0.1 mm in tissue"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "Stopping power and range of charged particles",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is decay-modes:12 (conceptual, card)",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 64,
+  "chapter": 4,
+  "section": "4",
+  "concept": "figure: electron energy spectrum at waveguide, after bending magnet, at the patient",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "F",
+  "home": "Bending magnet, target, and flattening filter",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 65,
+  "chapter": 4,
+  "section": "4",
+  "concept": "travelling-wave versus standing-wave accelerating structures",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "The guide assigns travelling-wave guides to one vendor and standing-wave guides to the other. The assignment depends on model and era (travelling-wave guides were common in older machines; many current machines of both vendors use standing-wave guides). Settle with Khan ch. 4 (clinical radiation generators) or vendor documentation.",
+  "qtype": "R",
+  "home": "Linac components and the waveguide",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 66,
+  "chapter": 4,
+  "section": "4",
+  "concept": "microwave power sources in a linac",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "RF power: klystron, magnetron, and electron gun",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 67,
+  "chapter": 4,
+  "section": "4",
+  "concept": "higher RF frequency gives a shorter accelerator",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "waves-photons:15",
+    "why": "problem: wavelength of a 2.998 GHz linac drive; length scaling not taught"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "RF power: klystron, magnetron, and electron gun",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 68,
+  "chapter": 4,
+  "section": "4",
+  "concept": "role of the thyratron in the modulator",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "RF power: klystron, magnetron, and electron gun",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 69,
+  "chapter": 4,
+  "section": "4",
+  "concept": "properties of flattening-filter-free beams (dose rate, head scatter, penumbra, peripheral dose)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "imrt-delivery",
+    "why": "one sentence: FFF dose rates above 1000 MU/min shorten beam-on time; no card or problem"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Bending magnet, target, and flattening filter",
+  "note": "FFF is named nowhere on PLAN; it fits the flattening-filter topic and the built profiles topic",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 70,
+  "chapter": 4,
+  "section": "4",
+  "concept": "what is retracted in electron mode (target) and the role of the scattering foil",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "electron-pdd:3",
+    "why": "card: scattering foil is the main source of the electron beam photon tail"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Bending magnet, target, and flattening filter",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 71,
+  "chapter": 4,
+  "section": "4",
+  "concept": "insulating gas in the accelerating waveguide",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Linac components and the waveguide",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 72,
+  "chapter": 4,
+  "section": "4",
+  "concept": "couch rotation range",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Linac components and the waveguide",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 73,
+  "chapter": 4,
+  "section": "4",
+  "concept": "which components shape the treatment field",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "field-shaping",
+    "why": "guide: jaws, Cerrobend blocks, MLC"
+   },
+   {
+    "id": "field-shaping:14",
+    "why": "problem: MLCs replace blocks"
+   },
+   {
+    "id": "profiles:11",
+    "why": "card: the flattening filter hardens and flattens, it does not shape"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "field-shaping",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is field-shaping:14 (conceptual, Easy)",
+  "note": "primary collimator is not mentioned",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 74,
+  "chapter": 4,
+  "section": "4",
+  "concept": "which items trigger a linac safety interlock",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Linac dosimetry system and beam steering",
+  "note": "parsed without answer text (answer F, personnel TLD dose, in raw text)",
+  "parse_issue": "answer parsed as None; raw text gives F",
+  "section_title": "Production of megavoltage radiation beams (no subsections)",
+  "chapter_title": "Production of megavoltage beams"
+ },
+ {
+  "n": 76,
+  "chapter": 5,
+  "section": "5.2",
+  "concept": "Compton scattering depends on electrons per gram, not on Z (clinical case in lung)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "photon-interactions:8",
+    "why": "card: Compton is Z-independent per electron"
+   },
+   {
+    "id": "photon-interactions:24",
+    "why": "multi problem on Compton properties"
+   },
+   {
+    "id": "photon-interactions:25",
+    "why": "problem: MV portal contrast comes from density"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "The explanation gives electron densities for lung and soft tissue. The soft-tissue value is plausible; the lung value implies roughly 0.7 g/cm3, far denser than inflated lung (0.2-0.3 g/cm3, about 0.7-1.0e23 electrons per cm3). The conclusion (Compton follows electron density) is unaffected.",
+  "qtype": "C",
+  "home": "photon-interactions",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is photon-interactions:24 (conceptual, Challenging)",
+  "section_title": "Interactions of x and gamma rays with matter",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 77,
+  "chapter": 5,
+  "section": "5.2",
+  "concept": "photonuclear neutron production in a metal prosthesis at 10 MV and above",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "photon-interactions:13",
+    "why": "card: photodisintegration above 8-10 MeV gives photoneutrons"
+   },
+   {
+    "id": "mlc-imrt:15",
+    "why": "problem: why IMRT avoids energies above 10 MV (neutrons)"
+   },
+   {
+    "id": "mlc-imrt:3",
+    "why": "card on neutrons in high-energy IMRT"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "photon-interactions",
+  "level_why": "guide adds a prosthesis scenario; physics is the same threshold concept",
+  "section_title": "Interactions of x and gamma rays with matter",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 78,
+  "chapter": 5,
+  "section": "5.3",
+  "concept": "LET quantifies energy transfer per path length (keV/um)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "decay-modes:12",
+    "why": "card uses 'high LET' for alpha particles, no definition"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Stopping power and range of charged particles",
+  "section_title": "Interactions of charged particles and neutrons with matter",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 79,
+  "chapter": 5,
+  "section": "5.3",
+  "concept": "ranking radiation types by LET",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "decay-modes:24",
+    "why": "nearest: alpha has high LET and short range; no ranking or values"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Stopping power and range of charged particles",
+  "section_title": "Interactions of charged particles and neutrons with matter",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 80,
+  "chapter": 5,
+  "section": "5.3",
+  "concept": "continuous-slowing-down approximation (CSDA) range",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Stopping power and range of charged particles",
+  "section_title": "Interactions of charged particles and neutrons with matter",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 81,
+  "chapter": 5,
+  "section": "5.3",
+  "concept": "interaction types of heavy charged particles with orbital electrons (soft, hard collisions)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Heavy charged particles and the Bragg peak",
+  "section_title": "Interactions of charged particles and neutrons with matter",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 82,
+  "chapter": 5,
+  "section": "5.3",
+  "concept": "interaction types of charged particles with the nucleus (elastic, radiative, nuclear reaction)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Electron interactions and bremsstrahlung yield",
+  "section_title": "Interactions of charged particles and neutrons with matter",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 83,
+  "chapter": 5,
+  "section": "5.4",
+  "concept": "exponential attenuation equation",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "photon-interactions:15",
+    "why": "problem: choose the attenuation law"
+   },
+   {
+    "id": "photon-interactions:2",
+    "why": "card: law with mu, HVL and TVL"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "photon-interactions",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is photon-interactions:15 (recall, Easy)",
+  "section_title": "X-ray attenuation",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 84,
+  "chapter": 5,
+  "section": "5.4",
+  "concept": "intensity after several half-value layers",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "photon-interactions:5",
+    "why": "card: five HVLs"
+   },
+   {
+    "id": "photon-interactions:32",
+    "why": "figure problem: one eighth is three HVLs"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "K",
+  "home": "photon-interactions",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is photon-interactions:32 (figure-based, Moderate)",
+  "section_title": "X-ray attenuation",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 85,
+  "chapter": 5,
+  "section": "5.4",
+  "concept": "successive HVLs of a narrow polyenergetic beam increase (beam hardening)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "photon-interactions:6",
+    "why": "card: HVL of a polyenergetic beam grows"
+   },
+   {
+    "id": "photon-interactions",
+    "why": "attenuation section states beam hardening"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "photon-interactions",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is photon-interactions:6 (conceptual, card)",
+  "note": "no problem tests it, only the card and the guide sentence",
+  "section_title": "X-ray attenuation",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 86,
+  "chapter": 5,
+  "section": "5.4",
+  "concept": "tissue heterogeneity coefficients and what they do not affect (CTV definition)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dose-algorithms:13",
+    "why": "card: CT number to density calibration"
+   },
+   {
+    "id": "dose-algorithms",
+    "why": "section on lung and bone corrections"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "dose-algorithms",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is dose-algorithms:13 (conceptual, card)",
+  "note": "negative-stem item on an older correction concept the site does not name",
+  "section_title": "X-ray attenuation",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 87,
+  "chapter": 5,
+  "section": "5.4",
+  "concept": "which effects follow the inverse-square law",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "pdd:19",
+    "why": "problem: PDD rises with field size through scatter, not inverse square"
+   },
+   {
+    "id": "pdd:20",
+    "why": "problem: PDD rises with SSD because inverse-square fall-off is weaker"
+   },
+   {
+    "id": "pdd:29",
+    "why": "sort of what raises PDD"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "pdd",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is pdd:19 (conceptual, Moderate)",
+  "note": "negative-stem item",
+  "section_title": "X-ray attenuation",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 88,
+  "chapter": 5,
+  "section": "5.4",
+  "concept": "narrow-beam versus broad-beam geometry",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "photon-interactions",
+    "why": "guide sentences define narrow beam and build-up in broad beam; no card or problem"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "photon-interactions",
+  "section_title": "X-ray attenuation",
+  "chapter_title": "Radiation interactions"
+ },
+ {
+  "n": 89,
+  "chapter": 6,
+  "section": "6.1",
+  "concept": "photon fluence definition",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose:1",
+    "why": "card"
+   },
+   {
+    "id": "kerma-dose:13",
+    "why": "problem"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is kerma-dose:1 (recall, card)",
+  "section_title": "Fluence, exposure, kerma, W/e, absorbed dose",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 90,
+  "chapter": 6,
+  "section": "6.1",
+  "concept": "energy fluence definition",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose:1",
+    "why": "card"
+   },
+   {
+    "id": "kerma-dose:14",
+    "why": "problem computing energy fluence from fluence"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is kerma-dose:14 (multi-step calculation, Moderate)",
+  "section_title": "Fluence, exposure, kerma, W/e, absorbed dose",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 91,
+  "chapter": 6,
+  "section": "6.1",
+  "concept": "SI unit of exposure (C/kg)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose:7",
+    "why": "card: exposure, C/kg, 3 MeV limit"
+   },
+   {
+    "id": "kerma-dose:27",
+    "why": "sort of quantities and units"
+   },
+   {
+    "id": "brachy-exposure:15",
+    "why": "problem: exposure unit"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Explanation calls the roentgen 'the metric unit' and writes it as coulomb/kg. The roentgen is the legacy unit (2.58e-4 C/kg); C/kg is the SI unit. The answer D (C/kg) is right.",
+  "qtype": "R",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is kerma-dose:27 (sorting, Easy)",
+  "section_title": "Fluence, exposure, kerma, W/e, absorbed dose",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 92,
+  "chapter": 6,
+  "section": "6.1",
+  "concept": "kerma statements (definition, collision plus radiative, relation to dose at low and high energy)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose:2",
+    "why": "card on kerma"
+   },
+   {
+    "id": "kerma-dose:4",
+    "why": "card: Kcol = K(1 - g)"
+   },
+   {
+    "id": "kerma-dose:19",
+    "why": "problem: D < Kcol in build-up"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Explanation attributes the kerma-dose gap at high energy to radiative loss, and also to build-up, without separating total kerma from collision kerma. Under CPE, D = collision kerma; total kerma exceeds dose by the radiative fraction g, which grows with energy. The false option is still B.",
+  "qtype": "C",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is kerma-dose:4 (conceptual, card)",
+  "section_title": "Fluence, exposure, kerma, W/e, absorbed dose",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 93,
+  "chapter": 6,
+  "section": "6.1",
+  "concept": "mean energy to produce an ion pair in air (W/e = 33.97 J/C), its dependence on particle and medium",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose:9",
+    "why": "card: W_air/e = 33.97 J/C converts exposure to dose"
+   },
+   {
+    "id": "brachy-exposure:11",
+    "why": "card: same constant"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is kerma-dose:9 (conceptual, card)",
+  "note": "constant is used but W is not defined as energy per ion pair, and its (weak) dependence on particle type is not discussed",
+  "section_title": "Fluence, exposure, kerma, W/e, absorbed dose",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 94,
+  "chapter": 6,
+  "section": "6.1",
+  "concept": "dose in free space (air) and its tie to TAR; defined for photons below about 3 MeV",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "tmr:7",
+    "why": "card: TAR uses the dose in free space at the same point"
+   },
+   {
+    "id": "kerma-dose:24",
+    "why": "problem: exposure defined below about 3 MeV"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "tmr",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is kerma-dose:24 (recall, Moderate)",
+  "note": "'dose to a small mass of tissue in air' is not explained; relates to calibration traceability topics on PLAN",
+  "section_title": "Fluence, exposure, kerma, W/e, absorbed dose",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 95,
+  "chapter": 6,
+  "section": "6.2",
+  "concept": "figure: kerma and absorbed dose versus depth, labelled regions",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose",
+    "why": "guide figure of kerma and dose with depth"
+   },
+   {
+    "id": "kerma-dose:26",
+    "why": "sort: build-up, CPE, beyond dmax"
+   },
+   {
+    "id": "kerma-dose:19",
+    "why": "problem on build-up"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "F",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is figure-based; hardest matched site item is kerma-dose:26 (sorting, Moderate)",
+  "section_title": "Relationships of kerma, dose, exposure",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 96,
+  "chapter": 6,
+  "section": "6.2",
+  "concept": "charged-particle equilibrium versus transient equilibrium",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose:5",
+    "why": "card on CPE"
+   },
+   {
+    "id": "kerma-dose:6",
+    "why": "card: beta slightly above 1 beyond dmax"
+   },
+   {
+    "id": "kerma-dose:20",
+    "why": "problem on transient CPE"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is kerma-dose:20 (conceptual, Moderate)",
+  "section_title": "Relationships of kerma, dose, exposure",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 97,
+  "chapter": 6,
+  "section": "6.2",
+  "concept": "dose in a medium from exposure with the f-factor (independent of field size)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "kerma-dose:8",
+    "why": "card: 50 R to 43.8 cGy in air"
+   },
+   {
+    "id": "kerma-dose:23",
+    "why": "problem: dose to air from exposure"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "Calibration traceability and kV dosimetry",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is kerma-dose:23 (multi-step calculation, Moderate)",
+  "note": "site stops at dose to air; the roentgen-to-medium f-factor is absent",
+  "section_title": "Relationships of kerma, dose, exposure",
+  "chapter_title": "Radiation quantities and units"
+ },
+ {
+  "n": 98,
+  "chapter": 7,
+  "section": "7.1",
+  "concept": "water as the reference phantom material and why",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "TG-51 photon beam calibration",
+  "section_title": "Phantoms (composition, electron density, effective Z value, anthropomorphic and geometric)",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 99,
+  "chapter": 7,
+  "section": "7.2",
+  "concept": "ionization chambers collect charge from ion pairs in gas",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "kerma-dose:8",
+    "why": "card: free-air chamber records exposure, the only chamber mentioned"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Ion chamber design and charge collection",
+  "section_title": "Ionization Chambers",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 100,
+  "chapter": 7,
+  "section": "7.2",
+  "concept": "factors that ion-chamber correction factors cover",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Guide treats absence of CPE as NOT a reason for chamber correction factors, yet its cited reference concerns correction factors for small fields in low-density material, where lateral CPE is lost. Whether lack of CPE is a corrected effect depends on the protocol (TG-51 reference conditions assume CPE; small-field codes such as TG-155 and TRS-483 apply output correction factors). Settle with TG-155.",
+  "qtype": "C",
+  "home": "Ion recombination and polarity effects",
+  "note": "parsed without answer text (answer E in raw text)",
+  "parse_issue": "answer parsed as None; raw text gives E",
+  "section_title": "Ionization Chambers",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 101,
+  "chapter": 7,
+  "section": "7.3",
+  "concept": "absolute versus relative dosimetry",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Calibration traceability and kV dosimetry",
+  "section_title": "Other Dosimetry Instrumentation",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 102,
+  "chapter": 7,
+  "section": "7.3",
+  "concept": "Fricke (ferrous sulfate) dosimetry reads ferric ion yield",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "'Fricke calorimetry' is a misnomer: the Fricke system is chemical dosimetry (Fe2+ to Fe3+ read by spectrophotometry), not calorimetry. Answer (ferric ions) is right.",
+  "qtype": "R",
+  "home": "Arrays, gels, and 3D dosimetry",
+  "section_title": "Other Dosimetry Instrumentation",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 104,
+  "chapter": 7,
+  "section": "7.3",
+  "concept": "TLD and OSLD as point detectors",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "TLD and OSLD dosimetry",
+  "section_title": "Other Dosimetry Instrumentation",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 105,
+  "chapter": 7,
+  "section": "7.3",
+  "concept": "volume averaging of a detector in small fields",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Diodes, MOSFETs, and scintillators",
+  "section_title": "Other Dosimetry Instrumentation",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 106,
+  "chapter": 7,
+  "section": "7.3",
+  "concept": "Geiger-Mueller counter versus proportional counter",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "One option describes a Geiger-Mueller tube as measuring current and is listed as true, and another mis-describes what is counted; a GM tube registers pulses of fixed size. The keyed answer (a GM counter is not a proportional counter) is right.",
+  "qtype": "R",
+  "home": "Survey instruments and regulations",
+  "section_title": "Other Dosimetry Instrumentation",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 107,
+  "chapter": 7,
+  "section": "7.3",
+  "concept": "what neutron detectors measure",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Survey instruments and regulations",
+  "section_title": "Other Dosimetry Instrumentation",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 108,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "primary method for calibrating MV photon beams",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "TG-51 photon beam calibration",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 109,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "chamber type allowed for reference dosimetry",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "TG-51 photon beam calibration",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 110,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "basic cavity theory (Bragg-Gray idea)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Cavity theory and stopping power ratios",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 111,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "what the absorbed-dose-to-water calibration factor depends on",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Calibration traceability and kV dosimetry",
+  "note": "all-of-the-above item; ABR style disallows that option",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 112,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "role of the accredited dosimetry calibration laboratory",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Calibration traceability and kV dosimetry",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 113,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "parameters that specify beam quality for photons and electrons",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "tmr:8",
+    "why": "card names TPR20,10"
+   },
+   {
+    "id": "electron-pdd:4",
+    "why": "card defines R50"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "C",
+  "home": "TG-51 photon beam calibration",
+  "level_why": "site defines the quantities but never ties them to beam-quality specification",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 114,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "TG-51 photon reference conditions (field, depth, distance)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "TG-51 photon beam calibration",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 115,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "design features of reference-class ionisation chambers",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Ion chamber design and charge collection",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 116,
+  "chapter": 7,
+  "section": "7.4",
+  "concept": "uncertainty contributors in MV beam calibration",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Calibration traceability and kV dosimetry",
+  "section_title": "Calibration of Megavoltage Beams",
+  "chapter_title": "Radiation measurement and"
+ },
+ {
+  "n": 117,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "dose change from an SSD setup error using the inverse-square law (kV skin treatment)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "brachy-exposure:22",
+    "why": "problem: distance tripled gives one ninth"
+   },
+   {
+    "id": "brachy-exposure:26",
+    "why": "problem: rate scaled between distances"
+   },
+   {
+    "id": "pdd:20",
+    "why": "problem on inverse-square contribution to PDD"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "K",
+  "home": "brachy-exposure",
+  "level_why": "both are a single inverse-square ratio; brachy-exposure:22 and :26 have the same depth (the automatic type label over-rated :26)",
+  "note": "no orthovoltage skin-treatment example; the inverse-square scaling is practised for brachytherapy distances and extended SSD",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 118,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "penumbra type caused by source size",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "profiles:4",
+    "why": "card: geometric, transmission, radiological penumbra"
+   },
+   {
+    "id": "profiles:15",
+    "why": "problem: larger source size increases geometric penumbra"
+   },
+   {
+    "id": "profiles:5",
+    "why": "card with the geometric penumbra formula"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "profiles",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is profiles:15 (conceptual, Easy)",
+  "note": "site calls the patient-scatter component 'radiological' penumbra, the guide calls it 'physical'",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 119,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "which beam type has the smallest penumbra, including a lung case",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "profiles:7",
+    "why": "card: radiological penumbra grows with electron range and in lung"
+   },
+   {
+    "id": "profiles:18",
+    "why": "problem: 18 MV penumbra larger than 6 MV"
+   },
+   {
+    "id": "profiles:26",
+    "why": "sort of changes that widen or narrow the penumbra"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Explanation says orthovoltage penumbra is small because photoelectric absorption dominates. In soft tissue at about 80 keV effective energy Compton dominates (photoelectric only below about 30 keV); the narrow penumbra comes from the short secondary-electron range, a short SSD and a small focal spot. Conclusion (kV smallest) is plausible. Settle with the penumbra sections of Khan.",
+  "qtype": "C",
+  "home": "profiles",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is profiles:18 (conceptual, Moderate)",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 121,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "surface dose with FFF versus flattened beams, 6 versus 10 MV, small fields",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "skin-bolus:4",
+    "why": "card: skin dose rises with field size"
+   },
+   {
+    "id": "skin-bolus:5",
+    "why": "card: energy has little effect on skin dose itself"
+   },
+   {
+    "id": "pdd:3",
+    "why": "card: 6 MV has more surface dose than 15 MV"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Site (skin-bolus) says a higher energy lowers dose in the first centimetre but changes the dose at the skin itself little (pdd:3 says 6 MV has more surface dose than 15 MV); the guide says surface dose rises as energy falls and is highest for 6 MV FFF in small fields. Both agree on direction; they differ on magnitude and on FFF, which the site names once in passing without teaching its properties. Settle with Khan ch. 9 and published FFF surface-dose data (for example Georg, Knoos and McClean, Med Phys 2011, and Kragl 2009).",
+  "qtype": "C",
+  "home": "skin-bolus",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is skin-bolus:4 (conceptual, card)",
+  "note": "FFF is named once in passing in the imrt-delivery guide text (dose rate above 1000 MU/min); no card or problem teaches FFF beam properties. Site says energy changes the skin dose little; the guide says surface dose rises as energy falls.",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 122,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "properties of a flattened beam",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "scatter:10",
+    "why": "card: output rises with field size through head and phantom scatter"
+   },
+   {
+    "id": "profiles:10",
+    "why": "card: horns and centre-high profile with depth"
+   },
+   {
+    "id": "skin-bolus:19",
+    "why": "problem: head electrons raise skin dose with field size"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Explanation ascribes the rise in output with field size to electron contamination. The dominant causes are head scatter (Sc) and phantom scatter (Sp), as the site teaches; electron contamination affects the build-up dose. Also an all-of-the-above option and a garbled sentence on cone-shaped profiles. Settle with Khan ch. 10.",
+  "qtype": "C",
+  "home": "scatter",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is skin-bolus:19 (conceptual, Moderate)",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 123,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "Mayneord F factor converts PDD between SSDs",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "pdd:8",
+    "why": "card: formula and assumption"
+   },
+   {
+    "id": "pdd:22",
+    "why": "problem: PDD at SSD 140"
+   },
+   {
+    "id": "pdd:23",
+    "why": "problem: PDD at a reduced SSD"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "pdd",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is pdd:23 (multi-step calculation, Challenging)",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 124,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "backscatter factor accounts for scatter to the surface dose of a kV beam",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "tmr:7",
+    "why": "card: BSF is TAR at dmax (peak scatter factor at MV)"
+   },
+   {
+    "id": "tmr:14",
+    "why": "problem separating BSF from TMR at dmax"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "C",
+  "home": "tmr",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is tmr:7 (recall, card)",
+  "note": "no kV example in the site",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 125,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "TMR obtained from a PDD at a stated depth, dmax and SSD",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "tmr:9",
+    "why": "card with the same 6 MV example giving 0.787"
+   },
+   {
+    "id": "tmr:19",
+    "why": "problem: PDD 58% at 15 cm to TMR"
+   },
+   {
+    "id": "tmr:23",
+    "why": "problem: TMR from SSD 120 data"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "M",
+  "home": "tmr",
+  "level_why": "rank rule: guide item is multi-step calculation; hardest matched site item is tmr:23 (multi-step calculation, Challenging)",
+  "note": "same inputs and same method; guide rounds 0.787 to 0.78",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 126,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "off-axis ratio properties",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "mu-calc",
+    "why": "table row defines OAR as off-axis dose over axis dose at the same depth"
+   },
+   {
+    "id": "profiles:23",
+    "why": "problem: profile higher at the centre at 20 cm"
+   },
+   {
+    "id": "wedges:25",
+    "why": "figure problem on a wedged profile"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "profiles",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is profiles:23 (recall, Challenging)",
+  "note": "negative-stem item; OAR appears as a factor, not as a topic",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 127,
+  "chapter": 8,
+  "section": "8.1",
+  "concept": "contributors to out-of-field dose",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "profiles:12",
+    "why": "card: scatter near the field, leakage far away"
+   },
+   {
+    "id": "profiles:25",
+    "why": "problem on out-of-field dose"
+   },
+   {
+    "id": "mlc-imrt:3",
+    "why": "card: neutrons in high-energy IMRT"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "profiles",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is profiles:25 (conceptual, Challenging)",
+  "section_title": "Properties of External Radiation Beams",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 128,
+  "chapter": 8,
+  "section": "8.2",
+  "concept": "equivalent square of a rectangular field",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "scatter:6",
+    "why": "card: 6 x 18 cm to 9.0 cm"
+   },
+   {
+    "id": "scatter:22",
+    "why": "problem: 8 x 20 cm"
+   },
+   {
+    "id": "scatter:29",
+    "why": "typed problem: 12 x 30 cm"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "K",
+  "home": "scatter",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is scatter:22 (multi-step calculation, Moderate)",
+  "section_title": "System of Monitor Unit Calculations",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 129,
+  "chapter": 8,
+  "section": "8.2",
+  "concept": "monitor units at an extended SSD for a dmax prescription",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "mu-calc:7",
+    "why": "card: same SSD 120 calculation with inverse-square 0.698"
+   },
+   {
+    "id": "mu-calc:23",
+    "why": "problem: MU rise at extended SSD"
+   },
+   {
+    "id": "mu-calc:34",
+    "why": "problem: SSD 120 with Mayneord F factor"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "M",
+  "home": "mu-calc",
+  "level_why": "site versions add Sc, Sp and PDD factors and two calibration conventions",
+  "section_title": "System of Monitor Unit Calculations",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 130,
+  "chapter": 8,
+  "section": "8.2",
+  "concept": "surface, maximum and midplane dose of a parallel-opposed pair from PDD data",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "multifield:15",
+    "why": "problem: hot-spot ratio of a 20 cm pair"
+   },
+   {
+    "id": "multifield:2",
+    "why": "card: superficial dose exceeds midplane dose"
+   },
+   {
+    "id": "multifield:3",
+    "why": "card: hot-spot ratio formula"
+   }
+  ],
+  "level_note": "site easier",
+  "verify": "The PDD value in the stem and the value used in the worked answer differ by one percentage point, which moves the maximum dose by about 0.1 Gy. Answer choice unchanged.",
+  "qtype": "M",
+  "home": "multifield",
+  "level_why": "rank rule: guide item is multi-step calculation; hardest matched site item is multifield:15 (one-step calculation, Moderate)",
+  "section_title": "System of Monitor Unit Calculations",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 131,
+  "chapter": 8,
+  "section": "8.3",
+  "concept": "which algorithm families compute dose",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dose-algorithms:7",
+    "why": "card ranks algorithms by accuracy"
+   },
+   {
+    "id": "dose-algorithms:21",
+    "why": "problem on Acuros XB"
+   },
+   {
+    "id": "dose-algorithms:28",
+    "why": "sort matching algorithms to ideas"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "dose-algorithms",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is dose-algorithms:21 (recall, Moderate)",
+  "note": "all-of-the-above style item in the guide",
+  "section_title": "Treatment planning with photons",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 132,
+  "chapter": 8,
+  "section": "8.3",
+  "concept": "radiological depth through a lung slab by density scaling",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dose-algorithms:3",
+    "why": "card: radiological path length = sum of rho x dx"
+   },
+   {
+    "id": "dose-algorithms:20",
+    "why": "problem: three-layer path 7.8 g/cm2"
+   },
+   {
+    "id": "dose-algorithms:30",
+    "why": "typed problem with lung 0.25"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "K",
+  "home": "dose-algorithms",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is dose-algorithms:20 (one-step calculation, Moderate)",
+  "section_title": "Treatment planning with photons",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 133,
+  "chapter": 8,
+  "section": "8.3",
+  "concept": "figure: dose changes at points around a lung slab (6 MV)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dose-algorithms:26",
+    "why": "problem: dose beyond lung is higher than a water calculation"
+   },
+   {
+    "id": "dose-algorithms",
+    "why": "lung and bone section: wider penumbra, less attenuation, bone backscatter"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "F",
+  "home": "dose-algorithms",
+  "level_why": "guide asks for the dose change at four points around a lung slab (both interfaces); the site asks only for the dose beyond the slab (dose-algorithms:26)",
+  "note": "interface build-down and re-build-up on each side of the slab are not taught",
+  "section_title": "Treatment planning with photons",
+  "chapter_title": "Photon beam characteristics and"
+ },
+ {
+  "n": 135,
+  "chapter": 9,
+  "section": "9.1",
+  "concept": "figure: dose beyond the electron range is bremsstrahlung",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-pdd:3",
+    "why": "card: photon contamination 1-5%"
+   },
+   {
+    "id": "electron-pdd:15",
+    "why": "problem: dose beyond range is bremsstrahlung"
+   },
+   {
+    "id": "electron-pdd:21",
+    "why": "multi problem on the photon tail"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "F",
+  "home": "electron-pdd",
+  "level_why": "rank rule: guide item is figure-based; hardest matched site item is electron-pdd:21 (conceptual, Moderate)",
+  "section_title": "Basic characteristics",
+  "chapter_title": "Electron beam characteristics and"
+ },
+ {
+  "n": 136,
+  "chapter": 9,
+  "section": "9.2",
+  "concept": "electron MU at standard SSD for a dmax prescription",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-mu:2",
+    "why": "card: MU formula"
+   },
+   {
+    "id": "electron-mu:16",
+    "why": "problem: 9 MeV at 200 cGy with Se"
+   },
+   {
+    "id": "electron-mu:24",
+    "why": "typed problem at the 80% depth"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "K",
+  "home": "electron-mu",
+  "level_why": "guide item reduces to 200 MU; site items include output factor and PDD",
+  "section_title": "Dose Rate and Monitor unit calculations:",
+  "chapter_title": "Electron beam characteristics and"
+ },
+ {
+  "n": 137,
+  "chapter": 9,
+  "section": "9.3",
+  "concept": "90% depth of a low-energy electron beam with bolus, by a rule of thumb",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-pdd:6",
+    "why": "card: R90 about E/3.3, Rp about E/2"
+   },
+   {
+    "id": "electron-pdd:16",
+    "why": "problem: R90 of 15 MeV"
+   },
+   {
+    "id": "electron-fields",
+    "why": "guide text: bolus shortens the range by its thickness, no card or problem"
+   }
+  ],
+  "level_note": "site easier",
+  "verify": "Guide uses an E/4 rule for R90 (with a '5-4-3-2' mnemonic); the site uses R90 = E/3.3, R80 = E/3, Rp = E/2 with a table. For 6 MeV that is 1.5 cm versus 1.8 cm; measured R90 at 6 MeV is about 1.7-1.8 cm, so E/4 is conservative. After the bolus thickness is subtracted both rules lead to the same keyed option. Settle with Khan ch. 14 and TG-25.",
+  "qtype": "M",
+  "home": "electron-pdd",
+  "level_why": "rank rule: guide item is multi-step calculation; hardest matched site item is electron-pdd:16 (one-step calculation, Moderate)",
+  "section_title": "Treatment planning with electrons",
+  "chapter_title": "Electron beam characteristics and"
+ },
+ {
+  "n": 138,
+  "chapter": 9,
+  "section": "9.3",
+  "concept": "lead shield thickness for an internal electron shield, by a rule of thumb",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-fields:13",
+    "why": "card: 3 mm tungsten with 1 mm aluminium eye shield adequate to 8 MeV"
+   }
+  ],
+  "level_note": "site easier",
+  "verify": "Explanation says electrons lose about 2 MeV per mm of lead. NIST ESTAR total stopping power of lead is roughly 1.4-1.7 MeV per mm at 1-2 MeV, so the figure is approximate. The thickness rule (lead in mm = E/2, plus 1 mm) is a rule of thumb; check it against Khan ch. 14 before use.",
+  "qtype": "M",
+  "home": "electron-fields",
+  "level_why": "rank rule: guide item is multi-step calculation; hardest matched site item is electron-fields:13 (recall, card)",
+  "section_title": "Treatment planning with electrons",
+  "chapter_title": "Electron beam characteristics and"
+ },
+ {
+  "n": 139,
+  "chapter": 9,
+  "section": "9.3",
+  "concept": "electron surface-dose trend with beam energy",
+  "coverage": "not covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-pdd:1",
+    "why": "nearest: surface dose is already high; no energy trend"
+   },
+   {
+    "id": "pdd:3",
+    "why": "card gives the photon trend only"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "electron-pdd",
+  "note": "a contrast card (photon versus electron energy trend) is missing",
+  "section_title": "Treatment planning with electrons",
+  "chapter_title": "Electron beam characteristics and"
+ },
+ {
+  "n": 140,
+  "chapter": 9,
+  "section": "9.3",
+  "concept": "effects of oblique electron incidence",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-fields:11",
+    "why": "card: asymmetric isodoses and dmax toward the surface"
+   },
+   {
+    "id": "electron-fields:18",
+    "why": "problem: dmax closer to the surface"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Explanation lists both 'shift of R80 toward the surface' and 'increase in the practical range'; Khan describes the depth of the therapeutic range as decreasing with obliquity. Wording is loose. Settle with Khan ch. 14.",
+  "qtype": "C",
+  "home": "electron-fields",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is electron-fields:18 (conceptual, Moderate)",
+  "section_title": "Treatment planning with electrons",
+  "chapter_title": "Electron beam characteristics and"
+ },
+ {
+  "n": 141,
+  "chapter": 9,
+  "section": "9.3",
+  "concept": "effect of omitting bolus for one fraction on the electron surface dose",
+  "coverage": "not covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-fields",
+    "why": "nearest: bolus evens an irregular surface; no surface-dose rule"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "M",
+  "home": "electron-fields",
+  "section_title": "Treatment planning with electrons",
+  "chapter_title": "Electron beam characteristics and"
+ },
+ {
+  "n": 142,
+  "chapter": 9,
+  "section": "9.3",
+  "concept": "reducing backscatter from an internal shield",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "electron-fields:13",
+    "why": "card: aluminium cap absorbs backscattered electrons"
+   },
+   {
+    "id": "electron-fields:23",
+    "why": "problem on the purpose of the cap"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "electron-fields",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is electron-fields:23 (recall, Challenging)",
+  "section_title": "Treatment planning with electrons",
+  "chapter_title": "Electron beam characteristics and"
+ },
+ {
+  "n": 143,
+  "chapter": 10,
+  "section": "10.1",
+  "concept": "why IMRT uses 6 to 10 MV rather than higher energy",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "mlc-imrt:15",
+    "why": "problem: higher energies produce neutrons and more MU"
+   },
+   {
+    "id": "mlc-imrt:3",
+    "why": "card: neutrons above 10 MV"
+   },
+   {
+    "id": "mlc-imrt:1",
+    "why": "card: IMRT needs several times the MU"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "The keyed answer bundles several reasons, one of which (more patient scatter above 10 MV) is doubtful: the scatter fraction in the patient falls with energy. The accepted reasons are photoneutron production and activation, and the extra leakage that comes with the higher MU of IMRT. The explanation also claims fewer MU are needed at high energy, which holds only weakly. Settle with Hauri and Schneider 2019, AAPM TG-158 and NCRP 151.",
+  "qtype": "C",
+  "home": "mlc-imrt",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is mlc-imrt:15 (conceptual, Easy)",
+  "section_title": "Concepts of IMRT",
+  "chapter_title": "Intensity modulated radiation"
+ },
+ {
+  "n": 144,
+  "chapter": 10,
+  "section": "10.1",
+  "concept": "ordering 3D-CRT, VMAT and 15 MV IMRT by low-dose volume or whole-body dose",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "mlc-imrt:2",
+    "why": "card: more MU, more leakage dose to the whole body"
+   },
+   {
+    "id": "mlc-imrt:3",
+    "why": "card: neutron dose rises with MU above 10 MV"
+   }
+  ],
+  "level_note": "site easier",
+  "verify": "Stem asks for V5 Gy volume, explanation discusses whole-body dose equivalent. The paper the guide cites (Hauri and Schneider 2019) concludes that whole-body dose equivalent, neutrons included, is SIMILAR for 6 and 15 MV across IMRT, VMAT and 3D-CRT, which contradicts the stated ordering. Settle with that paper and AAPM TG-158 (doses outside the treated volume).",
+  "qtype": "C",
+  "home": "mlc-imrt",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is mlc-imrt:2 (recall, card)",
+  "section_title": "Concepts of IMRT",
+  "chapter_title": "Intensity modulated radiation"
+ },
+ {
+  "n": 145,
+  "chapter": 10,
+  "section": "10.2",
+  "concept": "role of the multileaf collimator in IMRT",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "imrt-delivery:8",
+    "why": "card: step-and-shoot"
+   },
+   {
+    "id": "imrt-delivery:9",
+    "why": "card: dynamic MLC, leaf speed sets intensity"
+   },
+   {
+    "id": "imrt-delivery:17",
+    "why": "problem on beam off between segments"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "imrt-delivery",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is imrt-delivery:8 (recall, card)",
+  "section_title": "IMRT Delivery Systems",
+  "chapter_title": "Intensity modulated radiation"
+ },
+ {
+  "n": 146,
+  "chapter": 10,
+  "section": "10.3",
+  "concept": "definition of inverse planning",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "inverse-planning:2",
+    "why": "card"
+   },
+   {
+    "id": "inverse-planning:13",
+    "why": "problem forward versus inverse"
+   },
+   {
+    "id": "inverse-planning:14",
+    "why": "problem: optimisation of a cost function"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "inverse-planning",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is inverse-planning:14 (conceptual, Easy)",
+  "note": "parsed without answer text (answer A in raw text)",
+  "parse_issue": "answer parsed as None; raw text gives A",
+  "section_title": "Inverse Planning",
+  "chapter_title": "Intensity modulated radiation"
+ },
+ {
+  "n": 147,
+  "chapter": 10,
+  "section": "10.4",
+  "concept": "IMRT QA comparison metrics",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "imrt-delivery:14",
+    "why": "card: hand check not practical, so measurement or independent calculation"
+   },
+   {
+    "id": "imrt-delivery:7",
+    "why": "card: fluence checked with film or EPID"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "MLC and IMRT QA",
+  "note": "metrics themselves are not named",
+  "section_title": "IMRT Quality Assurance",
+  "chapter_title": "Intensity modulated radiation"
+ },
+ {
+  "n": 148,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "objectives of the ICRU",
+  "coverage": "not covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes",
+    "why": "uses ICRU reports 50, 62, 83 but not their mandate"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "icru-volumes",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 149,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "figure: GTV contour on a skin lesion",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes:1",
+    "why": "card: GTV"
+   },
+   {
+    "id": "icru-volumes:15",
+    "why": "problem on volumes"
+   },
+   {
+    "id": "icru-volumes:27",
+    "why": "sort matching volumes to what they account for"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "F",
+  "home": "icru-volumes",
+  "level_why": "rank rule: guide item is figure-based; hardest matched site item is icru-volumes:27 (sorting, Moderate)",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 150,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "figure: which volume is contoured after a complete response",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes:2",
+    "why": "card: CTV for occult disease"
+   },
+   {
+    "id": "icru-volumes:27",
+    "why": "sort volumes"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "P",
+  "home": "icru-volumes",
+  "level_why": "guide uses a lymphoma response scenario; site tests the definitions only",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 151,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "ITV built from several breathing phases",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes:3",
+    "why": "card: ITV expands for target motion"
+   },
+   {
+    "id": "icru-volumes:27",
+    "why": "sort: what each volume accounts for"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "icru-volumes",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is icru-volumes:27 (sorting, Moderate)",
+  "note": "4D-CT itself is not taught (planned)",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 152,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "volume added to the ITV for setup variation",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes:4",
+    "why": "card: PTV"
+   },
+   {
+    "id": "icru-volumes:15",
+    "why": "problem: PTV accounts for setup variability"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "icru-volumes",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is icru-volumes:4 (recall, card)",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 153,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "treated volume enclosed by the prescription isodose",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes:5",
+    "why": "card: treated volume"
+   },
+   {
+    "id": "icru-volumes:16",
+    "why": "problem on the treated volume"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "icru-volumes",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is icru-volumes:5 (recall, card)",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 154,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "irradiated volume (lower isodose threshold)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes:6",
+    "why": "card: irradiated volume, typically 50% isodose"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "icru-volumes",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is icru-volumes:6 (recall, card)",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 155,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "ICRU 83 near-maximum dose D2%",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dvh-metrics:5",
+    "why": "card: D2% and D98% replace extremes"
+   },
+   {
+    "id": "icru-volumes:14",
+    "why": "card: ICRU 83 reports D50%"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "dvh-metrics",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is dvh-metrics:5 (recall, card)",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 156,
+  "chapter": 11,
+  "section": "11.1",
+  "concept": "properties of the ICRU reference point",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes:13",
+    "why": "card: point prescription rules from ICRU 83"
+   },
+   {
+    "id": "icru-volumes:23",
+    "why": "problem: IMRT point prescription in a hot region"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "icru-volumes",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is icru-volumes:23 (recall, Challenging)",
+  "section_title": "Prescribing and Reporting in Radiotherapy",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 157,
+  "chapter": 11,
+  "section": "11.2",
+  "concept": "conformity index as treated volume over PTV",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dvh-metrics:6",
+    "why": "card: CI = VP/VT"
+   },
+   {
+    "id": "dvh-metrics:18",
+    "why": "problem computing CI"
+   },
+   {
+    "id": "dvh-metrics:20",
+    "why": "problem: Paddick index"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "dvh-metrics",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is dvh-metrics:20 (multi-step calculation, Challenging)",
+  "section_title": "Plan Evaluation and Comparison",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 158,
+  "chapter": 11,
+  "section": "11.2",
+  "concept": "organ-at-risk classes: serial versus parallel organs, PRV, ICRU 62 injury classes",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dvh-metrics:10",
+    "why": "card: serial organ"
+   },
+   {
+    "id": "dvh-metrics:23",
+    "why": "sort: serial or parallel"
+   },
+   {
+    "id": "icru-volumes:7",
+    "why": "card: OAR and PRV"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "dvh-metrics",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is dvh-metrics:23 (sorting, Moderate)",
+  "note": "ICRU 62 injury classes (I to III) are not taught",
+  "section_title": "Plan Evaluation and Comparison",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 159,
+  "chapter": 11,
+  "section": "11.2",
+  "concept": "V20 meaning on a cumulative DVH",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dvh-metrics:4",
+    "why": "card: Vx Gy"
+   },
+   {
+    "id": "dvh-metrics:16",
+    "why": "problem: V30 of the heart"
+   },
+   {
+    "id": "dvh-metrics:13",
+    "why": "problem: reading a cumulative DVH"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "dvh-metrics",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is dvh-metrics:16 (recall, Moderate)",
+  "section_title": "Plan Evaluation and Comparison",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 160,
+  "chapter": 11,
+  "section": "11.2",
+  "concept": "limits of a DVH",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dvh-metrics:12",
+    "why": "card: no spatial information"
+   },
+   {
+    "id": "dvh-metrics:21",
+    "why": "problem: same DVH, different dose placement"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "dvh-metrics",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is dvh-metrics:21 (recall, Challenging)",
+  "note": "anatomical change during treatment is not mentioned",
+  "section_title": "Plan Evaluation and Comparison",
+  "chapter_title": "Prescribing, reporting and"
+ },
+ {
+  "n": 162,
+  "chapter": 12,
+  "section": "12.1",
+  "concept": "dominant photon interaction in diagnostic radiography (photoelectric versus Compton)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "photon-interactions:7",
+    "why": "card: photoelectric dominates in tissue below about 30 keV and in high-Z materials"
+   },
+   {
+    "id": "photon-interactions:20",
+    "why": "problem: Compton dominates in water from 30 keV to 24 MeV"
+   },
+   {
+    "id": "radiographic-quality:15",
+    "why": "problem: kV bone contrast comes from the Z^3 photoelectric dependence"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Guide keys photoelectric as 'the' interaction and says it dominates below 1 MeV. In soft tissue the photoelectric effect dominates only below about 30 keV; at 60-120 kVp Compton scattering accounts for most interactions in soft tissue (a free-electron Klein-Nishina estimate on the site's NIST water totals gives about 83% at 50 keV and 89% at 60 keV; binding corrections lower these by a few points), and the photoelectric effect (Z^3) produces most of the CONTRAST between bone, iodine and soft tissue. Right for lead, not for tissue. The site states the energy ranges. Settle with NIST XCOM water tables, Khan ch. 5 and Bushberg ch. 3.",
+  "qtype": "C",
+  "home": "radiographic-quality",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is photon-interactions:7 (conceptual, card)",
+  "live_status": "covered",
+  "live_note": "radiographic-quality:31 (sort: features of a diagnostic-energy radiograph assigned to photoelectric effect or Compton scattering) states that Compton accounts for most interactions in soft tissue above about 30 keV and that the photoelectric effect gives the bone contrast. The site teaches the frequency-against-contrast split; the disagreement with the guide's key stands.",
+  "live_checked": "2026-10-11 19:35",
+  "section_title": "Imaging fundamentals and x-ray radiography",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 163,
+  "chapter": 12,
+  "section": "12.1",
+  "concept": "which acquisition parameter sets radiograph density",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "radiographic-quality:12",
+    "why": "card: skin exposure scales as mA·kVp^2"
+   },
+   {
+    "id": "radiographic-quality:23",
+    "why": "problem: mAs x4 doubles SNR"
+   },
+   {
+    "id": "radiographic-quality:25",
+    "why": "problem: skin exposure from kVp and mAs"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "radiographic-quality",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is radiographic-quality:23 (conceptual, Moderate)",
+  "note": "film optical density, characteristic curve and digital exposure index are never mentioned",
+  "live_status": "covered",
+  "live_note": "radiographic-quality:32 (darkness of a screen-film radiograph is set by the mAs; the explanation defines optical density), :33 (four times the mAs on a digital image) and :34 (sort: kVp against mAs). The guide text itself still does not mention optical density.",
+  "live_checked": "2026-10-11 19:35",
+  "section_title": "Imaging fundamentals and x-ray radiography",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 164,
+  "chapter": 12,
+  "section": "12.2",
+  "concept": "Hounsfield-unit definition, reference values and use in dose calculation",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "ct-reconstruction:6",
+    "why": "card: HU = 1000 (mu - mu_water)/mu_water"
+   },
+   {
+    "id": "ct-reconstruction:7",
+    "why": "card: air, water, bone values"
+   },
+   {
+    "id": "ct-reconstruction:10",
+    "why": "card: HU to density calibration for dose calculation"
+   }
+  ],
+  "level_note": "site harder",
+  "verify": "The item keys as false the statement that HU is directly proportional to attenuation. HU is an affine function of mu (zero at water, -1000 at mu = 0), so the key is right but pedantic; a learner who knows the formula can answer.",
+  "qtype": "C",
+  "home": "ct-reconstruction",
+  "level_why": "site problems compute HU and mu both ways (15-17, 21, 26)",
+  "section_title": "Computed tomography",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 165,
+  "chapter": 12,
+  "section": "12.2",
+  "concept": "determinants of CT image quality",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "ct-quality:5",
+    "why": "card: noise follows photon counting, SNR scales with sqrt(mAs) and slice thickness"
+   },
+   {
+    "id": "ct-quality:6",
+    "why": "card: resolution depends on focal spot, detector, pixel, filter, slice"
+   },
+   {
+    "id": "ct-quality:12",
+    "why": "card: streaking between dense objects"
+   }
+  ],
+  "level_note": "site easier",
+  "verify": "Item keys 'small patient size' as not affecting image quality. Patient size does change noise (a larger patient attenuates more and, at fixed technique, gives noisier images); a small patient gives lower noise, not worse. The stem is ambiguous. Settle with Bushberg ch. 10 and AAPM Report 204.",
+  "qtype": "C",
+  "home": "ct-quality",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is ct-quality:5 (recall, card)",
+  "note": "patient size and tube-current modulation are not taught",
+  "live_status": "covered",
+  "live_note": "ct-quality:29 (mAs to hold the noise for a patient 8 cm thicker), :30 (mA against noise), :31 and :32 (metal artifacts, contouring a prosthesis) join the older focal-spot and noise cards.",
+  "live_checked": "2026-10-11 19:35",
+  "section_title": "Computed tomography",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 166,
+  "chapter": 12,
+  "section": "12.3",
+  "concept": "recognising PET and SPECT radiopharmaceuticals by name (includes Ga-68 agents)",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "pet-imaging:30",
+    "why": "sort: FDG, FMISO, ammonia, water, fluoride by process followed"
+   },
+   {
+    "id": "spect:2",
+    "why": "card: Tc-99m"
+   },
+   {
+    "id": "spect:5",
+    "why": "card: F-18 and Ga-68 are beta-plus emitters"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "pet-imaging",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is pet-imaging:30 (sorting, Moderate)",
+  "note": "At the audit snapshot (commit f0e32c8) Ga-68 appeared only as an isotope (spect:5, spect guide table, decay-schemes generator row) and PSMA-11 and DOTATATE were never named. Commit 6a3c4c8 (19:05, after the snapshot) added one guide paragraph to pet-imaging that names 68Ga-PSMA-11 and 68Ga-DOTATATE; there is still no card or problem on them and no SPECT agent beyond Tc-99m, I-123, In-111, I-131 and Xe-133 in the isotope table.",
+  "live_status": "covered",
+  "live_note": "spect:28 (sort: 18F-FDG, 68Ga-DOTATATE, 68Ga-PSMA-11 and 18F-fluoride to PET; 99mTc-MDP, 99mTc-sestamibi, 111In-pentetreotide and 99mTc-MAA to SPECT or planar) and pet-imaging:34 (sort: tracer to target).",
+  "live_checked": "2026-10-11 19:35",
+  "section_title": "PET and SPECT",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 167,
+  "chapter": 12,
+  "section": "12.3",
+  "concept": "PET versus SPECT comparison",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "spect:20",
+    "why": "problem: PET has higher sensitivity, quantification and often resolution"
+   },
+   {
+    "id": "spect:12",
+    "why": "card: SPECT against PET in oncology"
+   },
+   {
+    "id": "pet-imaging:6",
+    "why": "card: 511 keV window rejects scatter and gives PET its sensitivity"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "spect",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is spect:20 (conceptual, Moderate)",
+  "note": "dual-isotope SPECT (energy discrimination) and electronic versus mechanical collimation are not mentioned; no resolution numbers for SPECT",
+  "live_status": "covered",
+  "live_note": "spect:29 (two isotopes injected together: SPECT can separate them by energy window, PET cannot) and new guide text on dual-isotope imaging and on 111In-pentetreotide against 68Ga-DOTATATE. The collimator-against-coincidence reason for PET's sensitivity is still not stated.",
+  "live_checked": "2026-10-11 19:35",
+  "section_title": "PET and SPECT",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 168,
+  "chapter": 12,
+  "section": "12.4",
+  "concept": "MRI vocabulary: relaxation times and sequence timings",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "mri-sequences:2",
+    "why": "card: TR"
+   },
+   {
+    "id": "mri-sequences:7",
+    "why": "card: TE"
+   },
+   {
+    "id": "mri-sequences:21",
+    "why": "problem: which TR/TE pair gives T2 weighting"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "mri-sequences",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is mri-sequences:21 (recall, Moderate)",
+  "note": "parser put this under 12.3 PET and SPECT; it is section 12.4 MRI",
+  "section_title": "MRI",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 169,
+  "chapter": 12,
+  "section": "12.4",
+  "concept": "MRI hazards for cardiac implantable devices",
+  "coverage": "not covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "mri-artifacts:10",
+    "why": "nearest: metal near the field gives a susceptibility void; no safety content"
+   }
+  ],
+  "level_note": "n/a",
+  "verify": "One option, keyed true, says the device will not be pulled by the magnet. Modern devices contain little ferromagnetic material, but force and torque are real MR hazards and the answer depends on the device's MR-conditional labelling. The keyed false option (ionising dose to the device) is unrelated to MR safety. Settle with the ACR MR safety manual and the device labelling.",
+  "qtype": "C",
+  "home": "mri-physics",
+  "note": "parser put this under 12.3; it is section 12.4. MR safety is not on PLAN",
+  "live_status": "covered",
+  "live_note": "New 'MRI safety' section in mri-physics and problems mri-physics:27 to :32 (which field pulls on iron, hazard sort, SAR, MR Conditional, lead-tip heating, SAR at 3 T). The cardiac-device hazards are in the text.",
+  "live_checked": "2026-10-11 19:35",
+  "section_title": "MRI",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 170,
+  "chapter": 12,
+  "section": "12.5",
+  "concept": "physical basis of ultrasound imaging",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Ultrasound physics",
+  "section_title": "Ultrasound",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 171,
+  "chapter": 12,
+  "section": "12.5",
+  "concept": "transducer material in diagnostic ultrasound",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Ultrasound physics",
+  "section_title": "Ultrasound",
+  "chapter_title": "Imaging fundamentals –"
+ },
+ {
+  "n": 172,
+  "chapter": 13,
+  "section": "13.1",
+  "concept": "what happens at simulation versus on the treatment unit",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "CT simulation and image registration",
+  "section_title": "Simulation",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 173,
+  "chapter": 13,
+  "section": "13.1",
+  "concept": "properties of MR simulation",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "The keyed option says synthetic CT is crucial for dose calculation; that is true only for MR-only workflows. When MR is registered to a planning CT, the CT supplies electron density. Settle with AAPM TG-284 (the site cites it for MRI).",
+  "qtype": "C",
+  "home": "PET and MRI in treatment planning",
+  "note": "synthetic CT is not named on PLAN",
+  "section_title": "Simulation",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 174,
+  "chapter": 13,
+  "section": "13.2",
+  "concept": "kV versus MV cone-beam CT: contrast, dose, metal artifacts, dominant interaction",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "ct-quality:23",
+    "why": "problem: CBCT contrast and HU accuracy limited by scatter"
+   },
+   {
+    "id": "radiographic-quality:15",
+    "why": "problem: kV bone contrast from Z^3 photoelectric effect"
+   },
+   {
+    "id": "photon-interactions:25",
+    "why": "problem: MV portal images show density, not Z"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "The statement that Compton scattering is the dominant interaction in kV CBCT is keyed false, with the explanation that photoelectric dominates. At 100-125 kVp (effective about 50-60 keV) Compton scattering is the most frequent interaction in soft tissue; the photoelectric effect supplies the Z-dependent contrast to bone. So that statement is arguably true, and the keyed 'false' is the doubtful part. Settle with NIST XCOM and Khan ch. 5.",
+  "qtype": "C",
+  "home": "CBCT and image-guided shifts",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is ct-quality:23 (conceptual, Challenging)",
+  "note": "the kV versus MV contrast principle is taught for radiographs; MV CBCT and EPID practice are not",
+  "live_status": "covered",
+  "live_note": "ct-quality:33 (MV against kV CBCT: fewer metal streaks, lower soft-tissue contrast, higher dose) and a new guide paragraph on MV CBCT. The planned topic 'CBCT and image-guided shifts' is still unbuilt for registration and couch shifts.",
+  "live_checked": "2026-10-11 19:35",
+  "section_title": "Image-based Treatment Verification",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 175,
+  "chapter": 13,
+  "section": "13.2",
+  "concept": "strategies when the CBCT does not match the planning CT",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "CBCT and image-guided shifts",
+  "section_title": "Image-based Treatment Verification",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 176,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "purpose of motion management",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "4DCT and motion management",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 177,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "abdominal compression for motion management",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "4DCT and motion management",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 178,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "technique choice to protect the heart in left-sided breast treatment",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "4DCT and motion management",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 179,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "method choice for irregular breathing",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "4DCT and motion management",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 180,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "main limitation of voluntary breath-hold",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "4DCT and motion management",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 181,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "technique choice for a patient anxious about gating",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "4DCT and motion management",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 182,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "purpose of 4D-CT",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "icru-volumes:3",
+    "why": "nearest: ITV expands for target motion; 4D-CT itself is not described"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "4DCT and motion management",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 183,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "strategy for intrafraction prostate motion",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Surface guidance and tracking",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 184,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "gating versus tracking: when each is preferred",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "The keyed rule (gating for regular breathing, tracking for irregular breathing) is a common simplification; both rely on a surrogate or marker correlation, and irregular breathing also limits tracking models. Settle with AAPM TG-76.",
+  "qtype": "P",
+  "home": "4DCT and motion management",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 185,
+  "chapter": 13,
+  "section": "13.3",
+  "concept": "expanding margins to cover motion when no motion-control tool is available",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "icru-volumes:3",
+    "why": "card: ITV expands for motion"
+   },
+   {
+    "id": "icru-volumes:11",
+    "why": "card: van Herk margin recipe"
+   },
+   {
+    "id": "icru-volumes:18",
+    "why": "problem: which error drives the margin"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "icru-volumes",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is icru-volumes:18 (conceptual, Moderate)",
+  "note": "item is labelled 'adaptive' but the keyed answer is a margin increase",
+  "section_title": "Motion management and Intra-fractional Imaging",
+  "chapter_title": "Simulation, motion management"
+ },
+ {
+  "n": 186,
+  "chapter": 14,
+  "section": "14.1",
+  "concept": "half-life of Ir-192",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "brachy-sources:5",
+    "why": "card: 73.8 d"
+   },
+   {
+    "id": "decay-modes",
+    "why": "radionuclide table"
+   },
+   {
+    "id": "decay-law:19",
+    "why": "problem: Ir-192 activity after 120 d"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "brachy-sources",
+  "level_why": "the direct counterpart is brachy-sources:5 (recall); decay-law:19 only uses the half-life in a calculation",
+  "note": "duplicate of Q28",
+  "section_title": "Radioactive sources",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 187,
+  "chapter": 14,
+  "section": "14.1",
+  "concept": "Co-60 source activity after several years of decay",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-law:28",
+    "why": "typed problem: Co-60 percent remaining after 10 y"
+   },
+   {
+    "id": "decay-law:19",
+    "why": "problem: Ir-192 activity at a later time"
+   },
+   {
+    "id": "brachy-sources:18",
+    "why": "problem: Ir-192 HDR activity after 90 d"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Recomputing with the stated half-life gives a value about 1% below the explanation's; the keyed option is still the nearest.",
+  "qtype": "K",
+  "home": "decay-law",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is decay-law:19 (multi-step calculation, Moderate)",
+  "section_title": "Radioactive sources",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 188,
+  "chapter": 14,
+  "section": "14.1",
+  "concept": "recommended quantity for brachytherapy source strength (air kerma strength)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "brachy-exposure:8",
+    "why": "card: air kerma strength"
+   },
+   {
+    "id": "brachy-exposure:24",
+    "why": "problem: why seeds are ordered by SK, not activity"
+   },
+   {
+    "id": "tg43:15",
+    "why": "problem: SK is what is ordered"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "brachy-exposure",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is brachy-exposure:24 (conceptual, Challenging)",
+  "section_title": "Radioactive sources",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 189,
+  "chapter": 14,
+  "section": "14.1",
+  "concept": "time at which two decaying sources reach equal activity",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-law:8",
+    "why": "card: time to a fraction using log2"
+   },
+   {
+    "id": "decay-law:22",
+    "why": "problem: time for Lu-177 to fall to a given activity"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "M",
+  "home": "decay-law",
+  "level_why": "rank rule: guide item is multi-step calculation; hardest matched site item is decay-law:8 (one-step calculation, card)",
+  "note": "the two-exponential equality setup is not shown; exact answer for the guide's numbers is 24.6 d",
+  "section_title": "Radioactive sources",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 190,
+  "chapter": 14,
+  "section": "14.2",
+  "concept": "determinants of BED in HDR and LDR brachytherapy",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "bed-tcp:3",
+    "why": "card: BED = D(1 + d/(alpha/beta))"
+   },
+   {
+    "id": "bed-tcp:4",
+    "why": "card: alpha/beta values"
+   },
+   {
+    "id": "brachy-sources",
+    "why": "text: cells repair during long low-rate exposure"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "C",
+  "home": "bed-tcp",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is bed-tcp:3 (recall, card)",
+  "note": "the repair/time term for protracted irradiation is not given",
+  "section_title": "Radiation Biology",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 191,
+  "chapter": 14,
+  "section": "14.2",
+  "concept": "prescription dose for I-125 versus Pd-103 implants for equal effect",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "tg43:14",
+    "why": "card: Pd-103 needs higher initial dose rate for the same total"
+   },
+   {
+    "id": "brachy-sources:20",
+    "why": "problem on Pd-103 versus I-125 dose rate"
+   },
+   {
+    "id": "brachy-sources",
+    "why": "text: repair during long low-rate exposure"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Explanation's analogy to SBRT ('lower dose for SBRT') is backwards: more repair during slow delivery needs a higher dose, and hypofractionation raises dose per fraction. The keyed answer (I-125 needs a higher prescription; ABS consensus monotherapy doses are about 145 Gy for I-125 and 125 Gy for Pd-103) is right.",
+  "qtype": "C",
+  "home": "tg43",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is brachy-sources:20 (conceptual, Moderate)",
+  "section_title": "Radiation Biology",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 192,
+  "chapter": 14,
+  "section": "14.3",
+  "concept": "TG-43 as the modular brachytherapy dose formalism",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "tg43:1",
+    "why": "card: dose-rate equation"
+   },
+   {
+    "id": "tg43:3",
+    "why": "card: dose rate at the reference point"
+   },
+   {
+    "id": "tg43:15",
+    "why": "problem: SK is the ordered quantity"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "tg43",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is tg43:1 (recall, card)",
+  "note": "TG-186 and model-based algorithms are not mentioned",
+  "section_title": "Dose Calculation",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 193,
+  "chapter": 14,
+  "section": "14.3",
+  "concept": "radial dose function is larger (nearer 1) for Ir-192 than for I-125",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "tg43:9",
+    "why": "card: g(r) falls faster for low-energy sources"
+   },
+   {
+    "id": "tg43:19",
+    "why": "problem: g(r) depends mainly on photon energy"
+   },
+   {
+    "id": "tg43",
+    "why": "guide text: g(2 cm) 0.81 for I-125"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "tg43",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is tg43:9 (conceptual, card)",
+  "section_title": "Dose Calculation",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 194,
+  "chapter": 14,
+  "section": "14.3",
+  "concept": "anisotropy factor is lowest near the seed ends (long axis)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "tg43:10",
+    "why": "card: F is lower along the seed axis"
+   },
+   {
+    "id": "tg43:21",
+    "why": "problem: dose rate on the long axis uses F(1 cm, 0 deg)"
+   },
+   {
+    "id": "tg43:11",
+    "why": "card: phi_an = 1 overestimates"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "tg43",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is tg43:21 (multi-step calculation, Moderate)",
+  "section_title": "Dose Calculation",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 195,
+  "chapter": 14,
+  "section": "14.4",
+  "concept": "pulsed-dose-rate brachytherapy compared with HDR and LDR",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-modes",
+    "why": "radionuclide table names 'HDR and PDR' for Ir-192; PDR is never defined"
+   },
+   {
+    "id": "brachy-sources",
+    "why": "dose-rate classes LDR, MDR, HDR only"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "brachy-sources",
+  "note": "text-only mention of the abbreviation",
+  "section_title": "Brachytherapy delivery",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 196,
+  "chapter": 14,
+  "section": "14.4",
+  "concept": "purpose of a remote afterloader (staff exposure)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "brachy-sources:10",
+    "why": "card: source too active to handle, driven from a shielded room"
+   },
+   {
+    "id": "brachy-sources:21",
+    "why": "multi problem on HDR Ir-192 statements"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "brachy-sources",
+  "level_why": "brachy-sources:10 is a recall card on the same fact; brachy-sources:21 adds other HDR facts in a select-three format",
+  "section_title": "Brachytherapy delivery",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 197,
+  "chapter": 14,
+  "section": "14.5",
+  "concept": "factors that shape a brachytherapy dose distribution",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "tg43:5",
+    "why": "card: geometry function"
+   },
+   {
+    "id": "brachy-sources:9",
+    "why": "card: seed anisotropy from capsule and marker"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "HDR planning and dwell times",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is brachy-sources:9 (conceptual, card)",
+  "note": "dwell time and applicator material are not taught; K-type 'all four' item",
+  "section_title": "Prescribing, reporting and evaluating brachytherapy treatments",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 198,
+  "chapter": 14,
+  "section": "14.6",
+  "concept": "COMS trial: plaque brachytherapy versus enucleation for uveal melanoma",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Eye plaques and skin brachytherapy",
+  "section_title": "Disease sites",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 199,
+  "chapter": 14,
+  "section": "14.6",
+  "concept": "applicators for accelerated partial breast irradiation with HDR",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "HDR planning and dwell times",
+  "note": "APBI is not named on PLAN; K-type multi-select item",
+  "section_title": "Disease sites",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 201,
+  "chapter": 14,
+  "section": "14.6",
+  "concept": "imaging used for prostate brachytherapy planning (transrectal ultrasound)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Permanent seed implant dosimetry",
+  "section_title": "Disease sites",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 202,
+  "chapter": 14,
+  "section": "14.6",
+  "concept": "Y-90 microspheres for liver tumours",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "brachy-sources",
+    "why": "one sentence: Y-90 microspheres for liver tumours as unsealed-source therapy"
+   },
+   {
+    "id": "decay-modes",
+    "why": "table: Y-90 beta-minus, radioembolization"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Radiopharmaceutical therapy dosimetry",
+  "section_title": "Disease sites",
+  "chapter_title": "Clinical brachytherapy"
+ },
+ {
+  "n": 203,
+  "chapter": 15,
+  "section": "15.1",
+  "concept": "well-type chamber for source strength calibration",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Source calibration and well chambers",
+  "note": "parser put chapter 15 questions under section 14.6; they belong to 15.1",
+  "section_title": "Quality assurance and safety (brachytherapy)",
+  "chapter_title": "Brachytherapy QA"
+ },
+ {
+  "n": 204,
+  "chapter": 15,
+  "section": "15.1",
+  "concept": "tolerance between measured and certificate HDR source strength after exchange",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Guide keys +/-3%. AAPM reports and licence conditions use different thresholds (an action level of 5% is common; some documents and clinics use 3%). Settle with TG-56, TG-59 and the licence conditions that apply.",
+  "qtype": "R",
+  "home": "Source calibration and well chambers",
+  "section_title": "Quality assurance and safety (brachytherapy)",
+  "chapter_title": "Brachytherapy QA"
+ },
+ {
+  "n": 205,
+  "chapter": 15,
+  "section": "15.1",
+  "concept": "autoradiograph to check applicator and marker-cable length",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Source calibration and well chambers",
+  "note": "afterloader and applicator QA is not named on PLAN",
+  "section_title": "Quality assurance and safety (brachytherapy)",
+  "chapter_title": "Brachytherapy QA"
+ },
+ {
+  "n": 206,
+  "chapter": 15,
+  "section": "15.1",
+  "concept": "tolerance for source position (1 mm) and dwell time (1 s) in HDR QA",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Tolerance values differ by report (TG-40, TG-56, TG-59, ESTRO). Check the current AAPM/ESTRO recommendation before use.",
+  "qtype": "R",
+  "home": "Source calibration and well chambers",
+  "section_title": "Quality assurance and safety (brachytherapy)",
+  "chapter_title": "Brachytherapy QA"
+ },
+ {
+  "n": 207,
+  "chapter": 15,
+  "section": "15.1",
+  "concept": "categories of brachytherapy QA (dosimetric, position, dwell time, safety)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Brachytherapy radiation safety",
+  "section_title": "Quality assurance and safety (brachytherapy)",
+  "chapter_title": "Brachytherapy QA"
+ },
+ {
+  "n": 208,
+  "chapter": 16,
+  "section": "16.1",
+  "concept": "factors that influence TBI dosimetry",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Total body irradiation",
+  "section_title": "Photon Total Body Irradiation",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 209,
+  "chapter": 16,
+  "section": "16.1",
+  "concept": "TBI standing technique: lower-limb underdose from divergence, fixes",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Total body irradiation",
+  "section_title": "Photon Total Body Irradiation",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 210,
+  "chapter": 16,
+  "section": "16.1",
+  "concept": "TBI lung overdose and lung blocks or compensators",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Total body irradiation",
+  "section_title": "Photon Total Body Irradiation",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 211,
+  "chapter": 16,
+  "section": "16.1",
+  "concept": "total marrow irradiation to spare lung compared with TBI",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Total body irradiation",
+  "section_title": "Photon Total Body Irradiation",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 212,
+  "chapter": 16,
+  "section": "16.2",
+  "concept": "TSET delivery techniques",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Total skin electron therapy",
+  "section_title": "Total Skin Electron Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 213,
+  "chapter": 16,
+  "section": "16.2",
+  "concept": "TSET: soles of the feet need boost fields",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Total skin electron therapy",
+  "section_title": "Total Skin Electron Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 214,
+  "chapter": 16,
+  "section": "16.2",
+  "concept": "TSET: shielding and sparing in skin folds",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Total skin electron therapy",
+  "section_title": "Total Skin Electron Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 215,
+  "chapter": 16,
+  "section": "16.2",
+  "concept": "why TSET uses a large SSD (uniform field)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Total skin electron therapy",
+  "section_title": "Total Skin Electron Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 216,
+  "chapter": 16,
+  "section": "16.2",
+  "concept": "TSET electron energy range",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Total skin electron therapy",
+  "section_title": "Total Skin Electron Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 217,
+  "chapter": 16,
+  "section": "16.2",
+  "concept": "structures shielded in TSET (lens, nails) and how",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "electron-fields:13",
+    "why": "card: internal eye shield of tungsten with an aluminium cap"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "R",
+  "home": "Total skin electron therapy",
+  "level_why": "site has the shield design, not the TSET shielding list",
+  "section_title": "Total Skin Electron Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 218,
+  "chapter": 16,
+  "section": "16.3",
+  "concept": "radiation modalities used for IORT",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Intraoperative radiotherapy",
+  "note": "K-type 'all of these' item",
+  "section_title": "Intraoperative Radiotherapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 219,
+  "chapter": 16,
+  "section": "16.4",
+  "concept": "TG-203 risk categories for cardiac implantable devices in radiotherapy",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Special patient circumstances (not on PLAN)",
+  "note": "special patient circumstances are not named on PLAN",
+  "section_title": "Special Patient Considerations",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 220,
+  "chapter": 16,
+  "section": "16.4",
+  "concept": "TG-36 fetal dose threshold",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Special patient circumstances (not on PLAN)",
+  "note": "special patient circumstances are not named on PLAN",
+  "section_title": "Special Patient Considerations",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 221,
+  "chapter": 16,
+  "section": "16.4",
+  "concept": "technique choices that lower fetal dose (collimator rotation, tertiary MLC)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Special patient circumstances (not on PLAN)",
+  "note": "special patient circumstances are not named on PLAN",
+  "section_title": "Special Patient Considerations",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 223,
+  "chapter": 16,
+  "section": "16.5",
+  "concept": "theranostic pairs (Ga-68 imaging with Lu-177 therapy)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "spect",
+    "why": "isotope table includes Ga-68 as a positron emitter"
+   },
+   {
+    "id": "decay-modes",
+    "why": "table lists Lu-177 as a beta-minus therapy nuclide"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Radiopharmaceutical therapy dosimetry",
+  "note": "the pairing concept and PSMA or DOTATATE ligands are not taught",
+  "section_title": "Contemporary Radiopharmaceutical Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 224,
+  "chapter": 16,
+  "section": "16.5",
+  "concept": "alpha emitters suit small clusters (high LET, short range) in radiopharmaceutical therapy",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "decay-modes:24",
+    "why": "problem: Ra-223 alpha range and high LET, effective inside tissue"
+   },
+   {
+    "id": "decay-modes:12",
+    "why": "card: alpha has high LET and range under 0.1 mm"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "decay-modes",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is decay-modes:24 (conceptual, Challenging)",
+  "section_title": "Contemporary Radiopharmaceutical Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 225,
+  "chapter": 16,
+  "section": "16.5",
+  "concept": "SPECT as the imaging modality for post-therapy RPT dosimetry",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "spect:22",
+    "why": "problem: SPECT is emission tomography"
+   },
+   {
+    "id": "spect:9",
+    "why": "card: gamma camera"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "Radiopharmaceutical therapy dosimetry",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is spect:22 (recall, Challenging)",
+  "note": "SPECT is taught; its use for absorbed-dose estimation is not",
+  "section_title": "Contemporary Radiopharmaceutical Therapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 226,
+  "chapter": 16,
+  "section": "16.6",
+  "concept": "purpose of adaptive radiotherapy",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Adaptive radiotherapy (not on PLAN)",
+  "note": "adaptive RT is not named on PLAN",
+  "section_title": "Adaptive Radiotherapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 227,
+  "chapter": 16,
+  "section": "16.6",
+  "concept": "situations that benefit least from adaptive RT",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Adaptive radiotherapy (not on PLAN)",
+  "note": "adaptive RT is not named on PLAN",
+  "section_title": "Adaptive Radiotherapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 228,
+  "chapter": 16,
+  "section": "16.6",
+  "concept": "imaging choice for adapting a lung plan (4D CBCT)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Adaptive radiotherapy (not on PLAN)",
+  "note": "adaptive RT is not named on PLAN",
+  "section_title": "Adaptive Radiotherapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 229,
+  "chapter": 16,
+  "section": "16.6",
+  "concept": "benefit of adaptive RT in pelvic treatment",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Adaptive radiotherapy (not on PLAN)",
+  "note": "adaptive RT is not named on PLAN",
+  "section_title": "Adaptive Radiotherapy",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 230,
+  "chapter": 16,
+  "section": "16.7",
+  "concept": "AI methods used clinically in radiation oncology",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Artificial intelligence and automation (not on PLAN)",
+  "note": "AI and automation are not named on PLAN; K-type 'all' item",
+  "section_title": "Artificial Intelligence and Automation",
+  "chapter_title": "Advanced treatment planning"
+ },
+ {
+  "n": 231,
+  "chapter": 17,
+  "section": "17.1",
+  "concept": "shared physical property of therapy particles (Bragg peak)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Item lists neutrons with protons and carbon ions as sharing a Bragg peak. Neutrons are uncharged and have no Bragg peak (their dose falls off roughly exponentially). The keyed answer is right for protons and ions only. Settle with Khan or Podgorsak (particle-therapy sections).",
+  "qtype": "R",
+  "home": "Proton Bragg peak and spread-out peak",
+  "section_title": "Particles",
+  "chapter_title": "Particle therapy"
+ },
+ {
+  "n": 232,
+  "chapter": 17,
+  "section": "17.2",
+  "concept": "proton dose in cobalt-Gray-equivalent with RBE 1.1",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "kerma-dose:11",
+    "why": "site lists wR = 2 for protons (radiation protection weighting), which differs from the clinical RBE of 1.1"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "K",
+  "home": "Carbon ions, LET, and RBE",
+  "note": "a future RBE card should say that wR (protection) and RBE (clinical dose) are different quantities",
+  "section_title": "Radiobiology",
+  "chapter_title": "Particle therapy"
+ },
+ {
+  "n": 233,
+  "chapter": 17,
+  "section": "17.2",
+  "concept": "RBE rises and OER falls as LET rises toward heavy ions",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Carbon ions, LET, and RBE",
+  "section_title": "Radiobiology",
+  "chapter_title": "Particle therapy"
+ },
+ {
+  "n": 234,
+  "chapter": 17,
+  "section": "17.3",
+  "concept": "accelerators for protons and carbon ions (cyclotron, synchrotron)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "charges-atom",
+    "why": "text-only: cyclotrons and synchrotrons use magnetic bending"
+   }
+  ],
+  "level_note": "n/a",
+  "verify": "Explanation says a cyclotron cannot start particles from rest. A cyclotron has an internal ion source at its centre and accelerates from rest; synchrotrons need an injector (linac or cyclotron). Settle with Khan or Podgorsak (accelerator sections).",
+  "qtype": "R",
+  "home": "Proton Bragg peak and spread-out peak",
+  "note": "accelerator type is not named on PLAN",
+  "section_title": "Accelerators",
+  "chapter_title": "Particle therapy"
+ },
+ {
+  "n": 235,
+  "chapter": 17,
+  "section": "17.4",
+  "concept": "passive scattering delivers a broad beam through scatterers and range shapers",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Explanation says the beam is scattered 'using range compensators'. Lateral spreading uses scattering foils; range modulators build the spread-out peak and compensators shape the distal edge. Answer A is right.",
+  "qtype": "R",
+  "home": "Passive scattering and pencil beam scanning",
+  "section_title": "Beam Delivery and Transport",
+  "chapter_title": "Particle therapy"
+ },
+ {
+  "n": 236,
+  "chapter": 17,
+  "section": "17.4",
+  "concept": "scanning magnets steer the pencil beam laterally",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Passive scattering and pencil beam scanning",
+  "section_title": "Beam Delivery and Transport",
+  "chapter_title": "Particle therapy"
+ },
+ {
+  "n": 237,
+  "chapter": 17,
+  "section": "17.5",
+  "concept": "optimisation target volume (OTV) in proton planning",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Proton range uncertainty and planning",
+  "section_title": "Treatment plannning",
+  "chapter_title": "Particle therapy"
+ },
+ {
+  "n": 238,
+  "chapter": 18,
+  "section": "18.1",
+  "concept": "features that distinguish SRS and SBRT from conventional IMRT",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "multifield:7",
+    "why": "card: SRS and SBRT may use hundreds of beams to lower the entrance dose"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "SBRT planning and motion",
+  "note": "negative-stem item",
+  "section_title": "Clinical Aspects of SRS/SBRT",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 239,
+  "chapter": 18,
+  "section": "18.1",
+  "concept": "RTOG 90-05 single-dose limits by lesion size",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Stereotactic radiosurgery systems",
+  "section_title": "Clinical Aspects of SRS/SBRT",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 240,
+  "chapter": 18,
+  "section": "18.1",
+  "concept": "central-lung SBRT regimen that carried excess toxicity",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "SBRT planning and motion",
+  "section_title": "Clinical Aspects of SRS/SBRT",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 241,
+  "chapter": 18,
+  "section": "18.1",
+  "concept": "sources of OAR constraints for SRS and SBRT",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "bed-tcp:10",
+    "why": "card: NTCP models and QUANTEC"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "SBRT planning and motion",
+  "section_title": "Clinical Aspects of SRS/SBRT",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 242,
+  "chapter": 18,
+  "section": "18.1",
+  "concept": "maximum cord dose allowed rises with fraction number",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "bed-tcp:19",
+    "why": "problem: late-responding tissue BED rises with dose per fraction"
+   },
+   {
+    "id": "bed-tcp:18",
+    "why": "problem: EQD2 of 8 Gy x 4 for alpha/beta 3 Gy"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "SBRT planning and motion",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is bed-tcp:18 (one-step calculation, Moderate)",
+  "note": "site supports the radiobiology; the TG-101 table values are not given",
+  "section_title": "Clinical Aspects of SRS/SBRT",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 243,
+  "chapter": 18,
+  "section": "18.1",
+  "concept": "RTOG conformity index (prescription isodose volume over target volume)",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dvh-metrics:6",
+    "why": "card: CI = VP/VT"
+   },
+   {
+    "id": "dvh-metrics:18",
+    "why": "problem computing CI"
+   },
+   {
+    "id": "dvh-metrics:9",
+    "why": "card: homogeneity index"
+   }
+  ],
+  "level_note": "site harder",
+  "qtype": "R",
+  "home": "dvh-metrics",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is dvh-metrics:18 (one-step calculation, Moderate)",
+  "note": "gradient index is not defined in the site",
+  "section_title": "Clinical Aspects of SRS/SBRT",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 244,
+  "chapter": 18,
+  "section": "18.2",
+  "concept": "Gamma Knife design facts",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "decay-modes",
+    "why": "table lists Co-60 for teletherapy and Gamma Knife"
+   },
+   {
+    "id": "decay-schemes:4",
+    "why": "card: Co-60 emissions"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Stereotactic radiosurgery systems",
+  "section_title": "Cranial Stereotactic systems",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 245,
+  "chapter": 18,
+  "section": "18.2",
+  "concept": "non-coplanar beams: conformality, gradients, setup uncertainty",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "multifield:7",
+    "why": "nearest: many beams lower entrance dose"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "SBRT planning and motion",
+  "section_title": "Cranial Stereotactic systems",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 246,
+  "chapter": 18,
+  "section": "18.2",
+  "concept": "CyberKnife delivery (robotic linac, orthogonal x-ray image guidance)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Stereotactic radiosurgery systems",
+  "section_title": "Cranial Stereotactic systems",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 247,
+  "chapter": 18,
+  "section": "18.2",
+  "concept": "cones versus MLC for small targets",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "field-shaping:23",
+    "why": "problem: collimator on the skin gives zero geometric penumbra"
+   },
+   {
+    "id": "profiles:5",
+    "why": "card: geometric penumbra w = s[(f+d)/SCD - 1]"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "Stereotactic radiosurgery systems",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is field-shaping:23 (recall, Challenging)",
+  "section_title": "Cranial Stereotactic systems",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 248,
+  "chapter": 18,
+  "section": "18.2",
+  "concept": "Gamma Knife versus linac dose fall-off",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "C",
+  "home": "Stereotactic radiosurgery systems",
+  "section_title": "Cranial Stereotactic systems",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 249,
+  "chapter": 18,
+  "section": "18.2",
+  "concept": "why MR is used for Gamma Knife planning despite distortion (frame localiser)",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "mri-artifacts:18",
+    "why": "problem: distortion matters because geometry places the beams"
+   },
+   {
+    "id": "mri-artifacts:2",
+    "why": "card: a local field error moves the pixel"
+   }
+  ],
+  "level_note": "similar",
+  "verify": "Keyed answer says the localiser 'guarantees' accuracy. The localiser fiducials tie image coordinates to the frame but do not remove gradient non-linearity or susceptibility shifts inside the head; distortion is checked and kept small, not eliminated. Settle with AAPM TG-284.",
+  "qtype": "C",
+  "home": "Stereotactic radiosurgery systems",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is mri-artifacts:18 (conceptual, Challenging)",
+  "section_title": "Cranial Stereotactic systems",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 250,
+  "chapter": 18,
+  "section": "18.3",
+  "concept": "motion tools for lung SBRT",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "SBRT planning and motion",
+  "section_title": "Extracranial",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 251,
+  "chapter": 18,
+  "section": "18.3",
+  "concept": "lung SBRT: effect of turning on heterogeneity correction on PTV coverage, Dmax and OAR doses",
+  "coverage": "partial",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "dose-algorithms:25",
+    "why": "problem: TMR-like corrections overestimate tumour dose in small lung fields"
+   },
+   {
+    "id": "dose-algorithms:14",
+    "why": "card: lung gives less attenuation and wider penumbra"
+   },
+   {
+    "id": "dose-algorithms:26",
+    "why": "problem: dose beyond lung is higher with correction"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "M",
+  "home": "dose-algorithms",
+  "level_why": "rank rule: guide item is multi-step calculation; hardest matched site item is dose-algorithms:25 (recall, Challenging)",
+  "note": "parsed as one question; six sub-questions 251.1-251.6. Heart-dose and scatter reasoning is not taught",
+  "parse_issue": "six sub-questions (251.1-251.6) folded into one parsed record; answers B, A, B, B, A, B in raw text",
+  "section_title": "Extracranial",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 252,
+  "chapter": 18,
+  "section": "18.4",
+  "concept": "TG-155 definition of a small field",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Small-field dosimetry",
+  "section_title": "Quality Assurance for SRS/SBRT",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 253,
+  "chapter": 18,
+  "section": "18.4",
+  "concept": "Winston-Lutz test for linac isocenter in cranial SRS",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Stereotactic QA and end-to-end tests",
+  "section_title": "Quality Assurance for SRS/SBRT",
+  "chapter_title": "Stereotactic"
+ },
+ {
+  "n": 254,
+  "chapter": 19,
+  "section": "19.1",
+  "concept": "daily linac QA test recommended by TG-142",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Explanation says output constancy is the only daily test in both documents. TG-142 daily tests also include localising lasers, optical distance indicator, collimator size indicator and safety checks; the keyed option is still the only dosimetry test among the choices.",
+  "qtype": "R",
+  "home": "QA program and TG-142 tests",
+  "section_title": "Linac and CT based QA",
+  "chapter_title": "Quality assurance (QA) in"
+ },
+ {
+  "n": 255,
+  "chapter": 19,
+  "section": "19.1",
+  "concept": "Winston-Lutz test: coincidence of mechanical and radiation isocenter",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "QA program and TG-142 tests",
+  "section_title": "Linac and CT based QA",
+  "chapter_title": "Quality assurance (QA) in"
+ },
+ {
+  "n": 256,
+  "chapter": 19,
+  "section": "19.2",
+  "concept": "overall dose accuracy goal",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "QA program and TG-142 tests",
+  "section_title": "Treatment related QA",
+  "chapter_title": "Quality assurance (QA) in"
+ },
+ {
+  "n": 257,
+  "chapter": 19,
+  "section": "19.3",
+  "concept": "components of patient-specific QA",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "MLC and IMRT QA",
+  "section_title": "Patient-Specific QA",
+  "chapter_title": "Quality assurance (QA) in"
+ },
+ {
+  "n": 258,
+  "chapter": 20,
+  "section": "20.1",
+  "concept": "purpose of ALARA",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Dose limits and ALARA",
+  "section_title": "Principles of Radiation Protection",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 259,
+  "chapter": 20,
+  "section": "20.1",
+  "concept": "the core ICRP principles",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Dose limits and ALARA",
+  "section_title": "Principles of Radiation Protection",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 260,
+  "chapter": 20,
+  "section": "20.1",
+  "concept": "radiation sources considered in linac shielding",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "profiles:12",
+    "why": "nearest: scatter and leakage as out-of-field dose components"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Primary and secondary barriers",
+  "section_title": "Principles of Radiation Protection",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 261,
+  "chapter": 20,
+  "section": "20.2",
+  "concept": "quality factor / radiation weighting factor as a biological-effectiveness number",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose:11",
+    "why": "card: equivalent dose and wR"
+   },
+   {
+    "id": "kerma-dose:28",
+    "why": "sort of wR values"
+   },
+   {
+    "id": "kerma-dose:25",
+    "why": "problem: equivalent dose with wR = 20 for alpha"
+   }
+  ],
+  "level_note": "site harder",
+  "verify": "Guide's table (thermal neutrons 5, fast 20, alpha 20) uses older ICRP 60-type factors; the site uses ICRP 103 wR (neutrons 2.5 to 20 by energy). NRC 10 CFR 20.1004 has its own quality-factor table. Values for neutrons differ by document, so a question should name the document. Settle with ICRP 103 and 10 CFR 20.1004.",
+  "qtype": "R",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is kerma-dose:25 (one-step calculation, Moderate)",
+  "note": "site uses ICRP 103 wR; guide uses the term quality factor Q",
+  "section_title": "Concepts and Units",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 262,
+  "chapter": 20,
+  "section": "20.2",
+  "concept": "dose equivalent from an alpha-particle absorbed dose using the weighting factor",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "kerma-dose:25",
+    "why": "problem: equivalent dose with wR(alpha) = 20"
+   },
+   {
+    "id": "kerma-dose:28",
+    "why": "sort of wR values"
+   },
+   {
+    "id": "kerma-dose:11",
+    "why": "card: wR for photons, protons, alpha"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "K",
+  "home": "kerma-dose",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is kerma-dose:25 (one-step calculation, Moderate)",
+  "section_title": "Concepts and Units",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 263,
+  "chapter": 20,
+  "section": "20.2",
+  "concept": "stochastic versus deterministic effects",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Dose limits and ALARA",
+  "section_title": "Concepts and Units",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 264,
+  "chapter": 20,
+  "section": "20.3",
+  "concept": "NRC annual occupational whole-body limit",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Explanation adds '100 mSv over 5 years' (an ICRP style limit; NRC has no 5-year averaging) and lists the lens limit as both 500 and 150 mSv. NRC 10 CFR 20.1201: 50 mSv whole body per year, 150 mSv lens, 500 mSv skin and extremities. Settle with 10 CFR 20 and ICRP 103/118.",
+  "qtype": "R",
+  "home": "Dose limits and ALARA",
+  "section_title": "Radiation Monitoring, Surveys, Leak Testing",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 265,
+  "chapter": 20,
+  "section": "20.3",
+  "concept": "exposure from a Cs-137 source at 1 m for a stated time using the exposure rate constant",
+  "coverage": "covered",
+  "planned": false,
+  "site_matches": [
+   {
+    "id": "brachy-exposure:18",
+    "why": "problem: exposure rate of 10 Ci Ir-192 at 10 cm"
+   },
+   {
+    "id": "brachy-exposure:3",
+    "why": "card: X-dot = Gamma A / r^2"
+   },
+   {
+    "id": "brachy-exposure",
+    "why": "table lists Gamma for Cs-137 (3.28)"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "K",
+  "home": "brachy-exposure",
+  "level_why": "rank rule: guide item is one-step calculation; hardest matched site item is brachy-exposure:18 (one-step calculation, Moderate)",
+  "note": "guide uses Gamma = 3.26 R cm2/(mCi h) for Cs-137, site table 3.28; the answer (0.016 R) is unchanged",
+  "section_title": "Radiation Monitoring, Surveys, Leak Testing",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 266,
+  "chapter": 20,
+  "section": "20.3",
+  "concept": "protection principles in brachytherapy",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "brachy-exposure:7",
+    "why": "card: inverse-square distance"
+   },
+   {
+    "id": "brachy-exposure:22",
+    "why": "problem: tripled distance gives one ninth"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "Brachytherapy and unsealed-source protection",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is brachy-exposure:7 (conceptual, card)",
+  "note": "negative-stem item",
+  "section_title": "Radiation Monitoring, Surveys, Leak Testing",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 267,
+  "chapter": 20,
+  "section": "20.4",
+  "concept": "agencies that regulate class 7 transport",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Survey instruments and regulations",
+  "section_title": "Shipping and Receiving Radioactive Sources",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 268,
+  "chapter": 20,
+  "section": "20.4",
+  "concept": "first action on receiving a radioactive package",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Survey instruments and regulations",
+  "section_title": "Shipping and Receiving Radioactive Sources",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 269,
+  "chapter": 20,
+  "section": "20.4",
+  "concept": "transport index on a package label",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "verify": "Transport index is dimensionless: the maximum dose rate at 1 m in mSv/h times 100 (IAEA), or in mrem/h in US usage. The keyed option (a dose rate in uSv/h) is imprecise; the explanation's own formula gives a dimensionless number.",
+  "qtype": "R",
+  "home": "Survey instruments and regulations",
+  "section_title": "Shipping and Receiving Radioactive Sources",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 270,
+  "chapter": 20,
+  "section": "20.5",
+  "concept": "purpose of NCRP Report 160 (population exposure)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Dose limits and ALARA",
+  "note": "NCRP 160 is not named on PLAN",
+  "section_title": "Types of Radiation Exposure- NCRP160",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 271,
+  "chapter": 20,
+  "section": "20.5",
+  "concept": "largest natural background source",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Dose limits and ALARA",
+  "note": "NCRP 160 is not named on PLAN",
+  "section_title": "Types of Radiation Exposure- NCRP160",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 272,
+  "chapter": 20,
+  "section": "20.5",
+  "concept": "which listed item is not an ionising source in NCRP 160",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Dose limits and ALARA",
+  "note": "negative stem; NCRP 160 is not named on PLAN",
+  "section_title": "Types of Radiation Exposure- NCRP160",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 273,
+  "chapter": 20,
+  "section": "20.6",
+  "concept": "which organisation does not regulate linac protection",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Survey instruments and regulations",
+  "section_title": "Protection Regulations",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 274,
+  "chapter": 20,
+  "section": "20.6",
+  "concept": "dose-rate threshold for posting a radiation area",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Survey instruments and regulations",
+  "section_title": "Protection Regulations",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 275,
+  "chapter": 20,
+  "section": "20.7",
+  "concept": "primary barrier thickness calculation",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "photon-interactions:17",
+    "why": "problem: TVL from HVL"
+   },
+   {
+    "id": "photon-interactions:16",
+    "why": "problem: thickness for a required transmission"
+   },
+   {
+    "id": "photon-interactions:2",
+    "why": "card: attenuation law, HVL, TVL"
+   }
+  ],
+  "level_note": "site easier",
+  "qtype": "M",
+  "home": "Primary and secondary barriers",
+  "level_why": "rank rule: guide item is multi-step calculation; hardest matched site item is photon-interactions:17 (one-step calculation, Moderate)",
+  "note": "site has the attenuation arithmetic; the W U T d^2 design equation is missing. Answer checks: required attenuation 1e5, five TVL (150 cm) as keyed",
+  "section_title": "Radiation Shielding",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 276,
+  "chapter": 20,
+  "section": "20.7",
+  "concept": "door shielding for beams above 10 MV",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "photon-interactions:13",
+    "why": "card: photoneutrons add to shielding requirements"
+   },
+   {
+    "id": "mlc-imrt:3",
+    "why": "card: neutrons above 10 MV"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "C",
+  "home": "Neutron shielding above 10 MV",
+  "level_why": "rank rule: guide item is conceptual; hardest matched site item is photon-interactions:13 (conceptual, card)",
+  "section_title": "Radiation Shielding",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 277,
+  "chapter": 20,
+  "section": "20.7",
+  "concept": "secondary barriers protect against scatter and leakage",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "profiles:12",
+    "why": "card: scatter near the field, leakage far from it"
+   }
+  ],
+  "level_note": "similar",
+  "qtype": "R",
+  "home": "Primary and secondary barriers",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is profiles:12 (recall, card)",
+  "section_title": "Radiation Shielding",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 278,
+  "chapter": 20,
+  "section": "20.7",
+  "concept": "choice of material for shielding MV photons",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "photon-interactions:7",
+    "why": "card: photoelectric Z^3 explains lead and tungsten at low energy"
+   },
+   {
+    "id": "photon-interactions:25",
+    "why": "problem: MV attenuation follows electrons per gram"
+   }
+  ],
+  "level_note": "site harder",
+  "verify": "Explanation says lead is best because of its high Z. At MV energies Compton scattering dominates, which is Z-independent per electron and slightly LOWER per gram in lead than in concrete (Z/A 0.40 versus about 0.5); lead wins per centimetre because of its density. Concrete is the standard barrier for cost and bulk. Settle with NCRP 151.",
+  "qtype": "R",
+  "home": "Primary and secondary barriers",
+  "level_why": "rank rule: guide item is recall; hardest matched site item is photon-interactions:25 (conceptual, Moderate)",
+  "section_title": "Radiation Shielding",
+  "chapter_title": "Radiation protection and shielding"
+ },
+ {
+  "n": 279,
+  "chapter": 21,
+  "section": "21",
+  "concept": "failure mode and effects analysis (FMEA) definition",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Quality management and TG-100",
+  "note": "parser put chapter 21 under section 20.7",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ },
+ {
+  "n": 280,
+  "chapter": 21,
+  "section": "21",
+  "concept": "risk priority number in FMEA",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Quality management and TG-100",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ },
+ {
+  "n": 281,
+  "chapter": 21,
+  "section": "21",
+  "concept": "fault tree analysis (top-down from the undesired event)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Quality management and TG-100",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ },
+ {
+  "n": 282,
+  "chapter": 21,
+  "section": "21",
+  "concept": "which names are radiotherapy incident learning systems",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Incident reporting and root cause analysis",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ },
+ {
+  "n": 283,
+  "chapter": 21,
+  "section": "21",
+  "concept": "root cause analysis",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Incident reporting and root cause analysis",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ },
+ {
+  "n": 284,
+  "chapter": 21,
+  "section": "21",
+  "concept": "design flaw behind the Therac-25 overdoses",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Incident reporting and root cause analysis",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ },
+ {
+  "n": 285,
+  "chapter": 21,
+  "section": "21",
+  "concept": "HDR afterloader accident case (1992)",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Medical events and communication",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ },
+ {
+  "n": 286,
+  "chapter": 21,
+  "section": "21",
+  "concept": "IMRT MLC data corruption accident and what would have prevented it",
+  "coverage": "partial",
+  "planned": true,
+  "site_matches": [
+   {
+    "id": "imrt-delivery:25",
+    "why": "problem: IMRT point dose cannot be hand-checked, so measure or recalculate independently"
+   },
+   {
+    "id": "imrt-delivery:14",
+    "why": "card on the same point"
+   }
+  ],
+  "level_note": "n/a",
+  "qtype": "P",
+  "home": "Medical events and communication",
+  "note": "negative-stem item",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ },
+ {
+  "n": 287,
+  "chapter": 21,
+  "section": "21",
+  "concept": "ASTRO 'Safety is No Accident' recommendations",
+  "coverage": "not covered",
+  "planned": true,
+  "site_matches": [],
+  "level_note": "n/a",
+  "qtype": "R",
+  "home": "Quality management and TG-100",
+  "section_title": "Safety and incidents (no subsections)",
+  "chapter_title": "Safety and incidents"
+ }
+]
