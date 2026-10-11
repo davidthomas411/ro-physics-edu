@@ -114,3 +114,10 @@ PROBLEMS += [
          [(dmax_1d - 0.4, dmax_1d + 0.4)], f"The dose rises while the electrons from the first layers are still being carried forward, and it peaks where the kernel is fully filled, here at about {dmax_1d:.1f} cm. Beyond the peak it follows the falling TERMA. A longer kernel, as at higher energy, moves the peak deeper.", lvl="Easy", note=f"about {dmax_1d:.1f} cm"),
 ]
 INLINE = {0: [1, 3, 4, 5, _n0 + 4], 1: [2, 6, _n0 + 1], 2: [7, 8], 3: [11]}
+
+
+# ---------------------------------------------------------------- the edge of a lung tumour
+PROBLEMS += [
+    PR("A 2 cm lung tumour is treated with 6 MV through small fields. The plan, calculated with an algorithm that scales only the primary beam by the radiological path length, is recalculated with Monte Carlo at the same monitor units. Which change at the edge of the tumour is most likely?", "a lower dose and a wider penumbra, because lateral electron equilibrium is lost in the low-density lung", ["a higher dose, because lung attenuates the beam less than water", "no change, because both calculations use the same CT densities", "a higher dose and a sharper penumbra, because the scatter in lung is lower"],
+       "Secondary electrons travel far in lung and leave a small field sideways. A path-length correction scales the primary attenuation only, so it overestimates the dose at the edge and underestimates the width of the penumbra. The smaller attenuation in lung is the effect that the correction does model.", lvl="Challenging"),
+]

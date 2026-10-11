@@ -28,6 +28,8 @@ TOPIC = dict(
         H("Exposure"),
         EQ("X = dQ / dm   (C/kg of air)", "1 R = 2.58 × 10<sup>−4</sup> C/kg", "W<sub>air</sub>/e = 33.97 J/C, so 1 R = 0.876 cGy in air"),
         P("Exposure is the charge of one sign produced in air per unit mass by photons, once the secondary electrons have stopped. It is defined for photons below about 3 MeV, because the free-air chamber needs the electrons to stop within the air. The roentgen is the legacy unit; the SI quantity is C/kg."),
+        P("W is the mean energy that a charged particle spends in air for each ion pair it forms, about 33.97 eV, so that W/e = 33.97 J/C. Under charged-particle equilibrium the dose in another medium follows from the dose in air: it is the dose to air multiplied by the ratio of the mass energy-absorption coefficients, medium to air. The f-factor combines this ratio with the conversion of 0.876 cGy/R, so that D<sub>med</sub> = f X."),
+        EQ("D<sub>med</sub> = f X,   f = 0.876 cGy/R × (μ<sub>en</sub>/ρ)<sub>med</sub> / (μ<sub>en</sub>/ρ)<sub>air</sub>"),
         EX("Exposure to dose in air", STEM("A free-air chamber records an exposure.", ["X = 50 R"], "Find the exposure in [[C/kg]] and the [[dose to air]]."),
            [f"50 × 2.58 × 10<sup>−4</sup> = {xr:.4f} C/kg.", f"50 × 0.876 = {xc:.1f} cGy."], f"{xr:.4f} C/kg, and {xc:.1f} cGy in air."),
         EX("Kerma from energy fluence", STEM("Co-60 photons irradiate water.", ["energy fluence Ψ = 0.50 J/m²", "μ<sub>en</sub>/ρ = 0.0297 cm²/g at 1.25 MeV"], "Find the collision kerma [[K<sub>col</sub>]]."),
@@ -132,3 +134,17 @@ PROBLEMS += [
           "1 R = 2.58 × 10<sup>−4</sup> C/kg, so 120 R = 120 × 2.58 × 10<sup>−4</sup> = 3.10 × 10<sup>−2</sup> C/kg.", lvl="Easy"),
 ]
 INLINE = {0: [1, 2], 1: [3, 4], 2: [7, 8, _n0 + 1], 3: [11, 12, _n0 + 4], 4: [10, 13, _n0 + 2, _n0 + 3]}
+
+
+# ---------------------------------------------------------------- dose in a medium from exposure
+_nk = len(PROBLEMS)
+_men_air, _men_mus = 0.0267, 0.0296                                                  # cm^2/g at 1.25 MeV
+d_air30 = 30 * 0.876
+d_mus30 = d_air30 * _men_mus / _men_air
+PROBLEMS += [
+    PRN(STEM("A free-air chamber records an exposure of 30 R at a point in a Co-60 beam. At 1.25 MeV, μ<sub>en</sub>/ρ is 0.0267 cm²/g for air and 0.0296 cm²/g for muscle. Take 1 R = 0.876 cGy in air.", [], "What is the [[dose to muscle]] at that point, under charged-particle equilibrium?"), d_mus30, [d_air30, d_air30 * _men_air / _men_mus, 30 * _men_mus / _men_air], "{:.1f} cGy",
+        f"The dose to air is 30 × 0.876 = {d_air30:.1f} cGy. Under charged-particle equilibrium the dose in muscle is that value times the ratio of the mass energy-absorption coefficients: 0.0296 / 0.0267 = {_men_mus / _men_air:.3f}, which gives {d_mus30:.1f} cGy. Stopping at air gives {d_air30:.1f}, inverting the ratio gives {d_air30 * _men_air / _men_mus:.1f}, and applying the ratio to the exposure alone gives {30 * _men_mus / _men_air:.1f}.", lvl="Challenging"),
+    PR("In the quantity W/e = 33.97 J/C, W is:", "the mean energy that a charged particle spends in air for each ion pair it forms", ["the energy needed to remove the least bound electron of an air molecule", "the work function of the wall of the chamber", "the energy of the photon that enters the chamber"],
+       "Each ion pair costs an average energy W of about 33.97 eV, which includes the energy that goes to excitation and not only to ionization. Multiplying the charge per unit mass, in C/kg, by W/e gives the dose to air in J/kg.", lvl="Moderate"),
+]
+INLINE.setdefault(3, []).extend([_nk + 1, _nk + 2])

@@ -152,3 +152,17 @@ EQUILIBRIUM += [
          "The daughter activity peaks at t<sub>max</sub> = ln(λ<sub>d</sub>/λ<sub>p</sub>) / (λ<sub>d</sub> − λ<sub>p</sub>), which is about 23 h for Tc-99m (6.01 h) growing from Mo-99 (65.9 h). The Tc-99m curve is not plotted, so the time has to be calculated or recalled.", lvl="Moderate", note="about 23 h"),
 ]
 PLACE["equilibrium"].setdefault(2, []).append(_n_f + 1)
+
+
+# ---------------------------------------------------------------- two sources with equal activity, and the chance of decay
+_n_dl2 = len(DECAY_LAW)
+_lx, _ly = math.log(2) / 12, math.log(2) / 40
+_t_eq = math.log(9.0 / 2.5) / (_lx - _ly)
+DECAY_LAW += [
+    PRN(STEM("Source X has an activity of 9.0 mCi and a half-life of 12 d. Source Y has 2.5 mCi and a half-life of 40 d.", [], "After how many [[days]] do the two sources have the same activity?"), _t_eq, [12 * math.log2(9.0 / 2.5), 12 + 40.0, 40 * math.log2(9.0 / 2.5)], "{:.1f} d",
+        f"The activities are equal when 9.0 e<sup>−λ<sub>X</sub>t</sup> = 2.5 e<sup>−λ<sub>Y</sub>t</sup>, so t = ln(9.0 / 2.5) / (λ<sub>X</sub> − λ<sub>Y</sub>). With λ<sub>X</sub> = {_lx:.5f} d<sup>−1</sup> and λ<sub>Y</sub> = {_ly:.5f} d<sup>−1</sup>, t = {math.log(9.0 / 2.5):.3f} / {_lx - _ly:.5f} = {_t_eq:.1f} d. Letting X fall to 2.5 mCi while ignoring the decay of Y gives {12 * math.log2(9.0 / 2.5):.1f} d, and adding the two half-lives gives 52.0 d.", lvl="Challenging"),
+    PR("A radionuclide has a half-life of 10 days. One nucleus has survived for 30 days without decaying. What is the probability that it decays during the next 10 days?", "50%, the same as for any nucleus, because the chance of decay does not depend on the age of the nucleus", ["12.5%, because most of the activity has already gone", "100%, because the nucleus is overdue", "87.5%, the fraction that has decayed after three half-lives"],
+       "The decay constant is the same for every nucleus of the nuclide, whatever its age, so each interval of one half-life carries the same 50% chance. A sample loses half of its nuclei in each half-life because each surviving nucleus has that same chance.", lvl="Moderate"),
+]
+PLACE["decay-law"].setdefault(2, []).append(_n_dl2 + 1)
+PLACE["decay-law"].setdefault(1, []).append(_n_dl2 + 2)

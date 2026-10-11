@@ -26,6 +26,11 @@ TOPIC = dict(
         P("When an electron beam meets the skin at an angle, the isodose lines are no longer symmetric. The dose is higher on the side where the angle is sharper, and the depth of maximum dose moves closer to the surface. A curved or sloping surface does the same near the field edge, and the effect is larger at higher energy. A tissue-equivalent bolus evens out an irregular surface. It shortens the range in the patient by its thickness and raises the skin dose."),
         P("Inhomogeneities have a strong effect on electron beams. Under a tissue prominence, such as the nose, the dose is shifted toward the source, and the regions on either side receive more dose because electrons scatter out of the prominence. The hot spot is larger at higher energy. Under a tissue defect, the isodose lines move away from the source, and electrons scattered from the sides create hot spots immediately inside the edges of the defect."),
         P("Internal shields, such as an eye shield, are made of a high-Z metal. A common design is a 3 mm tungsten shield covered by a 1 mm aluminium cap, which is adequate up to 8 MeV. The low-Z material on the beam side absorbs electrons backscattered from the tungsten, which protects the tissue in front of it."),
+
+        H("Bolus for electron beams"),
+        P("Bolus, a tissue-equivalent material laid on the skin, has three uses in electron therapy. It raises the dose at the surface, because the build-up of the beam then takes place in the bolus and the region of high dose moves toward the skin. It smooths an irregular surface, so that the dose under it is more uniform. And it shortens the range in the patient, because the electrons lose energy in the bolus first. The bolus acts as extra tissue, so the depth of any dose level below the skin is its depth in a bare beam minus the thickness of the bolus. The SSD is usually set to the upper surface of the bolus, which is treated as part of the patient."),
+        EX("Range with bolus", STEM("A 9 MeV electron beam treats a lesion whose deep edge is 2.4 cm below the skin. A 1.0 cm sheet of tissue-equivalent bolus lies on the skin. Take R<sub>90</sub> = E / 3.3 cm for a bare beam.", [], "Find the [[depth of the 90% line below the skin]], and say whether it covers the lesion."),
+           [f"Bare beam: R<sub>90</sub> = 9 / 3.3 = {9 / 3.3:.2f} cm", "The bolus uses 1.0 cm of that range"], f"{9 / 3.3 - 1.0:.2f} cm below the skin, so the deep edge at 2.4 cm is not covered. A 12 MeV beam gives 12 / 3.3 − 1.0 = {12 / 3.3 - 1.0:.2f} cm and covers it."),
     ],
     cards=[
         F("Electron penumbra and energy", "Near the surface the penumbra is smaller at higher energy, because scattering is more forward-directed. At depth it becomes very wide, especially at higher energy."),
@@ -79,6 +84,8 @@ TAKE = [
     [('At shallow depth a higher energy gives a smaller penumbra, but at depth it becomes much wider and the high isodose lines tuck in. Extended SSD widens the penumbra and lowers the output.', 'electron-penumbra')],
     [('An electron–photon junction with no gap has a hot spot of about 30% on the photon side. A gap lowers it but leaves a low-dose region at the surface, and feathering spreads the effect.', 'electron-matching')],
     [('Oblique incidence moves the dose maximum toward the surface. A prominence shifts the dose toward the source, with hot spots beside it, and a defect shifts it away.', 'electron-obliquity')],
+    ['Bolus acts as extra tissue. It raises the surface dose, smooths an irregular surface, and shortens the range, so the 90% line lies at R<sub>90</sub> minus the bolus thickness below the skin.',
+     'The SSD is usually set to the upper surface of the bolus.'],
 ]
 
 
@@ -96,3 +103,17 @@ PROBLEMS += [
          [(z_cross - 0.5, z_cross + 0.5)], f"The curves cross at {z_cross:.1f} cm. Shallower than that the 18 MeV penumbra is smaller, because scattering is more forward-directed. Deeper, it is wider. The widths are schematic.", lvl="Challenging", note=f"about {z_cross:.1f} cm"),
 ]
 INLINE = {0: [1, 2, 4, _n0 + 3], 1: [6, 7, _n0 + 1], 2: [5, 9]}
+
+
+# ---------------------------------------------------------------- bolus
+_nb = len(PROBLEMS)
+r90_b = 12 / 3.3 - 1.5
+miss = 100 * (1 - 0.80) / 20                                                        # one fraction of 20 without bolus, the surface dose being 80% of the dose with it
+PROBLEMS += [
+    PRN(STEM("A 12 MeV electron beam is used with 1.5 cm of tissue-equivalent bolus on the skin. Take R<sub>90</sub> = E / 3.3 cm for a bare beam.", [], "How deep below the skin is the [[90% line]]?"), r90_b, [12 / 3.3, 12 / 3.3 - 2 * 1.5, 12 / 3.3 + 1.5], "{:.1f} cm",
+        f"Bare beam: R<sub>90</sub> = 12 / 3.3 = {12 / 3.3:.2f} cm. The bolus uses 1.5 cm of the range, so the 90% line is at {r90_b:.2f} cm below the skin. Ignoring the bolus gives {12 / 3.3:.1f} cm, subtracting it twice gives {12 / 3.3 - 3.0:.1f} cm, and adding it gives {12 / 3.3 + 1.5:.1f} cm.", lvl="Moderate"),
+    PRN(STEM("A skin cancer is treated in 20 fractions with an electron beam and bolus. On one fraction the bolus is left out. Without bolus the dose at the skin surface is 80% of the dose with it (illustrative).", [], "By what [[percentage]] is the total dose at the skin surface below the plan?"), miss, [20.0, 4.0, 100 * (1 - 0.80) / 19], "{:.2f}%",
+        f"On that fraction the surface dose is short by 20%. Spread over 20 fractions the total is short by 20% / 20 = {miss:.2f}%. The shortfall on the single fraction is 20%, and using the 80% in place of the 20% gives 4.0%. The error should still be reported, but it is small.", lvl="Moderate"),
+    PR("A direct electron field is treated with a sheet of bolus on the skin. The SSD is usually measured to:", "the upper surface of the bolus", ["the skin under the bolus", "the depth of the dose maximum in the patient", "the distal edge of the target"],
+       "The bolus is treated as part of the patient, so the beam is set up with the nominal SSD to its upper surface. The output and the PDD are then those of the beam entering a tissue-equivalent surface at that distance.", lvl="Easy"),
+]

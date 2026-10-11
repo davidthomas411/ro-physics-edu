@@ -27,6 +27,7 @@ TOPIC = dict(
         P("An atom is about 10<sup>−10</sup> m across; the nucleus is about 10<sup>−15</sup> m (a few fm), a hundred-thousandth of the diameter. Protons repel each other by the Coulomb force, which acts over long range. The strong force attracts every pair of nucleons but acts only over about 1 to 3 fm."),
         P("Neutrons add strong-force attraction without adding repulsion, so heavy nuclei need extra neutrons: stable light nuclei have N ≈ Z, while Pb-208 has N/Z = 1.5. On a chart of the nuclides, stable nuclei lie along a narrow band, and nuclei off the band decay toward it."),
         FIG("nuclide_chart", "Chart of the nuclides. Stable nuclei lie along a narrow band; unstable nuclei decay toward it."),
+        P("Of the four fundamental forces, the strong force is the strongest, followed by the electromagnetic force, the weak force, and the gravitational force, which is far weaker than the others. The weak force is responsible for beta decay. Nuclei with 2, 8, 20, 28, 50, 82, or 126 protons or neutrons, the magic numbers, are especially stable, like the closed electron shells of the noble gases. He-4, O-16, Ca-40, and Pb-208 are examples."),
 
         H("Mass defect and binding energy"),
         P("A nucleus weighs less than the separate nucleons that make it. The difference is the mass defect, and its energy equivalent is the binding energy: the work needed to pull the nucleus apart."),
@@ -123,3 +124,14 @@ PROBLEMS += [
          "Isobars have the same mass number A = Z + N. In the nitrogen row, A = 14 means N = 7, so the isobar is N-14. Isobars lie along a diagonal in the chart.", lvl="Moderate", note="N-14"),
 ]
 INLINE.setdefault(0, []).extend([_n1 + 1, _n1 + 2])
+
+
+# ---------------------------------------------------------------- the four forces, and magic numbers
+_n2 = len(PROBLEMS)
+PROBLEMS += [
+    PR("Which list orders the four fundamental forces from the strongest to the weakest?", "strong, electromagnetic, weak, gravitational", ["strong, weak, electromagnetic, gravitational", "electromagnetic, strong, weak, gravitational", "strong, electromagnetic, gravitational, weak"],
+       "The strong force binds nucleons and is the strongest. The electromagnetic force comes next, then the weak force, which acts in beta decay, and gravity is by far the weakest.", lvl="Easy"),
+    PR("Which nucleus is especially stable because both its proton number and its neutron number are magic numbers?", "Pb-208, with 82 protons and 126 neutrons", ["Co-60, with 27 protons and 33 neutrons", "Ir-192, with 77 protons and 115 neutrons", "I-131, with 53 protons and 78 neutrons"],
+       "The magic numbers are 2, 8, 20, 28, 50, 82, and 126, and a nucleus with a closed shell of protons and of neutrons is especially stable. Pb-208 has 82 protons and 126 neutrons, and the other nuclei have neither number magic.", lvl="Moderate"),
+]
+INLINE.setdefault(1, []).extend([_n2 + 1, _n2 + 2])

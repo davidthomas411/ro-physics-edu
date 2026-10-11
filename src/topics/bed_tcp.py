@@ -9,6 +9,8 @@ sf = lambda D, a, b: math.exp(-a * D - b * D * D)
 b_a, b_b = bed(30, 3, 10), bed(32, 8, 10)
 e_a, e_b = eqd2(32, 8, 10), eqd2(32, 8, 3)
 e_p1, e_p2 = eqd2(30, 3, 3), eqd2(8, 8, 3)
+ldr_mu = math.log(2) / 1.5                                                          # repair rate, per hour, for a repair half-time of 1.5 h
+ldr_bed = lambda R, T, ab: R * T * (1 + 2 * R / (ldr_mu * ab) * (1 - (1 - math.exp(-ldr_mu * T)) / (ldr_mu * T)))     # BED in Gy for a dose rate R (Gy/h) over T hours
 B90 = (math.log(NCELL) - math.log(-math.log(0.9))) / ALPHA          # BED at which the tumour control probability is 90%
 
 TOPIC = dict(
@@ -33,6 +35,14 @@ TOPIC = dict(
         EQ("TCP = exp( − N e<sup>−α BED</sup> )"),
         P("Normal tissue complication probability models are built from clinical data and not from this statistical argument. The QUANTEC papers summarize them. The difference between the TCP and NTCP curves is the therapeutic window, the range of doses with high tumour control and low complications, and a plan aims to make it as large as possible. The TCP formula is a considerable simplification, with no host response and no oxygenation effects, and is shown here to teach the idea."),
         EX("TCP at two doses", STEM("A tumour.", ["N = 10<sup>7</sup> clonogenic cells", "α = 0.3 per Gy"], "Find the [[TCP]] for BED = 50 Gy and for BED = 60 Gy."), ["BED = 50: N × SF = 10<sup>7</sup> × e<sup>−15</sup> = 3.06, so TCP = e<sup>−3.06</sup>", "BED = 60: N × SF = 10<sup>7</sup> × e<sup>−18</sup> = 0.152, so TCP = e<sup>−0.152</sup>"], f"{tcp(50):.3f} and {tcp(60):.3f}. Ten gray of BED moves the TCP from about 5% to about 86%."),
+
+        H("Continuous low dose rate irradiation"),
+        P("In low-dose-rate brachytherapy the dose is delivered continuously over hours or days, and sublethal damage is repaired while the dose is being delivered. The repair has the rate μ = ln 2 / T<sub>rep</sub>, with T<sub>rep</sub> the repair half-time, about 1.5 h for many tissues. For a constant dose rate R delivered for a time T, the total dose is D = R T and the BED is"),
+        EQ("BED = D [1 + (2R / (μ α/β)) (1 − (1 − e<sup>−μT</sup>) / (μT))]", "R = dose rate,   T = time,   μ = ln 2 / T<sub>rep</sub>"),
+        P("The second term in the bracket falls as the dose rate falls, because more of the damage is repaired during the treatment, and the BED approaches the physical dose. The fall is larger for a low α/β, so a lower dose rate spares late-responding tissue more than the tumour. For a long treatment μT is large, and the bracket approaches 1 + 2R / (μ α/β)."),
+        EX("BED of a low-dose-rate implant", STEM("An implant delivers 0.50 Gy/h for 72 h, a total of 36 Gy. Sublethal damage repairs with a half-time of 1.5 h, and the tumour has α/β = 10 Gy.", [], "Find the [[BED]]."),
+           [f"μ = ln 2 / 1.5 = {ldr_mu:.3f} per hour, and μT = {ldr_mu * 72:.1f}", f"1 − (1 − e<sup>−μT</sup>) / (μT) = {1 - (1 - math.exp(-ldr_mu * 72)) / (ldr_mu * 72):.3f}", f"Bracket = 1 + (2 × 0.50 / ({ldr_mu:.3f} × 10)) × {1 - (1 - math.exp(-ldr_mu * 72)) / (ldr_mu * 72):.3f} = {ldr_bed(0.50, 72, 10) / 36:.3f}"],
+           f"BED = 36 × {ldr_bed(0.50, 72, 10) / 36:.3f} = {ldr_bed(0.50, 72, 10):.1f} Gy, only {ldr_bed(0.50, 72, 10) - 36:.1f} Gy above the physical dose, because most of the damage is repaired during the 72 h."),
     ],
     cards=[
         F("Linear-quadratic model", "SF = e<sup>−αd − βd²</sup> for a single dose d: a linear term and a quadratic term, with a shoulder on a logarithmic plot."),
@@ -84,6 +94,7 @@ TAKE = [
     [('SF = e<sup>−αd − βd²</sup> for one dose. For n fractions the exponents add, so SF = e<sup>−α BED</sup> with BED = D (1 + d/(α/β)).', 'lq-survival')],
     [('EQD2 = D (d + α/β) / (2 + α/β). A large dose per fraction raises the BED far more in a late-responding tissue (α/β about 3 Gy) than in a tumour (about 10 Gy).', 'bed-compare')],
     [('TCP = exp(−N e<sup>−α BED</sup>) is sigmoid in dose. The gap between the TCP and NTCP curves is the therapeutic window.', 'tcp-ntcp')],
+    ['In continuous low-dose-rate irradiation repair acts during the treatment, so the BED is below the value for acute doses and approaches the physical dose as the dose rate falls, more so for a low α/β.'],
 ]
 
 
@@ -100,3 +111,15 @@ PROBLEMS += [
          [(B90 - 3.5, B90 + 3.5)], f"TCP = 0.9 means N e<sup>−α BED</sup> = −ln 0.9 = 0.105, so BED = (ln 10<sup>7</sup> − ln 0.105) / 0.3 = {B90:.1f} Gy. The level 0.9 is not marked on the axis.", lvl="Challenging", note=f"about {B90:.0f} Gy"),
 ]
 INLINE = {0: [1, 2, 4, 5, _n0 + 2], 1: [3, 6, 7, _n0 + 1], 2: [8, 9, _n0 + 3]}
+
+
+# ---------------------------------------------------------------- continuous low dose rate irradiation
+_nl = len(PROBLEMS)
+ldr_late, ldr_tum = ldr_bed(0.60, 60, 3), ldr_bed(0.60, 60, 10)
+PROBLEMS += [
+    PRN(STEM("A low-dose-rate implant delivers 0.60 Gy/h for 60 h, a total of 36 Gy. Sublethal damage repairs with a half-time of 1.5 h.", ["late-responding tissue with α/β = 3 Gy"], "What is the [[BED]] of the late-responding tissue?"), ldr_late, [36.0, ldr_tum, 36 * (1 + 1 * 0.6 / (ldr_mu * 3) * (1 - (1 - math.exp(-ldr_mu * 60)) / (ldr_mu * 60)))], "{:.1f} Gy",
+        f"μ = ln 2 / 1.5 = {ldr_mu:.3f} per hour and μT = {ldr_mu * 60:.1f}. The bracket is 1 + (2 × 0.60 / ({ldr_mu:.3f} × 3)) × {1 - (1 - math.exp(-ldr_mu * 60)) / (ldr_mu * 60):.3f} = {ldr_late / 36:.3f}, so BED = 36 × {ldr_late / 36:.3f} = {ldr_late:.1f} Gy. Leaving out the repair term gives 36.0 Gy, using α/β = 10 Gy gives {ldr_tum:.1f} Gy, and leaving out the factor 2 gives {36 * (1 + 1 * 0.6 / (ldr_mu * 3) * (1 - (1 - math.exp(-ldr_mu * 60)) / (ldr_mu * 60))):.1f} Gy.", lvl="Challenging"),
+    PR("The dose rate of a continuous irradiation is lowered, with the total dose unchanged. The BED:", "falls toward the physical dose, more in a late-responding tissue than in the tumour", ["rises, because the treatment takes longer", "stays the same, because the total dose is unchanged", "falls, more in the tumour than in a late-responding tissue"],
+       "More of the sublethal damage is repaired during a longer treatment, so the BED falls toward the physical dose. The repair term is larger for a low α/β, so the fall is larger in late-responding tissue, which is why a low dose rate spares it.", lvl="Moderate"),
+]
+INLINE.setdefault(2, []).append(_nl + 2)

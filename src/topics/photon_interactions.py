@@ -15,7 +15,7 @@ TOPIC = dict(
 
         H("Attenuation"),
         EQ("I = I<sub>0</sub> e<sup>−μx</sup>", "HVL = ln 2 / μ = 0.693 / μ", "TVL = ln 10 / μ = 3.32 HVL", "mean free path = 1/μ = 1.44 HVL"),
-        P("μ is the linear attenuation coefficient (1/cm). The mass attenuation coefficient μ/ρ (cm²/g) removes the dependence on density. The exponential holds for a narrow beam of single-energy photons. In a broad beam, scattered photons also reach the detector, so transmission is larger by a build-up factor. A polyenergetic beam hardens as it passes through material, so its HVL grows with thickness."),
+        P("μ is the linear attenuation coefficient (1/cm). The mass attenuation coefficient μ/ρ (cm²/g) removes the dependence on density. The exponential holds for a narrow beam of single-energy photons. In a broad beam, scattered photons also reach the detector, so the transmission is larger by a build-up factor B ≥ 1: I = B I<sub>0</sub> e<sup>−μx</sup>. A polyenergetic beam hardens as it passes through material, so its HVL grows with thickness."),
         EX("Shield thickness", STEM("A lead shield (illustrative values).", [f"HVL = {HVL} cm", "transmission = 1%"], "Find the [[shield thickness]]."),
            [f"Number of HVLs = log<sub>2</sub>(1/0.01) = {n1:.2f}.", f"Thickness = {n1:.2f} × {HVL} cm = {x1:.1f} cm.", f"Check: TVL = 3.32 × {HVL} = {tvl:.1f} cm, and 1% is two TVLs."], f"About {x1:.0f} cm."),
 
@@ -41,7 +41,8 @@ TOPIC = dict(
         H("Clinical consequences"),
         UL("At megavoltage energies in tissue Compton scattering dominates. It depends on electrons per gram, which is nearly the same for every element except hydrogen. Bone and soft tissue absorb alike per gram, and MV images show contrast from density, not atomic number.",
            "At kilovoltage energies the photoelectric effect, which scales as Z³, gives strong contrast between bone (effective Z about 13) and soft tissue (about 7.4). It is also why lead and tungsten shield well.",
-           "Pair production and photodisintegration matter for beams of 10 MV and above. Photoneutrons add to the shielding requirements."),
+           "Pair production and photodisintegration matter for beams of 10 MV and above. Photoneutrons add to the shielding requirements.",
+           "In the diagnostic range the two main interactions play different parts. Compton scattering is the most frequent interaction in soft tissue above about 30 keV, and it produces the scatter that degrades a radiograph. The photoelectric effect, which depends on Z<sup>3</sup>, produces most of the difference in attenuation between bone and soft tissue, so it forms the contrast."),
 
     ],
     cards=[
@@ -155,3 +156,21 @@ PROBLEMS += [
          "The photon must supply the rest energy of an electron and a positron, 2 × 0.511 = 1.022 MeV, so that is the threshold. Pair production only becomes the dominant process much higher, near 24 MeV in water.", lvl="Moderate", note="1.022 MeV"),
 ]
 INLINE.setdefault(1, []).extend([_n1 + 1, _n1 + 2]); INLINE.setdefault(2, []).extend([_n1 + 3, _n1 + 4])
+
+
+# ---------------------------------------------------------------- interaction share against contrast, and the build-up factor
+_n2 = len(PROBLEMS)
+_hvl_b, _B, _T = 0.80, 2.0, 0.010
+x_broad = _hvl_b * math.log2(_B / _T)                                              # B e^(-mu x) = T, so the beam must be attenuated to T / B
+PROBLEMS += [
+    PRM("A radiograph is made at 100 kVp, with an effective photon energy of about 50 keV. Which of the following statements about soft tissue and bone are correct?", ["Most of the interactions in soft tissue are Compton scattering", "The photoelectric effect, which varies roughly as Z<sup>3</sup>, produces most of the contrast between bone and soft tissue"],
+        ["Most of the interactions in soft tissue are photoelectric absorption", "Compton scattering produces most of the contrast, because bone has many more electrons per gram", "Pair production accounts for a few percent of the interactions in bone"],
+        "At 50 keV Compton scattering accounts for roughly 80% of the attenuation in water. The photoelectric effect rises steeply with Z, so that bone attenuates about 1.9 times as much per gram as water at 50 keV, against 1.1 times at 100 keV, while the number of electrons per gram differs little. Pair production needs a photon of more than 1.022 MeV.", lvl="Challenging"),
+    PRN(STEM("A lead barrier must reduce a beam to 1.0% of the unshielded intensity. Narrow-beam measurements give an HVL of 0.80 cm of lead (illustrative). Scatter in the barrier gives a build-up factor of 2.0, taken as constant.", [], "What [[thickness]] is needed?"), x_broad,
+        [_hvl_b * math.log2(1 / (_T * _B)), _hvl_b * math.log2(1 / _T), _hvl_b * math.log2(1 / _T) + _B * _hvl_b], "{:.1f} cm",
+        f"With the build-up factor the transmission is B e<sup>−μx</sup>, so the barrier has to attenuate the beam to 0.010 / 2.0 = 0.0050. That is log<sub>2</sub>(200) = {math.log2(_B / _T):.2f} half-value layers, and x = 0.80 × {math.log2(_B / _T):.2f} = {x_broad:.1f} cm. The narrow-beam value is {_hvl_b * math.log2(1 / _T):.1f} cm, putting B on the wrong side gives {_hvl_b * math.log2(1 / (_T * _B)):.1f} cm, and adding B × HVL gives {_hvl_b * math.log2(1 / _T) + _B * _hvl_b:.1f} cm.", lvl="Challenging"),
+    PR("In a narrow-beam measurement of attenuation, the small detector behind the absorber registers:", "only photons that crossed the absorber without interacting", ["the photons scattered in the absorber, as in a broad beam", "more photons than were incident, because of the build-up factor", "photons whose number follows I = I<sub>0</sub> e<sup>+μx</sup>"],
+       "The beam is collimated and the detector is small and far from the absorber, so scattered photons miss it. Only then does the transmission follow I = I<sub>0</sub> e<sup>−μx</sup>. In a broad beam the scatter raises the reading by the build-up factor.", lvl="Easy"),
+]
+INLINE.setdefault(1, []).append(_n2 + 3)
+INLINE.setdefault(4, []).append(_n2 + 1)

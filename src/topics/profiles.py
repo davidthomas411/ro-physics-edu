@@ -31,6 +31,11 @@ TOPIC = dict(
 
         H("Out-of-field dose"),
         P("The dose outside the field edge is not zero. Close to the edge it comes mostly from photons scattered out of the field, in the patient and in the head of the machine. Farther away it comes mostly from leakage through the collimators and the shielding of the head. The planning system predicts dose far outside the field poorly, and it should not be used to estimate it. AAPM Task Group 158 covers the measurement and calculation of out-of-field dose, which matters for shielding and for organs and devices outside the treated volume."),
+
+        H("Flattening-filter-free beams"),
+        P("The flattening filter is a cone of metal in the beam, thickest on the axis, that evens out the profile of the beam from the target. A flattening-filter-free (FFF) beam leaves it out, and the profile keeps the peaked shape of the beam from the target: highest on the axis and falling toward the edges. Stereotactic and other small-field treatments are often delivered with FFF beams, because the peak matters little over a small field."),
+        P("Without the filter the beam has four differences from a flattened beam of the same nominal energy. The dose rate on the axis is higher, typically two to four times, so a high-dose fraction takes less time and the patient has less time to move. The spectrum is softer, because the filter hardens the beam, so the depth dose falls slightly faster. Less of the head scatter comes from the filter, so the output changes less with the field size. And the profile is not flat, so the planning system needs a beam model that is commissioned for it, and the two modes are not interchangeable."),
+        EX("Beam-on time", STEM("A stereotactic fraction needs 2000 MU. A flattened beam delivers 600 MU/min and an FFF beam of the same nominal energy 1400 MU/min (illustrative).", [], "Find the [[beam-on time]] in each mode."), ["Time = MU / dose rate", "Flattened: 2000 / 600", "FFF: 2000 / 1400"], f"{2000 / 600:.1f} min with the flattened beam and {2000 / 1400:.1f} min with the FFF beam, a saving of {2000 / 600 - 2000 / 1400:.1f} min."),
     ],
     cards=[
         C("What is a beam profile?", "The dose across the beam at a fixed depth."),
@@ -85,6 +90,7 @@ TAKE = [
      ('Electron transport widens the penumbra: more at higher energy and in low-density tissue such as lung.', 'penumbra-energy')],
     [('A linac profile is flat at a reference depth, usually 10 cm. Shallower there are horns, and deeper the center is higher.', 'profile-depth')],
     [('Out-of-field dose is scatter near the field edge and head leakage far from it. The planning system does not predict it well.', 'out-of-field')],
+    ['An FFF beam has a peaked profile, a dose rate two to four times higher, a softer spectrum, and less head scatter, so its output changes less with field size.'],
 ]
 
 
@@ -109,3 +115,18 @@ PROBLEMS += [
          [(1.5, 3.5)], "Horns are higher dose near the field edges than on the axis, so they appear where the ratio is above 1. That is at depths shallower than the reference depth, and the ratio is largest at the shallowest depth, d<sub>max</sub>, where the beam is most over-corrected at the edges. At 10 cm the ratio is 1 (flat), and deeper it falls below 1, which means the center is higher. The curve is schematic.", lvl="Easy", note="at d<sub>max</sub>, about 1.5 cm"),
 ]
 INLINE = {0: [1, 2, 5, 6, _n0 + 1, _n0 + 3], 1: [3, 4, _n0 + 4], 2: [8]}
+
+
+# ---------------------------------------------------------------- flattening-filter-free beams
+_nf = len(PROBLEMS)
+t_flat, t_fff = 2400 / 600, 2400 / 1400
+PROBLEMS += [
+    PR("The profile of a flattening-filter-free beam, measured across the field, is:", "peaked on the axis and falling toward the edges", ["flat to within a few percent at 10 cm depth", "higher at the edges than on the axis, with horns", "the same as that of a flattened beam, with a different energy"],
+       "Without the filter nothing evens out the profile of the beam from the target, which is forward-peaked. The flattening filter produces the flat profile, and horns appear when the filter overcorrects at shallow depth.", lvl="Easy"),
+    PRM("Which of the following are expected of a flattening-filter-free beam, compared with a flattened beam of the same nominal energy and field size?", ["A higher dose rate on the central axis", "Less variation of the output with the field size, because there is less head scatter"],
+        ["A harder mean photon energy", "A flat profile at 10 cm depth", "A much wider penumbra"],
+        "Without the filter the dose rate on the axis rises by a factor of about 2 to 4. The filter hardens the beam, so the spectrum is softer without it, and the profile is peaked. Head scatter falls, so the output varies less with field size. The penumbra is similar.", lvl="Moderate"),
+    PRN(STEM("A stereotactic fraction needs 2400 MU. A flattened beam delivers 600 MU/min and an FFF beam 1400 MU/min (illustrative).", [], "By how many [[minutes]] does the FFF beam shorten the beam-on time?"), t_flat - t_fff, [t_fff, t_flat, 2400 / (1400 - 600)], "{:.1f} min",
+        f"The flattened beam needs 2400 / 600 = {t_flat:.1f} min and the FFF beam 2400 / 1400 = {t_fff:.2f} min, so the saving is {t_flat - t_fff:.1f} min. The time with the FFF beam alone is {t_fff:.1f} min, the time with the flattened beam alone is {t_flat:.1f} min, and dividing by the difference of the dose rates gives {2400 / (1400 - 600):.1f} min.", lvl="Moderate"),
+]
+INLINE.setdefault(1, []).append(_nf + 1)

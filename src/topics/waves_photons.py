@@ -23,6 +23,7 @@ TOPIC = dict(
     guide=[
         H("Electromagnetic waves and photons"),
         P("Radio waves, light, and x-rays are electromagnetic waves: coupled electric and magnetic fields travelling at c = 3.00 × 10<sup>8</sup> m/s in vacuum. They differ only in frequency ν and wavelength λ."),
+        P("Electromagnetic waves are transverse: the electric and magnetic fields oscillate perpendicular to the direction of travel, and no medium is needed. Sound is a longitudinal wave, in which the particles of the medium oscillate along the direction of travel, and it needs a medium. Ultrasound imaging uses sound."),
         EQ("c = λν"),
         P("In absorption and scattering, radiation behaves as particles called photons. Photon energy is set by frequency alone:"),
         EQ("E = hν = hc/λ", "h = 4.136 × 10<sup>−15</sup> eV·s", "hc = 1240 eV·nm = 12.4 keV·Å = 1.24 MeV·pm"),
@@ -123,3 +124,13 @@ TAKE = [
      ("Length units: 1 nm = 10 Å = 1000 pm.", "length-units")],
     [("A particle has wavelength λ = h/p. It matters only at atomic scales: a 100 keV electron has λ = 3.7 pm.", "matter-wave")],
 ]
+
+
+# ---------------------------------------------------------------- wave types
+_nw = len(PROBLEMS)
+PROBLEMS += [
+    SORT("Is each wave transverse or longitudinal?", ["Transverse", "Longitudinal"],
+         [("Visible light", 0), ("An x-ray", 0), ("A wave on a stretched string", 0), ("Sound in air", 1), ("Ultrasound in soft tissue", 1), ("A compression pulse along a spring", 1)],
+         "In a transverse wave the oscillation is perpendicular to the direction of travel, as for light, x-rays, and a wave on a string. In a longitudinal wave the oscillation is along the direction of travel, as for sound in air or in tissue.", lvl="Easy"),
+]
+INLINE[0].append(_nw + 1)

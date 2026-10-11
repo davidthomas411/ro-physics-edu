@@ -43,6 +43,12 @@ TOPIC = dict(
            ["ΔE = 13.6 (1/2² − 1/3²) = 13.6 (1/4 − 1/9)", f"λ = 1240 eV·nm / {E32:.2f} eV"], f"{E32:.2f} eV, a red photon of {lam32:.0f} nm."),
         EX("Characteristic x-ray of tungsten", STEM("", ["K-shell binding energy = 69.5 keV", "L<sub>III</sub> binding energy = 10.2 keV"], "Find the [[photon energy]] of an L → K transition in tungsten."),
            ["The vacancy moves from K to L, releasing the difference in binding energies."], f"{K_W} − {L_W} = {Ka_W:.1f} keV."),
+
+        H("Electric field, potential, and current"),
+        P("A charge q in an electric field E feels the force F = qE, so the field is measured in newtons per coulomb, which is the same as volts per metre. The potential difference ΔV between two points is the work per unit charge to move between them, so a charge q that crosses ΔV gains the energy W = qΔV. For an electron or a proton, e × 1 V is 1 eV, so an energy in electron-volts has the same number as the potential difference in volts."),
+        EQ("F = qE", "W = q ΔV", "E = ΔV / d   (a uniform field across a gap d, in V/m)"),
+        P("Electric current is the charge that passes a point per unit time, I = ΔQ/Δt, in amperes (1 A = 1 C/s). By convention it points the way positive charge would flow, from the positive terminal toward the negative one, so in a wire, where electrons carry the charge, it points opposite to their motion. In direct current (DC) the charge flows one way. In alternating current (AC) the direction reverses periodically. An ammeter measures current and is connected in series with the component, and a voltmeter measures the potential difference and is connected in parallel across it."),
+        P("A linac accelerates electrons with an alternating field. Microwaves at about 3 GHz set up an electric field along the accelerating waveguide, and the electrons are injected so that the field points forward when they are in the accelerating gaps. Each electron gains the energy qΔV in every gap. The magnetic field is measured in tesla (T). An older unit is the gauss, with 1 T = 10<sup>4</sup> G. The Earth's field is about 0.5 G, or 0.05 mT, and an MR scanner has 1.5 to 3 T."),
     ],
     cards=[
         C("State Coulomb's law. What happens if the distance doubles?", "F = kq₁q₂/r². Doubling r cuts the force to one quarter."),
@@ -103,4 +109,29 @@ TAKE = [
     [("Rutherford: a small, dense, positive nucleus.", "rutherford"),
      ("Bohr: discrete shells, with E<sub>n</sub> = −13.6/n² eV for hydrogen.", "bohr-levels"),
      ("Inner shells are bound most tightly, and binding energy rises with Z. A characteristic x-ray carries the difference between two shell binding energies.", "characteristic-xray")],
+    ["A charge q in a field E feels F = qE, with E in V/m or N/C, and gains the energy qΔV across a potential difference ΔV. A linac accelerates electrons with an alternating RF field.",
+     "Current is charge per time, in amperes, and points from positive to negative. An ammeter goes in series and a voltmeter in parallel. 1 T = 10<sup>4</sup> G."],
+]
+
+
+# ---------------------------------------------------------------- units, current, and the accelerating field
+E_gap_keV = 8.0e6 * 0.025 / 1e3                                                   # an electron crossing 2.5 cm in a uniform field of 8.0 MV/m gains q E d = 200 keV
+PROBLEMS += [
+    PR("Which of these is a unit of electric field?", "volt per metre, which equals newton per coulomb", ["joule per coulomb, which is the volt", "coulomb per volt, which is the farad", "ampere second, which is the coulomb"],
+       "The field is the force per unit charge, N/C, and it is also the potential difference per unit length, V/m. The volt is a potential difference, the farad is a capacitance, and the coulomb is a charge.", lvl="Easy"),
+    PRN(STEM("An electron crosses a gap of 2.5 cm along a uniform electric field of 8.0 MV/m, in the direction of the force.", [], "What [[energy]] does it gain?"), E_gap_keV, [E_gap_keV / 10, E_gap_keV * 10, E_gap_keV * 2], "{:.0f} keV",
+        f"The potential difference is E d = 8.0 × 10<sup>6</sup> V/m × 0.025 m = 200 kV, and an electron that crosses 200 kV gains 200 keV. A slip of a power of ten in the length gives a value ten times too small or ten times too large.", lvl="Moderate"),
+    PR("Which statement about electric current is correct?", "Conventional current points from the positive terminal toward the negative one, opposite to the motion of the electrons in a wire", ["Conventional current points in the direction in which the electrons move", "Direct current reverses its direction periodically", "The unit of current is the coulomb"],
+       "By convention the current points the way positive charge would flow, so in a wire it is opposite to the electron motion. Alternating current is the one that reverses, and the unit of current is the ampere, one coulomb per second.", lvl="Easy"),
+    PR("The current through a resistor and the potential difference across it are to be measured. The ammeter and the voltmeter are connected:", "the ammeter in series with the resistor, and the voltmeter in parallel across it", ["both in series with the resistor", "both in parallel across the resistor", "the ammeter in parallel across the resistor, and the voltmeter in series"],
+       "The ammeter has to carry the current that is to be measured, so it is in series. The voltmeter compares the potentials at the two ends of the component, so it is in parallel.", lvl="Easy"),
+    PR("In the accelerating waveguide of a linac, the electrons gain energy from:", "an alternating radiofrequency electric field that points forward when they are in the accelerating gaps", ["a constant voltage of several MV applied across the whole structure", "the static magnetic field of the bending magnet", "the electron gun, which sets the final energy"],
+       "Each gap adds the energy qΔV, and the timing of the microwave field keeps the field pointing forward whenever the electrons are in a gap. A magnetic field only bends the path, and the gun sets the starting energy.", lvl="Moderate"),
+    PR("The SI unit of magnetic field is the tesla. How does it compare with the gauss?", "1 T = 10,000 G", ["1 T = 1 G", "1 T = 100 G", "1 T = 0.0001 G"],
+       "One gauss is 10<sup>−4</sup> T, so a 1.5 T scanner has a field of 15,000 G, and the Earth's field of about 0.5 G is 0.05 mT.", lvl="Easy"),
+]
+
+PROBLEMS += [
+    PR("Electrons of 50 keV strike a tungsten target. The binding energies are 69.5 keV for the K shell and 10.2 keV for the L<sub>III</sub> shell. Which characteristic x-rays can they produce?", "L-series x-rays only, because 50 keV is below the K-shell binding energy", ["K-series x-rays only, because they are the most energetic", "both K-series and L-series x-rays, because 50 keV is above the L-shell binding energy", "no characteristic x-rays, because 50 keV is below the K-shell binding energy"],
+       "An electron can create a vacancy only in a shell whose binding energy is below its own energy. 50 keV is above 10.2 keV and below 69.5 keV, so L vacancies can be made but K vacancies cannot, and the K-series lines are not produced.", lvl="Challenging"),
 ]

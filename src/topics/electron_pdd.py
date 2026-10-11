@@ -31,7 +31,7 @@ TOPIC = dict(
         EX("Choosing an energy", STEM("A target whose distal edge is 3.0 cm deep, to be covered by the 90% line.", [], "Estimate the [[energy]] needed."), ["R<sub>90</sub> = E / 3.3, so E = 3.3 × 3.0"], f"{E_need:.1f} MeV, so the next standard energy, 12 MeV, is used."),
 
         H("Energy and field size"),
-        P("A higher energy gives a deeper range, a broader region of maximum dose, and a larger photon tail. The field size changes the PDD when the field is smaller than the practical range, because lateral electronic equilibrium is lost. For an 18 MeV beam R<sub>p</sub> is about 9 cm, so for fields of 9 × 9 cm and larger the PDD curves are the same. For smaller fields the depth of maximum dose moves toward the surface and the surface dose increases."),
+        P("A higher energy gives a deeper range, a broader region of maximum dose, and a larger photon tail. The surface dose also rises with the energy, from roughly 80% of the maximum at 6 MeV to above 90% at the highest energies, because faster electrons scatter less, so less build-up of the electron fluence is needed. That is the opposite of a photon beam, whose surface dose falls as the energy rises. The field size changes the PDD when the field is smaller than the practical range, because lateral electronic equilibrium is lost. For an 18 MeV beam R<sub>p</sub> is about 9 cm, so for fields of 9 × 9 cm and larger the PDD curves are the same. For smaller fields the depth of maximum dose moves toward the surface and the surface dose increases."),
     ],
     cards=[
         F("Electron PDD", "A high surface dose, a broad dose maximum, a steep fall-off, and a small tail from bremsstrahlung photons."),
@@ -100,3 +100,12 @@ PROBLEMS += [
          [(3.7, 4.3)], f"R<sub>80</sub> ≈ E / 3 = 12 / 3 = {r80(12):.1f} cm. The 90% depth is shallower, at {r90(12):.1f} cm, and the 50% depth is deeper, at {r50(12):.1f} cm. The curve is schematic and passes through these points.", lvl="Challenging", note="4.0 cm"),
 ]
 INLINE = {0: [1, 3], 1: [4, 5, 7, _n0 + 3], 2: [8]}
+
+
+# ---------------------------------------------------------------- surface dose against energy
+_np = len(PROBLEMS)
+PROBLEMS += [
+    PR("An open photon beam and an open electron beam are each used without bolus. As the beam energy rises, the surface dose relative to the maximum:", "falls for the photon beam and rises for the electron beam", ["falls for both beams", "rises for both beams", "rises for the photon beam and falls for the electron beam"],
+       "Higher-energy photons set the electrons in motion more forward, so the dose maximum is deeper and the surface dose is lower. Higher-energy electrons scatter less, so less build-up of the fluence is needed, and the surface dose is a larger fraction of the maximum, roughly 80% at 6 MeV and above 90% at the highest energies.", lvl="Moderate"),
+]
+INLINE.setdefault(2, []).append(_np + 1)

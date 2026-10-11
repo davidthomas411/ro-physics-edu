@@ -44,6 +44,7 @@ TOPIC = dict(
            f"{b6:.4f}c, about {sci(b6 * 2.998e8, 4)} m/s. The classical ½mv² would give {cl6:.1f}c, which is impossible."),
         EX("A 100 MeV proton", STEM("", ["kinetic energy = 100 MeV (proton)"], "Find the [[speed]] of the proton."),
            [f"γ = 1 + 100/938.3 = {gp100:.4f}", f"β = √(1 − 1/γ²) = {bp100:.4f}"], f"{bp100:.2f}c. The classical estimate is {clp100:.2f}c, about 8% too high."),
+        P("A photon has no rest mass, yet it carries energy E and momentum E/c. The mass equivalent of its energy, E/c², is not a rest mass. A collision is elastic when the total kinetic energy is conserved, as when a neutron bounces off a hydrogen nucleus, and inelastic when part of the kinetic energy goes to excitation, radiation, or rest mass, as when an electron excites an atom or a photon creates a pair. Momentum is conserved in both."),
     ],
     cards=[
         C("What are the rest energies of the electron and the proton?", f"Electron {calc.ME:.3f} MeV. Proton {calc.MP:.1f} MeV (about 1836 times larger)."),
@@ -100,4 +101,17 @@ TAKE = [
      ("Electrons are near c by a few MeV; protons are not (a 150 MeV proton is at about 0.51c).", "speed-ke")],
     [("Annihilation gives two 511 keV photons, back to back.", "annihilation"),
      ("Pair production needs hν > 1.022 MeV; the pair shares hν − 1.022 MeV.", "pair-production")],
+]
+
+
+# ---------------------------------------------------------------- photons without rest mass, and collisions
+PROBLEMS += [
+    PR("Which statement about a photon is correct?", "It has no rest mass, and the mass equivalent of its energy is E / c²", ["It has a rest mass of E / c²", "It has no energy, because it has no rest mass", "It has no momentum, because it has no rest mass"],
+       "A photon has zero rest mass, yet it carries energy E and momentum E/c. The quantity E/c² is the mass equivalent of its energy, and not its rest mass.", lvl="Moderate"),
+    PR("In an elastic collision between two particles:", "the total kinetic energy and the total momentum are both conserved", ["the momentum is conserved, but the kinetic energy is not", "the kinetic energy is conserved, but the momentum is not", "neither is conserved, because part of the energy becomes heat"],
+       "In an elastic collision no kinetic energy is converted to another form. In an inelastic collision part of it goes to excitation, radiation, or rest mass. The momentum is conserved in both.", lvl="Easy"),
+    SORT("Is each collision elastic or inelastic?", ["Elastic", "Inelastic"],
+         [("A neutron bounces off a hydrogen nucleus", 0), ("An α particle is deflected by a gold nucleus, which stays in its ground state", 0), ("Two protons are deflected by their Coulomb repulsion, with no radiation", 0),
+          ("An electron excites an atom and slows down", 1), ("A photon creates an electron–positron pair", 1), ("An electron emits a bremsstrahlung photon in the field of a nucleus", 1)],
+         "In an elastic collision the total kinetic energy is unchanged, so no energy goes to excitation, radiation, or new particles. Exciting an atom, creating a pair, and emitting bremsstrahlung each take kinetic energy for another purpose.", lvl="Moderate"),
 ]

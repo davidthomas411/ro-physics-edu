@@ -16,7 +16,7 @@ TOPIC = dict(
     ref=dict(aapm="TG-284", khan="", ford="20"),
     guide=[
         H("Nuclear spin and precession"),
-        P("Magnetic resonance imaging uses the properties of nuclei, usually the hydrogen nucleus, to visualize soft tissue. A large main magnetic field, the B<sub>0</sub> field, is applied to the patient, typically 1 to 3 tesla (the Earth's field is about 0.0001 T). Each nucleus that has a non-zero spin acts as a small magnet, with a magnetic dipole moment. When the moment is not aligned with B<sub>0</sub> there is a torque on it, and it precesses about the field like a gyroscope in a gravitational field."),
+        P("Magnetic resonance imaging uses the properties of nuclei, usually the hydrogen nucleus, to visualize soft tissue. A large main magnetic field, the B<sub>0</sub> field, is applied to the patient, typically 1 to 3 tesla (the Earth's field is about 0.00005 T). Each nucleus that has a non-zero spin acts as a small magnet, with a magnetic dipole moment. When the moment is not aligned with B<sub>0</sub> there is a torque on it, and it precesses about the field like a gyroscope in a gravitational field."),
         P("The precession frequency is the Larmor frequency, proportional to the field: f = γ̄ B<sub>0</sub>. For hydrogen γ̄ = 42.6 MHz/T, so at 1 T the nucleus precesses at 42.6 MHz, in the radiofrequency range. A stronger field gives a faster precession. Some nuclei have zero spin and no magnetic moment. Helium is one, so it cannot be imaged with MRI. A stronger field also raises the signal-to-noise ratio, roughly in proportion to B<sub>0</sub>, so a 1.5 T magnet gives about three times the SNR of a 0.5 T magnet."),
         EX("The Larmor frequency", STEM("Hydrogen nuclei, γ̄ = 42.6 MHz/T.", ["B<sub>0</sub> = 1.5 T", "B<sub>0</sub> = 3.0 T"], "Find the [[Larmor frequency]] at each field."), ["f = 42.6 × B<sub>0</sub>"], f"{f15:.1f} MHz at 1.5 T and {f3:.1f} MHz at 3.0 T. Both are radiofrequencies, and doubling the field doubles the frequency."),
 
@@ -37,7 +37,7 @@ TOPIC = dict(
     ],
     cards=[
         F("Basis of MRI", "Nuclei with non-zero spin, usually hydrogen, act as magnets and precess in a strong magnetic field."),
-        F("Main field B<sub>0</sub>", "Typically 1 to 3 T. The Earth's field is about 0.0001 T."),
+        F("Main field B<sub>0</sub>", "Typically 1 to 3 T. The Earth's field is about 0.00005 T."),
         F("Larmor frequency", "f = γ̄ B<sub>0</sub>, the precession frequency of the nuclear moment about the field. For hydrogen γ̄ = 42.6 MHz/T."),
         F("Larmor frequency at 1 T", "42.6 MHz for hydrogen, in the radiofrequency range. It rises in proportion to the field."),
         F("Zero-spin nuclei", "Helium, for example, has zero spin and no magnetic moment, so it cannot be imaged with MRI."),

@@ -762,3 +762,71 @@ q(T, "Water, photon energy on a logarithmic axis.",
 q(T, "Photon energy on a logarithmic axis.",
   simple="The threshold is the smallest photon energy that can make a pair, and it is the sum of the rest energies of the electron and the positron.",
   steps=["2 × 0.511 MeV = 1.022 MeV.", "On a logarithmic axis, 1.022 MeV lies slightly above 1 MeV."])
+
+
+# ================================================================ Basic physics: questions added after the audit against the study guide
+T = "waves-photons"
+q(T, "Is each wave transverse or longitudinal?",
+  simple="The two kinds differ in how the oscillation lies compared with the direction in which the wave travels. In a transverse wave the oscillation is sideways to the direction of travel. In a longitudinal wave it is along the direction of travel, as in a compression that runs along a spring.",
+  steps=["Light, x-rays, and other electromagnetic waves: the electric and magnetic fields oscillate perpendicular to the direction of travel, so they are transverse.", "A wave on a stretched string: the string moves up and down while the wave runs along it, so it is transverse.", "Sound in air, ultrasound in tissue, and a compression pulse along a spring: the particles of the medium move back and forth along the direction of travel, so they are longitudinal."], how=H_)
+T = "particles-energy"
+q(T, "Which statement about a photon is correct?",
+  simple="A photon has no mass at rest, and it never is at rest. It still carries energy and momentum, which follow from its frequency. Dividing its energy by c² gives the mass that would be equivalent to that energy, but this is not a rest mass.",
+  steps=["Rest mass: zero, as the table of rest energies shows.", "Energy E = hν, and momentum p = E/c.", "Mass equivalent of the energy: E/c². A 1.022 MeV photon has the energy of two electron rest masses, which is why it can create a pair, yet the photon itself has no rest mass."], tip="Having no rest mass does not mean having no energy or no momentum.", how=H_)
+q(T, "In an elastic collision between two particles:",
+  simple="Elastic means that nothing is converted to another form of energy: the kinetic energy after the collision equals the kinetic energy before it. Momentum is conserved in every collision between particles that are not acted on from outside, elastic or not.",
+  steps=["Elastic: the total kinetic energy and the total momentum are both unchanged.", "Inelastic: the total momentum is unchanged, but part of the kinetic energy goes to excitation, radiation, or rest mass."], how=H_)
+q(T, "Is each collision elastic or inelastic?",
+  simple="The test is whether any kinetic energy goes to another purpose. If none does, the collision is elastic.",
+  steps=["Elastic: a neutron bouncing off a hydrogen nucleus, an α particle deflected by a gold nucleus that stays in its ground state, and two protons deflected by their Coulomb repulsion without radiation. The particles only exchange kinetic energy.", "Inelastic: an electron that excites an atom, a photon that creates a pair, and an electron that emits bremsstrahlung. In each, kinetic energy goes into excitation, rest mass, or a photon."], how=H_)
+T = "charges-atom"
+q(T, "Which of these is a unit of electric field?",
+  simple="The electric field is the force on a unit charge, so newtons per coulomb is a unit of field. The same field can be written as the change of potential per unit length, which gives volts per metre. The two are the same unit.",
+  steps=["E = F/q, so the unit is N/C.", "E = ΔV/d, so the unit is V/m.", "Joule per coulomb is the volt, coulomb per volt is the farad, and ampere second is the coulomb. None of these is a field."], how=H_)
+q(T, "An electron crosses a gap of 2.5 cm along a uniform electric field",
+  simple="A charge gains energy equal to its charge times the potential difference that it crosses. In a uniform field the potential difference across a gap is the field times the length of the gap. An electron carries one elementary charge, so a potential difference in volts gives an energy in electron-volts.",
+  steps=["Write the length in metres: 2.5 cm = 0.025 m.", "ΔV = E d = 8.0 × 10<sup>6</sup> V/m × 0.025 m = 2.0 × 10<sup>5</sup> V.", "Energy gained = eΔV = 2.0 × 10<sup>5</sup> eV = 200 keV."],
+  tip="Centimetres have to be converted to metres before the length is multiplied by a field in volts per metre.", check=8.0e6 * 0.025 / 1e3)
+q(T, "Which statement about electric current is correct?",
+  simple="Current is a flow of charge. Its direction was fixed by convention, before electrons were known, as the direction in which positive charge would move. Electrons are negative, so in a wire they move the opposite way.",
+  steps=["Conventional current points from the positive terminal toward the negative terminal.", "In a metal wire the electrons move from the negative terminal toward the positive one, opposite to the conventional current.", "Direct current keeps one direction, and alternating current reverses periodically. The unit of current is the ampere, one coulomb per second."], how=H_)
+q(T, "The current through a resistor and the potential difference across it are to be measured.",
+  simple="The two instruments measure different things in different ways. Current is the flow through the component, so the meter has to sit in the path of that flow. Potential difference compares two points, so the meter is connected across them.",
+  steps=["Ammeter: in series, so that all of the current passes through it. Its resistance is very small, so it hardly changes the current.", "Voltmeter: in parallel, across the component. Its resistance is very large, so it draws almost no current."], how=H_)
+q(T, "In the accelerating waveguide of a linac, the electrons gain energy from:",
+  simple="An electron gains energy when it crosses a potential difference. A constant voltage of several million volts across the whole structure would be hard to build, so the linac uses an alternating field at microwave frequency and times the electrons so that the field points forward whenever they are in a gap. Each gap adds a little energy, and the sum along the structure is the final energy.",
+  steps=["Microwaves at about 3 GHz set up an electric field along the waveguide.", "The gun injects bunches so that the field points forward when the electrons are in the accelerating gaps.", "Each gap adds qΔV. A magnetic field only bends the path, because the magnetic force does no work."], how=H_)
+q(T, "The SI unit of magnetic field is the tesla.",
+  simple="The tesla is the large unit and the gauss the small one. One tesla is ten thousand gauss, so a field of 1.5 T is 15,000 G, and the Earth's field is about half a gauss.",
+  steps=["1 G = 10<sup>−4</sup> T, so 1 T = 10<sup>4</sup> G.", "1.5 T × 10<sup>4</sup> G/T = 15,000 G.", "The Earth's field, about 0.5 G, is 0.5 × 10<sup>−4</sup> T = 0.05 mT."])
+q(T, "Electrons of 50 keV strike a tungsten target.",
+  simple="A characteristic x-ray needs a vacancy in an inner shell, and an incoming electron can make a vacancy only if its energy is at least the binding energy of that shell. The K shell is bound most tightly, so it needs the most energy.",
+  steps=["Compare 50 keV with each binding energy: 69.5 keV for the K shell and 10.2 keV for the L<sub>III</sub> shell.", "50 keV is below 69.5 keV, so no K vacancy is made and the K-series lines are not produced.", "50 keV is above 10.2 keV, so L vacancies are made and the L-series lines are produced."],
+  tip="The energy of the x-ray photon is a difference between two shells and is always smaller than the energy needed to make the vacancy.", how=H_)
+T = "nuclear-structure"
+q(T, "Which list orders the four fundamental forces from the strongest to the weakest?",
+  simple="The strong force holds the nucleons together against the repulsion between the protons, so it is the strongest. The electromagnetic force comes next. The weak force acts in beta decay and is weaker than electromagnetism. Gravity is far weaker than all of them.",
+  steps=["Strong: binds nucleons, over about 1 to 3 fm.", "Electromagnetic: acts between charges, over long range.", "Weak: acts in beta decay, over a very short range.", "Gravitational: far weaker than the other three."], how=H_)
+q(T, "Which nucleus is especially stable because both its proton number and its neutron number are magic numbers?",
+  simple="Protons and neutrons fill shells in the nucleus, in the way that electrons fill shells in an atom. A shell is closed at the magic numbers 2, 8, 20, 28, 50, 82, and 126, and a nucleus with closed shells is held more tightly than its neighbours.",
+  steps=["Pb-208: 82 protons and 208 − 82 = 126 neutrons. Both are magic.", "Co-60: 27 protons and 33 neutrons. Neither is magic.", "Ir-192: 77 protons and 115 neutrons. Neither is magic.", "I-131: 53 protons and 78 neutrons. Neither is magic."], how=H_)
+T = "decay-law"
+q(T, "Source X has an activity of 9.0 mCi and a half-life of 12 d.",
+  simple="Each source follows its own exponential, and the two curves cross when the activities are equal. The time of the crossing comes from setting the two expressions equal and solving for t.",
+  steps=["λ<sub>X</sub> = 0.693 / 12 = 0.05776 d<sup>−1</sup> and λ<sub>Y</sub> = 0.693 / 40 = 0.01733 d<sup>−1</sup>.", "9.0 e<sup>−λ<sub>X</sub>t</sup> = 2.5 e<sup>−λ<sub>Y</sub>t</sup>.", "Divide both sides by 2.5 and by e<sup>−λ<sub>Y</sub>t</sup>: 3.6 e<sup>−(λ<sub>X</sub> − λ<sub>Y</sub>)t</sup> = 1.", "Take logarithms: t = ln 3.6 / (λ<sub>X</sub> − λ<sub>Y</sub>) = 1.281 / 0.04043 = 31.7 d."],
+  tip="Source X falls to 2.5 mCi after 22.2 d only if source Y did not decay, but Y decays too.", check=math.log(3.6) / (LN2 / 12 - LN2 / 40))
+q(T, "A radionuclide has a half-life of 10 days.",
+  simple="Radioactive decay has no memory. Each nucleus has the same chance of decaying in any interval, whatever its age, and the decay constant is that chance per unit time. A nucleus that has lasted 30 days is as likely to decay in the next 10 days as a new one.",
+  steps=["The probability that a nucleus decays within one half-life is 1 − ½ = 50%.", "The history of the nucleus does not change this, so the probability for the next 10 days is again 50%."],
+  tip="The activity of a sample is low after three half-lives because few nuclei are left, not because the survivors are less likely to decay.", how=H_)
+T = "photon-interactions"
+q(T, "A radiograph is made at 100 kVp, with an effective photon energy of about 50 keV.",
+  simple="Two questions are mixed here: which interaction happens most often, and which interaction makes the picture. Compton scattering happens most often in soft tissue at this energy. The photoelectric effect depends strongly on the atomic number, so it makes the difference between bone and soft tissue, and that difference is the contrast.",
+  steps=["Frequency: in water at 50 keV Compton scattering is roughly 80% of the attenuation, and the photoelectric effect and coherent scattering share the rest.", "Contrast: per gram, bone attenuates about 1.9 times as much as water at 50 keV, but only about 1.1 times as much at 100 keV. The extra comes from the photoelectric effect, which varies as Z<sup>3</sup>.", "Electrons per gram differ little between bone and soft tissue, so Compton scattering gives little contrast.", "Pair production needs a photon of more than 1.022 MeV, so it does not occur at 50 keV."], how=H_)
+q(T, "A lead barrier must reduce a beam to 1.0% of the unshielded intensity.",
+  simple="The build-up factor says that scattered photons add to the transmitted beam, so the barrier has to remove more of the primary beam than the narrow-beam calculation suggests. Dividing the required transmission by the build-up factor gives the attenuation that the exponential has to supply.",
+  steps=["The transmission is B e<sup>−μx</sup> = 0.010, so e<sup>−μx</sup> = 0.010 / 2.0 = 0.0050.", "The number of half-value layers is log<sub>2</sub>(1 / 0.0050) = log<sub>2</sub>(200) = 7.64.", "Thickness = 7.64 × 0.80 cm = 6.1 cm."],
+  tip="The narrow-beam answer is 6.64 half-value layers, or 5.3 cm. A broad beam always needs more.", check=0.80 * math.log2(200))
+q(T, "In a narrow-beam measurement of attenuation, the small detector behind the absorber registers:",
+  simple="The geometry is chosen so that a photon that scatters in the absorber is not counted. The beam is collimated and the detector is small and far from the absorber, so only photons that crossed it without interacting arrive. That is the case in which the simple exponential law holds.",
+  steps=["Narrow beam: collimated, with a small distant detector, so scatter is not registered and I = I₀ e<sup>−μx</sup>.", "Broad beam: the scattered photons also arrive, so the reading is larger by the build-up factor B."], how=H_)

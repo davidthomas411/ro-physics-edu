@@ -1749,8 +1749,9 @@ function bindFig(el){
   (S.y.ticks||[]).forEach(t=>{const y=Y(t); N('line',{x1:m.l,y1:y,x2:W-m.r,y2:y,stroke:'var(--rule)','stroke-width':1},svg); const e=N('text',{x:m.l-8,y:y+5,'text-anchor':'end','font-size':13,fill:'var(--muted)'},svg); e.textContent=tfmt(S.y,t);});
   (S.x.ticks||[]).forEach(t=>{const x=X(t); N('line',{x1:x,y1:m.t,x2:x,y2:m.t+ph,stroke:'var(--rule)','stroke-width':1},svg); const e=N('text',{x:x,y:m.t+ph+18,'text-anchor':'middle','font-size':13,fill:'var(--muted)'},svg); e.textContent=tfmt(S.x,t);});
   N('line',{x1:m.l,y1:m.t+ph,x2:W-m.r,y2:m.t+ph,stroke:'var(--ink)','stroke-width':1.6},svg); N('line',{x1:m.l,y1:m.t,x2:m.l,y2:m.t+ph,stroke:'var(--ink)','stroke-width':1.6},svg);
-  if(S.x.label){const e=N('text',{x:m.l+pw/2,y:H-8,'text-anchor':'middle','font-size':14,fill:'var(--text)'},svg); e.textContent=S.x.label;}
-  if(S.y.label){const e=N('text',{transform:`translate(14 ${m.t+ph/2}) rotate(-90)`,'text-anchor':'middle','font-size':14,fill:'var(--text)'},svg); e.textContent=S.y.label;}
+  const subs=t=>t.replace(/<sub>(.*?)<\/sub>/g,'_$1').replace(/<\/?sup>/g,'');           // an axis label may carry <sub>: stext draws it as a subscript
+  if(S.x.label) stext(svg,m.l+pw/2,H-8,subs(S.x.label),{'text-anchor':'middle','font-size':14,fill:'var(--text)'});
+  if(S.y.label) stext(svg,0,0,subs(S.y.label),{transform:`translate(14 ${m.t+ph/2}) rotate(-90)`,'text-anchor':'middle','font-size':14,fill:'var(--text)'});
   (S.cells||[]).forEach(([cx,cy,t])=>{N('rect',{x:X(cx-.5),y:Y(cy+.5),width:X(cx+.5)-X(cx-.5),height:Y(cy-.5)-Y(cy+.5),fill:'var(--paper)',stroke:'var(--line)','stroke-width':1.4},svg); const e=N('text',{x:X(cx),y:Y(cy)+5,'text-anchor':'middle','font-size':14,'font-weight':600,fill:'var(--ink)'},svg); e.textContent=t;});
   (S.vlines||[]).forEach(v=>{N('line',{x1:X(v.x),y1:m.t,x2:X(v.x),y2:m.t+ph,stroke:'var(--muted)','stroke-width':1.4,'stroke-dasharray':'5 4'},svg);});
   (S.series||[]).forEach(s=>{let d='', pen=false; s.pts.forEach(([a,b])=>{ if(a<S.x.min||a>S.x.max||b<S.y.min||b>S.y.max){pen=false; return;} d+=(pen?'L':'M')+X(a).toFixed(1)+' '+Y(b).toFixed(1); pen=true;}); N('path',{d:d,fill:'none',stroke:col(s.color),'stroke-width':s.w||2.8,'stroke-linejoin':'round','stroke-dasharray':s.dash?'6 4':'none'},svg);});
