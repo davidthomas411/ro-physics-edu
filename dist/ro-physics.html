@@ -2136,8 +2136,8 @@ function realFig(root,id){
     for(let i=0;i<v.panels.length;i+=v.cols){const row=v.panels.slice(i,i+v.cols), ih=Math.max(...row.map(p=>p.h*cw/p.w)), top=y+(row.some(p=>p.label)?LH:0);
       row.forEach((p,j)=>cells.push({p,x:G+j*(cw+G),y:top,w:cw,h:p.h*cw/p.w,ly:y+14,sy:top+ih+15})); y=top+ih+(row.some(p=>p.sub)?SH:0)+G;}
     return {cells,h:y};});
-  const {s,c}=avShell(root,W,Math.ceil(Math.max(...lay.map(l=>l.h))),F.label,F.cap), g=sv('g',{},s); let out=null, btns=null;
-  const draw=k=>{g.innerHTML=''; lay[k].cells.forEach(({p,x,y,w,h,ly,sy})=>{
+  const H=Math.ceil(Math.max(...lay.map(l=>l.h))), {s,c}=avShell(root,W,H,F.label,F.cap), g=sv('g',{},s); let out=null, btns=null;
+  const draw=k=>{g.innerHTML=''; const dy=Math.round((H-lay[k].h)/2); lay[k].cells.forEach(({p,x,y,w,h,ly,sy})=>{ y+=dy; ly+=dy; sy+=dy;                          // a view shorter than the tallest one sits in the middle of the figure
       if(p.label) stext(g,x+w/2,ly,p.label,{'text-anchor':'middle','font-size':14,'font-weight':700});
       sv('image',{x,y,width:w,height:h,href:p.img,preserveAspectRatio:'none'},g);
       if(p.sub) stext(g,x+w/2,sy,p.sub,{'text-anchor':'middle','font-size':13,fill:'var(--mu)'});});
