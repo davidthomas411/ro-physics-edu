@@ -70,7 +70,7 @@ Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change t
 
 - `src/blueprint.py`: the seven ABR domains and their 20 subsections, with the ABR weights.
 - `src/siteinfo.py`: the About page, the citation texts, and the release checks. `src/analytics_schema.py`: the usage events the page can send; the privacy text, the IRB description, and the tests all read it.
-- `src/topics/`: one file per topic (guide blocks and cards). `__init__.py` lists them; the order is the study order inside each domain.
+- `chapters/<id>/`: one folder per topic (the chapter module with guide blocks and cards, and its Explain further module where one exists). `src/topics/__init__.py` lists them; the order is the study order inside each domain.
 - `src/figs.py`: original figures as inline SVG that follow light and dark.
 - `src/facts.py`: the title of every flash card. A flash card shows its title and its answer, not the question written in the topic file, so both must stand alone.
 - `src/calc.py`: the formulas behind the worked examples. Topic files import them, so no example number is typed by hand.
@@ -85,7 +85,7 @@ Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change t
 
 ## Add a topic
 
-1. Copy a file in `src/topics/`. Set `id`, `domain` (1 to 7), and `sub` (an ABR subsection code such as `III.A`).
+1. Copy a folder in `chapters/`. Set `id`, `domain` (1 to 7), and `sub` (an ABR subsection code such as `III.A`).
 2. Write the guide with the block constructors and the cards with `C(...)`. Compute every number in `calc.py`.
 3. Register the module in `src/topics/__init__.py`.
 4. Write `tests/numbers_<module>.py`, which re-derives by another route every number the chapter prints or keys (model: `tests/numbers_tg51.py`). For a Basic physics (domain 1) chapter, also write the Explain further text of each question in `src/more_<module>.py` (model: `src/more_xray_tube.py`) and import it in `src/topics/__init__.py`; `tests/more.py` requires it.

@@ -6,7 +6,7 @@ from playwright.sync_api import sync_playwright
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import _release as R
 ROOT = R.ROOT
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]; sys.path.insert(0, str(ROOT / "tools"))
 import analytics_schema as AS, siteinfo as A, blocks, item_report as IR
 from topics import TOPICS
 

@@ -13,7 +13,7 @@ import csv, io, json, re, sys
 from collections import Counter, defaultdict
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 import analytics_schema as AS
 
 MIN_FLAG, MIN_SHARE = 10, 5

@@ -14,7 +14,7 @@ for e in REAL: shutil.copy(ROOT / "src/photos" / e["file"], d / e["file"])
 (d / "m.json").write_text(json.dumps(REAL + [dict(id="fixture", file="fixture.jpg", alt="A synthetic test image", caption="A synthetic gradient used only by the test, with a long caption so that the text wraps at phone width.", creator="Test Creator With A Long Name", licence="CC BY 4.0",
     licence_url="https://creativecommons.org/licenses/by/4.0/", source_url="https://commons.wikimedia.org/wiki/File:Test.jpg", title="Test")]))
 (d / "build_with_photo.py").write_text(f'''import runpy, sys
-sys.path[:0] = [{str(ROOT / "src")!r}, {str(ROOT / "src" / "topics")!r}]
+sys.path[:0] = [{str(ROOT / "src")!r}, {str(ROOT / "src" / "topics")!r}] + {[str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]!r}
 from topics import TOPICS
 import blocks
 g = TOPICS[0]["guide"]; i = next(k for k, b in enumerate(g) if b[0] == "h2"); g.insert(i + 1, blocks.PHOTO("fixture"))

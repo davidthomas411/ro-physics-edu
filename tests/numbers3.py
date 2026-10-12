@@ -2,7 +2,7 @@
 import sys, re, math
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 import pdd, tmr, scatter, mu_calc
 from topics import TOPICS
 TOPICS_BY = {x['id']: x for x in TOPICS}

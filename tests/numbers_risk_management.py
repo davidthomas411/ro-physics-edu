@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path = [p for p in sys.path if Path(p or ".").resolve() != Path(__file__).resolve().parent]   # tests/numbers.py would shadow the standard numbers module that fractions imports
 from fractions import Fraction as Fr
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 from topics import TOPICS
 import risk_management as R
 plain = lambda s: re.sub(r"<[^>]+>", "", s).strip()

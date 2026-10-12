@@ -20,5 +20,5 @@ for name, b in blocks.items():
     elif "avChart(" in b and "fixed:" in b: fixed.append(name)
     elif re.search(r'type=\\?"range\\?"', b):
         custom.append(name); check(name in ALLOW, f"{name}: a slider outside the reviewed list ({name})")
-check(not any(re.search(r"\bslider\b", re.sub(r"<[^>]*>", "", c)) for t in [open(f, encoding='utf-8').read() for f in ROOT.glob("src/topics/*.py")] for c in re.findall(r'P\((?:f)?"([^"]*)"', t)), "no chapter paragraph refers to a slider")
+check(not any(re.search(r"\bslider\b", re.sub(r"<[^>]*>", "", c)) for t in [open(f, encoding='utf-8').read() for f in ROOT.glob("chapters/*/*.py")] for c in re.findall(r'P\((?:f)?"([^"]*)"', t)), "no chapter paragraph refers to a slider")
 print(f"noslider: {len(changing)} chart sliders change the curve, {len(fixed)} charts are drawn statically with labelled points, {len(custom)} reviewed concept sliders; {n} checks"); print("noslider: PASS" if not bad else f"noslider: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)

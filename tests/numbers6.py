@@ -2,7 +2,7 @@
 import sys, re, math
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 from topics import TOPICS
 plain = lambda s: re.sub(r"<[^>]+>", "", s)
 ALL = [(t["id"], p) for t in TOPICS for p in t["problems"] if p.get("kind") == "num"]

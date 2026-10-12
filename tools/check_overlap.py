@@ -6,7 +6,7 @@ Exit status 1 if there is any match. A match is a reason to read both passages, 
 import re, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 
 def words(text):
     return re.findall(r"[a-z0-9]+(?:[.'][a-z0-9]+)*", re.sub(r"<[^>]+>", " ", text).lower())

@@ -7,7 +7,7 @@ sys.path[:] = [x for x in sys.path if Path(x or ".").resolve() != Path(__file__)
 from urllib.parse import urlparse
 from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 import photolib
 
 FIELDS, ALLOWED = photolib.FIELDS, set(photolib.ALLOWED)

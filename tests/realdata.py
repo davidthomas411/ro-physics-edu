@@ -6,7 +6,7 @@ sys.path = [p for p in sys.path if Path(p or ".").resolve() != Path(__file__).re
 import numpy as np
 from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 import real
 from topics import TOPICS
 bad = []; n = 0

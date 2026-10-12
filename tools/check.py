@@ -13,10 +13,15 @@ ROOT = Path(__file__).resolve().parent.parent
 TESTS = ROOT / "tests"
 STATIC = "license style structure takeaway facts problems plan abrstyle tapquality mudata figq noslider".split()
 BROWSER = ["smoke", "questions"]
+ENV = dict(os.environ)
+if not ENV.get("CHROME_PATH"):
+    import glob
+    found = sorted(glob.glob("/opt/pw-browsers/chromium-*/chrome-linux/chrome"))
+    if found: ENV["CHROME_PATH"] = found[-1]
 
 
 def run(name):
-    p = subprocess.run([sys.executable, str(TESTS / f"{name}.py")], cwd=ROOT, capture_output=True, text=True, timeout=290)
+    p = subprocess.run([sys.executable, str(TESTS / f"{name}.py")], cwd=ROOT, capture_output=True, text=True, timeout=290, env=ENV)
     return p.returncode, (p.stdout + p.stderr)
 
 
@@ -25,7 +30,7 @@ def main(argv):
     flags = {a for a in argv if a.startswith("--")}
     chap = args[0] if args else None
     if not chap and "--all" not in flags: sys.exit(__doc__)
-    sys.path[:0] = [str(ROOT / "src"), str(ROOT / "src" / "topics")]
+    sys.path[:0] = [str(ROOT / "src"), str(ROOT / "src" / "topics")] + [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
     mod = None
     if chap:
         import topics as T

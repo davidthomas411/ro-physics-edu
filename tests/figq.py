@@ -2,7 +2,7 @@
 import sys, re, math, os, json
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 from topics import TOPICS
 from playwright.sync_api import sync_playwright
 plain = lambda s: re.sub(r"<[^>]+>", "", s).strip()

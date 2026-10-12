@@ -1,4 +1,7 @@
 """Topic registry. Order inside a domain is the study order. Problems follow each topic's cards, so card ids stay stable."""
+import sys, pathlib
+_CH = pathlib.Path(__file__).resolve().parent.parent.parent / "chapters"   # one folder per chapter: chapter module and its Explain further module
+sys.path[:0] = sorted(str(d) for d in _CH.iterdir() if d.is_dir())
 import waves_photons, particles_energy, charges_atom, nuclear_structure, decay_modes, decay_schemes, decay_law, specific_activity, equilibrium, xray_tube
 import linac_components, photon_interactions, attenuation, neutron_interactions, charged_particles, kerma_dose, ion_chambers, tg51, dosimeters, pdd, tmr, scatter, mu_calc
 import brachy_sources, brachy_exposure, tg43, brachy_qa, brachy_planning

@@ -2,7 +2,7 @@
 import sys, math
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 import calc, charges_atom, particles_energy, nuclear_structure, specific_activity, problems_decay, waves_photons, figs
 
 fails = []; n = 0

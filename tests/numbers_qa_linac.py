@@ -6,7 +6,7 @@ import sys, re, math
 from pathlib import Path
 sys.path = [p for p in sys.path if Path(p or ".").resolve() != Path(__file__).resolve().parent]
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics")); sys.path[:0] = [str(d) for d in (ROOT / "chapters").iterdir() if d.is_dir()]
 from topics import TOPICS
 import qa_linac as Q
 plain = lambda s: re.sub(r"<[^>]+>", "", s).strip()
