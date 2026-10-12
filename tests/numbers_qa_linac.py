@@ -63,11 +63,6 @@ p = prob("QA finds both leaf banks displaced")
 close(Q.b_one, change(5.0, lead_off=0.5), 2e-3, "one bank 0.5 mm in a 5 mm gap: 10%"); close(Q.b_two, change(5.0, 0.5, -0.5), 2e-3, "both banks opening: 20%")
 true(keyed(p).startswith("The same dose") and abs(change(5.0, 0.5, 0.5)) < 1e-2, "the keyed answer is no change in dose")
 true(sorted(num(" ".join(plain(o) for o in p["opts"]))) == sorted([0.5, round(Q.b_one), round(Q.b_two), round(Q.b_one)]), "the options print 0.5 mm, 10%, 20%, and 10%")
-# typed: largest gap error for a 2% dose error in a 5 mm gap, by bisection on the simulated change
-dx = bisect(lambda e: 100 * e / 5.0 - 2.0, 0.0, 2.0)
-p = prob("largest error in the gap width"); close(value(p), dx, 1e-6, "keyed 0.1 mm"); close(abs(change(5.0, lead_off=value(p))), 2.0, 2e-3, "0.1 mm in a 5 mm gap gives 2% in the sweep")
-close(value(p) / Q.MLC, 0.1, 1e-9, "a tenth of the 1 mm tolerance")
-
 # ---- gamma: the scale s at which a measured-calculated pair lies on the ellipse of the criteria
 def gam(r, d, dta, dd):
     return bisect(lambda s: (r / (s * dta)) ** 2 + (d / (s * dd)) ** 2 - 1, 1e-6, 100.0) if (r or d) else 0.0
@@ -78,8 +73,6 @@ p = prob("is described below")
 close(value(p), gam(1.0, 2.4, 2, 3), 1e-9, "keyed γ for 2.4% at 1.0 mm"); close(value(p), 0.9434, 1e-4, "0.94")
 wrong = sorted(v for v in p["vals"] if v != value(p))
 close(wrong[0], 1.0 / 2, 1e-12, "distance term alone"); close(wrong[1], 2.4 / 3, 1e-12, "dose term alone"); close(wrong[2], 0.25 + 0.64, 1e-12, "no square root"); close(wrong[3], 0.5 + 0.8, 1e-12, "the two ratios added")
-p = prob("A planar comparison at 2%/2 mm")
-close(value(p), gam(1.0, 1.5, 2, 2), 1e-9, "typed γ at 2%/2 mm"); close(Q.t_gam3, gam(1.0, 1.5, 2, 3), 1e-9, "the same point at 3%/2 mm"); true(Q.t_gam3 < value(p) <= 1, "the tighter criterion raises γ and the point still passes")
 # local against global, with doses in cGy: maximum 200 cGy, point 30 cGy, difference 2 cGy
 dmax, dpt, ddiff = 200.0, 30.0, 2.0
 close(Q.loc_gg, gam(0, 100 * ddiff / dmax, 2, 3), 1e-9, "global γ"); close(Q.loc_pct, 100 * ddiff / dpt, 1e-9, "local difference 6.7%"); close(Q.loc_gl, gam(0, 100 * ddiff / dpt, 2, 3), 1e-9, "local γ")

@@ -3,10 +3,8 @@ import sys, re, math
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
-from topics import TOPICS
 import beamdata as bd
-plain = lambda s: re.sub(r"<[^>]+>", "", s).strip()
-T = {t["id"]: t for t in TOPICS}; bad = []; n = 0
+bad = []; n = 0
 def close(a, b, tol=1e-6, what=""):
     global n; n += 1
     if abs(a - b) > tol * max(1.0, abs(b)): bad.append((what, a, b))

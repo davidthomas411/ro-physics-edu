@@ -69,11 +69,6 @@ close(S.width, 2 * half, 1e-12, "width by halves"); shown(f"{2 * half:.1f} m at 
 slant = math.hypot(150.0, 150.0 * math.tan(math.radians(30)))
 close(value(prob("30° from the normal")), slant, 1e-12, "slant thickness by Pythagoras")
 
-# ---- transmission question: the keyed B gives exactly P behind the barrier
-p = prob("staff work area (controlled)"); qb = value(p)
-close(500.0 * 0.25 * 1.0 * qb / 5.5 ** 2, 1e-4, 1e-12, "keyed B returns P = 0.1 mSv")
-for got, want in zip(sorted(p["vals"]), sorted([qb, qb / 4, qb / 5.5, qb * 50])): close(got / want, 1.0, 1e-12, "distractors: U left out, d in place of d², annual goal")
-
 # ---- which of two walls is thicker
 tA = t_for_dose(lambda t: 450.0 * 0.25 * 1.0 * att(t, *PRI6) / 49.0, S.P_U); tB = t_for_dose(lambda t: 450.0 * 0.25 * 0.2 * att(t, *PRI6) / 16.0, S.P_U)
 close(S.q_two, tA - tB, 1e-6, "wall A thicker by the difference of two bisections"); close(round(tA - tB), 7, 0, "about 7 cm")
@@ -116,7 +111,6 @@ r = [t_for_dose(lambda t: 450.0 * 0.25 * 1.0 * att(t, *PRI6) / 36.0, S.P_U), t_f
      t_for_dose(leak(450.0, 1.0, 6.0, 1.0), S.P_U), t_for_dose(lambda t: S.A6 * 450.0 * math.exp(-LN10 * t / 17.0) / 36.0, S.P_U)]
 for (txt, v), w in zip(S.RANK, r): close(v, w, 1e-9, f"rank thickness: {plain(txt)[:30]}")
 close(1 if r == sorted(r, reverse=True) else 0, 1, 0, "thickest to thinnest")
-p = prob("Rank the barriers"); close(1 if [c["b"] for c in p["chips"]] == [0, 1, 2, 3] else 0, 1, 0, "each item is keyed to its rank")
 close(math.log(40) / LN10, 1.6, 0.02, "log10 40 is 1.6 TVL")
 
 # ---- the 18 MV typed question

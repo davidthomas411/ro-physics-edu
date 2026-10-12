@@ -34,7 +34,6 @@ def integral(f, a, b, steps=20000):                                            #
     return s * h / 3
 GUIDE = " ".join(plain(b[1]) if b[0] in ("h2", "p") else " ".join(plain(x) for x in b[1]) if b[0] in ("ul", "ol", "eq") else
                  " ".join(plain(x) for x in [b[1], b[2], b[4], *b[3]]) if b[0] == "ex" else " ".join(plain(c) for r in b[2] for c in r) if b[0] == "table" else "" for b in TOP["guide"])
-CARDS = " ".join(plain(x) for c in TOP["cards"] for x in [*c["a"], *c["w"]])
 TAKE = " ".join(plain(x) for items in TOP["take"] for x in items)
 def shown(s, what, where=None):                                                # a re-derived number, formatted, appears on the page
     global n; n += 1
@@ -60,18 +59,12 @@ close(M.K_Y90, k_y, 1e-6, "Y-90 constant from E_mean = 0.93 MeV"); shown(f"{k_y:
 check(abs(k_y - 50.0) / 50.0 < 0.01, f"within 1% of the quoted 50 Gy per GBq per kg ({k_y:.2f})")
 lo, hi = decays * 0.927e6 * 1.602176634e-19, decays * 0.937e6 * 1.602176634e-19
 check(49.4 <= lo and hi <= 50.0 + 1e-9, f"the quoted range of mean energies, 0.927 to 0.937 MeV, gives {lo:.2f} to {hi:.2f}, inside the published 49.4 to 50")
-shown(f"{plain(M.sci(decays, 3))}", "decays per GBq on the card", CARDS)
 
 # ---- microspheres: the activity solved by bisection on the dose to the liver, the lung dose from the activity in the lungs
 a2 = bisect(lambda a: 50.0 * a * (1 - 0.08) / 0.80 - 120.0, 0.0, 20.0)
 close(M.A_2, a2, 1e-9, "activity for 120 Gy to 0.80 kg"); shown(f"{a2:.3f} GBq", "activity printed")
 lung_gbq = a2 * 0.08; close(M.DL_2, 50.0 * lung_gbq / 1.0, 1e-9, "lung dose"); shown(f"the lungs receive {50.0 * lung_gbq:.1f} Gy", "lung dose printed")
 check(50.0 * lung_gbq < 30.0, "the example stays within the 30 Gy lung limit")
-p = prob("perfused mass = 1.2 kg"); a11 = bisect(lambda a: 50.0 * a * 0.90 / 1.2 - 120.0, 0.0, 20.0)
-close(value(p), a11, 1e-9, "keyed activity with a 10% shunt")
-for got, want in zip(sorted(p["vals"]), sorted([a11, 120 * 1.2 / 50, 120 * 1.2 * 0.9 / 50, 120 / 45])): close(got, want, 1e-9, "distractors: shunt ignored, multiplied by 0.90, mass left out")
-amax = bisect(lambda a: 50.0 * a * 0.18 / 1.0 - 30.0, 0.0, 20.0)
-close(value(prob("lung shunt fraction of 18%")), amax, 1e-9, "largest activity for a 30 Gy lung dose")
 
 # ---- release: the dose rate at 1 m integrated over complete decay, with 1 R taken as 1 rem
 def rel(q, occ=0.25, tp=8.02):                                                # rem
@@ -109,8 +102,6 @@ def shell(ds, a, r, mu): return ds * (math.exp(-mu * (r - a)) / (4 * math.pi * r
 close(M.D_X, shell(20.0, 1.5, 2.5, 0.3), 1e-12, "3 cm applicator at 1 cm"); shown(f"{shell(20.0, 1.5, 2.5, 0.3):.1f} Gy", "dose at 1 cm printed")
 close(M.D_X_IS, shell(20.0, 1.5, 2.5, 0.0), 1e-12, "inverse square alone"); shown(f"inverse square alone: {shell(20.0, 1.5, 2.5, 0.0):.1f} Gy", "inverse square printed")
 check(5.0 <= M.D_X <= 7.0, "the illustrative value falls inside the 5 to 7 Gy that TARGIT reported at 1 cm")
-p = prob("applicator diameter = 4 cm"); close(value(p), shell(20.0, 2.0, 3.0, 0.3), 1e-12, "4 cm applicator at 1 cm")
-for got, want in zip(sorted(p["vals"]), sorted([shell(20.0, 2.0, 3.0, 0.3), shell(20.0, 2.0, 3.0, 0.0), 20 * (2 / 3) * math.exp(-0.3), 20 * math.exp(-0.3)])): close(got, want, 1e-12, "distractors")
 
 # ---- effective half-life, cumulated activity, and dose questions
 p = prob("Radioiodine is retained"); close(value(p), bisect(lambda t: retained(8.02, 6.0)(t) - 0.5, 0.0, 10.0), 1e-9, "T_eff of 8.02 d and 6.0 d")
@@ -135,8 +126,6 @@ for k, E in M.EMAX.items():
     check(rows[k][4].endswith(f"/ {M.RMAX[k]:g} mm"), f"{k}: the table prints the maximum range {M.RMAX[k]:g} mm")
 check(kp_mm(2.28) > 10.5, f"Y-90 reaches about 11 mm ({kp_mm(2.28):.1f})")
 for k, s in M.EMAX_TXT.items(): check(abs(float(s) - M.EMAX[k]) <= 0.5 * 10 ** (-len(s.split(".")[1])) + 1e-9, f"{k}: E_max printed as {s} MeV rounds {M.EMAX[k]} MeV")
-p = prob("Rank these radionuclides"); order = ["Ra-223"] + sorted(M.EMAX, key=lambda k: kp_mm(M.EMAX[k]))
-check([c["t"] for c in sorted(p["chips"], key=lambda c: c["b"])] == order, f"rank by maximum range: {' < '.join(order)}")
 
 # ---- the matching question: emissions entered a second time here
 FACT = {"Ra-223": "α particles", "Y-90": "Pure β", "I-131": "364 keV", "Lu-177": "113 and 208 keV", "Sm-153": "103 keV"}

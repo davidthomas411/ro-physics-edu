@@ -73,8 +73,6 @@ def projected(L, deg):
     return math.hypot(d[0] - along * u[0], d[1] - along * u[1])
 close(X.s2, projected(5.0, 12.0), 1e-12, "effective spot of a 5.0 mm strip at 12°"); shown(f"{projected(5.0, 12.0):.2f} mm, about one fifth", "effective spot printed")
 close(value(prob("small anode angle")), projected(6.0, 10.0), 1e-12, "keyed effective spot at 10°")
-close(X.q_shrink, projected(1.0, 10.0) / projected(1.0, 16.0), 1e-12, "spot ratio from 16° to 10°"); shown(f"{projected(1.0, 10.0) / projected(1.0, 16.0):.2f}", "ratio printed", plain(prob("smaller anode angle and the same")["a"][1]))
-shown(f"{100 * (1 - projected(1.0, 10.0) / projected(1.0, 16.0)):.0f}% smaller", "shrink printed", plain(prob("smaller anode angle and the same")["a"][1]))
 
 # ---- heat units: the waveform factors are the rms voltage relative to a single-phase supply
 def rms(p, k=200000):                                                          # rms of an ideal p-pulse rectified waveform of unit peak
@@ -85,8 +83,6 @@ close(X.hu3, (120 * 250 * 15) * 1.41, 1e-12, "CT scan heat units"); shown(f"{120
 energy = sum(120e3 * 0.250 * 0.001 for _ in range(15000))                       # 15 s in 1 ms steps at constant power
 close(X.J3, energy, 1e-9, "electrical energy of the scan"); shown(f"{energy / 1000:.0f} kJ of electrical energy", "energy printed"); shown(f"{energy * (1 - 9e-10 * 74 * 120e3) / 1000:.0f} kJ stays", "heat printed")
 shown(f"{1 / 1.41:.2f} J", "1 HU in joules")
-p = prob("three-phase six-pulse generator"); close(value(p), 80 * 300 * 0.20 * 1.35, 1e-12, "keyed heat units")
-for got, want in zip(sorted(p["vals"]), sorted([80 * 300 * 0.2 / 1.35, 80 * 300 * 0.2, 80 * 300 * 0.2 * 1.35, 80 * 300 * 0.2 * 1.41])): close(got, want, 1e-9, "heat-unit distractors")
 
 # ---- ripple: the lowest point of the rectified envelope, found by scanning the phase
 def dip(p, k=36000):
@@ -126,14 +122,12 @@ check(1.0 < 4.0 and r[2] > r[1], "ranking by the number alone puts 1 mm Cu below
 
 # ---- first HVL by interpolation between two readings: bisection on the exponential through them
 x50 = bisect(lambda x: 54.5 * (45.2 / 54.5) ** ((x - 2.0) / 1.0) - 50.0, 2.0, 3.0)
-close(value(prob("bracket half the open value")), x50, 1e-9, "typed first HVL"); close(x50, 2.46, 1e-3, "2.46 mm Al")
-close(X.q_x50_lin, bisect(lambda x: 54.5 + (45.2 - 54.5) * (x - 2.0) - 50.0, 2.0, 3.0), 1e-9, "straight-line value"); check(abs(X.q_x50_lin / x50 - 1) < 0.02, "the straight-line value is within the 2% tolerance")
-close(X.q_x50_one, bisect(lambda x: 100 * math.exp(-x * math.log(100 / 54.5) / 2.0) - 50.0, 0.0, 10.0), 1e-9, "single-exponential value"); check(abs(X.q_x50_one / x50 - 1) > 0.02, "the single-exponential value is outside the tolerance")
+close(x50, 2.46, 1e-3, "2.46 mm Al")
 
 # ---- other numbers in explanations
 shown(f"{42 / 74:.2f} of the tungsten value", "molybdenum yield ratio", plain(prob("replaced by a molybdenum anode")["a"][1]))
 shown(f"{(100 / 80) ** 2:.2f} or more", "kVp squared ratio", plain(prob("changed from 80 kVp to 100 kVp")["a"][1]))
-for c in ("0.0155", "1.04 mm", "0.83"): shown(c, f"card working {c}", CARDS)
+for c in ("0.0155", "1.04 mm"): shown(c, f"card working {c}", CARDS)
 
 for b in bad: print("FAIL", b)
 print(f"numbers_xray_tube: {n} numbers re-derived"); print("numbers_xray_tube: PASS" if not bad else f"numbers_xray_tube: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)

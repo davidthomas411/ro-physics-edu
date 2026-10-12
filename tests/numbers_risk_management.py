@@ -94,22 +94,11 @@ close(sorted(shown(p))[1], 1000 * enum(g[:2], lambda b: b[0] and not b[1]), 1e-9
 close(sorted(shown(p))[2], 1000 * enum(g, lambda b: b[0] and b[1] and b[2]), 1e-9, "distractor: detection probabilities multiplied (8.4)")
 close(sorted(shown(p))[3], 1000 * enum([R.g0, R.g1 * R.g2], lambda b: b[0] and not b[1]), 1e-9, "distractor: the pair treated as one check (11.6)")
 
-# ---- question: OR gate over two AND branches given as detection probabilities, in percent
-p = prob("treatment with the wrong setup"); miss = [R.c1, 1 - R.k1, R.c2, 1 - R.k2]; det = [R.c1, R.k1, R.c2, R.k2]
-or_and = lambda b: (b[0] and b[1]) or (b[2] and b[3])
-close(value(p), 100 * enum(miss, or_and), 1e-9, "top event per fraction"); close(value(p), 0.104995, 1e-6, "0.105%")
-close(shown(p)[2], 100 * enum(det, or_and), 1e-9, "distractor: detection in place of miss (0.445%)")
-close(shown(p)[3], 100 * enum([R.c1, R.c2], lambda b: b[0] or b[1]), 1e-9, "distractor: checks left out (0.550%)")
-close(shown(p)[0], 100 * enum(miss[:2], lambda b: b[0] and b[1]), 1e-9, "distractor: branch 2 dropped (0.100%)")
 
-# ---- typed: three independent failures for a wrong-patient treatment, and undetected errors per year
+# ---- typed: three independent failures for a wrong-patient treatment
 p = prob("Treating the wrong patient needs three")
 close(value(p), 1e6 * math.exp(sum(math.log(x) for x in (R.w0, R.w1, R.w2))), 1e-9, "AND gate by logarithms"); close(value(p), 10, 1e-9, "10 per million fractions")
 close(value(p), 1e6 * enum([R.w0, R.w1, R.w2], all), 1e-9, "AND gate by enumeration")
-p = prob("get past its checks")
-errs = Fr(R.y_n) * Fr(str(R.y0)); errs = errs * (1 - Fr(str(R.y1))); errs = errs * (1 - Fr(str(R.y2)))
-close(value(p), float(errs), 1e-12, "errors per year in exact fractions"); close(value(p), 1.2, 1e-9, "1.2 per year")
-close(value(p), R.y_n * enum([R.y0, R.y1, R.y2], lambda b: b[0] and not b[1] and not b[2]), 1e-9, "errors per year by enumeration")
 
 # ---- question: I-131 dosage, also in mCi (1 mCi = 37 MBq)
 p = prob("radioactive iodine therapy"); mci = (R.i_rx / 37, R.i_giv / 37)

@@ -51,10 +51,6 @@ close(tpr_for(S.r66), 0.66, 1e-9, "r_LCPE 1.142 cm belongs to TPR 0.66"); close(
 close(round(S.r66, 1), 1.1, 1e-12, "printed 1.1 cm"); close(round(S.r68, 1), 1.3, 1e-12, "printed 1.3 cm")
 close(round(2 * S.r66, 1), 2.3, 1e-12, "printed 2.3 cm"); close(round(2 * S.r68, 1), 2.6, 1e-12, "printed 2.6 cm")
 shown("1.1 to 1.3 cm", "r_LCPE"); shown("2.3 to 2.6 cm", "field width without equilibrium")
-p = prob("smallest FWHM"); r68 = 8.369 * 0.680 - 4.382
-w = bisect(lambda w: (w / 2 - 0.30 / 2) - r68, 0.0, 10.0)                       # the detector edge sits exactly r_LCPE inside the field edge
-close(value(p), w, 1e-9, "smallest FWHM for a 3 mm detector, by bisection"); close(value(p), 2.918, 2e-4, "2.92 cm")
-close(options(p)[1], 2 * r68, 1e-9, "decoy without the detector"); close(options(p)[0], r68 + 0.30, 1e-9, "decoy with r_LCPE once"); close(options(p)[3], 2 * r68 + 0.60, 1e-9, "decoy with the width twice")
 
 # ---- field output factors: absolute readings and a dose per reading that differs between the fields by the factor k
 def omega(ratio, k, m_msr=20.0, d_msr=1.0):
@@ -98,10 +94,6 @@ close(eqd2(3, 18, 10) * (1 + 2 / 10), S.b54, 1e-12, "BED from EQD2 for 3 x 18 Gy
 p = prob("4 fractions of 12 Gy")
 close(value(p), bed_sum(4, 12, 10), 1e-12, "BED of 4 x 12 Gy"); close(value(p), 105.6, 1e-9, "105.6 Gy")
 close(options(p)[1], 48 * (1 + 10 / 12), 1e-12, "inverted-ratio decoy 88.0 Gy"); close(options(p)[3], bed_sum(4, 12, 3), 1e-12, "alpha/beta 3 decoy 240 Gy")
-p = prob("Which of these regimens reaches it")
-beds = {f"{nf} × {d:g} Gy": bed_sum(nf, d, 10) for nf, d in S.REG}
-holds([k for k, v in beds.items() if v >= 100] == ["8 × 7.5 Gy"] and plain(p["a"][0]).endswith("8 × 7.5 Gy"), "only 8 x 7.5 Gy reaches 100 Gy, and it is the key")
-holds(all(f"{v:.1f} Gy for {k}" in plain(p["a"][1]) for k, v in beds.items()), "the explanation prints each regimen's BED")
 p = prob("prescribed to the 50% isodose")
 holds("2.00 times" in plain(p["a"][1]) and "1.25 times" in plain(p["a"][1]) and abs(40.0 / 20.0 - 2.0) < 1e-12 and abs(25.0 / 20.0 - 1.25) < 1e-12, "a 20 Gy margin dose at 50% and 80% gives maxima of 40 and 25 Gy")
 

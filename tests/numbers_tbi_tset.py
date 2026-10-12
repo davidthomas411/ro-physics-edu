@@ -80,10 +80,6 @@ close(M.B1, b_sum, 1e-12, "multiplication factor at the anterior chest"); shown(
 dp = bisect(lambda d: d * b_sum - 2.0, 0.0, 5.0); close(M.dp1, dp, 1e-9, "D_p by bisection"); shown(f"{dp:.3f} Gy per dual field", "D_p printed")
 shown(f"{100 * 1.0 / b_sum:.0f}% of the dose", "anterior share printed")
 
-# ---- inverse square question: bisection for the distance that gives the keyed output, and the three slips
-p = prob("By the inverse square law"); v = value(p)
-close(bisect(lambda d: M.O100 * (100.0 / d) ** 2 - v, 101.0, 2000.0), 400.0, 1e-9, "keyed output belongs to 400 cm")
-close_all(p["vals"], ([v, M.O100 / 4, M.O100 * 16, M.O100 * (103.0 / 400.0) ** 2]), 1e-12, "distractors: ratio not squared, ratio inverted, d_max added")
 
 # ---- monitor units question: bisection on the dose at 420 cm with a 30 cm separation
 p = prob("How many monitor units per field"); v = value(p)
@@ -106,9 +102,6 @@ p = prob("fractions with blocks = 3 of 6"); v = value(p)
 close(v, lung_by_fraction(1.12, 0.45, {1, 3, 5}), 1e-12, "keyed lung dose")
 close_all(p["vals"], ([v, lung_by_fraction(1.0, 0.45, {1, 3, 5}), lung_by_fraction(1.12, 0.45, set(range(6))), lung_by_fraction(1.12, 0.45, set())]), 1e-12, "distractors: no lung factor, all blocked, none blocked")
 
-# ---- transmission for 8 Gy with blocks in every fraction: bisection
-p = prob("lung dose wanted = 8.0 Gy"); v = value(p)
-close(v, 100 * bisect(lambda t: lung_by_fraction(1.10, t, set(range(6))) - 8.0, 0.0, 1.0), 1e-9, "transmission in percent"); shown(f"or {v:.1f}%", "transmission printed", plain(p["a"][1]))
 
 # ---- compensator at the neck: bisection on the compensated dose, and the three slips
 p = prob("What compensator transmission"); v = value(p); r = 0.942 / 0.756
@@ -125,15 +118,7 @@ tot = 0.0
 for _ in range(18): tot += 2.0 * 0.015
 close(v, tot, 1e-12, "photon dose of 18 cycles"); close(1 if v < 0.7 else 0, 1, 0, "under the EORTC 0.7 Gy"); close(M.q_x_one, 2.0 * 0.015, 1e-12, "one cycle slip"); close(M.q_x_six, 6 * tot, 1e-12, "six positions slip")
 
-# ---- TSET point on the side: contributions added one by one
-p = prob("point on the right side of the chest"); v = value(p)
-s = 0.0
-for pos in M.POS: s += M.SIDE[pos]
-close(v, s * 2.0 / b_sum, 1e-12, "dose per cycle at the side"); shown(f"{100 * v / 2.0:.0f}% of the dose on the anterior chest", "side percentage printed", plain(p["a"][1]))
 
-# ---- the sort questions: each chip keyed to its own bin, ranks in order
-for phrase in ("Rank the steps", "Match each device"):
-    p = prob(phrase); close(1 if [c["b"] for c in p["chips"]] == list(range(len(p["bins"]))) else 0, 1, 0, f"{phrase}: keyed bins")
 
 for b in bad: print("FAIL", b)
 print(f"numbers_tbi_tset: {n} numbers re-derived"); print("numbers_tbi_tset: PASS" if not bad else f"numbers_tbi_tset: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)

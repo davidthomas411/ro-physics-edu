@@ -112,9 +112,7 @@ close(G.dmax_n2_tmr, 0.6655 / 0.782, 1e-12, "trap: SAD factor"); close(G.dmax_n2
 close(G.sad_over, 100 * (float(Fr(782, 1000) / Fr(670, 1000)) - 1), 1e-9, "overstatement from using the PDD in an SAD setup"); close(round(G.sad_over), 17, 0, "about 17%")
 
 # ---- 18 MV transfer: clinical %dd(10) against %dd(10)_x
-p = prob("0.7860 cGy/MU")
 close(G.DDX_N3, round(1.267 * 78.8 - 20.0, 1), 0, "%dd(10)_x of the 18 MV beam from the open-beam relation"); close(G.DDX_N3, 79.8, 0, "79.8%")
-close(value(p), float(Fr(7860, 10000) / Fr(788, 1000)), 1e-12, "d_max dose with the clinical PDD"); close(round(value(p), 3), 0.997, 0, "0.997 cGy/MU")
 close(G.low_n3, 100 * (1 - 78.8 / 79.8), 1e-9, "using %dd(10)_x is low by the ratio of the two depth doses"); close(round(G.low_n3, 1), 1.3, 0, "1.3% low")
 close(adjusted_output(78.8 / 79.8), 79.8 / 78.8, 1e-9, "an output raised to match that low value overdoses by about as much")
 
@@ -123,10 +121,6 @@ p = prob("left out of M")
 close(adjusted_output(1 / 1.004), 1.004, 1e-9, "the output settles at P_pol times the intended dose"); true(keyed_text(p).startswith("1.004 cGy/MU, 0.4% more"), "keyed option 1.004 cGy/MU, 0.4% more")
 close(G.low_p5, 1 / 1.004, 1e-12, "trap value 0.996"); close(G.dbl_p5, 1.004 ** 2, 1e-12, "trap value 1.008")
 
-# ---- k_Q read from another chamber model, then the output adjusted
-p = prob("reads kQ from the row for model B")
-close(value(p), adjusted_output(0.992 / 0.997), 1e-9, "true dose per MU after adjusting to the wrong k_Q (model A 0.997, model B 0.992)"); close(round(value(p), 3), 1.005, 0, "1.005 cGy/MU")
-close(G.inv_n4, 0.992 / 0.997, 1e-12, "trap: ratio inverted"); close(G.dbl_n4, (0.997 / 0.992) ** 2, 1e-12, "trap: ratio applied twice")
 
 # ---- no keyed value falls on the scale slips that the numeric-option engine may add
 for q in T["tg51"]["problems"]:

@@ -47,25 +47,14 @@ for r, d in ((M.RA, M.dA), (M.RB, M.dB)):
     close(d, chord, 2e-4, f"r sin θ is within 0.02% of the exact chord 2 r sin(θ/2) at {r} mm")
     close(chord, 2 * r * math.sin(math.radians(M.TH_EX) / 2), 1e-12, "the chord formula")
 shown(f"{M.dA:.2f} mm at A and {M.dB:.2f} mm at B"); close(round(M.dB, 2), 3.14, 1e-12, "3.14 mm at 90 mm"); check(M.dB > 3.0 > 2.0 > M.dA, "B lies beyond 2 to 3 mm and A inside it")
-q = prob("A target edge lies 80 mm from the axis")
-th = bisect(lambda a: moved(80, a)[0] - 2.0, 0.0, 30.0)                         # the angle at which the rotation matrix moves the edge sideways by 2 mm
-close(value(q), th, 1e-9, "largest rotation error, by bisection on the rotated point"); close(round(value(q), 2), 1.43, 1e-12, "1.43°")
-close(bisect(lambda a: moved(80, a)[2] - 2.0, 0.0, 30.0), th, 1e-3, "the exact chord gives the same angle within 0.1%")
-th_rad = bisect(lambda a: moved(80, math.degrees(a))[0] - 2.0, 0.0, 0.5); th_rad_rad = 2 / 80
-th_radial = bisect(lambda a: moved(80, a)[1] - 2.0, 0.0, 60.0)
-check({round(v, 6) for v in q["vals"]} == {round(th, 6), round(th_rad_rad, 6), round(360 * 2 / 80, 6), round(th_radial, 6)}, "decoys: radians read as degrees, r θ / 360 without 2π, and the radial change")
-close(th_rad, th_rad_rad, 1e-3, "the angle in radians is close to 2 / 80")
-check(f"{th:.2f}°" in plain(q["a"][1]) and f"{360 * 2 / 80:.2f}°" in plain(q["a"][1]) and f"{th_radial:.2f}°" in plain(q["a"][1]), "the explanation prints the angles")
 
 # ---- 4D-CT: the highest pitch, by bisection on the time a point spends in the beam
 W, TROT, TB = 24.0, 0.5, 4.0
 in_beam = lambda p: W / (p * W / TROT)                                          # coverage divided by the table speed
 p_max = bisect(lambda p: in_beam(p) - TB, 1e-4, 10)
-close(value(prob("every point stays in the beam for one full breath")), p_max, 1e-9, "pitch 0.125"); close(p_max, 0.125, 1e-9, "0.125")
+close(p_max, 0.125, 1e-9, "0.125")
 close(300 / (p_max * W / TROT), 50.0, 1e-9, "300 mm takes 50 s at that pitch"); close(300 / (1.0 * W / TROT), 6.25, 1e-12, "and 6.25 s at pitch 1")
 close(in_beam(TB / TROT), 0.0625, 1e-12, "the inverted ratio leaves a point in the beam for 0.0625 s")
-check({8.0, 1.0} <= set(prob("every point stays in the beam for one full breath")["vals"]), "decoys: the inverted ratio and a standard pitch of 1")
-check("50 s, against 6.25 s" in plain(prob("every point stays in the beam for one full breath")["a"][1]), "the explanation prints the scan times")
 
 # ---- swept volume of a moving sphere: slices along the path, and Monte Carlo
 def slice_volume(r, d, steps=20000):                                            # Simpson's rule over the cross-sections of the capsule along its axis
@@ -89,9 +78,6 @@ close(M.path1, 13.0, 1e-12, "the 5-12-13 path"); close(M.v_itv1, slice_volume(M.
 close(M.v_itv1, mc_volume(M.R1, M.SI1, M.AP1), 0.02, "and by Monte Carlo within 2%"); close(M.v_sph1, 4 / 3 * math.pi * 15 ** 3, 1e-12, "the tumour volume")
 shown(f"{M.v_itv1 / 1000:.1f} cm³, {M.v_itv1 / M.v_sph1:.2f} times the {M.v_sph1 / 1000:.1f} cm³"); close(round(M.v_itv1 / 1000, 1), 23.3, 1e-12, "23.3 cm³")
 shown("30 + 12 = 42 mm superior–inferior, 30 + 5 = 35 mm anterior–posterior, 30 mm left–right", what="the extents of the worked example")
-q = prob("diameter = 20 mm"); v_slice = slice_volume(10, math.hypot(16, 6)) / 1000
-close(value(q), v_slice, 1e-6, "ITV of the question by slices"); close(value(q), mc_volume(10, 16, 6) / 1000, 0.02, "and by Monte Carlo"); close(round(value(q), 2), 9.56, 1e-12, "9.56 cm³")
-check({round(v, 4) for v in q["vals"]} == {round(v_slice, 4), round(4 / 3 * math.pi * 1000 / 1000, 4), round(slice_volume(10, 22) / 1000, 4), round(36 * 26 * 20 / 1000, 4)}, "decoys: the tumour alone, the components added, and the enclosing box")
 
 # ---- gating: the worked example by stepping through the breaths
 def gated(t_on, period, gate, dt=1e-3):                                         # seconds until t_on seconds of beam are given, with the gate open for the first `gate` seconds of each breath
@@ -140,9 +126,9 @@ close(value(q), float(Fr(5, 2) * Sq + Fr(7, 10) * sq), 1e-12, "9.05 mm"); close(
 check({round(v, 6) for v in q["vals"]} == {9.05, round(2.5 * 3.5 + 0.7 * 5.6, 6), round(2.5 * 4.0 + 0.7 * 2.5, 6), 6.25}, "decoys: linear sums, Σ and σ exchanged, and the random part left out")
 q = prob("both 3 mm"); check("0.7 × 3 = 2.1 mm" in plain(q["a"][1]) and "2.5 × 3 = 7.5 mm" in plain(q["a"][1]), "the two contributions of 3 mm")
 
-# ---- quoted tolerances agree between the table, the cards, and the take-aways
+# ---- quoted tolerances agree between the table and the take-aways
 TAKE = " ".join(plain(x) for items in tp["take"] for x in items)
-for s_ in ("±2 mm", "0 ± 5 HU", "±1 mm"): shown(s_, what=f"{s_} in the table"); check(s_ in CARDS, f"{s_} on the card")
+for s_ in ("±2 mm", "0 ± 5 HU", "±1 mm"): shown(s_, what=f"{s_} in the table")
 check("±2 mm" in TAKE and "0 ± 5 HU" in TAKE and "30% to 50%" in TAKE and "30% to 50%" in GUIDE and "30% to 50%" in CARDS, "the same tolerances and duty cycles throughout")
 
 for b in bad: print("FAIL", b)

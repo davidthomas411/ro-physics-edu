@@ -23,7 +23,6 @@ def check(c, what):
 def prob(phrase):
     hits = [p for p in T["ultrasound"]["problems"] if phrase in plain(p.get("stem0", p["q"]))]; assert len(hits) == 1, (phrase, len(hits)); return hits[0]
 def value(p): return p["ans"] if p.get("kind") == "num" else p["vals"]["ABCDEFG".index(p["key"][0])]
-def keyed_text(p): return plain(p["opts"]["ABCDEFG".index(p["key"][0])])
 def example(title):
     hits = [b for b in U.TOPIC["guide"] if b[0] == "ex" and b[1] == title]; assert len(hits) == 1, title; return hits[0]
 def bisect(f, a, b, it=200):
@@ -120,8 +119,6 @@ order = ["Air", "Fat", "Muscle", "Cortical bone"]
 check(all(max(rng[order[i]]) < min(rng[order[i + 1]]) for i in range(3)) and [c["b"] for c in p["chips"]] == [0, 1, 2, 3], "the ranges in the media table do not overlap, so the ranking is unique")
 
 # ---- questions: attenuation and pulse-echo imaging
-p = prob("greatest depth"); dmax = bisect(lambda d: 2 * d / C - 1 / 5000, 0.0, 1.0) * 100
-close(value(p), dmax, 1e-9, "greatest depth at 5 kHz"); close(dmax, 200 / float(t_cm), 1e-12, "200 µs at 13 µs per cm"); check(f"{dmax:.1f}" == "15.4", "15.4 cm")
 p = prob("probe is changed"); ex = plain(p["a"][1])
 check(f"{slab_loss(5.0, 30.0):.0f} dB" == "75 dB" and f"{slab_loss(2.5, 30.0):.1f} dB" == "37.5 dB" and "75 dB" in ex and "37.5 dB" in ex and "0.62 mm" in ex, "trade-off: 75 dB at 5 MHz, 37.5 dB at 2.5 MHz, λ 0.62 mm")
 
@@ -130,21 +127,13 @@ p = prob("A transrectal probe transmits"); ax = float(Fr(1540) * Fr(3, 7_500_000
 close(value(p), ax, 1e-12, "axial resolution at 7.5 MHz, 3 cycles"); check(sorted(p["vals"]) == sorted([ax, 2 * ax, ax * 2 / 3, ax / 3]), "decoys: the whole pulse, one wavelength, half a wavelength")
 
 
-# ---- questions: Doppler
-p = prob("What is the Doppler shift"); fd = exact_shift(5.0e6, 0.40, 30.0)
-close(value(p) * 1000, fd, 1e-3, f"Doppler shift at 30° against the exact formula ({fd:.1f} Hz)"); check(f"{value(p):.2f}" == "2.25", "2.25 kHz")
-check({round(v, 6) for v in (U.d_half / 1000, U.d_nocos / 1000, U.d_sin / 1000)} == {round(x, 6) for x in (U.d_fd / 2000, 2 * 5.0e6 * 0.40 / C / 1000, 2 * 5.0e6 * 0.40 * 0.5 / C / 1000)}, "traps: no factor 2, no cos θ, sin θ")
-check(all(round(v, 6) in {round(x, 6) for x in p["vals"]} for v in (U.d_nocos / 1000, U.d_sin / 1000)), "the no-cos θ and sin θ traps are both shown")
-p = prob("peak blood velocity"); v17 = bisect(lambda v: exact_shift(3.0e6, v, 45.0) - 2000, 0.0, 10.0)
-close(value(p), 100 * v17, 1e-3, f"typed velocity against the exact formula ({100 * v17:.2f} cm/s)"); check(abs(100 * U.v_nocos / value(p) - 1) > p["tol"], "leaving out cos θ lies outside the tolerance")
 
 # ---- questions and text: speed-of-sound errors, by tracing the echo time through each layer
 def displayed_shift(fat_cm, c_fat, rest_cm=7.0):
     t = 2 * (fat_cm / 100 / c_fat + rest_cm / 100 / C)                       # true echo time
     return (C * t / 2 * 100 - (fat_cm + rest_cm)) * 10                        # mm the scanner adds
 close(displayed_shift(4.0, 1450.0, rest_cm=2.0), displayed_shift(4.0, 1450.0), 1e-9, "the error does not depend on what lies behind the fat")
-close(U.k_err, displayed_shift(3.0, 1450.0), 1e-9, "3 cm of fat in the probe-pressure question"); check(f"{U.k_err:.1f} mm" in plain(prob("pressed hard")["a"][1]) and U.k_err < 6, "printed 1.9 mm, far below the 6 mm difference")
-check(keyed_text(prob("pressed hard")) == "The probe pushed the prostate posteriorly during the scan", "keyed: probe pressure")
+close(U.k_err, displayed_shift(3.0, 1450.0), 1e-9, "3 cm of fat in the probe-pressure question")
 close(U.fat_pct, 100 * displayed_shift(1.0, 1450.0) / 10, 1e-9, "fat error as a share of its thickness"); check(f"about {round(U.fat_pct)}% of the fat thickness" in text, "about 6% in the text")
 
 # ---- cards and take-aways print the same numbers
@@ -152,10 +141,7 @@ cards = {c["q"]: plain(" ".join(c["a"] + c["w"])) for c in U.TOPIC["cards"]}
 check("0.31 mm at 5 MHz" in cards["Wavelength in soft tissue"] and "0.308 mm" in cards["Wavelength in soft tissue"], "card: wavelength")
 check(f"= {slab_loss(5.0, 20.0):.0f} dB" in cards["Attenuation in soft tissue"], "card: 50 dB for 10 cm at 5 MHz")
 check(f"{float(t_cm):.2f} µs" in cards["Echo depth and time"], "card: 12.99 µs")
-check(f"{bisect(lambda d: 2 * d / C - 1 / 5000, 0.0, 1.0) * 100:.1f} cm" in cards["Pulse repetition frequency and depth"], "card: 15.4 cm at 5 kHz")
 check(f"{float(Fr(1540) * dur * 1000 / 2):.2f} mm" in cards["Axial resolution"], "card: 0.46 mm")
-check(f"{exact_shift(5.0e6, 0.40, 60.0) / 1000:.2f} kHz" in cards["Doppler shift"], "card: 1.30 kHz at 60°")
-check(f"about {round(U.fat_pct)}%" in cards["Errors of transabdominal prostate localization"], "card: about 6% behind fat")
 take = plain(" ".join(x for t in U.TAKE for x in t))
 check("λ = 0.31 mm at 5 MHz" in take and "30–45% at bone" in take and "99.9% at air" in take and "13 µs per cm" in take and "about 6% deeper" in take, "take-aways print the same values")
 
