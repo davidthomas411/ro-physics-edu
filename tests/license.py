@@ -101,7 +101,7 @@ ok(rc == 0 and page.exists(), "a release build with a complete configuration fai
 if rc == 0:
     h = page.read_text(encoding="utf-8"); ok(re.search(r'"commit": "[0-9a-f]{7,40}"', h) and re.search(r'"built": "\d{4}-\d{2}-\d{2}"', h), "the release page lacks the build date or the commit")
     ok('<meta name="robots" content="noindex">' in h, "allow_indexing false must add the noindex meta tag")
-rc, out, _ = R.build(dict(third_party_confirmed=dict(openkbp=False, icbm152=True, linac_art=True)), release=True)
+rc, out, _ = R.build(dict(third_party_confirmed=dict(openkbp=False, icbm152=True, linac_art=True, photos=True)), release=True)
 ok(rc != 0 and "openkbp" in out, "a release build must stop while third_party_confirmed has a false entry (and name it)")
 rc, out, _ = R.build(release=True, confirmed_notices=False)
 ok(rc != 0 and "not verified" in out, "a confirmation with its notice row still reading 'Not yet verified' must stop the release build")

@@ -11,6 +11,7 @@ CONTENT_LICENSES = {"CC BY 4.0": dict(spdx="CC-BY-4.0", zenodo="cc-by-4.0", file
                     "CC BY-NC 4.0": dict(spdx="CC-BY-NC-4.0", zenodo="cc-by-nc-4.0", file="LICENSE-CONTENT.md")}
 CONFIRM_TEXT = {"openkbp": "read the OpenKBP terms and confirm that this use is allowed",
                 "icbm152": "read the ICBM152 terms and confirm that this use is allowed",
+                "photos": "confirm that each photograph in src/photos/manifest.json has the licence, creator, and source that it states",
                 "linac_art": "confirm who made the linac illustration in assets/linac and under what terms"}
 ORCID = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$")
 ISO = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -198,7 +199,7 @@ def privacy_blocks(cfg, backend):
     if cfg.get("survey_url"): study.append(["p", "Resident survey: " + link(cfg["survey_url"], cfg["survey_url"]) + "."])
     return b + study
 
-def build_about(cfg, build, counts, real_sources):
+def build_about(cfg, build, counts, real_sources, photos=()):
     repo = (cfg.get("repository_url") or "").rstrip("/"); pages = cfg.get("pages_url") or ""
     cites = citations(cfg, build["version"], (build["released"] or "")[:4])
     S = []
@@ -227,6 +228,9 @@ def build_about(cfg, build, counts, real_sources):
         if r["status"].startswith("Not part of the site"): continue                      # a source that was only used privately is listed in the notices file, not on the page
         if r["what"].startswith("TCIA collection"):
             if not grouped: rows.append(["Collections of The Cancer Imaging Archive", "Clinical images in the figures marked as real. The collections are listed under Images", "CC BY 3.0 or CC BY 4.0, by collection"]); grouped = True
+            continue
+        if r["confirm"] == "photos":                                                      # one row for all photographs: the count, then each creator and licence
+            if photos: rows.append([link(r["url"], f"Photographs ({len(photos)})"), "Photographs of equipment in the chapters", "<br>".join(f"{esc(e['creator'])}, {esc(e['licence'])}" for e in photos)])
             continue
         rows.append([(link(r["url"], r["source"]) if r["url"].startswith("http") else esc(r["source"])), esc(r["what"]), esc(r["terms"])])
     lic.append(["table", ["Source", "Use", "Terms"], rows])

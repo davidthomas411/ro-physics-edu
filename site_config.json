@@ -20,6 +20,6 @@
   "data_access": "",
   "data_retention": "",
   "allow_indexing": false,
-  "third_party_confirmed": {"openkbp": false, "icbm152": false, "linac_art": false},
+  "third_party_confirmed": {"openkbp": false, "icbm152": false, "linac_art": false, "photos": false},
   "doi": ""
 }

@@ -76,6 +76,7 @@ Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change t
 - `src/calc.py`: the formulas behind the worked examples. Topic files import them, so no example number is typed by hand.
 - `src/blocks.py`: guide block constructors and the renderer.
 - `src/style.css`, `src/app.js`: the page. `build.py` inlines both.
+- `src/photos/manifest.json`, `src/photolib.py`: real equipment photographs (public domain, CC0, or CC BY only) with their credits; a chapter places one with `PHOTO(id)`.
 - `src/real_*.json`, `src/real.py`: real clinical images from open TCIA collections, with their attribution. `tools/tcia.py` and `tools/make_real_*.py` rebuild them (see RESTORE.md).
 - `docs/`: the audit of the questions against the ROECSG physics study guide (coverage, level, gaps, and the list of questions still to write). The guide is used to find gaps only; every question is written in its own words.
 - `docs/facts-to-verify.md`: the statements in the later chapters that were not confirmed against the primary document, for a physics reviewer to settle.

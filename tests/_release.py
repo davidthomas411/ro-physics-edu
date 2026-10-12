@@ -14,7 +14,7 @@ FULL = dict(
     study_notice="This site is part of an education research study that records anonymous usage data.", survey_url="https://example.org/survey",
     analytics_mode="anonymous", analytics_backend="endpoint", analytics_site_code="", analytics_endpoint_url="http://127.0.0.1:8099/collect",
     data_access="Two named members of the study team", data_retention="Until the study closes", allow_indexing=False,
-    third_party_confirmed=dict(openkbp=True, icbm152=True, linac_art=True), doi="10.5281/zenodo.1234567")
+    third_party_confirmed=dict(openkbp=True, icbm152=True, linac_art=True, photos=True), doi="10.5281/zenodo.1234567")
 
 def notices_text(confirmed=True):
     t = (ROOT / "THIRD_PARTY_NOTICES.md").read_text(encoding="utf-8")

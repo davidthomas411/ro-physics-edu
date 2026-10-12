@@ -32,7 +32,7 @@ jobs:
       - name: Static tests
         run: |
           pip install numpy pillow pandas
-          for t in license mlcfigs style structure takeaway problems abrstyle tapquality mudata casedata noslider realdata; do
+          for t in license mlcfigs style structure takeaway problems abrstyle tapquality mudata casedata noslider realdata photos; do
             echo "== $t"; python tests/$t.py || exit 1
           done
           for f in tests/numbers*.py; do

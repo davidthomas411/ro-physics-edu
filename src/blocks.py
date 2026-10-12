@@ -7,6 +7,7 @@ def OL(*items): return ("ol", list(items))
 def EQ(*lines): return ("eq", list(lines))
 def FIG(fid, cap): return ("fig", fid, cap)
 def AVF(fid): return ("avf", fid)                          # an interactive figure placed in the text; its caption is drawn by the figure itself
+def PHOTO(pid): return ("photo", pid)                       # a real photograph from src/photos/manifest.json, with its caption and credit
 def TABLE(head, rows): return ("table", list(head), [list(r) for r in rows])
 def EX(title, problem, steps, answer): return ("ex", title, problem, list(steps), answer)
 def KEY(*items): return ("key", list(items))
@@ -23,6 +24,7 @@ def fr(n, d):
     return f'<span class="fr"><span>{n}</span><span>{d}</span></span>'
 
 import hashlib, json, re, html as _html
+import photolib
 LETTERS = "ABCDEFG"
 
 def F(title, fact, w=None, fig=None):
@@ -201,6 +203,7 @@ def render(blocks, figs, tid=None, ncards=0, problems=(), inline=None, num="", t
         elif k == "eq": out.append('<div class="eq">' + "<br>".join(b[1]) + "</div>")
         elif k == "avf":
             out.append(f'<figure class="av" data-av="{b[1]}"></figure>')
+        elif k == "photo": out.append(photolib.figure_html(b[1]))
         elif k == "fig":
             assert b[1] in figs, b[1]
             out.append(f'<figure class="figure"><div class="fig">{figs[b[1]]}</div><div class="cap">{b[2]}</div></figure>')

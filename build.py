@@ -19,7 +19,7 @@ if RELEASE:
             print(f"  {h}:")
             for x in items: print("   -", x)
         sys.exit(1)
-import figs, blocks, blueprint
+import figs, blocks, blueprint, photolib
 from topics import TOPICS
 try:
     from facts import TITLES as FACTS, HEADS
@@ -54,7 +54,8 @@ import re as _re
 for _t in topics: _t["words"] = len(_re.sub(r"<[^>]+>", " ", _t["html"]).split())      # the length of each chapter page, which weights the reading progress
 import beamdata, nistdata, real as _real
 BUILD = siteinfo.build_info(RELEASE)
-ABOUT = siteinfo.build_about(CFG, BUILD, siteinfo.counts_from(topics, cards), _real.SOURCES)
+_used = {b[1] for t in TOPICS for b in t["guide"] if b[0] == "photo"}                    # only the photos that a chapter uses are embedded
+ABOUT = siteinfo.build_about(CFG, BUILD, siteinfo.counts_from(topics, cards), _real.SOURCES, [e for e in photolib.load() if e["id"] in _used])
 ANALYTICS = siteinfo.analytics_config(CFG, RELEASE)
 import syllabus
 plan = [dict(sub=s, ford=f, title=t) for s, f, t in syllabus.PLAN]
