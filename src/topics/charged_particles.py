@@ -165,7 +165,7 @@ TOPIC = dict(
           w=[f"Lead: 800 / {Z_LEAD} = {ec_pb:.1f} MeV"]),
         F("Radiation yield", f"The fraction of an electron's initial kinetic energy emitted as bremsstrahlung while it slows to rest. Lower than the radiative share at the start: about {100 * y_w10:.0f}% for 10 MeV in water."),
         F("Shielding a β emitter", "Low-Z material such as acrylic first, to stop the β particles with little bremsstrahlung; lead outside it if the photons need attenuating."),
-        F("Restricted stopping power, L<sub>Δ</sub>", "The collision loss minus the kinetic energy carried off by delta rays above a cutoff Δ; also called LET<sub>Δ</sub>. L<sub>∞</sub> = S<sub>col</sub>."),
+        F("Restricted collision stopping power, L<sub>Δ</sub>", "The part of the collision loss from energy transfers below a cutoff Δ, leaving out delta rays above Δ; also called LET<sub>Δ</sub>. L<sub>∞</sub> = S<sub>col</sub>."),
         F("LET values", "1 keV/µm = 10 MeV/cm. Therapy electrons: about 0.2 keV/µm. α particles of a few MeV: about 100 keV/µm."),
         F("CSDA range", "The mean path length if energy is lost continuously at the rate of the total stopping power: R = ∫ dT/(S/ρ), in g/cm². Divide by ρ for cm.",
           w=[f"10 MeV in water: 5/{SA:.2f} + 4/{SB:.2f} + {R1:.2f} = {r_csda:.2f} g/cm²"]),
@@ -237,14 +237,14 @@ PROBLEMS = [
        "Acrylic thick enough to stop the β particles, with lead outside it if needed",
        ["Lead alone, thick enough to stop the β particles", "Lead next to the vial, with acrylic outside it", "Tungsten alone, since its density stops the β particles in less thickness"],
        f"Bremsstrahlung rises with Z: by the rule S<sub>rad</sub>/S<sub>col</sub> ≈ Z T / 800, an electron slowing in lead (Z = {Z_LEAD}) radiates about {pb_acryl:.0f} times as much per unit of collision loss as in acrylic (effective Z about {Z_ACRYL}). Acrylic stops the β particles with little bremsstrahlung, and lead outside attenuates the photons that remain. Lead or tungsten next to the source turns more of the β energy into penetrating photons.", lvl="Challenging"),
-    PR(STEM("For a 10 MeV electron in water, the restricted stopping power with Δ = 10 keV is compared with the collision stopping power.", [], "Why is [[L<sub>10 keV</sub>]] the smaller of the two?"),
+    PR(STEM("For a 10 MeV electron in water, the restricted collision stopping power with Δ = 10 keV is compared with the collision stopping power.", [], "Why is [[L<sub>10 keV</sub>]] the smaller of the two?"),
        "It leaves out the kinetic energy carried off by delta rays of more than 10 keV",
        ["It leaves out the energy lost in soft collisions", "It counts ionization and leaves out excitation", "It is divided by the density of water"],
        f"L<sub>Δ</sub> counts the collision loss except the energy that delta rays above Δ carry away from the track, about {100 * fr10:.0f}% of S<sub>col</sub> at 10 MeV in water. Soft collisions, excitation included, are counted in full, and both quantities are losses per unit path.", lvl="Moderate"),
     PRN(STEM("A 1 MeV electron slows down in water.", [f"S<sub>col</sub>/ρ = {SCOL1:.2f} MeV cm²/g", "ρ = 1.00 g/cm³"], "What is its [[unrestricted LET]] in keV/µm?"),
         q_let1, [SCOL1, 10 * SCOL1, SCOL1 / 100], lambda v: f"{v:.3g} keV/µm",
         f"L<sub>∞</sub> = S<sub>col</sub> = {SCOL1:.2f} MeV/cm, and 1 MeV/cm = 1000 keV / 10,000 µm = 0.1 keV/µm, so the LET is {q_let1:.3f} keV/µm. Reading MeV/cm as keV/µm gives a value 10 times too high.", lvl="Easy"),
-    PRM(STEM("The restricted stopping power L<sub>Δ</sub> of an electron is compared with its total stopping power.", [], "Which of these are [[left out of L<sub>Δ</sub>]] but included in the total stopping power?"),
+    PRM(STEM("The restricted collision stopping power L<sub>Δ</sub> of an electron is compared with its total stopping power.", [], "Which of these are [[left out of L<sub>Δ</sub>]] but included in the total stopping power?"),
         ["Energy radiated as bremsstrahlung", "Kinetic energy carried off by delta rays of more than Δ"],
         ["Energy lost in soft collisions", "Energy given to delta rays of less than Δ"],
         "L<sub>Δ</sub> keeps the collision loss that stays near the track: soft collisions and hard collisions that release less than Δ. The total stopping power also counts the bremsstrahlung and the energy of the delta rays above Δ, both of which leave the track.", lvl="Easy"),
@@ -271,9 +271,9 @@ PROBLEMS = [
        ["4 MeV for the electron and 2 MeV for the positron", "2 MeV for each", "4 MeV for each"],
        "After an electron–electron collision the two electrons cannot be told apart, so the faster is called the primary and the most it can lose is half its kinetic energy. A positron can be told apart from the electron it strikes and can give it all of its kinetic energy.", lvl="Moderate"),
     SORT(STEM("Several quantities describe how charged particles lose energy.", [], "Which [[definition]] belongs to each quantity?"),
-         ["Mass collision stopping power", "Radiation yield", "Restricted stopping power L<sub>Δ</sub>", "CSDA range", "Critical energy"],
+         ["Mass collision stopping power", "Radiation yield", "Restricted collision stopping power L<sub>Δ</sub>", "CSDA range", "Critical energy"],
          [("Energy lost to atomic electrons per unit mass thickness", 0), ("Fraction of an electron's initial kinetic energy emitted as bremsstrahlung", 1),
-          ("Collision loss minus the energy of delta rays above a cutoff", 2), ("Mean path length when energy is lost continuously", 3), ("Energy at which collision and radiative losses are equal", 4)],
+          ("Part of the collision loss from energy transfers below a cutoff", 2), ("Mean path length when energy is lost continuously", 3), ("Energy at which collision and radiative losses are equal", 4)],
          "The collision stopping power is a rate of loss to atomic electrons, and the restricted one keeps only what stays near the track. The radiation yield and the CSDA range follow the electron over its whole slowing-down, and the critical energy compares the two kinds of loss at one energy.", lvl="Easy", mode="match", cap=1),
     SORT(STEM("Four particles travel through water.", [], "How do they rank by [[unrestricted LET]], from lowest to highest?"), ["1st (lowest)", "2nd", "3rd", "4th (highest)"],
          [(name, i) for i, (name, _, _) in enumerate(RANK)],
@@ -287,7 +287,7 @@ PROBLEMS = [
 
 INLINE = {0: [1, 2, 3], 1: [5, 7, 20], 2: [8, 9, 10], 3: [11, 12, 13]}       # questions on the last section, and the rest, form the practice set
 
-TERMS = ["soft collision", "hard collision", "delta ray", "mass stopping power", "critical energy", "radiation yield", "restricted stopping power", "CSDA range"]
+TERMS = ["soft collision", "hard collision", "delta ray", "mass stopping power", "critical energy", "radiation yield", "restricted collision stopping power", "CSDA range"]
 
 TAKE = [
     ["Soft collisions excite or ionize distant atoms; hard collisions release delta rays. Each kind carries roughly half the collision loss.",

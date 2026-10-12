@@ -101,7 +101,7 @@ wr_th, wr_01, wr_1, wr_100, wr_200 = wr_n(E_TH * 1e-6), wr_n(0.1), wr_n(1.0), wr
 q_100 = q_l(100)
 
 ROWS_CLASS = [
-    ["Thermal", f"Below about 0.5 eV; 0.025 eV (about {round(v_th, -2):,.0f} m/s) at 20 °C", "Capture: <sup>1</sup>H(n,γ) and <sup>14</sup>N(n,p)"],
+    ["Thermal", f"Below about 0.5 eV; 0.025 eV (about {round(v_th, -2):,.0f} m/s) at 20 °C", "Scattering with no net energy loss, then capture by <sup>1</sup>H(n,γ) or <sup>14</sup>N(n,p)"],
     ["Epithermal", "About 0.5 eV to 10 keV", "Elastic scattering on hydrogen, which slows them to thermal energies"],
     ["Fast", "Above about 10 keV", "Elastic scattering, mostly on hydrogen; above a few MeV also inelastic scattering and (n,α)"]]
 ROWS_CAPTURE = [
@@ -119,7 +119,7 @@ TOPIC = dict(
         H("Energy classes and cross sections"),
         P("A neutron carries no charge, so it passes atomic electrons without ionizing and interacts only with nuclei, through the short-range nuclear force. A fast neutron travels a few centimetres in tissue between collisions. Like a photon it is indirectly ionizing, but its charged secondaries are recoil nuclei, mostly protons, and reaction products, all densely ionizing."),
         TABLE(["Class", "Energy (boundaries vary between sources)", "Main interactions in tissue"], ROWS_CLASS),
-        P("The cross section σ, in barns (1 b = 10<sup>−24</sup> cm²), is the effective target area of one nucleus. The macroscopic cross section Σ = Nσ, with N the nuclei per cm³, plays the part of μ: uncollided neutrons fall as e<sup>−Σx</sup>, and 1/Σ is the mean free path. At low energies, away from resonances, capture cross sections vary as 1/v, so slow neutrons are captured far more readily."),
+        P("The cross section σ, in barns (1 b = 10<sup>−24</sup> cm²), is the effective target area of one nucleus. The macroscopic cross section Σ = Nσ, with N the nuclei per cm³, corresponds to μ for photons: uncollided neutrons fall as e<sup>−Σx</sup>, and 1/Σ is the mean free path. At low energies, away from resonances, capture cross sections vary as 1/v, so slow neutrons are captured far more readily."),
         EQ("Σ = N σ,   N = ρ N<sub>A</sub> / M   (nuclei per cm³)", "Φ(x) = Φ<sub>0</sub> e<sup>−Σx</sup>,   mean free path = 1/Σ", "σ(E) = σ<sub>0</sub> √(0.025 eV / E)   (1/v region)"),
 
         H("Elastic scattering and moderation"),
@@ -177,7 +177,7 @@ TOPIC = dict(
         F("Capture cross section and speed", "At low energies, away from resonances, σ varies as 1/v, that is as E<sup>−1/2</sup>: slow neutrons are captured far more readily than fast ones."),
         F("Largest energy transfer in elastic scattering", f"4A/(1 + A)² of the neutron energy, in a head-on collision: all of it to hydrogen, {100 * f_c:.0f}% to carbon, {100 * f_o:.0f}% to oxygen, {100 * f_pb:.0f}% to lead.",
           w=[f"Carbon: 48/169 = {f_c:.3f}", f"Oxygen: 64/289 = {f_o:.3f}", f"Lead: 832/209² = {f_pb:.4f}"]),
-        F("Mean energy loss per elastic collision", f"(1 − α)/2, with α = [(A − 1)/(A + 1)]²: half the energy for hydrogen, {100 * ml_c:.0f}% for carbon, {100 * ml_o:.0f}% for oxygen."),
+        F("Mean energy loss per elastic collision", f"(1 − α)/2, with α = [(A − 1)/(A + 1)]², for scattering isotropic in the centre-of-mass frame: half the energy for hydrogen, {100 * ml_c:.0f}% for carbon, {100 * ml_o:.0f}% for oxygen."),
         F("Collisions to thermal energy", f"n = ln(E<sub>0</sub>/E)/ξ. From 2 MeV to 0.025 eV: about {n_h:.0f} in hydrogen, {n_w:.0f} in water, {n_c:.0f} in carbon.",
           w=[f"ln(8.0 × 10<sup>7</sup>) = {L2:.2f}", f"ξ: hydrogen 1, water 0.92, carbon {xi_c:.3f}"]),
         F("Inelastic neutron scattering", f"(n,n′): the nucleus is left excited and emits a γ ray. It needs a little more than the excitation energy: about {thr_w:.1f} MeV in tungsten, {thr_c:.1f} MeV in carbon."),

@@ -136,7 +136,7 @@ f_lo, f_hi, f_depth = 2.5, 5.0, 15.0                                         # p
 f_loss_hi, f_loss_lo, f_lam_lo = loss_db(f_hi, 2 * f_depth), loss_db(f_lo, 2 * f_depth), wavelength_mm(f_lo)
 a_f, a_n = 7.5, 3
 a_lam = wavelength_mm(a_f); a_spl = a_n * a_lam; a_ax = axial_mm(a_f, a_n)
-d_f, d_v, d_th = 5.0, 0.40, 60.0
+d_f, d_v, d_th = 5.0, 0.40, 30.0
 d_fd = doppler_hz(d_f, d_v, d_th); d_half = d_fd / 2; d_nocos = 2 * d_f * 1e6 * d_v / C0; d_sin = 2 * d_f * 1e6 * d_v * math.sin(math.radians(d_th)) / C0
 v_f, v_fd, v_th = 3.0, 2000.0, 45.0
 v_v = doppler_v(v_fd, v_f, v_th); v_nocos = v_fd * C0 / (2 * v_f * 1e6)
@@ -150,14 +150,14 @@ TOPIC = dict(
     ref=dict(aapm="TG-154", khan="", ford="20"),
     guide=[
         H("Sound waves and interfaces"),
-        P(f"Ultrasound is sound above 20 kHz; imaging uses about 2 to 15 MHz. The longitudinal pressure wave travels at a speed c set by the stiffness and density of the medium, not by the frequency. Scanners assume 1540 m/s, the soft-tissue average, so the wavelength λ = c/f is {lam5:.2f} mm at 5 MHz."),
+        P(f"Ultrasound is a longitudinal pressure wave above 20 kHz; imaging uses about 2 to 15 MHz. Its speed c is set by the stiffness and density of the medium, not by the frequency. Scanners assume 1540 m/s, the soft-tissue average, so the wavelength λ = c/f is {lam5:.2f} mm at 5 MHz."),
         EQ("c = f λ,   period = 1/f",
            "Z = ρ c,   1 MRayl = 10<sup>6</sup> kg m<sup>−2</sup> s<sup>−1</sup>",
            "R = [(Z<sub>2</sub> − Z<sub>1</sub>) / (Z<sub>2</sub> + Z<sub>1</sub>)]<sup>2</sup>,   transmitted fraction = 1 − R   (intensity, normal incidence)",
            "sin θ<sub>t</sub> / sin θ<sub>i</sub> = c<sub>2</sub> / c<sub>1</sub>   (refraction)"),
-        P(f"Where the acoustic impedance Z = ρc changes, part of the intensity is reflected. Between soft tissues the echo carries about {SOFT_MAX}% or less, so most of the sound goes deeper; soft tissue reflects about {bone_lo5} to {bone_hi5}% against bone and {100 * r_air:.1f}% against air. Coupling gel therefore replaces the air between probe and skin, and bone and gas hide what lies behind them."),
+        P(f"Where the acoustic impedance Z = ρc changes, part of the intensity is reflected: about {SOFT_MAX}% or less between soft tissues, so most of the sound goes deeper, about {bone_lo5} to {bone_hi5}% at bone, and {100 * r_air:.1f}% at air. Coupling gel therefore replaces the air between probe and skin, and bone and gas hide what lies behind them."),
         TABLE(["Medium", "Speed of sound (m/s)", "Impedance (MRayl)"], MEDIA),
-        P("A smooth interface reflects like a mirror and returns a strong echo only when the beam meets it nearly perpendicularly. At oblique incidence the transmitted beam bends where the speed changes (refraction). Structures smaller than the wavelength scatter weak echoes in all directions, which form the texture of organs."),
+        P("A smooth interface reflects like a mirror, so its echo returns to the probe only when the beam meets it nearly perpendicularly; at other angles the transmitted beam also bends where the speed changes (refraction). Structures smaller than the wavelength scatter weak echoes in all directions, forming the texture of organs."),
         EX("Echo from a fat–muscle interface", STEM("A pulse crosses from fat into muscle at normal incidence (illustrative values).",
            [f"fat: ρ = {x1_rf:.0f} kg/m³,   c = {x1_cf:.0f} m/s", f"muscle: ρ = {x1_rm:,.0f} kg/m³,   c = {x1_cm:.0f} m/s"], "Find the [[intensity reflection coefficient]] and the [[echo level]] relative to the incident pulse."),
            [f"Z<sub>fat</sub> = {x1_rf:.0f} × {x1_cf:.0f} = {x1_zf:.3f} MRayl;   Z<sub>muscle</sub> = {x1_rm:,.0f} × {x1_cm:.0f} = {x1_zm:.3f} MRayl",
@@ -167,11 +167,12 @@ TOPIC = dict(
            f"R = {100 * x1_r:.2f}%, an echo {x1_db:.1f} dB below the incident pulse; {100 * (1 - x1_r):.1f}% of the intensity goes on."),
 
         H("Attenuation and pulse-echo imaging"),
-        P(f"Intensity falls with depth by absorption into heat, scattering, and reflection. A loss of x dB leaves 10<sup>−x/10</sup> of the intensity, so 3 dB halves it. Soft tissue attenuates about {ALPHA} dB/cm/MHz (roughly 0.3 to 1, by tissue), about in proportion to frequency; water and urine attenuate little. Higher frequencies resolve finer detail but reach less depth: about 2 to 5 MHz for the deep pelvis, more for transrectal imaging."),
-        P(f"The echo time t gives the depth, d = ct/2, the 2 for the round trip: {us_cm:.0f} µs per centimetre. The next pulse waits for the deepest echoes, so the pulse repetition frequency (PRF) is at most c/(2 × depth), and an echo arriving after the next pulse is placed too shallow. Time gain compensation (TGC) amplifies later echoes more, offsetting attenuation. The image is built line by line, so the frame rate falls as the depth, the number of lines, or the number of focal zones grows."),
+        P(f"Intensity falls with depth by absorption into heat, scattering, and reflection. Soft tissue attenuates about {ALPHA} dB/cm/MHz (roughly 0.3 to 1, by tissue), about in proportion to frequency; water and urine attenuate little. Higher frequencies resolve finer detail but reach less depth: about 2 to 5 MHz for the deep pelvis, more for transrectal imaging."),
+        P(f"The echo time t gives the depth, d = ct/2 for the round trip: {us_cm:.0f} µs per centimetre. Each pulse waits for the deepest echoes, so the pulse repetition frequency (PRF) is at most c/(2 × depth); an echo arriving after the next pulse is placed too shallow. Time gain compensation (TGC) amplifies later echoes more, offsetting attenuation. The image is built line by line, so the frame rate falls as the depth, the number of lines, or the focal zones increase."),
         EQ("loss (dB) = α × f × path length,   α ≈ 0.5 dB cm<sup>−1</sup> MHz<sup>−1</sup> in soft tissue",
+           "a loss of x dB leaves 10<sup>−x/10</sup> of the intensity: 3 dB halves it, 10 dB leaves a tenth",
            "d = c t / 2,   maximum depth = c / (2 PRF)"),
-        P("A-mode plots echo amplitude against depth along one line. B-mode shows each echo as a dot whose brightness follows its amplitude, line after line, to form a cross-section. M-mode plots one B-mode line against time, for moving structures such as heart valves."),
+        P("A-mode plots echo amplitude against depth on one line. B-mode shows each echo as a dot of matching brightness, line after line, forming a cross-section. M-mode plots one B-mode line against time, for moving structures such as heart valves."),
         EX("Depth and attenuation of an echo", STEM("A 5 MHz pulse is sent into soft tissue.", [f"echo time = {x2_t:.0f} µs", "c = 1540 m/s", "α = 0.5 dB cm<sup>−1</sup> MHz<sup>−1</sup>"],
            "Find the [[depth of the reflector]], the [[round-trip attenuation]], and the [[highest PRF]] that reaches this depth."),
            [f"d = c t / 2 = 1540 m/s × {x2_t:.0f} × 10<sup>−6</sup> s / 2 = {x2_d / 100:.4f} m = {x2_d:.1f} cm",
@@ -180,8 +181,8 @@ TOPIC = dict(
            f"{x2_d:.1f} cm, {x2_loss:.0f} dB, and {x2_prf / 1000:.1f} kHz. At 10 MHz the loss would be {x2_loss10:.0f} dB."),
 
         H("Transducers, beams, and resolution"),
-        P("A piezoelectric crystal, usually the ceramic lead zirconate titanate (PZT), turns a voltage pulse into vibration and a returning echo into a voltage; it resonates at the frequency for which its thickness is half a wavelength. A matching layer a quarter wavelength thick, of impedance between the crystal's and tissue's, passes more sound into the patient. A backing layer damps the ringing to a pulse of two or three cycles: lower sensitivity and a broader bandwidth, but finer detail along the beam."),
-        P("A linear array fires groups of elements in sequence for a rectangular image of superficial structures. A curvilinear array, its elements on an arc, gives a fan that widens with depth, for the abdomen and pelvis. A phased array steers the beam through a sector by firing every element with small delays, from a footprint small enough to fit between ribs. Delays also focus the beam in the image plane; a lens focuses it across the plane."),
+        P("A piezoelectric crystal, usually the ceramic lead zirconate titanate (PZT), converts a voltage pulse to vibration and an echo to a voltage, resonating where its thickness is half a wavelength. A quarter-wavelength matching layer, of impedance between the crystal's and tissue's, passes more sound into the patient. A backing layer damps the ringing to two or three cycles per pulse: lower sensitivity and a broader bandwidth, but finer detail along the beam."),
+        P("A linear array fires groups of elements in sequence, for a rectangular image of superficial structures. A curvilinear array, its elements on an arc, gives a fan widening with depth, for the abdomen and pelvis. A phased array steers the beam across a sector with small firing delays, from a footprint that fits between ribs. Delays also focus the beam in the image plane; a lens focuses it across the plane."),
         P("Axial resolution, along the beam, is half the spatial pulse length nλ. Lateral resolution, in the image plane, is the beam width, smallest at the focus. Elevational resolution, across the plane, is the slice thickness, usually the coarsest. The beam of an unfocused disc of diameter D narrows over the near field, of length D<sup>2</sup>/(4λ), and diverges beyond it."),
         EQ("λ = c / f,   spatial pulse length = n λ   (n cycles)", "axial resolution = n λ / 2",
            "near field N = D<sup>2</sup> / (4λ),   beyond it sin θ = 1.22 λ / D"),
@@ -194,21 +195,21 @@ TOPIC = dict(
            f"{x3_lam:.2f} mm, {x3_ax:.2f} mm, and {x3_nf:.0f} mm. At 10 MHz the axial resolution halves to {x3_ax10:.2f} mm and the near field doubles to {x3_nf10:.0f} mm."),
 
         H("Doppler, artifacts, and safety"),
-        P("Moving blood shifts the frequency of the echo in proportion to the velocity component along the beam. There is no shift at 90°, and an angle error matters most at large angles, so velocities are measured at 60° or less. Continuous-wave Doppler gives no depth. Pulsed-wave Doppler samples one depth, and a shift above PRF/2, the Nyquist limit, aliases to the wrong direction. Colour Doppler maps the mean shift; power Doppler maps the strength of the signal, sensitive to slow flow but without direction."),
+        P("Moving blood shifts the echo frequency in proportion to the velocity component along the beam: no shift at 90°, and angle errors matter most at large angles, so velocities are measured at 60° or less. Continuous-wave Doppler gives no depth. Pulsed-wave Doppler samples one depth, and a shift above PRF/2, the Nyquist limit, aliases to the wrong direction. Colour Doppler maps the mean shift; power Doppler maps signal strength, sensitive to slow flow but without direction."),
         EQ("f<sub>D</sub> = 2 f<sub>0</sub> v cos θ / c", "no aliasing while f<sub>D</sub> < PRF / 2"),
         EX("Blood velocity from a Doppler shift", STEM("Pulsed-wave Doppler of an artery.", [f"transmitted frequency = {x4_f:.1f} MHz", f"Doppler shift = {x4_fd / 1000:.1f} kHz", f"angle between beam and flow = {x4_th:.0f}°", "c = 1540 m/s"],
            "Find the [[blood velocity]] and the [[lowest PRF]] that avoids aliasing."),
-           [f"v = f<sub>D</sub> c / (2 f<sub>0</sub> cos θ) = {x4_fd:,.0f} × 1540 / (2 × {x4_f:.1f} × 10<sup>6</sup> × 0.5)",
+           [f"v = f<sub>D</sub> c / (2 f<sub>0</sub> cos θ) = {x4_fd:,.0f} × 1540 / (2 × {x4_f:.1f} × 10<sup>6</sup> × 0.5) = {x4_v:.3f} m/s",
             f"PRF/2 must exceed {x4_fd / 1000:.1f} kHz"],
            f"{x4_v:.2f} m/s, and a PRF above {x4_prf / 1000:.1f} kHz."),
         P("Artifacts arise where the assumptions of the scanner fail: a straight beam, one reflection per echo, even attenuation, and 1540 m/s."),
         TABLE(["Artifact", "Cause", "Appearance"], ARTIFACTS),
-        P("The possible biological effects are heating, tracked by the thermal index (TI), and cavitation, tracked by the mechanical index (MI): the derated peak rarefactional pressure in MPa over √f in MHz, limited by the FDA to 1.9 except for the eye. Output follows ALARA."),
+        P("The possible biological effects are heating, tracked by the thermal index (TI), and cavitation, tracked by the mechanical index (MI): the derated peak rarefactional pressure in MPa over √f in MHz, limited by the FDA to 1.9 (0.23 for the eye). Output follows ALARA."),
 
         H("Ultrasound in radiotherapy"),
-        P(f"Transrectal ultrasound (TRUS) guides prostate seed and HDR implants. A biplane probe gives transverse images from a curvilinear array and sagittal images from a linear array. A stepper moves it in fixed steps, often 5 mm, for the volume study and to follow each needle to its depth, and a grid on the screen stands for the template holes. AAPM TG-128 gives phantom tests of these systems, including the alignment of the grid with the template and the accuracy of distances, areas, and volumes. Test phantoms carry sound at 1540 m/s; in water at room temperature, about 1480 m/s, distances appear about {water_pct:.0f}% too long."),
+        P(f"Transrectal ultrasound (TRUS) guides prostate seed and HDR implants. A biplane probe gives transverse images from a curvilinear array and sagittal images from a linear array; a stepper moves it in fixed steps, often 5 mm, for the volume study, and a grid on the screen stands for the template holes. AAPM TG-128 gives phantom tests, among them the alignment of the grid with the template and the accuracy of distances, areas, and volumes. Phantoms carry sound at 1540 m/s: in water at room temperature, about 1480 m/s, distances appear about {water_pct:.0f}% too long."),
         P("For external beam, a transabdominal probe images the prostate through a full bladder. The probe is tracked in room coordinates by infrared cameras or an arm, and the gland is matched to the planning contours, or to a reference scan from simulation, for a couch shift. A transperineal probe, outside the beam paths, can monitor the prostate during treatment."),
-        P(f"Probe pressure can push the prostate posteriorly by a few millimetres. Behind fat, at about 1450 m/s, structures appear deeper by about {fat_pct:.0f}% of the fat thickness, and the outlines of the gland on CT and ultrasound differ, as do operators. AAPM TG-154 (2011) sets QA of these systems at stated frequencies: spatial accuracy, tested with a phantom against the room lasers and isocenter, and image quality against a baseline."),
+        P(f"Probe pressure can push the prostate posteriorly by a few millimetres. Behind fat, at about 1450 m/s, structures appear deeper by about {fat_pct:.0f}% of the fat thickness, and CT and ultrasound outline the gland differently, as do operators. AAPM TG-154 (2011) sets the QA of these systems: spatial accuracy, with a phantom against the room lasers and isocenter, and image quality against a baseline."),
     ],
     cards=[
         F("Wavelength in soft tissue", f"λ = c/f, with c = 1540 m/s, the soft-tissue average that scanners assume: {lam5:.2f} mm at 5 MHz.",
@@ -261,7 +262,7 @@ PROBLEMS = [
         f"The pulse repetition period is 1/{p_prf:,.0f} s = {1e6 / p_prf:.0f} µs, and it must cover the round trip: d = c/(2 PRF) = 1540 / (2 × {p_prf:,.0f}) m = {p_d:.1f} cm, or {1e6 / p_prf:.0f} µs at {us_cm:.0f} µs per cm. Forgetting the round trip gives {2 * p_d:.1f} cm. An echo from deeper arrives after the next pulse and is placed too shallow.", lvl="Moderate"),
     PR(STEM(ask="Which display mode plots the depth of the echoes along one beam line against time?"), "M-mode", ["A-mode", "B-mode", "Power Doppler"],
        "M-mode (motion) shows one B-mode line against time, so a moving structure such as a heart valve traces a curve. A-mode plots echo amplitude against depth, B-mode builds a cross-section from many lines, and power Doppler maps the strength of the Doppler signal.", lvl="Easy"),
-    PR(STEM(f"A transabdominal scan at {f_hi:.0f} MHz does not show the prostate of a large patient, and the probe is changed to one of {f_lo:.1f} MHz.", ask="What does the change bring?"),
+    PR(STEM(f"A transabdominal scan at {f_hi:.0f} MHz does not show the prostate of a large patient, and the probe is changed to one of {f_lo:.1f} MHz.", ask="What is the effect of the change?"),
        "The deeper gland is seen, with coarser resolution", ["The deeper gland is seen, with finer resolution", "The depth reached falls, with finer resolution", "The depth is unchanged, with coarser resolution"],
        f"Attenuation is about proportional to frequency: at 0.5 dB/cm/MHz an echo from {f_depth:.0f} cm loses {f_loss_hi:.0f} dB over the round trip at {f_hi:.0f} MHz and {f_loss_lo:.1f} dB at {f_lo:.1f} MHz. The wavelength doubles to {f_lam_lo:.2f} mm, so the axial resolution and the beam width at the focus are coarser.", lvl="Moderate"),
     # ---- 10-12: transducers, beams, and resolution
@@ -278,14 +279,14 @@ PROBLEMS = [
     # ---- 13-17: Doppler, artifacts, and safety
     PRN(STEM("Blood flows past the sample volume of a pulsed Doppler system.", [f"transmitted frequency = {d_f:.1f} MHz", f"blood velocity = {d_v:.2f} m/s", f"angle between beam and flow = {d_th:.0f}°", "c = 1540 m/s"], "What is the [[Doppler shift]]?"),
         d_fd / 1000, [d_half / 1000, d_nocos / 1000, d_sin / 1000], "{:.2f} kHz",
-        f"f<sub>D</sub> = 2 f<sub>0</sub> v cos θ / c = 2 × {d_f:.1f} × 10<sup>6</sup> × {d_v:.2f} × 0.5 / 1540 = {d_fd:,.0f} Hz. Leaving out the 2, which counts the shift on the way in and on the way back, gives {d_half / 1000:.2f} kHz; leaving out cos θ gives {d_nocos / 1000:.2f} kHz, and sin θ in place of cos θ gives {d_sin / 1000:.2f} kHz.", lvl="Moderate"),
+        f"f<sub>D</sub> = 2 f<sub>0</sub> v cos θ / c = 2 × {d_f:.1f} × 10<sup>6</sup> × {d_v:.2f} × {math.cos(math.radians(d_th)):.3f} / 1540 = {d_fd:,.0f} Hz. Leaving out the 2, which counts the shift on the way in and on the way back, gives {d_half / 1000:.2f} kHz; leaving out cos θ gives {d_nocos / 1000:.2f} kHz, and sin θ in place of cos θ gives {d_sin / 1000:.2f} kHz.", lvl="Moderate"),
     SORT("Match each ultrasound artifact to its cause.", ["Reverberation", "Acoustic shadowing", "Acoustic enhancement", "Speckle", "Refraction"],
          [("Sound bouncing between two strong reflectors", 0), ("Strong attenuation by bone, calcification, or gas", 1), ("Weak attenuation in fluid, with the gain set for tissue", 2),
           ("Interference of echoes from scatterers smaller than the resolution", 3), ("Bending of the beam where the speed changes at an oblique boundary", 4)],
          "Reverberation repeats an echo at equal spacing deeper; shadowing darkens the region behind a strong attenuator or reflector; enhancement brightens the region behind fluid, because the TGC assumes tissue attenuation; speckle is the interference pattern of scatterers too small to resolve; refraction shifts or doubles an object.", lvl="Moderate", mode="match", cap=1),
     PR(STEM(ask="What does the mechanical index (MI) displayed by a scanner indicate?"), "The chance of cavitation, from the peak rarefactional pressure",
        ["The expected temperature rise in the tissue", "The total acoustic power leaving the probe", "The mechanical wear of the transducer elements"],
-       "MI is the derated peak rarefactional pressure in MPa divided by the square root of the frequency in MHz, a measure of the chance of cavitation; the FDA limit is 1.9 outside the eye. The temperature rise is described by the thermal index, and neither index measures the total power or the wear of the probe.", lvl="Easy"),
+       "MI is the derated peak rarefactional pressure in MPa divided by the square root of the frequency in MHz, a measure of the chance of cavitation; the FDA limit is 1.9, or 0.23 for the eye. The temperature rise is described by the thermal index, and neither index measures the total power or the wear of the probe.", lvl="Easy"),
     PRM(STEM("Pulsed-wave Doppler of a fast jet shows aliasing. The PRF is below its limit for this depth.", ask="Which of these reduce the aliasing?"),
         ["Raising the pulse repetition frequency", "Lowering the transmitted frequency", "Switching to continuous-wave Doppler"],
         ["Raising the transmitted frequency", "Aligning the beam more closely with the flow", "Narrowing the sample volume"],
