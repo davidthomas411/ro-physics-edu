@@ -52,6 +52,7 @@ python serve.py --port 8765        # serves dist/ at / ; health check at /health
 
 ```
 python tests/numbers.py            # re-derives every worked-example number independently
+python tests/numbers_tg51.py       # one such file per later chapter (tests/numbers*.py): its printed and keyed numbers, re-derived by another route
 pip install -r requirements-dev.txt && playwright install chromium
 python tests/smoke.py              # pages, decks, keys, progress, dial, dark mode, 390 px width, console errors
 python tests/realdata.py           # real images: licences, attribution, no identifiers, measured numbers
@@ -77,6 +78,7 @@ Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change t
 - `src/style.css`, `src/app.js`: the page. `build.py` inlines both.
 - `src/real_*.json`, `src/real.py`: real clinical images from open TCIA collections, with their attribution. `tools/tcia.py` and `tools/make_real_*.py` rebuild them (see RESTORE.md).
 - `docs/`: the audit of the questions against the ROECSG physics study guide (coverage, level, gaps, and the list of questions still to write). The guide is used to find gaps only; every question is written in its own words.
+- `docs/facts-to-verify.md`: the statements in the later chapters that were not confirmed against the primary document, for a physics reviewer to settle.
 - `skills/house-style/`: the visual and writing style guide.
 - `assets/linac/`: the linac illustration layers for the dial.
 
@@ -85,6 +87,7 @@ Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change t
 1. Copy a file in `src/topics/`. Set `id`, `domain` (1 to 7), and `sub` (an ABR subsection code such as `III.A`).
 2. Write the guide with the block constructors and the cards with `C(...)`. Compute every number in `calc.py`.
 3. Register the module in `src/topics/__init__.py`.
-4. Add the number to `tests/numbers.py` if it is a worked example. Build and run both tests.
+4. Write `tests/numbers_<module>.py`, which re-derives by another route every number the chapter prints or keys (model: `tests/numbers_tg51.py`). For a Basic physics (domain 1) chapter, also write the Explain further text of each question in `src/more_<module>.py` (model: `src/more_xray_tube.py`) and import it in `src/topics/__init__.py`; `tests/more.py` requires it.
+5. Build and run the tests.
 
 Card ids are `topic-id:number`, so add cards at the end of a topic. Reordering or deleting cards shifts the ids and breaks saved progress.
