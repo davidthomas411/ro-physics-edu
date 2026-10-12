@@ -21,7 +21,7 @@ particles-energy:8|Pair production by a 3.0 MeV photon
 particles-energy:9|Speed of a 20 MeV electron and a 150 MeV proton
 charges-atom:1|Coulomb's law
 charges-atom:2|Magnetic force on a moving charge
-charges-atom:3|Path of a charged particle in a magnetic field
+charges-atom:3|Circular path in a uniform magnetic field
 charges-atom:4|Rutherford's gold-foil experiment
 charges-atom:5|Hydrogen energy levels and ionization energy
 charges-atom:6|Excitation and ionization

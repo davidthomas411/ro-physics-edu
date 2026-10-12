@@ -146,10 +146,11 @@ function bindMU(ctx){
       const tol=s.abs!==undefined?s.abs:Math.abs(s.exp)*s.rel, ok=Math.abs(v-s.exp)<=Math.max(tol,s.k==='MU'?0.5:0);
       if(ok){sl.classList.add('good'); st.textContent='✓';} else {wrong++; bad.push(s.k); sl.classList.add('bad'); st.textContent='✗'; let m=s.hint; if(s.k==='DD'&&o.ssd&&v<=2) m='The PDD table is in percent: enter 83.7, not 0.837. '+m; if(s.k==='MU'&&!bad.slice(0,-1).length) m=`Expected about ${Math.round(s.exp)} MU. ${m}`; h.innerHTML=m; h.hidden=false;}});
     if(empty){fb.className='mu-fb'; fb.textContent=`Fill in all ${S.length} entries, then check.`; return;}
+    track('mu',{case:String(c.id),action:'tried'});
     const rec=muStore[c.id]||{}; if(c.id!=='r'){muStore[c.id]={ok:rec.ok||!wrong,v:rec.v||false,n:(rec.n||0)+1,t:new Date().toISOString()}; muSave(); const ch=root.querySelector(`.mc[href="#mu/${c.id}"]`); if(ch){ch.className='mc '+muStatus(c.id)+' on';}}
     fb.className='mu-fb '+(wrong?'bad':'good'); fb.textContent=wrong?(bad.length===1&&bad[0]==='MU'?'The factors are right. Recheck the final division.':(bad.includes('MU')?`${wrong-1} factor${wrong-1===1?' is':'s are'} wrong, and so is the MU. Each hint says where to look.`:`${wrong} entr${wrong===1?'y is':'ies are'} wrong, though the MU is right. Each hint says where to look.`)):`All ${S.length} entries are correct: ${Math.round(o.mu)} MU.`;
   });
-  $('#mu-sol').addEventListener('click',()=>{const box=$('#mu-solution'); box.innerHTML=`<h2>Solution</h2><ol>${muSteps(o).map(s=>`<li>${s}</li>`).join('')}</ol>${c.note?`<p class="small"><b>Note.</b> ${c.note}</p>`:''}`; box.hidden=false;
+  $('#mu-sol').addEventListener('click',()=>{track('mu',{case:String(c.id),action:'solution'}); const box=$('#mu-solution'); box.innerHTML=`<h2>Solution</h2><ol>${muSteps(o).map(s=>`<li>${s}</li>`).join('')}</ol>${c.note?`<p class="small"><b>Note.</b> ${c.note}</p>`:''}`; box.hidden=false;
     if(c.id!=='r'){const rec=muStore[c.id]||{}; muStore[c.id]={ok:!!rec.ok,v:true,n:rec.n||0,t:new Date().toISOString()}; muSave(); const ch=root.querySelector(`.mc[href="#mu/${c.id}"]`); if(ch) ch.className='mc '+muStatus(c.id)+' on';}
     root.querySelectorAll('.mcell').forEach(b=>b.classList.remove('near'));
     const near=(kind,vals)=>{vals.forEach(([r,cc])=>{const b=root.querySelector(`.mcell[data-slot="${kind}"][data-r="${r}"][data-c="${cc}"]`); if(b) b.classList.add('near');});};

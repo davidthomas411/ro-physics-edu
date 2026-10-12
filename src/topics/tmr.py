@@ -13,7 +13,7 @@ TOPIC = dict(
 
         H("TAR, TMR, and TPR"),
         TABLE(["Quantity", "Definition", "Notes"], [
-            ["TAR", "Dose at depth d in the phantom ÷ dose in free space at the same point", "Independent of SSD. Used for kilovoltage and Co-60. The backscatter factor (BSF, peak scatter factor at megavoltage energies) is TAR at d<sub>max</sub>."],
+            ["TAR", "Dose at depth d in the phantom ÷ dose that the same beam gives at that point in free space", "Independent of SSD. Used for kilovoltage and Co-60. The backscatter factor (BSF, peak scatter factor at megavoltage energies) is TAR at d<sub>max</sub>."],
             ["TMR", "Dose at depth d ÷ dose at d<sub>max</sub>, at the same point", "1 at d<sub>max</sub>. Depends on depth, energy, and the field size at depth. Independent of SSD."],
             ["TPR", "Dose at depth d ÷ dose at a reference depth, at the same point", "TMR is the TPR whose reference depth is d<sub>max</sub>. TPR<sub>20,10</sub> uses 20 and 10 cm."]]),
         EQ("TMR(d, A<sub>d</sub>) = D<sub>P</sub>(depth d) / D<sub>P</sub>(depth d<sub>max</sub>)"),
@@ -43,7 +43,7 @@ TOPIC = dict(
         C("What does TMR depend on, and what does it not depend on?", "It depends on depth, energy, and the field size at depth. To a good approximation it does not depend on SSD."),
         C("Which calculation technique uses PDD, and which uses TMR?", "PDD: SSD technique (including extended SSD) and electrons. TMR: SAD (isocentric) technique."),
         C("How is a TMR measured?", "The detector stays at a fixed distance from the source (the isocenter) while the water thickness above it is varied. Each reading is divided by the reading with d<sub>max</sub> of water above the point."),
-        C("Define TAR and the backscatter factor.", "TAR is the dose at depth in the phantom divided by the dose in free space at the same point. The backscatter factor (peak scatter factor at megavoltage energies) is the TAR at d<sub>max</sub>."),
+        C("Define TAR and the backscatter factor.", "TAR is the dose at depth in the phantom divided by the dose that the same beam gives at that point in free space. The backscatter factor (peak scatter factor at megavoltage energies) is the TAR at d<sub>max</sub>."),
         C("How do TMR and TPR differ?", "TMR uses d<sub>max</sub> as the reference depth. TPR may use any reference depth; TPR<sub>20,10</sub> compares 20 cm with 10 cm."),
         C("A 6 MV beam (d<sub>max</sub> = 1.5 cm) has PDD = 67.0% at 10 cm and SSD 100 cm. Estimate TMR at 10 cm, taking the S<sub>p</sub> ratio as 1.", f"About {tmr10:.3f}.", w=[f"TMR = PDD/100 × [(f + d)/(f + d<sub>max</sub>)]² = 0.670 × (110/101.5)² = 0.670 × {k:.3f}."]),
         C("Why does the PDD-to-TMR conversion contain [(f + d)/(f + d<sub>max</sub>)]²?", "PDD compares points at distances f + d and f + d<sub>max</sub> from the source. TMR compares the same point, so the inverse-square difference between those distances must be removed."),

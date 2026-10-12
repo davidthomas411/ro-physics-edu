@@ -74,7 +74,7 @@ PROBLEMS = [
        "Photons transfer energy to electrons, and those electrons travel downstream before depositing it. The dose rises until the electrons entering a small volume balance those leaving it, at about one electron range. That depth is d<sub>max</sub>.", lvl="Easy"),
     PR("For a 6 MV photon beam and a 10 × 10 cm field, d<sub>max</sub> is about:", "1.5 cm", ["0.5 cm", "3.0 cm", "5.0 cm"],
        "About 1.5 cm for 6 MV. Co-60 is about 0.5 cm and 15 to 18 MV is about 3 cm, because higher energy sends the electrons farther forward.", lvl="Easy"),
-    PR("Percent depth dose at depth d is the central-axis dose at d divided by:", "the central-axis dose at d<sub>max</sub>, times 100", ["the dose at the surface, times 100", "the dose in free space at the same point, times 100", "the dose at the isocenter, times 100"],
+    PR("Percent depth dose at depth d is the central-axis dose at d divided by:", "the central-axis dose at d<sub>max</sub>, times 100", ["the dose at the surface, times 100", "the free-space dose at that point, times 100", "the dose at the isocenter, times 100"],
        "PDD = 100 × D(d) / D(d<sub>max</sub>), at a fixed SSD with the field size defined at the surface. The dose in free space is the reference for TAR, not for PDD.", lvl="Easy"),
     PRN(STEM("A single 6 MV field.", ["dose at d<sub>max</sub> = 150 cGy", "PDD at 10 cm = 67.0%"], "What is the [[dose at 10 cm depth]]?"), q_dose10, [150 / 0.670, 150 * (1 - 0.670), 67.0], "{:.1f} cGy",
         f"D(10 cm) = PDD × D(d<sub>max</sub>) = 0.670 × 150 = {q_dose10:.1f} cGy. Dividing by the PDD gives {150 / 0.670:.1f} cGy, and using 1 − PDD gives {150 * 0.33:.1f} cGy.", lvl="Moderate",

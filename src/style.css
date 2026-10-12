@@ -524,3 +524,15 @@ body.nolist main{max-width:none}
 .more-body .tip{color:var(--muted)}
 .fb .more{margin:10px 0 2px}
 .realsrc{padding-left:20px}.realsrc li{margin:8px 0;overflow-wrap:anywhere}
+.miss{color:var(--danger)}
+.about h2{margin-top:32px}
+.about h3{margin:18px 0 4px}
+.about p,.about li{max-width:46em}
+.about li{margin:4px 0}
+table.kv th{width:9em;font-size:15px;color:var(--muted);font-weight:600;border-bottom:0;border-top:1px solid var(--rule)}
+table.kv tr:first-child th,table.kv tr:first-child td{border-top:0}
+table.kv{max-width:36em}
+.cite{margin:14px 0}
+.cite .ch{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.cite pre{margin:0;padding:8px 14px;background:var(--paper-2);border-radius:3px;font:inherit;font-size:15px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.about .tblwrap{max-height:none;border:0;border-radius:0}

@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If this site is useful in your work, cite it as below."
+type: software
+title: "Radiation oncology physics study site"
+abstract: "A web study guide for radiation oncology residents preparing for the American Board of Radiology Medical Physics for Radiation Oncology exam. Chapters, flash cards, and practice questions follow the seven ABR content domains. All text, questions, and diagrams are written for this site, and every number in a worked example is computed and checked by an automated test."
+authors:
+  - name: "[authors missing]"
+version: "1.0.0"
+date-released: "2026-10-12"
+repository-code: "https://github.com/davidthomas411/ro-physics-edu"
+license: CC-BY-4.0
+keywords:
+  - "radiation oncology"
+  - "medical physics"
+  - "education"
+  - "ABR"

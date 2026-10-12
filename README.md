@@ -2,6 +2,43 @@
 
 Study site for radiation oncology residents preparing for the ABR Medical Physics for Radiation Oncology exam. Each topic is a short guide followed by flashcards. The site is one self-contained HTML file.
 
+## Release and citation
+
+The owner's values (authors, contact, physics reviewers, IRB number, usage-count settings, and the rest) are in `site_config.json`, and the code reads them from there. `python build.py --release` stops with a list of what is missing. `RELEASING.md` gives the steps for a release on GitHub Pages. After editing `site_config.json`, `CHANGELOG.md`, or `src/analytics_schema.py`, run `python tools/sync_release_files.py`, which rewrites `CITATION.cff`, `.zenodo.json`, the citation block below, and `docs/irb-data-description.md`.
+
+<!-- cite:start -->
+## How to cite
+
+DOI badge: to be added after the first Zenodo release.
+
+Cite the version of the site that you used. `CITATION.cff` holds the same information, and GitHub shows it under "Cite this repository".
+
+APA
+
+> [authors missing] (2026). Radiation oncology physics study site (Version 1.0.0) [Computer software]. GitHub Pages. [URL missing]
+
+AMA
+
+> [authors missing]. Radiation oncology physics study site. Version 1.0.0. GitHub Pages; 2026. [URL missing]
+
+BibTeX
+
+```bibtex
+@software{author2026radiation,
+  author    = {[authors missing]},
+  title     = {Radiation oncology physics study site},
+  year      = {2026},
+  version   = {1.0.0},
+  publisher = {GitHub Pages},
+  url       = {[URL missing]}
+}
+```
+<!-- cite:end -->
+
+## License
+
+Code: MIT (`LICENSE`). Text, questions, flash cards, and diagrams: CC BY 4.0 (`LICENSE-CONTENT.md`). Third-party material keeps its own terms (`THIRD_PARTY_NOTICES.md`).
+
 ## Build and run
 
 ```
@@ -21,6 +58,9 @@ python tests/realdata.py           # real images: licences, attribution, no iden
 python tests/realimg.py            # real images in the page: panels, views, decoding, phone width, the Reference sources
 python tests/style.py              # house-style patterns in all text, including the flash-card titles
 python tests/mlcfigs.py            # the MLC figures: leaf-end bands and the equal-area opening re-derived from the stated geometry
+python tests/license.py            # licenses, citation files, third-party notices, and the release gate
+python tests/about.py              # the About page: sections, counts, citation text, copy buttons, links
+python tests/analytics.py          # usage events: off by default, the schema, no cookies, no new storage keys
 ```
 
 Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change to content or the page.
@@ -28,6 +68,7 @@ Set `CHROME_PATH` to use an existing Chromium. Run both tests after any change t
 ## Layout
 
 - `src/blueprint.py`: the seven ABR domains and their 20 subsections, with the ABR weights.
+- `src/siteinfo.py`: the About page, the citation texts, and the release checks. `src/analytics_schema.py`: the usage events the page can send; the privacy text, the IRB description, and the tests all read it.
 - `src/topics/`: one file per topic (guide blocks and cards). `__init__.py` lists them; the order is the study order inside each domain.
 - `src/figs.py`: original figures as inline SVG that follow light and dark.
 - `src/facts.py`: the title of every flash card. A flash card shows its title and its answer, not the question written in the topic file, so both must stand alone.

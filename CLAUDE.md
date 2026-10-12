@@ -1,38 +1,41 @@
 # Radiation oncology physics study site
 
-Single-file study guide for radiation oncology residents preparing for the ABR Medical Physics for Radiation Oncology exam (seven domains, 20 subsections; weights in `src/blueprint.py`). Each topic is a guide page followed by flashcards. There is no calendar: no months, years, or weekly sessions.
+Single-file study guide for radiation oncology residents preparing for the ABR Medical Physics for Radiation Oncology exam (seven domains, 20 subsections; weights in `src/blueprint.py`). Each topic is a chapter (a guide page with worked examples and practice questions) with a deck of flash-card facts. There is no calendar: no months, years, or weekly sessions. The site is also released on GitHub Pages as part of an education research study; `RELEASING.md` describes the release.
 
 Follow `skills/house-style/SKILL.md` for every visual and written change: plain dark-on-white, system sans, no filler text, no features or controls that were not asked for (ask first), no web fonts. Check at 1280 × 900 and 390 × 844, light and dark.
 
 ## Commands
 
-- Build: `python build.py` (writes `dist/ro-physics.html`; standard library only).
-- Tests: `python tests/numbers.py`, then `python tests/smoke.py` (needs `pip install -r requirements-dev.txt && playwright install chromium`, or `CHROME_PATH`).
-- Run both after any change to content or the page.
+- Build: `python build.py` writes `dist/ro-physics.html` (standard library only). It is a development build: values missing from `site_config.json` show as placeholders, and no usage data is ever sent. `python build.py --release` stops with a list of what is missing (`SITE_CONFIG` and `OUT` set another configuration and output file).
+- Tests: every file in `tests/` runs on its own (`python tests/style.py`). The static tests need only the standard library, plus numpy and Pillow for `casedata` and `realdata`. The browser tests (`smoke`, `about`, `analytics`, `questions`, and the others) need `pip install -r requirements-dev.txt && playwright install chromium`, or `CHROME_PATH`. Run all of them after any change to content or the page; `nav` and `swipe` also fail on the original archive.
+- After editing `site_config.json`, `CHANGELOG.md`, or `src/analytics_schema.py`, run `python tools/sync_release_files.py`. It rewrites `CITATION.cff`, `.zenodo.json`, the citation block of `README.md`, and `docs/irb-data-description.md`; `tests/license.py` fails if they are out of date.
 
 ## How it fits together
 
-- `build.py` renders every topic's guide blocks to HTML, embeds data, figures, CSS, and JS in one page.
-- Routes: `#study`, `#d3` (domain), `#d3/c` and `#d3/c/5` (domain deck), `#t/pdd` (topic guide), `#t/pdd/c` and `#t/pdd/c/5` (topic deck), `#mix` and `#mix/5` (mixed deck, topics interleaved), `#ref`.
-- The dial draws one equal section per ABR domain. A domain with no topics is drawn but not linked.
-- A card shows one question, then Show answer reveals the answer and optional working. No grading, no scores. Keys: Space, right arrow, left arrow. A card counts as seen when its answer is shown.
-- The Reference page holds the coverage table by ABR subsection (rows in red have no cards), the reading table, progress export and import, and the theme toggle.
-- Progress is stored in `localStorage` (`ro.cards`, `ro.theme`). Treat stored values as untrusted.
+- `build.py` renders every topic's guide blocks to HTML and embeds data, figures, CSS, and JS in one page. Topics are in `src/topics/` and registered in `src/topics/__init__.py`; the order there is the study order within a domain.
+- Header tabs (five, no more): Home, Flash cards, Questions, MU calc, Reference. Routes: `#home` (the domain dial), `#t/pdd` (a chapter), `#t/pdd/c` and `#t/pdd/c/5` (its flash cards), `#t/pdd/q` (its questions), `#cards` and `#questions` (the last chapter visited), `#mix` and `#mix/5` (flash cards of all topics, interleaved), `#mu` (monitor-unit cases) and `#mu/tables/6`, `#ref` (Reference), `#about` (About and how to cite, linked from the top of the Reference page).
+- A flash card is a fact: a title and the fact under it, with nothing hidden. Its title is the `F(title, fact)` title or the line in `src/facts.py`; the question text of an old `C(q, a)` card is never shown. A card counts as seen when it is shown. Keys: Space or right arrow for the next card, left arrow for the previous.
+- Questions are multiple choice (one answer or select several), typed number, sort, match, rank, or tap the figure. Each is checked on the page, with an explanation and, for some topics, an "Explain further" region (`src/more_content.py`). No grading and no scores. No difficulty label is ever shown.
+- The Reference page holds the coverage table by ABR subsection (rows in red have no topics), the course plan, the reading table, the data tables, the sources, the text conventions, and progress (export, import, clear) with the theme toggle. The About page holds the citation, the license, the third-party table, the privacy text, and the changelog.
+- Progress is stored in `localStorage` under `ro.cards`, `ro.q`, `ro.read`, `ro.mu`, `ro.mulast`, `ro.last`, and `ro.theme`. Treat stored values as untrusted. Add no other key and set no cookie. The attempt count of a question is a field `n` in its `ro.q` entry.
+- Usage events: `src/analytics_schema.py` is the only list of what the page can send. `track()` in `src/app.js` drops anything not listed there, and the build turns it on only for a release build whose `analytics_mode` is `anonymous`. The privacy text on the About page, `docs/irb-data-description.md`, and `tests/analytics.py` all read the same list. Add an event or a property only after the owner agrees, because the IRB description follows from it.
+- Owner values (authors, contact, reviewers, IRB number, usage-count settings, confirmations of third-party terms) live in `site_config.json`. Never write them into code. `src/siteinfo.py` reads them and builds the About page and the release checks. Third-party material is listed in `THIRD_PARTY_NOTICES.md`; a release build stops while a confirmation is missing.
 - Real images (`src/real_*.json`, drawn by `realFig` in `src/app.js`) are figures of views of one to four panels, each one SVG with its caption. They are rebuilt by `tools/make_real_*.py` from DICOM that the NCI Imaging Data Commons republishes from TCIA. The Reference page lists every source.
 
 ## Rules
 
-- Write in your own words. Nothing from the textbooks, the lecture decks, the problem sets, the video quizzes, or ABR items (sample or recalled). Figures are redrawn.
-- Every number in a worked example is computed in `src/calc.py` and re-derived in `tests/numbers.py`. Give ranges where a value varies by machine, vendor, or edition. Factors in worked examples are illustrative, and the Reference page says so.
+- Write in your own words. Nothing from the textbooks, the lecture decks, the problem sets, the video quizzes, the ROECSG guide, or ABR items (sample or recalled). Figures are redrawn. `python tools/check_overlap.py <local text file or folder>` flags any run of 8 words that the site shares with a local copy of a source; keep such copies outside the repository.
+- Keep third-party documents, OCR text, and slides out of the repository (`tests/license.py` checks the tracked files).
+- Every number in a worked example is computed in `src/calc.py` (or at the top of the topic file) and re-derived by another route in a `tests/numbers*.py` file. Give ranges where a value varies by machine, vendor, or edition. Factors in worked examples are illustrative, and the Reference page says so.
 - State conventions that change a formula (for example SSD versus SAD calibration) in the text.
-- Card ids are `topic-id:number`. Add cards at the end of a topic.
+- Card ids are `topic-id:number`, and a topic's problems follow its cards, so appending a card shifts the ids of the problems. A question's usage identifier is its number among the topic's questions plus a hash of its text, so it survives that shift but changes when the question is edited.
 - One idea per card, one short answer. Put calculations in the card's working steps.
 - Real images: only CC BY 3.0 or CC BY 4.0 collections, every caption names the collection and its licence, nothing that identifies a patient is stored (no IDs, dates, or UIDs), and an image is called real only if no part of it is simulated. State what was done to it (resampled, cropped, windowed, aligned by the dataset's authors). Quote numbers from the stored measurements (`real.STATS`), never by hand, and read acquisition values from the DICOM header, but not tags the collection leaves unreliable (the NaF PROSTATE headers name the tracer FDG).
 - Sources: the ABR study guide, the AAPM/ASTRO 2023 core curriculum, standard references, and the group's own lectures as a topic inventory only.
 
 ## Open work
 
-- `docs/roecsg-audit.md` compares the question bank with the ROECSG physics study guide: what is covered, the level, and the gaps that remain (mostly chapters that have no topic yet). Use the guide to find gaps and never copy from it.
-
-- Domains 2, 4, 5, 6, 7 and most of 1 and 3 have no topics yet. The Reference page lists the gaps.
+- Domains 2, 4, 5, 6, 7 and parts of 1 and 3 have few or no topics. The Reference page lists the gaps, and `src/syllabus.py` holds the plan.
+- `docs/roecsg-audit.md` compares the question bank with the ROECSG physics study guide: what is covered, the level, and the gaps. Use the guide to find gaps and never copy from it. The release build warns that this audit and the `tools/book_*` scripts are tracked.
 - Ford chapter numbers in each topic's `ref` come from chapter titles and need checking against the book.
+- The release needs the owner's values and the confirmations in `site_config.json`, and a decision on the repository history (`RELEASING.md`).

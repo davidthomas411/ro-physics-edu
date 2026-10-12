@@ -1,8 +1,24 @@
-"""Builds dist/ro-physics.html (one self-contained page). Usage: python build.py"""
+"""Builds dist/ro-physics.html (one self-contained page).
+Usage: python build.py             a development build: values missing from site_config.json show as placeholders, and no usage data is ever sent
+       python build.py --release   a release build: stops with a list of what is missing, then adds the build date, the commit id, and the usage counts the configuration asks for
+Set SITE_CONFIG to read another configuration file, and OUT to write another output file."""
 import base64, json, os, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src")); sys.path.insert(0, str(ROOT / "src" / "topics"))
+import siteinfo, analytics_schema
+RELEASE = "--release" in sys.argv
+CFG = siteinfo.load_config()
+if RELEASE:
+    P = siteinfo.release_problems(CFG)
+    for w in P["warnings"]: print("warning:", w)
+    stop = [(h, P[k]) for h, k in (("Values missing from site_config.json", "missing"), ("Confirmations needed in site_config.json", "unconfirmed"), ("Repository", "tracked"), ("Changelog", "changelog")) if P[k]]
+    if stop:
+        print("Release build stopped. Fix these, then run it again:")
+        for h, items in stop:
+            print(f"  {h}:")
+            for x in items: print("   -", x)
+        sys.exit(1)
 import figs, blocks, blueprint
 from topics import TOPICS
 try:
@@ -36,7 +52,10 @@ for n in sorted(order):                                   # study order: by doma
             cards.append(dict(id=cid, topic=t["id"], dom=t["domain"], q=blocks._mark(blocks.autostem(title) if is_q else title), a=ans, w=c["w"], fig=c["fig"], opts=c.get("opts"), lvl=c.get("lvl"), sig=c.get("sig")))
 import re as _re
 for _t in topics: _t["words"] = len(_re.sub(r"<[^>]+>", " ", _t["html"]).split())      # the length of each chapter page, which weights the reading progress
-import beamdata, nistdata
+import beamdata, nistdata, real as _real
+BUILD = siteinfo.build_info(RELEASE)
+ABOUT = siteinfo.build_about(CFG, BUILD, siteinfo.counts_from(topics, cards), _real.SOURCES)
+ANALYTICS = siteinfo.analytics_config(CFG, RELEASE)
 import syllabus
 plan = [dict(sub=s, ford=f, title=t) for s, f, t in syllabus.PLAN]
 assert all(p['sub'] in subcodes for p in plan), [p for p in plan if p['sub'] not in subcodes]
@@ -44,9 +63,15 @@ _E = [0.03, 0.04, 0.05, 0.06, 0.08, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0
 import beamdata as _bd
 bm = dict(MUINF=_bd.MUINF, DELTA=_bd.DELTA, BETA=_bd.BETA, LAM=_bd.LAM, DMAX=_bd.DMAX, SC=sorted(_bd.SC.items()), SP=sorted(_bd.SP.items()))
 import mudata, mucases, cases, gal, mrdata, real
-DATA = dict(bm=bm, plan=plan, domains=domains, topics=topics, cards=cards, mu=dict(energies=mudata.all_tables(), cases=mucases.CASES), case=cases.CASE, gal=gal.GAL, drr=gal.DRR, mr=mrdata.MR, mrg=mrdata.GAL_MR, real=real.REAL, nist=nistdata.reference_html(), nistarr=dict(E=_E, w=[nistdata.WATER[e][0] for e in _E], b=[nistdata.BONE[e][0] for e in _E]))
+DATA = dict(bm=bm, plan=plan, domains=domains, topics=topics, cards=cards, mu=dict(energies=mudata.all_tables(), cases=mucases.CASES), case=cases.CASE, gal=gal.GAL, drr=gal.DRR, mr=mrdata.MR, mrg=mrdata.GAL_MR, real=real.REAL, nist=nistdata.reference_html(), nistarr=dict(E=_E, w=[nistdata.WATER[e][0] for e in _E], b=[nistdata.BONE[e][0] for e in _E]),
+            about=ABOUT, aschema=analytics_schema.js_schema())
 print(len(topics), "topics,", len(cards), "cards")
+if not RELEASE:
+    _m = siteinfo.missing(CFG) + siteinfo.unconfirmed(CFG)
+    if _m: print(f"site_config.json: {len(_m)} values missing or unconfirmed; they show as placeholders (python build.py --release lists them)")
+_js = lambda o: json.dumps(o, ensure_ascii=False).replace("</", "<\\/")                # a string in the data can never end the script element
 
+ROBOTS = "" if CFG.get("allow_indexing") else '<meta name="robots" content="noindex">\n'
 CSS = (ROOT / "src" / "style.css").read_text()
 JS = (ROOT / "src" / "app.js").read_text().replace("// @@MU@@", (ROOT / "src" / "mu.js").read_text())
 html = f"""<!doctype html>
@@ -54,7 +79,7 @@ html = f"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Radiation oncology physics</title>
+{ROBOTS}<title>Radiation oncology physics</title>
 <style>{CSS}</style>
 </head>
 <body>
@@ -62,9 +87,10 @@ html = f"""<!doctype html>
 <nav class="tabs"><a href="#home" data-tab="home">Home</a><a href="#cards" data-tab="cards">Flash cards</a><a href="#questions" data-tab="questions">Questions</a><a href="#mu" data-tab="mu">MU calc</a><a href="#ref" data-tab="ref">Reference</a></nav></div></header>
 <div class="wrap" id="wrap"><aside class="side" id="side"></aside><main><div class="topbar-m"><div id="lpm"></div><select id="jump" aria-label="Go to"></select></div><div id="main"></div></main></div>
 <script>
-const DATA={json.dumps(DATA, ensure_ascii=False)};
-const FIG={json.dumps(FIGS, ensure_ascii=False)};
+const DATA={_js(DATA)};
+const FIG={_js(FIGS)};
 const LINAC={json.dumps(LINAC)};
+const ANALYTICS={_js(ANALYTICS)};
 {JS}
 </script>
 </body>

@@ -116,7 +116,7 @@ def _sort_html(p, pid):
     order = sorted(range(len(p["chips"])), key=lambda i: hashlib.md5((p["sig"] + str(i)).encode()).hexdigest())
     chips = "".join(f'<button type="button" class="chip" data-i="{i}" aria-pressed="false">{p["chips"][i]["t"]}</button>' for i in order)
     bins = "".join(f'<div class="bin" data-b="{b}" role="group" aria-label="{_html.escape(_plain(label), quote=True)}"><div class="bhr"><div class="bh">{label}</div><button type="button" class="place" hidden>Place here</button></div><div class="slot"></div></div>' for b, label in enumerate(p["bins"]))
-    return (f'<div class="pq sortq" data-id="{pid}" data-kind="sort" data-key="{_html.escape(",".join(p["key"]), quote=True)}" data-cap="{p.get("cap") or 0}" data-sig="{p["sig"]}" data-multi="0">'
+    return (f'<div class="pq sortq" data-id="{pid}" data-kind="sort" data-mode="{p["mode"]}" data-key="{_html.escape(",".join(p["key"]), quote=True)}" data-cap="{p.get("cap") or 0}" data-sig="{p["sig"]}" data-multi="0">'
             f'<div class="meta">{KIND_LABEL[p["mode"]]}</div><div class="prompt">{_mark(autostem(p["q"]))}</div>'
             f'<div class="tray" role="group" aria-label="Items to place">{chips}</div><div class="bins">{bins}</div><p class="hint">{KIND_HINT[p["mode"]]}</p>'
             f'<div class="acts chkrow"><button type="button" class="btn primary chk" disabled>Check answer</button><button type="button" class="btn sm reset" hidden>Start over</button></div>'

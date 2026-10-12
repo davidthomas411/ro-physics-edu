@@ -1,6 +1,6 @@
 # Audit of the site's question bank against the ROECSG Physics Study Guide
 
-Site audited: the working tree at commit f0e32c8 (42 topics, 505 cards, 659 problems), which is the source archive before the real-image work and before the questions described under 'Status after the follow-up commits'. Reference: the ROECSG Physics Study Guide (the PDF in the repository root), 277 parsed questions plus 23 further items found only in the raw text (Appendix B). Date of the audit: 2026-10-11. The audit changed no site file. It is a gap and level analysis: no wording from the guide is used in the site, and the guide's own keys are treated as claims to verify, not as answers.
+Site audited: the working tree at commit f0e32c8 (42 topics, 505 cards, 659 problems), which is the source archive before the real-image work and before the questions described under 'Status after the follow-up commits'. Reference: the ROECSG Physics Study Guide (a PDF that the owner supplied; it is not kept in the repository), 277 parsed questions plus 23 further items found only in the raw text (Appendix B). Date of the audit: 2026-10-11. The audit changed no site file. It is a gap and level analysis: no wording from the guide is used in the site, and the guide's own keys are treated as claims to verify, not as answers.
 
 ## Summary
 

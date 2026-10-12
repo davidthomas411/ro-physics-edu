@@ -5,3 +5,12 @@ __pycache__/
 tmp/
 node_modules/
 .DS_Store
+# local copies of third-party text; never commit these (tools/check_overlap.py compares the site text with them)
+ocr/
+book/
+books/
+slides/
+decks/
+lectures/
+*.ocr.txt
+ROECSG*.pdf

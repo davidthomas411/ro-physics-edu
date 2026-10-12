@@ -1,0 +1,35 @@
+# Third-party notices
+
+Material in this repository that the authors did not write, and the sources the content is checked against. Every row names the files that use the source, where it comes from, its terms, and its status. The release build stops while a row marked `third_party_confirmed.<name>` has not been confirmed in `site_config.json`.
+
+The code is MIT licensed (`LICENSE`). The text, questions, flash cards, and diagrams written by the authors are licensed as stated in `LICENSE-CONTENT.md`. The rows below keep their own terms.
+
+| Source | What it is | Files | URL | Terms | Status |
+|---|---|---|---|---|---|
+| NIST X-ray mass attenuation coefficients (SRD 126) | Mass attenuation and mass energy-absorption coefficients for water, cortical bone, and lead at selected photon energies (Hubbell and Seltzer) | `src/nistdata.py` | https://www.nist.gov/pml/x-ray-mass-attenuation-coefficients | Published NIST Standard Reference Data, used with attribution | Attribution is on the Reference page. The NIST terms for the data are to be read at release. |
+| OpenKBP | CT, structures, and dose of one head-and-neck treatment plan from the OpenKBP open-access knowledge-based planning data set (Babier et al., Med Phys 2021;48:5549-5561) | `src/case_hn1.json`, `src/gal_ct.json`, `src/gal_drr.json`, `tools/make_case.py`, `tools/make_ct_artifacts.py`, `tools/make_drr_gallery.py` | https://github.com/ababier/open-kbp | Not yet verified | Terms not verified (third_party_confirmed.openkbp) |
+| ICBM152 (MNI152 2009) | Average brain and tissue probability maps shipped with the nilearn package (Fonov et al., NeuroImage 2011;54:313-327 and 2009;47:S102) | `src/mr_case.json`, `src/gal_mr.json`, `tools/make_mr.py` | https://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009 | Not yet verified | Terms not verified (third_party_confirmed.icbm152) |
+| Linac illustration | Three image layers of a linear accelerator that the domain dial draws | `assets/linac/base.webp`, `assets/linac/gantry.webp`, `assets/linac/couch.webp` | - | Not yet verified | Maker and terms not confirmed (third_party_confirmed.linac_art) |
+| 4D-Lung | TCIA collection: two phases of one 4D-CT (Hugo et al.) | `src/real_4d.json`, `tools/make_real_4d.py` | https://doi.org/10.7937/k9/tcia.2016.eln8ygle | CC BY 3.0 | Licence and citation stored in the data file and listed on the Reference page |
+| CC-Radiomics-Phantom-2 | TCIA collection: phantom CT scans at several tube currents and kernels (Shafiq ul Hassan et al.) | `src/real_ct.json`, `tools/make_real_ct.py` | https://doi.org/10.7937/tcia.2019.4l24tz5g | CC BY 3.0 | Licence and citation stored in the data file and listed on the Reference page |
+| Pancreatic-CT-CBCT-SEG | TCIA collection: breath-hold CT and cone-beam CT (Hong et al.) | `src/real_ct.json`, `tools/make_real_ct.py` | https://doi.org/10.7937/tcia.eshq-4d90 | CC BY 4.0 | Licence and citation stored in the data file and listed on the Reference page |
+| CMB-LCA | TCIA collection: chest CT reconstructed with and without metal artifact reduction | `src/real_ct.json`, `tools/make_real_ct.py` | https://doi.org/10.7937/3cx3-s132 | CC BY 4.0 | Licence and citation stored in the data file and listed on the Reference page |
+| COVID-19-AR | TCIA collection: chest radiograph | `src/real_dx.json`, `tools/make_real_dx.py` | https://doi.org/10.7937/tcia.2020.py71-5978 | CC BY 4.0 | Licence and citation stored in the data file and listed on the Reference page |
+| UPENN-GBM | TCIA collection: brain MR in four contrasts | `src/real_mr.json`, `tools/make_real_mr.py` | https://doi.org/10.7937/tcia.709x-dn49 | CC BY 4.0 | Licence and citation stored in the data file and listed on the Reference page |
+| CMB-PCA | TCIA collection: planar bone scan | `src/real_nm.json`, `tools/make_real_nm.py` | https://doi.org/10.7937/25t7-6y12 | CC BY 4.0 | Licence and citation stored in the data file and listed on the Reference page |
+| NSCLC Radiogenomics | TCIA collection: FDG PET without and with attenuation correction, and CT | `src/real_pet.json`, `tools/make_real_pet.py` | https://doi.org/10.7937/k9/tcia.2017.7hs46erv | CC BY 3.0 | Licence and citation stored in the data file and listed on the Reference page |
+| NaF PROSTATE | TCIA collection: sodium fluoride PET and CT | `src/real_pet.json`, `tools/make_real_pet.py` | https://doi.org/10.7937/k9/tcia.2015.isoqthko | CC BY 3.0 | Licence and citation stored in the data file and listed on the Reference page |
+| PSMA-PET-CT-Lesions | TCIA collection: PSMA PET and CT | `src/real_pet.json`, `tools/make_real_pet.py` | https://doi.org/10.7937/r7ep-3x37 | CC BY 4.0 | Licence and citation stored in the data file and listed on the Reference page |
+| The Cancer Imaging Archive and the NCI Imaging Data Commons | The platforms that host the TCIA collections above as DICOM (Clark et al., J Digit Imaging 2013;26:1045-1057; Fedorov et al., Cancer Res 2021;81:4188-4193) | `tools/tcia.py`, `requirements-tools.txt` | https://www.cancerimagingarchive.net/ | Each collection keeps the license in its row | Cited |
+| Ford, Primer on Radiation Oncology Physics, 2nd edition | Content reference and reading list. Cited, not reproduced | `src/topics/` (reading table), `src/syllabus.py` | https://www.routledge.com/9781032382913 | Copyright of the publisher. No text or figure is copied | Cited |
+| AAPM task group reports | Reports cited by number, for example TG-43, TG-51, TG-142, TG-100, TG-218, TG-263, and TG-284. Cited, not reproduced | `src/topics/` | https://www.aapm.org/pubs/reports/ | Copyright of the AAPM. No text or figure is copied | Cited |
+| ICRU reports | ICRU Report 38 and ICRU Report 83, cited by number. Cited, not reproduced | `src/topics/` | https://www.icru.org/ | Copyright of the ICRU. No text or figure is copied | Cited |
+| ABR study guide and the AAPM/ASTRO 2023 core curriculum | Outlines of the exam content that the chapters follow. Cited, not reproduced | `src/blueprint.py`, `src/syllabus.py` | https://doi.org/10.1016/j.ijrobp.2023.08.063 | Copyright of the publishers. Only the topic headings and the ABR domain weights are used | Cited |
+| Resident physics study guide (ROECSG) | A study guide written by residents, used privately to find gaps in the question bank and to check their level. It is not in this repository, and no wording from it is used | - | - | Not redistributed | Not part of the site |
+
+## What the repository does not contain
+
+- No text, figure, or table from the textbook. The textbook is the content reference only.
+- No lecture slides. The group's lectures were used for the list of topics only.
+- No OCR output of any book or slide deck. A local OCR copy kept outside the repository can be compared with the site text by `tools/check_overlap.py`.
+- No patient identifiers. The stored images carry no patient identifier, date, or unique identifier from the DICOM files.

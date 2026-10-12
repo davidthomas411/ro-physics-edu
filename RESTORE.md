@@ -27,7 +27,7 @@ Built with Python; the output is one self-contained HTML file (dist/ro-physics.h
     tools/make_real_4d.py: 4D-Lung (two phases of one 4D-CT, with the lung volume and the movement of the lung base measured on the volumes).
   `bash tools/make_real_all.sh` runs all six.
   Each JSON file carries the collection name, DOI, licence, and citation text, which the Reference page lists. The scripts pick fixed patients and series, so a rebuild gives the same files (checked: a rebuild from the cached downloads gave byte-identical JSON). TCIA's own hosts were not reachable from the build environment; the IDC buckets hold the same collections.
-- ROECSG physics study guide (the PDF in the repository root, added by the owner): used only to find gaps and to check the level of the questions, as written up in docs/roecsg-audit.md. None of its wording is used in the site.
+- ROECSG physics study guide (a PDF that the owner supplied; it is not kept in the repository): used only to find gaps and to check the level of the questions, as written up in docs/roecsg-audit.md. None of its wording is used in the site, and tools/check_overlap.py checks that.
 - NIST attenuation tables in src/nistdata.py. Text is written in our own words; Ford (2nd ed.) is the ground truth for content.
 
 ## Rules locked in

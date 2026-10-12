@@ -16,6 +16,47 @@ const qSel=id=>{const v=qs[id];return v&&typeof v==='object'&&v.sig&&v.sig===sig
 const savedTheme=LS.get('ro.theme',null);
 if(savedTheme==='light'||savedTheme==='dark') document.documentElement.dataset.theme=savedTheme;
 
+// ---------------------------------------------------------------- usage events
+// ANALYTICS is null unless a release build turned usage counts on. track() sends only the events and properties in DATA.aschema, which is also the
+// source of the privacy text on the About page. It sets no cookie and stores nothing in the browser.
+const AS_BY={}; (DATA.aschema||[]).forEach(e=>{AS_BY[e.name]=e;});
+const asOk=(c,v)=>c.kind==='bool'?typeof v==='boolean':c.kind==='enum'?(typeof v!=='boolean'&&c.values.includes(v)):c.kind==='pattern'?(typeof v==='string'&&new RegExp(c.re).test(v)):false;
+const asTok=(p,v)=>typeof v==='boolean'?p.tokens[v?0:1]:String(v).replace(/[^A-Za-z0-9._,:+\/-]/g,'_');
+function track(ev,props){
+  if(!ANALYTICS) return;
+  try{
+    const e=AS_BY[ev]; if(!e) return; const out={};
+    for(const p of e.props){const v=props&&props[p.name]; if(v===undefined||!asOk(p.check,v)) return; out[p.name]=v;}      // a property that is not listed is left out; an event missing a listed one is not sent
+    if(ANALYTICS.backend==='endpoint') fetch(ANALYTICS.url,{method:'POST',mode:'no-cors',credentials:'omit',referrerPolicy:'no-referrer',keepalive:true,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({event:ev,props:out})}).catch(()=>{});
+    else{const img=new Image(); img.referrerPolicy='no-referrer'; img.src=ANALYTICS.url+'?p='+encodeURIComponent(['ev',ev,...e.props.map(p=>asTok(p,out[p.name]))].join('/'))+'&e=true&rnd='+Math.random().toString(36).slice(2,8);}
+  }catch(_){}
+}
+const secsBin=s=>s<5?'lt5':s<15?'5-15':s<30?'15-30':s<60?'30-60':'gt60';
+// A question is timed while at least half of it is in view (or half of the screen, for a tall question) and the tab is shown, from when it is drawn or last reset until it is answered.
+let qIO=null; const qWatched=new Set();
+const qNow=()=>performance.now();
+function qSet(el,on){if(on&&!document.hidden){if(el._since==null) el._since=qNow();} else if(el._since!=null){el._vis+=qNow()-el._since; el._since=null;}}
+function qWatch(el){
+  if(!ANALYTICS||!('IntersectionObserver' in window)) return;
+  el._vis=0; el._since=null; el._seen=false; qWatched.add(el);
+  if(!qIO) qIO=new IntersectionObserver(es=>es.forEach(en=>{const on=en.isIntersecting&&en.intersectionRect.height>=.5*Math.min(en.boundingClientRect.height,window.innerHeight); en.target._seen=on; qSet(en.target,on);}),{threshold:[0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1]});
+  qIO.observe(el);
+}
+function qReset(el){if(!ANALYTICS||el._vis===undefined) return; el._vis=0; el._since=null; qSet(el,el._seen);}
+function qSecs(el){return el._vis===undefined?0:(el._vis+(el._since!=null?qNow()-el._since:0))/1000;}
+document.addEventListener('visibilitychange',()=>{qWatched.forEach(el=>{if(el.isConnected) qSet(el,el._seen&&!document.hidden);});});
+// the identifier of a question: topic, its number among the topic's questions, and the first six characters of the question's hash
+function itemOf(el){const id=el.dataset.id, i=id.lastIndexOf(':'), tid=id.slice(0,i); return tid+':'+(+id.slice(i+1)-flashOf(tid).length)+':'+String(el.dataset.sig).slice(0,6);}
+// answers given so far to a question, from the stored state (an untrusted value: a whole number of 1 or more, or none)
+const attemptsOf=el=>{const v=qs[el.dataset.id]; return v&&typeof v==='object'&&v.sig===el.dataset.sig&&Number.isInteger(v.n)&&v.n>0&&v.n<1000?v.n:0;};
+// store an answer the learner has just given, count it, and send the usage event
+function ansRec(el,rec,kind,ok,choice){
+  const n=attemptsOf(el)+1; rec.n=n; qs[el.dataset.id]=rec; saveQ();
+  if(ANALYTICS){const help=!!el._help; el._help=false; track('ans',{item:itemOf(el),kind,ok:!!ok,attempt:Math.min(n,3),choice:String(choice),secs:secsBin(qSecs(el)),help});}
+}
+// Try again: the answer is cleared, and the count of answers so far is kept
+function ansClear(el){const n=attemptsOf(el); if(n) qs[el.dataset.id]={sig:el.dataset.sig,n}; else delete qs[el.dataset.id]; saveQ(); qReset(el);}
+
 // ---------------------------------------------------------------- data
 const dom=n=>DATA.domains.find(d=>d.n===n);
 const topic=id=>DATA.topics.find(t=>t.id===id);
@@ -1639,7 +1680,7 @@ function paintQ(el,sel,persist){
   el.querySelector('.res').textContent=ok?'Correct.':(key.length>1?'Not correct. The answers are '+key.join(', ')+'.':'Not correct. The answer is '+key[0]+'.');
   el.querySelector('.fb').hidden=false; el.querySelector('.chkrow').hidden=true; moreSync(el,ok);
   if(persist){
-    qs[el.dataset.id]={sel,ok,sig:el.dataset.sig,t:new Date().toISOString()}; saveQ(); markSeen(el.dataset.id);
+    ansRec(el,{sel,ok,sig:el.dataset.sig,t:new Date().toISOString()},el.dataset.multi==='1'?'multi':'mc',ok,[...sel].sort().join('')); markSeen(el.dataset.id);
     const r=el.querySelector('.fb').getBoundingClientRect();
     if(r.bottom>window.innerHeight-16) window.scrollBy({top:Math.min(r.bottom-window.innerHeight+32,Math.max(0,r.top-80)),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
   }
@@ -1647,13 +1688,17 @@ function paintQ(el,sel,persist){
 // ---- 'Show more details' in the text and 'Explain further' in the feedback: one button that opens a hidden region
 function bindMore(){const m=$('#main'); if(m._more) return; m._more=true;
   m.addEventListener('click',e=>{const b=e.target.closest('.more-btn'); if(!b) return; const body=b.parentElement.querySelector('.more-body'); if(!body) return; const open=body.hidden, fb=!!b.closest('.fb');
-    body.hidden=!open; b.setAttribute('aria-expanded',String(open)); b.textContent=open?(fb?'Hide explanation':'Hide details'):(fb?'Explain further':'Show more details');});}
-function moreSync(el,ok){const m=el.querySelector('.more'); if(!m) return; m.classList.toggle('wrong',!ok); const b=m.querySelector('.more-btn'), body=m.querySelector('.more-body'); body.hidden=true; b.setAttribute('aria-expanded','false'); b.textContent='Explain further';}
+    body.hidden=!open; b.setAttribute('aria-expanded',String(open)); b.textContent=open?(fb?'Hide explanation':'Hide details'):(fb?'Explain further':'Show more details');
+    if(open&&ANALYTICS){
+      if(fb){const q=b.closest('.pq'); if(q){q._help=true; track('more_q',{item:itemOf(q),state:q.classList.contains('done')?(q._ok?'after_correct':'after_wrong'):'before_answer'});}}
+      else{let h=b.closest('.more'); while(h&&h.tagName!=='H2') h=h.previousElementSibling; const sm=h&&h.id.match(/-s(\d+)$/), tp=location.hash.split('/')[1]; if(sm&&tp) track('more_s',{topic:tp,section:sm[1]});}
+    }});}
+function moreSync(el,ok){el._ok=ok; const m=el.querySelector('.more'); if(!m) return; m.classList.toggle('wrong',!ok); const b=m.querySelector('.more-btn'), body=m.querySelector('.more-body'); body.hidden=true; b.setAttribute('aria-expanded','false'); b.textContent='Explain further';}
 function resetQ(el){
   el.classList.remove('done');
   el.querySelectorAll('.opt').forEach(b=>{b.setAttribute('aria-pressed','false'); b.classList.remove('right','wrong'); const t=b.querySelector('.tag'); if(t) t.remove();});
   el.querySelector('.fb').hidden=true; el.querySelector('.chkrow').hidden=false; el.querySelector('.chk').disabled=true;
-  delete qs[el.dataset.id]; saveQ();
+  ansClear(el);
 }
 
 // ---------------------------------------------------------------- sorting, matching, ranking, and typed-number questions
@@ -1709,9 +1754,9 @@ function bindSort(el){
     chips.forEach(c=>{const i=+c.dataset.i, ok=place[i]===want[i]; if(ok) n++; c.classList.toggle('right',ok); c.classList.toggle('wrong',!ok); c.setAttribute('aria-pressed','false');
       const old=c.querySelector('.tg'); if(old) old.remove(); if(!ok){const t=document.createElement('span'); t.className='tg'; t.textContent='Belongs in: '+bins[want[i]].querySelector('.bh').textContent; c.appendChild(t);} });
     el.querySelector('.res').textContent=n===chips.length?'All correct.':n+' of '+chips.length+' in the right place.'; fb.hidden=false; moreSync(el,n===chips.length); el.querySelector('.chkrow').hidden=true; render();
-    if(persist){qs[id]={sel:place.map((b,i)=>i+'>'+b),sig:el.dataset.sig,t:new Date().toISOString()}; saveQ();}
+    if(persist) ansRec(el,{sel:place.map((b,i)=>i+'>'+b),sig:el.dataset.sig,t:new Date().toISOString()},el.dataset.mode==='match'?'match':el.dataset.mode==='rank'?'rank':'sort',n===chips.length,chips.reduce((m,c)=>m+(place[+c.dataset.i]===want[+c.dataset.i]?(1<<+c.dataset.i):0),0));
   };
-  const reset=clear=>{ el.classList.remove('done'); place.fill(-1); sel=null; chips.forEach(c=>{c.classList.remove('right','wrong'); const t=c.querySelector('.tg'); if(t) t.remove();}); fb.hidden=true; el.querySelector('.chkrow').hidden=false; if(clear){delete qs[id]; saveQ();} render(); };
+  const reset=clear=>{ el.classList.remove('done'); place.fill(-1); sel=null; chips.forEach(c=>{c.classList.remove('right','wrong'); const t=c.querySelector('.tg'); if(t) t.remove();}); fb.hidden=true; el.querySelector('.chkrow').hidden=false; if(clear) ansClear(el); render(); };
   chk.addEventListener('click',()=>{ if(!place.some(p=>p<0)) paint(true); });
   rst.addEventListener('click',()=>reset(false)); el.querySelector('.again').addEventListener('click',()=>reset(true));
   const saved=qSel(id); if(saved){ saved.forEach(s=>{const [i,b]=s.split('>').map(Number); if(i>=0&&i<place.length) place[i]=b;}); render(); paint(false); } else render();
@@ -1729,12 +1774,12 @@ function bindNum(el){
     const x=parseNum(txt); if(Number.isNaN(x)){msg.textContent='Enter a number, such as 357 or 3.57e2.'; msg.hidden=false; return;} msg.hidden=true;
     const ok=Math.abs(x-ans)<=tol*Math.abs(ans)+1e-12; el.classList.add('done'); inp.readOnly=true; inp.classList.toggle('right',ok); inp.classList.toggle('wrong',!ok);
     res.textContent=ok?'Correct.':'Not quite. The answer is '+show+'.'; fb.hidden=false; moreSync(el,ok); el.querySelector('.chkrow').hidden=true;
-    if(persist){qs[id]={sel:[String(txt)],sig:el.dataset.sig,t:new Date().toISOString()}; saveQ();}
+    if(persist) ansRec(el,{sel:[String(txt)],sig:el.dataset.sig,t:new Date().toISOString()},'typed',ok,Number(x.toPrecision(3)));
   };
   inp.addEventListener('input',()=>{chk.disabled=!inp.value.trim(); msg.hidden=true;});
   inp.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!chk.disabled) chk.click(); });
   chk.addEventListener('click',()=>paint(inp.value,true));
-  el.querySelector('.again').addEventListener('click',()=>{ el.classList.remove('done'); inp.readOnly=false; inp.value=''; inp.classList.remove('right','wrong'); fb.hidden=true; el.querySelector('.chkrow').hidden=false; chk.disabled=true; delete qs[id]; saveQ(); inp.focus(); });
+  el.querySelector('.again').addEventListener('click',()=>{ el.classList.remove('done'); inp.readOnly=false; inp.value=''; inp.classList.remove('right','wrong'); fb.hidden=true; el.querySelector('.chkrow').hidden=false; chk.disabled=true; ansClear(el); inp.focus(); });
   const saved=qSel(id); if(saved){inp.value=saved[0]; chk.disabled=false; paint(saved[0],false);}
 }
 
@@ -1774,15 +1819,18 @@ function bindFig(el){
     T.forEach(([x0,x1,y0,y1])=>{const a=x0===null?S.x.min:x0, b=x1===null?S.x.max:x1, c=y0===null?S.y.min:y0, d=y1===null?S.y.max:y1; N('rect',{class:'tgt',x:X(a),y:Y(d),width:Math.max(4,X(b)-X(a)),height:Math.max(4,Y(c)-Y(d))},tg);});
     const l=N('text',{class:'tgl',x:W-m.r-4,y:m.t+16,'text-anchor':'end'},tg); l.textContent='correct region';
     el.querySelector('.res').textContent=ok?'Correct.':'Not quite. The correct region is shaded.'; el.querySelector('.tapped').textContent='You tapped '+show(pt)+'.'; fb.hidden=false; moreSync(el,ok);
-    if(persist){qs[id]={sel:[pt[0].toPrecision(7)+','+pt[1].toPrecision(7)],sig:el.dataset.sig,t:new Date().toISOString()}; saveQ();}
+    if(persist){const pc=(f,v,lo,hi)=>Math.max(0,Math.min(100,Math.round((f(v)-f(lo))/(f(hi)-f(lo))*50)*2));
+      ansRec(el,{sel:[pt[0].toPrecision(7)+','+pt[1].toPrecision(7)],sig:el.dataset.sig,t:new Date().toISOString()},'fig',ok,pc(fx,pt[0],S.x.min,S.x.max)+','+pc(fy,pt[1],S.y.min,S.y.max));}
   };
   chk.addEventListener('click',()=>{ if(pt) paint(true); });
-  el.querySelector('.again').addEventListener('click',()=>{ el.classList.remove('done'); mk.classList.remove('wrong'); tg.innerHTML=''; mk.style.display='none'; pt=null; fb.hidden=true; chk.closest('.chkrow').hidden=false; chk.disabled=true; delete qs[id]; saveQ(); });
+  el.querySelector('.again').addEventListener('click',()=>{ el.classList.remove('done'); mk.classList.remove('wrong'); tg.innerHTML=''; mk.style.display='none'; pt=null; fb.hidden=true; chk.closest('.chkrow').hidden=false; chk.disabled=true; ansClear(el); });
   el._fig={toClient:(x,y)=>{const r=svg.getBoundingClientRect(), s=r.width/W; return {x:r.left+X(x)*s, y:r.top+Y(y)*s};}, marker:()=>pt};
   const saved=qSel(id); if(saved){const v=saved[0].split(',').map(Number); if(v.length===2&&v.every(Number.isFinite)){put(v); paint(false);}}
 }
 function bindQ(){
+  if(qIO){qIO.disconnect(); qIO=null;} qWatched.clear();
   document.querySelectorAll('.pq').forEach(el=>{
+    qWatch(el);
     if(el.dataset.kind==='sort'){bindSort(el); return;} if(el.dataset.kind==='num'){bindNum(el); return;} if(el.dataset.kind==='fig'){bindFig(el); return;}
     const multi=el.dataset.multi==='1', chk=el.querySelector('.chk');
     el.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
@@ -1835,7 +1883,8 @@ function refView(){
   const nf=seenCount(allFlash()), nqa=DATA.cards.filter(c=>c.opts&&qSel(c.id)).length;
   const sections=[['ref-coverage','Coverage by ABR subsection'],['ref-plan','Course plan'],['ref-reading','Reading'],['ref-data','Beam data tables'],['ref-nist','Photon attenuation data'],['ref-sources','Sources'],['ref-conventions','Text conventions'],['ref-progress','Progress']];
   return `<h1>Reference</h1>
-  <p class="lead"><a href="https://www.theabr.org/wp-content/uploads/2025/07/2023-ABR-RO-Physics-IC-Study-Guide.pdf" target="_blank" rel="noopener">Study guide (ABR, 2023)</a> · <a href="https://doi.org/10.1016/j.ijrobp.2023.08.063" target="_blank" rel="noopener">AAPM/ASTRO 2023 core curriculum</a></p>
+  <p class="lead"><a href="#about">About and how to cite</a> · <a href="https://www.theabr.org/wp-content/uploads/2025/07/2023-ABR-RO-Physics-IC-Study-Guide.pdf" target="_blank" rel="noopener">Study guide (ABR, 2023)</a> · <a href="https://doi.org/10.1016/j.ijrobp.2023.08.063" target="_blank" rel="noopener">AAPM/ASTRO 2023 core curriculum</a></p>
+  <p class="small">${esc(DATA.about.notice)}</p>
   <nav class="toc" aria-label="On this page"><div class="hd">On this page</div><ol>${sections.map(([id,t])=>`<li><a href="#ref" data-go="${id}">${t}</a></li>`).join('')}</ol></nav>
   <h2 id="ref-coverage">Coverage by ABR subsection</h2>
   <div class="tblwrap"><table class="cov"><tr><th>Subsection</th><th style="text-align:right">Topics</th><th style="text-align:right">Questions answered</th><th style="text-align:right">Flash cards seen</th></tr>${rows.join('')}</table></div>
@@ -1865,6 +1914,31 @@ function refView(){
   <div class="btnrow"><button class="btn sm" id="exp">Export</button><button class="btn sm" id="imp">Import</button><button class="btn sm" id="clr">Clear</button><button class="btn sm" data-theme-btn>Light / dark</button><input type="file" id="impf" accept="application/json" style="display:none"></div>`;
 }
 
+// ---------------------------------------------------------------- About and how to cite (the text comes from src/about.py; the privacy section follows the usage events this build can send)
+function aboutBlock(b){
+  const k=b[0];
+  if(k==='p') return `<p>${b[1]}</p>`;
+  if(k==='h3') return `<h3>${b[1]}</h3>`;
+  if(k==='ul') return `<ul>${b[1].map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  if(k==='table') return `<div class="tblwrap"><table class="tbl"><tr>${b[1].map(h=>`<th>${h}</th>`).join('')}</tr>${b[2].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table></div>`;
+  if(k==='kv') return `<table class="tbl kv">${b[1].map(([a,v])=>`<tr><th scope="row">${a}</th><td>${v}</td></tr>`).join('')}</table>`;
+  if(k==='cite') return `<div class="cite"><div class="ch"><b>${esc(b[1])}</b><button type="button" class="btn sm" data-copy="${esc(b[3])}">Copy</button></div><pre id="cite-${esc(b[3])}">${esc(b[2])}</pre></div>`;
+  return '';
+}
+function aboutView(){
+  const A=DATA.about, secs=A.sections;
+  const body=secs.map(s=>{const bl=s.variants?s.variants[ANALYTICS?(ANALYTICS.backend==='endpoint'?'endpoint':'goatcounter'):'off']:s.blocks; return `<h2 id="${s.id}">${esc(s.title)}</h2>${bl.map(aboutBlock).join('')}`;}).join('');
+  return `<h1>About and how to cite</h1>
+  <p class="lead"><a href="#ref">Reference</a></p>
+  <p class="small">${esc(A.notice)}</p>
+  <nav class="toc" aria-label="On this page"><div class="hd">On this page</div><ol>${secs.map(s=>`<li><a href="#about" data-go="${s.id}">${esc(s.title)}</a></li>`).join('')}</ol></nav>
+  <div class="about">${body}</div>`;
+}
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText) return navigator.clipboard.writeText(t);
+  return new Promise((res,rej)=>{const ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;top:0;left:0;opacity:0'; document.body.appendChild(ta); ta.select(); let ok=false; try{ok=document.execCommand('copy');}catch(_){} ta.remove(); ok?res():rej(new Error('copy failed'));});
+}
+
 // ---------------------------------------------------------------- navigation
 function sideHTML(cur,mode,openN){
   const cards=mode==='cards', qm=mode==='q', suf=cards?'/c':(qm?'/q':'');
@@ -1883,12 +1957,13 @@ function jumpHTML(mode){
   return o.join('');
 }
 // @@MU@@
-let muPend=null;
+let muPend=null, lastView=null;
 function route(){
   const h=location.hash.replace(/^#/,'')||'home'; const p=h.split('/');
   flushReads(); let html='', tab='', cur='home', jv='#home', mode='contents', openN=0, list=true; progMode=null; progFn=null; sideManual=false; sideHold=0;
   const ctx=(p[0]==='t'&&topic(p[1]))?p[1]:(topic(LS.get('ro.last',''))||DATA.topics[0]).id;      // the topic the menu items open: the one on the page, else the last one visited
   if(p[0]==='ref'){html=refView(); tab='ref'; cur='ref'; jv='#ref';}
+  else if(p[0]==='about'){html=aboutView(); tab='ref'; cur='about'; jv='#ref';}
   else if(p[0]==='cards'){location.replace('#t/'+ctx+'/c'); return;}
   else if(p[0]==='mix'){const dk=deck('mix'), ii=idx(p[1]); html=studyView(dk,ii); tab='cards'; cur='mix'; jv='#mix'; mode='cards'; progFn=showCourse;}
   else if(p[0]==='questions'){location.replace('#t/'+ctx+'/q'); return;}
@@ -1909,6 +1984,7 @@ function route(){
   const sel=$('#jump'); sel.innerHTML=jumpHTML(mode); sel.value=jv;
   document.querySelectorAll('.tabs a').forEach(a=>{a.classList.toggle('on',a.dataset.tab===tab); if(a.dataset.tab==='cards') a.setAttribute('href','#t/'+ctx+'/c'); if(a.dataset.tab==='questions') a.setAttribute('href','#t/'+ctx+'/q');});
   window.scrollTo(0,0); bind(); refreshProgress();
+  if(ANALYTICS){const rk=location.hash.replace(/^#/,'').split('/').filter(x=>x&&!/^\d+$/.test(x)).join('/')||'home'; if(rk!==lastView){lastView=rk; track('view',{route:rk}); if(p[0]==='about') track('about',{});}}
 }
 function bind(){
   bindDial(); bindQ(); bindAV(); bindMU(muPend); muPend=null; bindMore();
@@ -1918,7 +1994,9 @@ function bind(){
     fcEl.addEventListener('touchend',e=>{if(sx===null) return; const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy; sx=null;
       if(Math.abs(dx)<60||Math.abs(dx)<2*Math.abs(dy)||Date.now()-st>800) return;
       if(dx<0){location.hash=fcEl.dataset.next;} else if(fcEl.dataset.prev) location.hash=fcEl.dataset.prev;},{passive:true});
-    markSeen(fcEl.dataset.id);}                                   // a fact counts as seen when it is shown
+    markSeen(fcEl.dataset.id); track('card',{card:fcEl.dataset.id,action:'seen'});}                                   // a fact counts as seen when it is shown
+  document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById('cite-'+b.dataset.copy); if(!el) return;
+    copyText(el.textContent).then(()=>{b.textContent='Copied'; setTimeout(()=>{b.textContent='Copy';},1800);}).catch(()=>{b.textContent='Select the text and copy it'; setTimeout(()=>{b.textContent='Copy';},3000);});}));
   document.querySelectorAll('[data-theme-btn]').forEach(b=>b.addEventListener('click',()=>{
     const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
     const next=cur==='dark'?'light':'dark'; document.documentElement.dataset.theme=next; LS.set('ro.theme',next);}));

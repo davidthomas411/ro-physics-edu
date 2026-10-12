@@ -63,6 +63,34 @@ for t in TOPICS:
         [scan(f"{cid} card", x) for x in [*answer, *c["w"]]]
     for p in t["problems"]:
         stem(f"{tid} problem", p["q"]); [scan(f"{tid} problem", x) for x in [p["q"], p["a"][1], *p["w"], *(p.get("opts") or []), p.get("more") or ""]]
+# ---------------------------------------------------------------- the About page, the privacy text, the changelog, and the configuration's own text
+sys.path.insert(0, str(ROOT / "tests"))
+import siteinfo as ABOUT, analytics_schema as AS, _release as REL
+def about_text(blocks):
+    for b in blocks:
+        if b[0] in ("p", "h3"): yield b[1]
+        elif b[0] == "ul": yield from b[1]
+        elif b[0] == "table": yield from (c for r in b[2] for c in r)
+        elif b[0] == "kv": yield from (c for r in b[1] for c in r)
+for cfg_name, cfg in (("site_config.json", ABOUT.load_config()), ("a complete configuration", REL.FULL)):
+    for rel in (False, True):
+        A = ABOUT.build_about(cfg, ABOUT.build_info(False) if not rel else dict(ABOUT.build_info(False), release=True, built="2026-10-12", commit="0" * 40), dict(chapters=42, flash=505, questions=714), [dict(collection="CMB-LCA", doi="10.7937/3cx3-s132", license="CC BY 4.0")])
+        for sec in A["sections"]:
+            scan(f"About, {sec['title']}", sec["title"])
+            for bl in ([sec["blocks"]] if not sec.get("variants") else list(sec["variants"].values())):
+                for x in about_text(bl):
+                    if "<span class=\"miss\">" in x and not rel: x = re.sub(r"<span class=\"miss\">.*?</span>", "", x)          # a placeholder names a missing value; it is not text of the page
+                    scan(f"About, {sec['title']}", x)
+        scan("About, license notice", A["notice"])
+    for k in ("title", "abstract", "study_notice"): scan(f"{cfg_name}, {k}", cfg.get(k) or "")
+for e in AS.EVENTS:
+    scan(f"event {e['name']}", e["what"])
+    for p_ in e["props"]: scan(f"event {e['name']}, {p_['name']}", p_["what"])
+for x in AS.NEVER: scan("events never recorded", x)
+for e in ABOUT.changelog():
+    for x in e["items"]: scan(f"CHANGELOG {e['version']}", x)
+for r in ABOUT.notices():
+    for k in ("source", "what", "terms"): scan(f"THIRD_PARTY_NOTICES {r['source'][:20]}", r[k])
 app = (ROOT / "src" / "app.js").read_text()
 for w in ("Welcome", "Congratulations", "Great job", "Oops", "Let's", "Awesome", "Hooray"):
     if w in app: bad.append(("interface", w, ""))
