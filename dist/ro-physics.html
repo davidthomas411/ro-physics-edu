@@ -598,7 +598,7 @@ aside.take li.kl.kn-on:has(.tt){background:none;box-shadow:none}
 aside.take li.kl.kn-on>.tt{display:inline;background:var(--hl-on);box-shadow:0 0 0 2px var(--hl-on);border-radius:3px}
 
 /* Home: the domain list sits level with the middle of the machine, not hung from the top */
-@media (min-width:901px){body.home .wrap{align-items:center}body.home .side{position:static;height:auto;overflow:visible;padding-top:0;padding-bottom:0}}
+@media (min-width:901px){body.home .wrap{align-items:start}body.home .side{position:static;height:auto;overflow:visible;padding-top:0;padding-bottom:0;transition:margin-top .25s ease}}
 @media (min-width:901px){body.home main{padding:16px 0}}
 </style>
 </head>
@@ -728,7 +728,13 @@ function dialSVG(mobile){
 function ringSVG(frac){const r=46,c=2*Math.PI*r;return `<svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="${r}"/><circle class="fill" cx="60" cy="60" r="${r}" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-frac)).toFixed(1)}"/>${linacGroup(60,60,84,frac*180)}</svg>`;}
 let dialTimer=null, progMode=null, progFn=null, progRaf=0, sideManual=false, sideHold=0;
 // the sidebar is an accordion: one domain open at a time. On Home the machine opens the domain it points at.
-function openDom(n){document.querySelectorAll('#side .blk[data-dom]').forEach(b=>{const o=+b.dataset.dom===n; b.classList.toggle('open',o); const bt=b.querySelector('.nm'); if(bt) bt.setAttribute('aria-expanded',String(o));});}
+// Home: the domain list is level with the middle of the machine while every domain is closed, and hangs from the top of it once one is open
+function alignHome(){const sd=document.getElementById('side'); if(!sd) return; const dl=[...document.querySelectorAll('.dial.big')].find(d=>d.getClientRects().length);
+  if(!document.body.classList.contains('home')||!dl){sd.style.marginTop=''; return;}
+  const open=!!sd.querySelector('.blk.open'), listH=[...sd.querySelectorAll('.blk .nm')].reduce((a,b)=>a+b.offsetHeight,0)+4;
+  sd.style.marginTop=(open?16:Math.max(16,16+(dl.offsetHeight-listH)/2))+'px';}
+window.addEventListener('resize',()=>alignHome());
+function openDom(n){document.querySelectorAll('#side .blk[data-dom]').forEach(b=>{const o=+b.dataset.dom===n; b.classList.toggle('open',o); const bt=b.querySelector('.nm'); if(bt) bt.setAttribute('aria-expanded',String(o));}); alignHome();}
 // the linac as a progress indicator: the ring fills and the gantry turns as the page is read, the deck is stepped through, or the questions are answered
 const lpHTML=()=>`<div class="lp" role="progressbar" aria-label="Progress on this page" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="lpr">${ringSVG(0)}</div><div class="lpt"><b>0%</b><span></span></div></div>`;
 function setProgress(frac,big,small,tip){frac=Math.max(0,Math.min(1,frac)); const C=2*Math.PI*46, pct=Math.round(100*frac);
@@ -759,6 +765,7 @@ function bindDial(){
   // pointing at a segment turns the machine and opens that domain in the list at once, not as the machine passes each domain on the way
   document.querySelectorAll('.dial').forEach(dial=>{const g=dial.querySelector('.gantry'); if(!g) return;
     dial.querySelectorAll('a.seg').forEach(s=>{const turn=()=>{const from=gantryAngle(g), to=lim((+s.dataset.ang)+90); dial.classList.remove('spin'); g.style.transition='none'; g.style.transform=`rotate(${from}deg)`; void g.getBoundingClientRect(); g.style.transition=''; g.style.transform=`rotate(${to}deg)`; sideManual=false; sideHold=Date.now()+1400; mark(domAt(to));}; s.addEventListener('mouseenter',turn); s.addEventListener('focus',turn); s.addEventListener('touchstart',turn,{passive:true});});});
+  side.forEach(b=>{const bt=b.querySelector('.nm'); if(!bt) return; const hit=()=>{const vd=[...document.querySelectorAll('.dial')].find(d=>d.getClientRects().length), seg=vd&&vd.querySelector(`a.seg[data-dom="${b.dataset.dom}"]`); if(seg) seg.dispatchEvent(new Event('mouseenter'));}; bt.addEventListener('mouseenter',hit); bt.addEventListener('focus',hit);});   // pointing at a domain in the list turns the machine to it too
   const vis=[...document.querySelectorAll('.dial')].find(d=>d.getClientRects().length&&d.querySelector('.gantry'));
   if(!side.length||!vis||still) return;
   const g=vis.querySelector('.gantry'); let last=-1;
@@ -2768,7 +2775,7 @@ function route(){
   else {html=homeView(); tab='home';}
   const lp=!!progFn;
   $('#main').innerHTML=html; $('#side').innerHTML=list?(lp?lpHTML():'')+sideHTML(cur,mode,openN):''; $('#lpm').innerHTML=lp?lpHTML():'';
-  updatePrism(); document.body.classList.toggle('home',tab==='home'); document.body.classList.toggle('cp',lp); document.body.classList.toggle('nolist',!list);
+  updatePrism(); document.body.classList.toggle('home',tab==='home'); alignHome(); document.body.classList.toggle('cp',lp); document.body.classList.toggle('nolist',!list);
   const sel=$('#jump'); sel.innerHTML=jumpHTML(mode); sel.value=jv;
   document.querySelectorAll('.tabs a').forEach(a=>{a.classList.toggle('on',a.dataset.tab===tab); if(a.dataset.tab==='cards') a.setAttribute('href','#t/'+ctx+'/c'); if(a.dataset.tab==='questions') a.setAttribute('href','#t/'+ctx+'/q');});
   window.scrollTo(0,0); bind(); refreshProgress();
