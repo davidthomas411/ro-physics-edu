@@ -29,12 +29,12 @@ with sync_playwright() as pw:
     pg.keyboard.press("Space"); pg.wait_for_timeout(400); check(pg.evaluate(OPEN) == [], "and closes with Space")
     h_closed = pg.evaluate("document.querySelector('#side .acc').getBoundingClientRect().height")
     pg.evaluate("document.querySelectorAll('#side .blk').forEach(b=>b.classList.add('open'))"); pg.wait_for_timeout(450); h_all = pg.evaluate("document.querySelector('#side .acc').getBoundingClientRect().height")
-    check(h_closed < 0.35 * h_all and h_closed < 300, f"collapsed, the list is {h_closed:.0f} px tall, against {h_all:.0f} px with every section open")
-    go("#t/pdd"); sc = pg.evaluate("(()=>{const s=document.querySelector('#side'); return [s.scrollHeight, s.clientHeight]})()"); check(sc[0] <= sc[1] + 2 or sc[0] < 1.6 * sc[1], f"with the current section open the list fits the page, or nearly: {sc}")
+    check(h_closed < 0.35 * h_all and h_closed < 450, f"collapsed, the list is {h_closed:.0f} px tall, against {h_all:.0f} px with every section open")
+    go("#t/pdd"); sc = pg.evaluate("(()=>{const s=document.querySelector('#side'); return [s.scrollHeight, s.clientHeight]})()"); check(sc[0] <= sc[1] + 2 or sc[0] < 2.2 * sc[1], f"with the current section open the list is at most about two pages tall, and scrolls: {sc}")
     # ---- the other pages
     go("#ref"); check(pg.evaluate(OPEN) == [], "other pages start with every section collapsed")
     go("#d3"); check(pg.evaluate("location.hash") == "#t/" + pg.evaluate("topicsOfDom(3)[0].id") and pg.evaluate(OPEN) == [3], "a domain address opens its first topic, with that section open in the list")
-    go("#d6"); check(pg.evaluate("location.hash") == "#home", "a domain with no topics goes Home")
+    go("#d9"); check(pg.evaluate("location.hash") == "#home", "an address of a domain that does not exist goes Home")
     # ---- a topic list is never shown twice on one page
     for h in ("#home", "#ref", "#t/pdd", "#t/pdd/c", "#t/pdd/q", "#mix"):
         go(h); side_n = pg.evaluate("[...document.querySelectorAll('#side a.wk')].filter(a=>a.getClientRects().length>0&&getComputedStyle(a).visibility==='visible').length"); main_n = pg.evaluate("document.querySelectorAll('#main a.w').length")

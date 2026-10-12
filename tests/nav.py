@@ -39,8 +39,8 @@ with sync_playwright() as p:
     check(a1 == f"#t/{topics[3]}/c" and a2 == f"#t/{topics[3]}/q", f"from a chapter, Flash cards and Questions open that topic's own deck and question set {mid}")
     go(f"#t/{topics[2]}/c"); go("#ref"); pg.click('.tabs a[data-tab="questions"]'); pg.wait_for_timeout(150); a3 = pg.evaluate("location.hash"); go("#home"); pg.click('.tabs a[data-tab="cards"]'); pg.wait_for_timeout(150); a4 = pg.evaluate("location.hash")
     check(a3 == f"#t/{topics[2]}/q" and a4 == f"#t/{topics[2]}/c", "from Home or Reference they open the last topic visited")
-    go("#d1"); first1 = pg.evaluate("topicsOfDom(1)[0].id"); h1 = pg.evaluate("location.hash"); pg.goto(U + "#d1/c"); pg.wait_for_timeout(80); h2 = pg.evaluate("location.hash"); go("#d6"); h3 = pg.evaluate("location.hash")
-    check(h1 == f"#t/{first1}" and h2.endswith("/c") and h3 == "#home", f"a domain address opens that domain's first topic ({h1}), old domain decks land on a deck ({h2}), and a domain with no topics goes Home ({h3})")
+    go("#d1"); first1 = pg.evaluate("topicsOfDom(1)[0].id"); h1 = pg.evaluate("location.hash"); pg.goto(U + "#d1/c"); pg.wait_for_timeout(80); h2 = pg.evaluate("location.hash"); go("#d9"); h3 = pg.evaluate("location.hash")
+    check(h1 == f"#t/{first1}" and h2.endswith("/c") and h3 == "#home", f"a domain address opens that domain's first topic ({h1}), old domain decks land on a deck ({h2}), and an address of a domain that does not exist goes Home ({h3})")
     go("#study"); check(pg.evaluate("location.hash") == "#home" and pg.locator("h1").inner_text() == "Home", "the old Contents address now opens Home")
     bad = [h for h in ("#home", "#questions", "#cards", "#ref", f"#t/{topics[0]}", f"#t/{topics[0]}/c") if (go(h), "Mixed practice" in text())[1]]
     check(not bad, f"no page still says Mixed practice {bad}")

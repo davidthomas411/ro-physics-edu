@@ -64,8 +64,8 @@ with sync_playwright() as p:
     ph = b.new_context(viewport={"width": 390, "height": 844}); pp = ph.new_page(); pp.on("pageerror", lambda e: errors.append(str(e))); worst = 0
     for tid, nq in topics:
         pp.goto(U + "#ref"); pp.goto(U + f"#t/{tid}"); pp.wait_for_timeout(20)
-        if pp.locator(".pq").count():
-            f = pp.locator(".pq").first; f.locator(".opt").first.click(); f.locator(".chk").click()
+        if pp.locator(".pq:has(.opt)").count():
+            f = pp.locator(".pq:has(.opt)").first; f.locator(".opt").first.click(); f.locator(".chk").click()
         worst = max(worst, pp.evaluate("document.documentElement.scrollWidth"))
     check(worst <= 390, f"390 px: no sideways scroll on any topic page (widest {worst})")
     check(not errors, f"no console or page errors {errors[:2]}")
