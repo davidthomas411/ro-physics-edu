@@ -50,7 +50,7 @@ with sync_playwright() as p:
     vis_h1 = pg.evaluate("(()=>{const r=document.querySelector('#main h1').getBoundingClientRect(); return r.width*r.height})()"); text = pg.locator("#main").inner_text()
     check(vis_h1 <= 1.5 and "Study guide" not in text and pg.locator(".cont").count() == 0 and pg.locator("#main .btn").count() == 0 and pg.locator("#main a:not(.seg)").count() == 0, "Home has no visible Home heading, no description, and no button: the page links only to the domains on the dial")
     go("#t/decay-law"); go("#home"); check(pg.locator("#main .btn").count() == 0, "later visits show no continue button either")
-    check(pg.locator(".dial.big a.seg").count() == pg.evaluate("activeDoms().length") and pg.locator("h2").first.inner_text() == "Exam domains", "the dial sits under an Exam domains heading, one link per domain with topics")
+    check(pg.locator(".dial.big a.seg").count() == pg.evaluate("activeDoms().length") and pg.locator("main h2").count() == 0, "the dial stands alone on Home with no heading above it, one link per domain with topics")
     pg.evaluate('''document.querySelector('.dial.big a.seg[data-dom="3"]').dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}))'''); pg.wait_for_timeout(250)
     first3 = pg.evaluate("topicsOfDom(3)[0].id"); title3 = pg.evaluate("topic('%s').title" % first3)
     check(pg.evaluate("location.hash") == f"#t/{first3}" and title3 in pg.locator("h1").inner_text(), "selecting a domain on the dial goes straight into its first topic")

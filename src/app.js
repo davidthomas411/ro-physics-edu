@@ -156,8 +156,6 @@ function bindDial(){
 const figHTML=x=>x.fig&&FIG[x.fig]?`<div class="figs"><div>${FIG[x.fig]}</div></div>`:'';
 function homeView(){
   return `<h1 class="sr">Home</h1>
-  <h2>Exam domains</h2>
-  <p class="small">Select a domain to open its first topic.</p>
   <div class="dial big spin">${dialSVG(false)}</div><div class="dial m spin">${dialSVG(true)}</div>`;
 }
 function topicQuestions(id){
