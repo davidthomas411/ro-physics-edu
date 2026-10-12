@@ -118,7 +118,9 @@ DECAY_LAW += [
     TYPED(STEM("A Co-60 source with T<sub>1/2</sub> = 5.27 y.", ["time in use = 10 y"], "What [[percentage of the activity]] remains?"), 100 * 2 ** (-10 / 5.27), 0.015, "%",
         "10 y is 10/5.27 = 1.90 half-lives, so the fraction left is (½)<sup>1.90</sup> = 0.268, or 26.8%.", lvl="Moderate"),
     TYPED(STEM("A source loses 2.0% of its activity each day.", [], "What is its [[half-life]]?"), _m.log(2) / -_m.log(1 - 0.02), 0.004, "d",
-        "“2% per day” means λ = −ln(1 − 0.02) = 0.0202 per day, not 0.02. T<sub>1/2</sub> = 0.693 / 0.0202 = 34.3 d. Taking λ = 0.02 gives 34.7 d, which is too long.", lvl="Challenging"),
+        "“2% per day” means that 0.98 of the activity remains after a day, so λ is −ln(0.98) and not 0.02. Taking λ = 0.02 gives 34.7 d, which is too long.",
+        w=[STEP("Decay constant", "λ = −ln(1 − f), f the fraction lost per day", "λ = −ln(1 − 0.020)", f"{-_m.log(1 - 0.02):.4f} d<sup>−1</sup>", "f is the fraction of the activity lost in one day"),
+           STEP("Half-life", "T<sub>1/2</sub> = ln 2 / λ", f"T<sub>1/2</sub> = 0.693 ÷ {-_m.log(1 - 0.02):.4f} d<sup>−1</sup>", f"{_m.log(2) / -_m.log(1 - 0.02):.1f} d", "λ is the decay constant")], lvl="Challenging"),
 ]
 PLACE["decay-law"].setdefault(2, []).extend([_n_dl + 1, _n_dl + 2])
 _n_eq = len(EQUILIBRIUM)

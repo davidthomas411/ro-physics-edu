@@ -99,6 +99,20 @@ def SORT(stem, bins, items, why, lvl="Moderate", mode="sort", cap=None, fig=None
     sig = hashlib.md5((_plain(stem) + "|" + "|".join(_plain(x) for x in bins) + "|" + "|".join(_plain(t) + ">" + str(b) for t, b in items)).encode()).hexdigest()[:8]
     return dict(q=stem, opts=[], a=[ans, why], w=[], fig=fig, lvl=lvl, key=key, multi=False, calc=None, vals=None, sig=sig, kind="sort", mode=mode, bins=list(bins), chips=chips, cap=cap)
 
+def STEP(label, sym, vals, result, where=""):
+    """One step of a worked explanation (an item of the `w` list of PR, PRN, PRM, and TYPED): a short label of what is found,
+    the relation in symbols, what its terms are (`where`, optional), the same relation with the values put in, and the result
+    with its unit. The renderer lays the relation lines out on their own lines under the heading "Explanation"."""
+    wh = f'<span class="wh">where {where}</span>' if where else ""
+    return f'<span class="wl">{label}</span><span class="wq">{sym}</span>{wh}<span class="wq">{vals} = <b>{result}</b></span>'
+
+def _explain(p):
+    """The Explanation block of a question: numbered steps first when they were written with STEP, then the one-line reason.
+    Working steps written as plain strings keep their old place, after the reason."""
+    w = p["w"]; steps = ('<ol class="wk">' if w and all(x.startswith('<span class="wl">') for x in w) else "<ol>") + "".join(f"<li>{x}</li>" for x in w) + "</ol>" if w else ""
+    first = steps if steps.startswith('<ol class="wk">') else ""
+    return f'<div class="key"><div class="hd">Explanation</div>{first}<p>{p["a"][1]}</p>{"" if first else steps}</div>'
+
 def _fmt_ans(v):
     if v != 0 and 1e4 <= abs(v) < 1e5: return f"{round(v):,}"
     return sci(v, 3) if v != 0 and (abs(v) >= 1e5 or abs(v) < 1e-3) else f"{v:.4g}"
@@ -125,14 +139,13 @@ def _sort_html(p, pid):
             f'<div class="fb" hidden><p class="res" role="status"></p><div class="key"><div class="hd">Explanation</div><p>{p["a"][1]}</p></div>{_more_html(p)}<div class="acts"><button type="button" class="btn sm again">Try again</button></div></div></div>')
 
 def _num_html(p, pid):
-    work = ("<ol>" + "".join(f"<li>{s}</li>" for s in p["w"]) + "</ol>") if p["w"] else ""
     pct = f"{100 * p['tol']:.3g}"
     return (f'<div class="pq numq" data-id="{pid}" data-kind="num" data-ans="{p["ans"]!r}" data-tol="{p["tol"]}" data-show="{_html.escape(p["show"], quote=True)}" data-sig="{p["sig"]}" data-multi="0">'
             f'<div class="meta">Type the answer</div><div class="prompt">{_mark(autostem(p["q"]))}</div>'
             f'<div class="numrow"><input type="text" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" class="numin" aria-label="Your answer"><span class="unit">{p["unit"]}</span></div>'
             f'<p class="msg" role="status" hidden></p><p class="hint">Type a number. Powers of ten can be written 3.5e4 or 3.5 × 10^4. Within {pct}% counts as correct.</p>'
             f'<div class="acts chkrow"><button type="button" class="btn primary chk" disabled>Check answer</button></div>'
-            f'<div class="fb" hidden><p class="res" role="status"></p><div class="key"><div class="hd">Explanation</div><p>{p["a"][1]}</p>{work}</div>{_more_html(p)}<div class="acts"><button type="button" class="btn sm again">Try again</button></div></div></div>')
+            f'<div class="fb" hidden><p class="res" role="status"></p>{_explain(p)}{_more_html(p)}<div class="acts"><button type="button" class="btn sm again">Try again</button></div></div></div>')
 
 
 # ---------------------------------------------------------------- tap-the-figure questions
@@ -164,7 +177,6 @@ def qhtml(p, pid):
     if p.get("kind") == "sort": return _sort_html(p, pid)
     if p.get("kind") == "num": return _num_html(p, pid)
     opts = "".join(f'<li><button type="button" class="opt" data-k="{LETTERS[i]}" aria-pressed="false"><span class="k">{LETTERS[i]}</span><span class="tx">{o}</span></button></li>' for i, o in enumerate(p["opts"]))
-    work = ("<ol>" + "".join(f"<li>{s}</li>" for s in p["w"]) + "</ol>") if p["w"] else ""
     calc, extra = "", ""
     if p.get("calc"):
         spec = {k: p["calc"][k] for k in ("unit", "tiles", "ops")}
@@ -173,7 +185,7 @@ def qhtml(p, pid):
     return (f'<div class="pq" data-id="{pid}" data-key="{",".join(p["key"])}" data-multi="{1 if p["multi"] else 0}" data-sig="{p["sig"]}"{extra}>'
             f'<div class="meta">Question</div><div class="prompt">{_mark(autostem(p["q"]))}</div><ol class="choices">{opts}</ol>{calc}'
             f'<div class="acts chkrow"><button type="button" class="btn primary chk" disabled>Check answer</button></div>'
-            f'<div class="fb" hidden><p class="res" role="status"></p><div class="key"><div class="hd">Explanation</div><p>{p["a"][1]}</p>{work}</div>{_more_html(p)}'
+            f'<div class="fb" hidden><p class="res" role="status"></p>{_explain(p)}{_more_html(p)}'
             f'<div class="acts"><button type="button" class="btn sm again">Try again</button></div></div></div>')
 
 def render(blocks, figs, tid=None, ncards=0, problems=(), inline=None, num="", terms=(), take=()):

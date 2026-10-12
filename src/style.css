@@ -293,6 +293,12 @@ table.cov .bar{height:4px;min-width:90px}
 .pq .res{font-weight:700;color:var(--ink);margin:0 0 2px}
 .pq .fb .key p{margin:4px 0;font-size:16px;line-height:1.5}
 .pq .fb .key ol{margin:4px 0 0;padding-left:22px;font-size:16px;line-height:1.5}
+.pq .fb .key ol.wk{margin:6px 0 10px;padding-left:22px}
+.pq .fb .key ol.wk>li{margin:0 0 10px;padding-left:2px}
+.wl{display:block;font-weight:600}
+.wq{display:block;background:var(--paper-2);border-radius:3px;padding:3px 10px;margin:3px 0 0;line-height:1.7;overflow-x:auto;overflow-wrap:anywhere}
+.wh{display:block;font-size:14px;color:var(--muted);line-height:1.4;margin:3px 0 0}
+.wq sub,.wq sup{font-size:.7em;line-height:0}
 @media (max-width:600px){.guide .checks .pq{padding:12px}.opt{padding:9px 10px}.opt .tag{font-size:12px}}
 
 /* work it out */

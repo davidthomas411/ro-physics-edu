@@ -14,6 +14,7 @@ orders = math.log10(100e3 / e_micro)
 e_green = calc.ev_from_nm(532)
 e_uv100 = calc.ev_from_nm(100)
 lam_e100_pm = calc.debroglie_pm(0.1, calc.ME)
+pc_e100 = calc.pc_ke(0.1, calc.ME)
 b_mm = calc.ev_from_nm(1e6) * 1e3
 b_ir, b_vis, b_uv = calc.ev_from_nm(700), calc.ev_from_nm(400), calc.ev_from_nm(10)
 
@@ -109,7 +110,10 @@ PROBLEMS = [
         calc=CALC("", [TILE("E", 100, "keV"), TILE("h", 4.136e-15, "eV·s", disp="4.136 × 10⁻¹⁵"), TILE("f", 2.45, "GHz", disp="2.45"), CONV("keV", "eV", 1e3), CONV("GHz", "Hz", 1e9)], ops=("×", "÷", "(", ")", "log₁₀("), solution=["log₁₀(", "E", "×", "keV→eV", "÷", "(", "h", "×", "f", "×", "GHz→Hz", ")", ")"])),
     PR("Which has the shorter wavelength: a 100 keV electron or a 100 keV photon?", f"The electron, at {lam_e100_pm:.2f} pm against {lam_100k_pm:.1f} pm",
        [f"The photon, at {lam_100k_pm:.1f} pm against {lam_e100_pm:.2f} pm", "They are equal because their energies are equal", "Neither: only photons have a wavelength"],
-       f"For the photon λ = hc/E = {lam_100k_pm:.1f} pm. For the electron λ = h/p, and its momentum is larger than E/c: pc = √(T² + 2Tm₀c²) = 0.335 MeV, so λ = 1.240 MeV·pm / 0.335 MeV = {lam_e100_pm:.2f} pm.", lvl="Challenging"),
+       "The electron's wavelength is shorter, because its momentum is greater than E/c. The reversed answer uses the photon's value for the electron, and “only photons have a wavelength” is false because every particle has a de Broglie wavelength.",
+       w=[STEP("Photon wavelength", "λ = hc/E", "λ = 1.240 MeV·pm ÷ 0.100 MeV", f"{lam_100k_pm:.1f} pm", "E is the photon energy and hc = 1.240 MeV·pm"),
+          STEP("Electron momentum", "pc = √(T² + 2T·m<sub>0</sub>c²)", "pc = √(0.100² + 2 × 0.100 × 0.511) MeV", f"{pc_e100:.3f} MeV", "T is the kinetic energy, m<sub>0</sub>c² = 0.511 MeV is the rest energy, and p is the momentum"),
+          STEP("Electron wavelength", "λ = hc/(pc)", f"λ = 1.240 MeV·pm ÷ {pc_e100:.3f} MeV", f"{lam_e100_pm:.2f} pm", "pc is the momentum times c, in MeV (de Broglie: λ = h/p)")], lvl="Challenging"),
 ]
 
 INLINE = {0: [1, 2], 1: [3, 4]}
