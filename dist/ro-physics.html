@@ -1021,6 +1021,22 @@ function avBars(root,cfg){
   const bars=cfg.rows.map((r,i)=>{const y=m.t+i*rowH+7; stext(s,m.l-8,y+(rowH-14)/2,r.t,{'text-anchor':'end','dominant-baseline':'central','font-weight':600}); const b=sv('rect',{x:m.l,y,height:rowH-14,width:0,fill:r.col,rx:2},s); const v=stext(s,0,y+(rowH-14)/2,r.val,{'dominant-baseline':'central','font-size':14.5,'font-weight':600}); return {b,v,e:X(r.v)};});
   const dl=.4/Math.max(1,cfg.rows.length-1); return avPlay(c,cfg.dur||2600,u=>bars.forEach((o,i)=>{const p=ease(seg(u,i*dl,i*dl+.6)); o.b.setAttribute('width',Math.max(0,(o.e-m.l)*p)); o.v.setAttribute('x',m.l+(o.e-m.l)*p+6); o.v.style.display=p>.98?'':'none';}));
 }
+// text labels inside figures never sit on one another or outside the drawing: a label that collides is moved to the nearest free place
+function declutter(svg){
+  if(!svg||!svg.getClientRects().length) return; const vb=svg.viewBox&&svg.viewBox.baseVal, sr=svg.getBoundingClientRect(); if(!vb||!vb.width||!sr.width) return;
+  const k=sr.width/vb.width, pad=1.2*k, placed=[], box=t=>{const r=t.getBoundingClientRect(); return {l:r.left,r:r.right,t:r.top,b:r.bottom};},
+    hit=(a,b)=>a.l<b.r-pad&&b.l<a.r-pad&&a.t<b.b-pad&&b.t<a.b-pad, inside=a=>a.l>=sr.left-.5&&a.r<=sr.right+.5&&a.t>=sr.top-.5&&a.b<=sr.bottom+.5;
+  [...svg.querySelectorAll('text')].filter(t=>t.textContent.trim()&&t.getClientRects().length).forEach(t=>{
+    let b=box(t); const ok=bb=>inside(bb)&&!placed.some(p=>hit(bb,p)&&p.s!==t.textContent),
+      fixed=t.getAttribute('x')===null||t.getAttribute('y')===null||t.querySelector('tspan[x]')||/rotate/.test(t.getAttribute('transform')||'')||t.closest('[transform*="rotate"]');
+    if(!fixed&&!ok(b)){const w=b.r-b.l, h=b.b-b.t, ix=Math.max(0,sr.left-b.l)-Math.max(0,b.r-sr.right), iy=Math.max(0,sr.top-b.t)-Math.max(0,b.b-sr.bottom),
+        C=[[ix,iy],[ix,iy+h],[ix,iy-h],[ix,iy+2*h],[ix,iy-2*h],[ix-(w+4*k),iy],[ix-(w+4*k),iy+h],[ix-(w+4*k),iy-h],[ix-(w+4*k),iy+2*h],[ix-(w+4*k),iy-2*h],[0,-5*k],[0,5*k],[6*k,0],[-6*k,0],[0,-h],[0,h],[w+4*k,0],[-(w+4*k),0],[w/2,-h],[-w/2,-h],[w/2,h],[-w/2,h],[0,-2*h],[0,2*h],[w+4*k,-h],[-(w+4*k),-h],[w+4*k,h],[-(w+4*k),h]];
+      for(const [dx,dy] of C){ if(!dx&&!dy) continue; const bb={l:b.l+dx,r:b.r+dx,t:b.t+dy,b:b.b+dy}; if(ok(bb)){t.setAttribute('x',String((parseFloat(t.getAttribute('x'))||0)+dx/k)); t.setAttribute('y',String((parseFloat(t.getAttribute('y'))||0)+dy/k)); b=bb; break;} }}
+    if(fixed&&/rotate/.test(t.getAttribute('transform')||'')&&!inside(b)){const r=(sr.height-8)/(b.b-b.t); if(r<1){t.setAttribute('font-size',String((parseFloat(t.getAttribute('font-size'))||14)*r)); b=box(t);}
+      const m=/translate\(\s*([-\d.]+)[ ,]+([-\d.]+)\s*\)/.exec(t.getAttribute('transform')||''), iy=Math.max(0,sr.top-b.t)-Math.max(0,b.b-sr.bottom); if(m&&iy){t.setAttribute('transform',t.getAttribute('transform').replace(m[0],'translate('+m[1]+' '+(parseFloat(m[2])+iy/k)+')')); b=box(t);}}
+    b.s=t.textContent; placed.push(b);});
+}
+let dcTimer=0; const dcPass=()=>{clearTimeout(dcTimer); dcTimer=setTimeout(()=>document.querySelectorAll('#main svg').forEach(sv=>{const n=sv.querySelectorAll('text').length+'|'+Math.round(sv.getBoundingClientRect().width); if(sv.dataset.dc!==n){sv.dataset.dc=n; declutter(sv);}}),120);};
 function avChart(root,cfg){
   const W=420,H=cfg.h||240,m=Object.assign({l:52,r:16,t:28,b:44},cfg.m||{}),id='avc'+(++avN),ax=cfg.x,ay=cfg.y;
   const {s,c}=avShell(root,W,H,cfg.label,cfg.cap), pw=W-m.l-m.r, ph=H-m.t-m.b, mk=avArrowDef(s);
@@ -1048,7 +1064,7 @@ function avChart(root,cfg){
     cat(cfg,d,'arrows').forEach(a=>avLine(top,mk,X(a.x1),Y(a.y1),X(a.x2),Y(a.y2),a.color||'var(--fg)',2));
     cat(cfg,d,'marks').forEach(k=>{sv('circle',{cx:X(k.x),cy:Y(k.y),r:k.r||4.8,fill:k.color||'var(--c2)'},top); if(k.label) stext(top,X(k.x)+(k.dx===undefined?8:k.dx),Y(k.y)+(k.dy===undefined?-8:k.dy),k.label,{'text-anchor':k.anchor||'start','font-size':14.5,'font-weight':600});});
     cat(cfg,d,'labels').forEach(l=>stext(top,X(l.x),Y(l.y),l.t,{'text-anchor':l.anchor||'start','font-size':14.5,'font-weight':l.b?600:400,fill:l.color||'var(--fg)'}));
-    if(out) out.innerHTML=d.out||'';
+    if(out) out.innerHTML=d.out||''; declutter(s);
   }
   const reveal=u=>{cr.setAttribute('width',pw*u); top.style.display=u>=.92?'':'none';};
   if(rng) rng.addEventListener('input',draw);
@@ -1136,12 +1152,12 @@ AV['bohr-levels']=root=>{
   const LV={1:206,2:84,3:58}, E=n=>-13.6/(n*n), X0=124, X1=296;
   sv('line',{x1:X0,y1:30,x2:X1,y2:30,stroke:'var(--mu)','stroke-width':1.6,'stroke-dasharray':'6 4'},s); stext(s,X0-8,30,'0 eV',{'text-anchor':'end','dominant-baseline':'central',fill:'var(--mu)'});
   [1,2,3].forEach(n=>{sv('line',{x1:X0,y1:LV[n],x2:X1,y2:LV[n],stroke:'var(--fg)','stroke-width':2.4},s); stext(s,X0-8,LV[n],'n = '+n+'  '+E(n).toFixed(2).replace('-','−')+' eV',{'text-anchor':'end','dominant-baseline':'central','font-size':14});});
-  const el=sv('circle',{cx:210,r:8,fill:'var(--c1)'},s), ph=sv('path',{d:packetPath(54,9,10),fill:'none',stroke:'var(--c2)','stroke-width':2.2,'stroke-linejoin':'round'},s);
+  const el=sv('circle',{cx:210,r:8,fill:'var(--c1)'},s), ph=sv('path',{d:packetPath(54,9,10),fill:'none',stroke:'var(--c2)','stroke-width':2.2,'stroke-linejoin':'round'},s), phl=stext(s,0,0,'photon',{'text-anchor':'middle','font-size':14,fill:'var(--c2)','font-weight':600});
   c.innerHTML='<span class="muted" style="flex:1 1 100%">Electron drops</span>'; const TR=[[3,2],[2,1],[3,1]], btns=TR.map(t=>{const b=document.createElement('button'); b.type='button'; b.className='btn sm'; b.textContent=t[0]+' → '+t[1]; b.setAttribute('aria-pressed','false'); c.appendChild(b); return b;});
   const out=document.createElement('output'); out.className='avo'; out.setAttribute('aria-live','polite'); c.appendChild(out); let cur=null,timer=0,started=false;
   const dE=(a,b)=>13.6*(1/(b*b)-1/(a*a)), txt=(a,b)=>{out.innerHTML='n = '+a+' → '+b+': ΔE = 13.6 (1/'+b+'² − 1/'+a+'²) = <span class="f">'+fmt3(dE(a,b))+' eV</span>';};
   const set=(i,u)=>{const [a,b]=TR[i], ym=(LV[a]+LV[b])/2; btns.forEach((x,k)=>x.setAttribute('aria-pressed',k===i?'true':'false'));
-    const e=ease(seg(u,0,.45)); el.setAttribute('cy',lerp(LV[a]-12,LV[b]-12,e)); const p=seg(u,.45,1); ph.style.display=u<.45?'none':''; ph.setAttribute('transform','translate('+lerp(312,350,p)+' '+ym+')'); if(u>=.45) txt(a,b); else out.innerHTML='';};
+    const e=ease(seg(u,0,.45)); el.setAttribute('cy',lerp(LV[a]-12,LV[b]-12,e)); const p=seg(u,.45,1); ph.style.display=u<.45?'none':''; phl.style.display=u<.45?'none':''; ph.setAttribute('transform','translate('+lerp(312,350,p)+' '+ym+')'); phl.setAttribute('x',lerp(339,377,p)); phl.setAttribute('y',ym-16); if(u>=.45) txt(a,b); else out.innerHTML='';};
   const run=i=>{ if(cur) cur.stop(); clearTimeout(timer); cur=runOnce(1900,u=>set(i,u)); };
   btns.forEach((b,i)=>b.addEventListener('click',()=>{started=true; run(i);})); set(0,1);
   return {enter(){ if(REDUCE||started) return; started=true; run(0); }, leave(){ if(cur){cur.stop(); cur=null;} }, finish(){ started=true; if(cur){cur.stop(); cur=null;} set(0,1); }};
@@ -1152,9 +1168,9 @@ AV['characteristic-xray']=root=>avTimeline(root,{h:244,label:'An electron falls 
   R.forEach((r,i)=>{sv('circle',{cx:CX,cy:CY,r,fill:'none',stroke:'var(--gr)','stroke-width':2.2},s); const p=at(r,90); stext(s,p[0],p[1]-5,['K','L','M'][i],{'text-anchor':'middle','font-size':14,fill:'var(--mu)','font-weight':600});});
   sv('circle',{cx:CX,cy:CY,r:8,fill:'var(--c2)'},s);
   const k1=at(30,135), k2=at(30,315), l1=at(62,135); [k2,at(62,45),at(62,225),at(62,315)].forEach(p=>sv('circle',{cx:p[0],cy:p[1],r:5.5,fill:'var(--c1)'},s));
-  const vac=sv('circle',{cx:k1[0],cy:k1[1],r:7,fill:'none',stroke:'var(--mu)','stroke-width':1.6,'stroke-dasharray':'3 3'},s), ke=sv('circle',{r:5.5,fill:'var(--c1)'},s), le=sv('circle',{r:5.5,fill:'var(--c1)'},s), pr=sv('circle',{r:7,fill:'var(--c2)'},s), ph=sv('path',{d:packetPath(54,9,10),fill:'none',stroke:'var(--c3)','stroke-width':2.2,'stroke-linejoin':'round'},s);
+  const vac=sv('circle',{cx:k1[0],cy:k1[1],r:7,fill:'none',stroke:'var(--mu)','stroke-width':1.6,'stroke-dasharray':'3 3'},s), ke=sv('circle',{r:5.5,fill:'var(--c1)'},s), le=sv('circle',{r:5.5,fill:'var(--c1)'},s), pr=sv('circle',{r:5.5,fill:'var(--c1)'},s), pl=stext(s,8,38,'incoming electron',{'font-size':13,fill:'var(--mu)'}), ph=sv('path',{d:packetPath(54,9,10),fill:'none',stroke:'var(--c3)','stroke-width':2.2,'stroke-linejoin':'round'},s);
   const t1=stext(s,236,150,'K shell: 69.5 keV',{'font-size':14.5}), t2=stext(s,236,176,'L shell: 10.2 keV',{'font-size':14.5}), t3=stext(s,236,206,'x-ray: 59.3 keV',{'font-size':15,'font-weight':700,fill:'var(--c3)'});
-  return u=>{const a=ease(seg(u,0,.25)); pr.setAttribute('cx',lerp(18,k1[0],a)); pr.setAttribute('cy',lerp(18,k1[1],a)); pr.style.display=u<.25?'':'none';
+  return u=>{const a=ease(seg(u,0,.25)); pr.setAttribute('cx',lerp(18,k1[0],a)); pr.setAttribute('cy',lerp(18,k1[1],a)); pr.style.display=u<.25?'':'none'; pl.style.display=u<.25?'':'none';
     const e=ease(seg(u,.25,.42)); ke.setAttribute('cx',lerp(k1[0],26,e)); ke.setAttribute('cy',lerp(k1[1],200,e)); ke.style.display=u<.25?'none':'';
     vac.style.display=u>=.25&&u<.65?'':'none'; const j=ease(seg(u,.45,.65)); le.setAttribute('cx',lerp(l1[0],k1[0],j)); le.setAttribute('cy',lerp(l1[1],k1[1],j));
     const p=ease(seg(u,.66,1)), d=lerp(0,236,p); ph.setAttribute('transform','translate('+(k1[0]+d*0.99).toFixed(1)+' '+(k1[1]-d*0.14).toFixed(1)+') rotate(-8)'); ph.style.display=u<.66?'none':'';
@@ -2408,7 +2424,7 @@ function bindNum(el){
 // ---------------------------------------------------------------- tap-the-figure questions
 function bindFig(el){
   const id=el.dataset.id, S=JSON.parse(el.dataset.spec), T=JSON.parse(el.dataset.targets), box=el.querySelector('.fgb'), chk=el.querySelector('.chk'), fb=el.querySelector('.fb');
-  const W=420, H=S.h||290, m={l:S.y&&S.y.ticks&&S.y.ticks.length?(S.y.fmt==='pct'?58:46):30,r:14,t:14,b:S.x.label?50:34}, pw=W-m.l-m.r, ph=H-m.t-m.b;
+  const W=420, H=S.h||290, m={l:S.y&&S.y.ticks&&S.y.ticks.length?(S.y.fmt==='pct'?66:46):30,r:14,t:14,b:S.x.label?50:34}, pw=W-m.l-m.r, ph=H-m.t-m.b;
   const fx=v=>S.x.log?Math.log10(v):v, fy=v=>S.y.log?Math.log10(v):v, ix=v=>S.x.log?Math.pow(10,v):v, iy=v=>S.y.log?Math.pow(10,v):v;
   const X=v=>m.l+(fx(v)-fx(S.x.min))/(fx(S.x.max)-fx(S.x.min))*pw, Y=v=>m.t+ph-(fy(v)-fy(S.y.min))/(fy(S.y.max)-fy(S.y.min))*ph;
   const dx=px=>ix(fx(S.x.min)+(px-m.l)/pw*(fx(S.x.max)-fx(S.x.min))), dy=py=>iy(fy(S.y.min)+(m.t+ph-py)/ph*(fy(S.y.max)-fy(S.y.min)));
@@ -2815,6 +2831,7 @@ $('#side').addEventListener('click',e=>{const bt=e.target.closest('.nm'); if(!bt
 window.addEventListener('scroll',()=>{ if(progMode!=='scroll'||progRaf) return; progRaf=requestAnimationFrame(()=>{progRaf=0; refreshProgress();}); },{passive:true});
 window.addEventListener('resize',()=>refreshProgress());
 window.addEventListener('pagehide',flushReads);
+{const mn=document.getElementById('main'); if(mn){new MutationObserver(dcPass).observe(mn,{childList:true,subtree:true}); window.addEventListener('resize',dcPass);}}
 // a Must know line and the passage it summarises light each other up; clicking one scrolls to the other
 {const peers=k=>[...document.querySelectorAll('[data-k]')].filter(e=>e.dataset.k===k), off=()=>document.querySelectorAll('.kn-on').forEach(e=>e.classList.remove('kn-on')); let pinned=0;
   const on=k=>{off(); peers(k).forEach(e=>e.classList.add('kn-on'));}, kOf=e=>{const x=e.target.closest&&e.target.closest('[data-k]'); return x&&x.dataset.k?x:null;};
