@@ -141,7 +141,7 @@ function gantryAngle(g){const t=getComputedStyle(g).transform; if(!t||t==='none'
 function bindDial(){
   if(dialTimer){clearInterval(dialTimer); dialTimer=null;}
   const side=[...document.querySelectorAll('.side .blk[data-dom]')], N=DATA.domains.length, span=360/N, still=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const mark=n=>{side.forEach(b=>b.classList.toggle('pt',+b.dataset.dom===n)); openDom(n);};   // the domain the machine points at is lit and opened in the list
+  const mark=n=>{side.forEach(b=>b.classList.toggle('pt',+b.dataset.dom===n));};   // the domain the machine points at is lit in the list; a domain opens only when it is clicked
   const domAt=a=>Math.floor((((a%360)+360)%360)/span)%N+1;                        // a segment's centre is at (angle + 90) degrees on the gantry
   // pointing at a segment turns the machine and opens that domain in the list at once, not as the machine passes each domain on the way
   document.querySelectorAll('.dial').forEach(dial=>{const g=dial.querySelector('.gantry'); if(!g) return;
@@ -1994,7 +1994,7 @@ function route(){
   else {html=homeView(); tab='home';}
   const lp=!!progFn;
   $('#main').innerHTML=html; $('#side').innerHTML=list?(lp?lpHTML():'')+sideHTML(cur,mode,openN):''; $('#lpm').innerHTML=lp?lpHTML():'';
-  updatePrism(); document.body.classList.toggle('cp',lp); document.body.classList.toggle('nolist',!list);
+  updatePrism(); document.body.classList.toggle('home',tab==='home'); document.body.classList.toggle('cp',lp); document.body.classList.toggle('nolist',!list);
   const sel=$('#jump'); sel.innerHTML=jumpHTML(mode); sel.value=jv;
   document.querySelectorAll('.tabs a').forEach(a=>{a.classList.toggle('on',a.dataset.tab===tab); if(a.dataset.tab==='cards') a.setAttribute('href','#t/'+ctx+'/c'); if(a.dataset.tab==='questions') a.setAttribute('href','#t/'+ctx+'/q');});
   window.scrollTo(0,0); bind(); refreshProgress();
