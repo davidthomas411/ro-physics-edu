@@ -98,9 +98,10 @@ with tempfile.TemporaryDirectory() as d:
         (d / name).write_text(json.dumps(entries)); return problems(d / name)
     check(run([entry()]) == [], f"a complete entry must pass: {run([entry()])}")
     check(run([entry(file="fixture.webp", id="w")]) == [], "a WebP entry must pass")
+    check(run([entry(licence="CC BY-SA 4.0")]) == [], "a CC BY-SA entry must pass")
     cases = [("a missing field", entry(alt=""), "alt"), ("a missing file", entry(file="none.jpg"), "does not exist"), ("a wide image", entry(file="wide.jpg"), "px wide"),
              ("EXIF in a JPEG", entry(file="exif.jpg"), "metadata"), ("EXIF in a WebP", entry(file="exif.webp"), "metadata"), ("a large file", entry(file="big.jpg"), "KB"),
-             ("a ShareAlike licence", entry(licence="CC BY-SA 4.0"), "licence"), ("a NonCommercial licence", entry(licence="CC BY-NC 2.0"), "licence"),
+             ("a GFDL-only licence", entry(licence="GFDL"), "licence"), ("a NoDerivatives licence", entry(licence="CC BY-ND 4.0"), "licence"), ("a NonCommercial licence", entry(licence="CC BY-NC 2.0"), "licence"),
              ("an unnamed host", entry(source_url="https://example.com/x.jpg"), "host"), ("an http URL", entry(licence_url="http://creativecommons.org/licenses/by/4.0/"), "https")]
     for what, e, needle in cases:
         r = run([e]); check(any(needle in x for x in r), f"{what} must be reported ({needle}): {r}")

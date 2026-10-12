@@ -8,7 +8,10 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parent.parent
 d = Path(tempfile.mkdtemp(prefix="rophoto_"))
 im = Image.new("RGB", (800, 500)); im.putdata([(x * 255 // 800, y * 255 // 500, 128) for y in range(500) for x in range(800)]); im.save(d / "fixture.jpg", quality=70)
-(d / "m.json").write_text(json.dumps([dict(id="fixture", file="fixture.jpg", alt="A synthetic test image", caption="A synthetic gradient used only by the test, with a long caption so that the text wraps at phone width.", creator="Test Creator With A Long Name", licence="CC BY 4.0",
+import shutil
+REAL = json.loads((ROOT / "src/photos/manifest.json").read_text(encoding="utf-8"))      # chapters already use real photos; they stay resolvable beside the fixture
+for e in REAL: shutil.copy(ROOT / "src/photos" / e["file"], d / e["file"])
+(d / "m.json").write_text(json.dumps(REAL + [dict(id="fixture", file="fixture.jpg", alt="A synthetic test image", caption="A synthetic gradient used only by the test, with a long caption so that the text wraps at phone width.", creator="Test Creator With A Long Name", licence="CC BY 4.0",
     licence_url="https://creativecommons.org/licenses/by/4.0/", source_url="https://commons.wikimedia.org/wiki/File:Test.jpg", title="Test")]))
 (d / "build_with_photo.py").write_text(f'''import runpy, sys
 sys.path[:0] = [{str(ROOT / "src")!r}, {str(ROOT / "src" / "topics")!r}]

@@ -4,7 +4,8 @@ import base64, html, json, os
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 FIELDS = ("id", "file", "alt", "caption", "creator", "licence", "licence_url", "source_url", "title")
-ALLOWED = ("Public domain", "CC0", "CC BY 2.0", "CC BY 2.5", "CC BY 3.0", "CC BY 4.0")
+ALLOWED = ("Public domain", "CC0", "CC BY 2.0", "CC BY 2.5", "CC BY 3.0", "CC BY 4.0",
+           "CC BY-SA 2.0", "CC BY-SA 2.5", "CC BY-SA 3.0", "CC BY-SA 4.0")
 MIME = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp"}
 esc = lambda s: html.escape(str(s), quote=True)
 

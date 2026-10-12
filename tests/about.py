@@ -74,7 +74,7 @@ with sync_playwright() as pw:
     check("MIT" in lic and "CC BY 4.0" in lic and "Third-party material keeps its own terms" in lic, "the license section names both licenses")
     rows = pg.evaluate("(()=>{const o=[]; let e=document.getElementById('about-license').nextElementSibling; while(e&&e.tagName!=='H2'){e.querySelectorAll('tr').forEach(r=>o.push([...r.cells].map(c=>c.textContent))); e=e.nextElementSibling;} return o.slice(1);})()")
     notes = [r for r in A.notices() if not r["status"].startswith("Not part of the site") and not r["what"].startswith("TCIA collection") and r["confirm"] != "photos"]   # the photographs row shows only when a chapter uses a photo
-    check(len(rows) == len(notes) + 1 and any("OpenKBP" in r[0] for r in rows) and any("NIST" in r[0] for r in rows) and any("Collections of The Cancer Imaging Archive" in r[0] for r in rows), f"the third-party table lists the sources in THIRD_PARTY_NOTICES.md ({len(rows)} rows)")
+    check(len(rows) == len(notes) + 1 + sum(r[0].startswith("Photographs") for r in rows) and any("OpenKBP" in r[0] for r in rows) and any("NIST" in r[0] for r in rows) and any("Collections of The Cancer Imaging Archive" in r[0] for r in rows), f"the third-party table lists the sources in THIRD_PARTY_NOTICES.md ({len(rows)} rows)")
     check(all(len(r) == 3 and all(c.strip() for c in r) for r in rows), "every cell of the third-party table is filled")
     # content basis, images, AI, use
     s6, s7, s8, s9 = sect("about-basis"), sect("about-images"), sect("about-ai"), sect("about-use")
