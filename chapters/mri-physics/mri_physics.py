@@ -22,6 +22,7 @@ TOPIC = dict(
 
         H("Signal and spin flips"),
         P("The precessing nuclear magnets generate a signal. The magnetic flux through a readout coil changes as the moments precess, and by Faraday's law a changing flux gives a current that can be measured. One nucleus gives a tiny signal, but a biological sample has billions of aligned nuclei that precess together."),
+        PHOTO("mri-physics-head-coil"),
         P("The energy of a nuclear magnetic dipole depends on its orientation to the field. Energy supplied as radiofrequency waves at the Larmor frequency can flip the spins from the low-energy orientation, along the field, to a higher-energy orientation, perpendicular to the field or opposite to it. A spin in a high-energy state decays back to the lowest state over time, and it precesses as it does so, which produces the signal in the coil. Only radiation at the Larmor frequency flips the spins, which is what resonance means."),
 
         H("Image formation with gradients"),

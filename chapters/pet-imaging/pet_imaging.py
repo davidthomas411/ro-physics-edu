@@ -27,6 +27,7 @@ TOPIC = dict(
 
         H("Resolution and SUV"),
         P("The typical spatial resolution of PET is 4 to 5 mm. Four factors affect it. The two photons are not exactly anti-parallel, because the positron and the electron carry a small net momentum when they annihilate, which makes the photons non-collinear, so the line of response does not pass exactly through the annihilation point. The size of the crystals in the detector ring limits it. The energy of the positron sets how far it travels before annihilating, which blurs the response. The reconstruction algorithm and filters also play a part. The resolution of PET is substantially worse than that of CT."),
+        PHOTO("pet-imaging-crystal-arrays"),
         P("The values in a PET image are often reported as the standardized uptake value (SUV), defined voxel by voxel as the measured activity concentration divided by the injected activity per unit body weight. Many factors affect it, so it is a semi-quantitative measure."),
         EQ("SUV = activity concentration / (injected activity / body weight)"),
         EX("A standardized uptake value", STEM("A tumour has an activity concentration of 20 kBq/mL. The injected activity was 370 MBq in a patient of 74 kg.", [], "Find the [[SUV]]."), ["Injected activity per gram = 370,000 kBq / 74,000 g = 5.0 kBq/g", "SUV = 20 kBq/mL / 5.0 kBq/g"], f"SUV = {suv_a:.1f}. The tumour concentrates the tracer four times more than if it were spread evenly through the body."),

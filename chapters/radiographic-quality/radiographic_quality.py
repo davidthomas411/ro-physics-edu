@@ -46,6 +46,7 @@ TOPIC = dict(
         AVF("real-dx-chest"),
         H("Scatter and grids"),
         P("Some photons scatter in the patient before they reach the detector. They do not travel in a straight line from the source, so they carry no information about what lies along the path. Scatter raises the signal but it is an unwanted signal, and it lowers the contrast and the SNR. Scatter depends on the geometry. If the patient is farther from the detector, fewer scattered photons reach it. A thinner part of the body, and a smaller field, give less scatter."),
+        PHOTO("radiographic-quality-pmma-phantom"),
         P("A grid reduces scatter. It consists of thin metal fins arranged to point back toward the source. A photon travelling along a line to the source passes between the fins. A scattered photon does not, so it is stopped by the fins and does not reach the detector."),
         P(f"In the same simulated radiograph, with a scatter-to-primary ratio of {DS['SPR']:.0f}, the contrast between the bone region and the soft-tissue region falls to {DS['con_scatter'] / DS['con_primary']:.2f} of its primary-only value. A grid that passes {100 * DS['TP']:.0f}% of the primary photons and {100 * DS['TS']:.0f}% of the scattered photons restores it to {DS['con_with_grid'] / DS['con_primary']:.2f}, at the cost of {DS['bucky']:.1f} times the exposure. That ratio of the exposures is the Bucky factor."),
         AVF("drr-gallery-scatter"),

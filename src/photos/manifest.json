@@ -196,5 +196,104 @@
   "licence_url": "https://creativecommons.org/licenses/by/4.0/",
   "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8292712/",
   "title": "Commissioning of and preliminary experience with a new fully integrated computed tomography linac"
+ },
+ {
+  "id": "protons-brass-aperture",
+  "file": "protons-brass-aperture.jpg",
+  "alt": "Left, a round brass block with an irregular hole through its centre, lying on a table; right, the same aperture drawn as a filled disc with the matching opening on a crosshair scale.",
+  "caption": "A patient-specific brass aperture for a proton field. The hole follows the beam's-eye outline of the target, and the metal stops protons outside it, which sharpens the lateral penumbra of the field. The right panel shows the planning-system outline of the same aperture.",
+  "creator": "Chou et al., Journal of Applied Clinical Medical Physics 2025",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12256687/",
+  "title": "Dosimetric evaluation and clinical application of collimated apertures with proton beam line scanning in stereotactic radiotherapy"
+ },
+ {
+  "id": "radiographic-quality-pmma-phantom",
+  "file": "radiographic-quality-pmma-phantom.jpg",
+  "alt": "Two views of a stack of clear acrylic slabs standing in front of an upright detector, with a dark circular contrast target visible through the slabs; the right view is from the side.",
+  "caption": "A chest-radiography phantom: acrylic slabs stand in for patient thickness, and a test object sits inside the stack. Thicker stacks scatter more, which lowers contrast and raises the dose needed, so the thickness is part of the measurement set-up.",
+  "creator": "Antonakos et al., Journal of Imaging 2026",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12843376/",
+  "title": "Chest Radiography Optimization: Identifying the Optimal kV for Image Quality in a Phantom Study"
+ },
+ {
+  "id": "dose-limits-survey-meters",
+  "file": "dose-limits-survey-meters.jpg",
+  "alt": "Two portable radiation survey meters. Left, a tan metal case with an analogue dial, a knob panel, and a cable to a separate probe with a red flat head. Right, a yellow and red handheld unit with a carrying handle on top, a digital display, and a wrist strap.",
+  "caption": "Two types of survey meter: an analogue ratemeter with a cabled probe (left) and a handheld unit with a digital display (right). The reading is a rate, so the response of each model to photon energy, dose rate, and pulsed beams decides where it can be trusted.",
+  "creator": "Ahmad et al., Sensors (Basel, Switzerland) 2021",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8619633/",
+  "title": "Ionizing Radiation Monitoring Technology at the Verge of Internet of Things"
+ },
+ {
+  "id": "shielding-lead-slab-wall",
+  "file": "shielding-lead-slab-wall.jpg",
+  "alt": "A tall rectangle of grey lead bricks held by a dark steel frame, mounted on a bare concrete wall inside an unfinished room. Duct work runs along the ceiling and a ladder stands at the lower right.",
+  "caption": "A 2 cm lead slab fixed to the inside face of a primary barrier in a linac vault. Lead adds photon attenuation in little depth, but a high-energy beam striking it produces neutrons, which the barrier and door must also account for.",
+  "creator": "Galiano et al., Journal of Applied Clinical Medical Physics 2025",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12677931/",
+  "title": "Non‐compliant neutron dose associated with an internal lead slab in a radiotherapy treatment vault"
+ },
+ {
+  "id": "ct-quality-cbct-density-phantom",
+  "file": "ct-quality-cbct-density-phantom.jpg",
+  "alt": "Photographs of an oval grey electron-density phantom on a treatment couch, with round tissue-substitute inserts in two different arrangements, each beside its cone-beam CT slice with the inserts numbered.",
+  "caption": "A phantom with removable tissue-substitute inserts on a linac couch, imaged by cone-beam CT. Each arrangement gives the reconstructed value of every material, which is how the CBCT numbers are checked against known densities before the image is used for dose calculation.",
+  "creator": "Nelson et al., Journal of Applied Clinical Medical Physics 2025",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12419991/",
+  "title": "Feasibility of HyperSight CBCT for adaptive radiation therapy: A phantom benchmark study of dose calculation accuracy and delivery verification on the Halcyon"
+ },
+ {
+  "id": "mri-physics-head-coil",
+  "file": "mri-physics-head-coil.jpg",
+  "alt": "Three views of a white cylindrical head coil on a bench, with a small mirror on top, a posterior half that slides out, and cables leaving at the rear.",
+  "caption": "A head radiofrequency coil, here a research 7 T design, taken out of the scanner. The outer shell holds the coil that transmits the pulse at the Larmor frequency, and an array of small receive elements sits inside, close to the head, to pick up the signal. The mirror lets a patient see out of the bore.",
+  "creator": "Fullerton et al., Frontiers in Neuroscience 2026",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13328354/",
+  "title": "Evaluation of an open-face 8-channel transmit 64-channel receive 7T head coil for neuroimaging"
+ },
+ {
+  "id": "imrt-delivery-diode-array-setup",
+  "file": "imrt-delivery-diode-array-setup.jpg",
+  "alt": "Two views of a linac in a treatment room: a cylindrical diode array phantom lying on the couch under the gantry with green laser lines across it, and a head phantom in a mask on the couch beside the gantry.",
+  "caption": "Verification setup for modulated arc plans. A cylindrical diode array sits on the couch with its center aligned to the room lasers at the isocenter, and the plan is delivered as it would be to a patient. The right view shows an anthropomorphic head phantom set up in the same room.",
+  "creator": "Ntouli et al., Journal of Applied Clinical Medical Physics 2025",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12513818/",
+  "title": "Comparison of two dosimetric systems for quality assurance in a clinical treatment scenario for brain radiotherapy: Diode array and polymer gel dosimetry"
+ },
+ {
+  "id": "pet-imaging-crystal-arrays",
+  "file": "pet-imaging-crystal-arrays.jpg",
+  "alt": "Three white-housed blocks, each with a square grid of many small scintillator crystals on its top face; the grid is coarser in the left block and finer in the middle and right blocks.",
+  "caption": "Scintillator crystal arrays cut from LYSO at three pitches, 1.0, 0.75, and 0.5 mm. Each crystal is one detector element, so a smaller pitch locates the interaction more finely and improves resolution, at the cost of more crystals and electronics. These are preclinical blocks; clinical crystals are several millimetres across.",
+  "creator": "Du et al., EJNMMI Physics 2023",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9807733/",
+  "title": "Technical opportunities and challenges in developing total-body PET scanners for mice and rats"
+ },
+ {
+  "id": "spect-gamma-camera-heads",
+  "file": "spect-gamma-camera-heads.jpg",
+  "alt": "Top, a photograph of two gamma camera heads above and below a patient bed, with a cylindrical phantom between them; bottom, a labelled drawing of the same geometry showing, in each head from the patient outward, the collimator, crystal, light guide, electronics, and shielding.",
+  "caption": "Two gamma camera heads viewed on a SPECT system, with the layers of a head labelled in the drawing. The collimator selects which photons reach the crystal, the crystal converts them to light, and the light guide and electronics locate and count each event. The phantom stands in for the patient.",
+  "creator": "Pells et al., EJNMMI Physics 2023",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10542438/",
+  "title": "Quantitative validation of Monte Carlo SPECT simulation: application to a Mediso AnyScan GATE simulation"
  }
 ]

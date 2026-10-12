@@ -143,6 +143,7 @@ TOPIC = dict(
         H("Survey instruments"),
         P("An ion chamber survey meter collects the charge released in its gas, so it reads exposure rate with a nearly flat response over a wide range of photon energies and dose rates; it is the instrument for linac and HDR surveys."),
         P("A Geiger–Mueller (GM) counter turns each ionizing event into a discharge of the same size, so it is sensitive but records no energy; without a compensating filter it over-responds to low-energy photons. After each discharge the tube is insensitive for its dead time, of the order of 100 µs. A linac delivers pulses a few microseconds long a few hundred times per second, so a whole pulse falls within one dead time: the counter registers at most one count per pulse and reads far too low. It suits a search for a lost seed."),
+        PHOTO("dose-limits-survey-meters"),
         P("A neutron rem meter surrounds a BF<sub>3</sub> or He-3 counter with a polyethylene moderator, which slows fast neutrons for capture and is sized so that the reading follows the dose equivalent. Survey meters used to show compliance are calibrated before first use, annually, and after a repair that affects calibration, on every scale up to 10 mSv/h with two readings per scale or decade; a meter whose indicated rate differs from the calculated rate by more than 20% is not used (10 CFR 35.61). By usual practice the source is traceable to NIST, directly or through an ADCL."),
     ],
     cards=[

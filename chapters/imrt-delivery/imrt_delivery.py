@@ -32,6 +32,7 @@ TOPIC = dict(
         EX("Beam-on time", STEM("An IMRT plan of 540 MU.", ["dose rate = 600 MU/min"], "Find the [[beam-on time]]."), ["Time = 540 MU / 600 MU per minute × 60 s"], f"{t_on(540, 600):.0f} s. The time for the leaves to move between segments is added in step-and-shoot delivery."),
         EX("A VMAT arc", STEM("A 360° arc.", ["gantry speed = 4°/s", "dose rate = 600 MU/min"], "Find the [[arc time]] and the most MU the arc can deliver."), ["Time = 360° / 4°/s", "MU = 600 / 60 × 90"], f"{arc_t(360, 4):.0f} s, and at most {arc_mu(600, 90):.0f} MU. A plan with more MU would need a slower gantry or a higher dose rate."),
         P("A hand calculation is a practical secondary check for a simple open-field plan. For IMRT and VMAT, the fluence is modulated across each field and a hand calculation of the point dose is not practical, so the check is a measurement or an independent calculation of the plan."),
+        PHOTO("imrt-delivery-diode-array-setup"),
     ],
     cards=[
         F("3D conformal therapy", "Each beam has a uniform fluence, shaped to the target as seen from that angle."),
