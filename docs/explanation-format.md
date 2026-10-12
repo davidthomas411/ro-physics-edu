@@ -29,3 +29,7 @@ w=[STEP("Distance factor", "F = [(f + d) / (f + d<sub>max</sub>)]²", "F = (115 
 with `why` = "Using the PDD unchanged gives 0.580, leaving out the square gives 0.657, and inverting the ratio gives 0.452."
 
 Check each converted chapter at 1280 × 900 and 390 × 844, light and dark, with no sideways scroll.
+
+## Where the steps go
+
+The steps are the default explanation of every calculation question: they appear under "Explanation" as soon as the question is answered. Explain further is for extra depth only (a plainer restatement of the idea, background, why the method works, common traps) and does not repeat the steps. A question whose keyed answer is computed has steps; a concept question has a short reason.
