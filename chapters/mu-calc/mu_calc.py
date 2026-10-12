@@ -23,15 +23,15 @@ TOPIC = dict(
     ref=dict(aapm="8.2", khan="10", ford="11"),
     guide=[
         H("Monitor unit calculation"),
-        P("A monitor-unit calculation starts from a known point dose, the calibration, and applies correction factors to reach the dose per MU in the treatment geometry."),
-        EQ("MU = prescribed dose at the point / dose per MU at the point"),
+        P("[[1|A monitor-unit calculation starts from a known point dose, the calibration, and applies correction factors to reach the dose per MU in the treatment geometry.]]"),
+        EQ("[[1|MU = prescribed dose at the point / dose per MU at the point]]"),
 
         H("Reference conditions"),
-        P("Linacs are commonly calibrated to give 1 cGy per MU at d<sub>max</sub> in water for a 10 × 10 cm field. The two conventions differ in where that d<sub>max</sub> point sits, which sets the calibration distance d<sub>cal</sub> from the source. SSD calibration is the convention used at this clinic. SAD calibration is common elsewhere and on exam problems, so both are worked here. Every question says which one it uses."),
+        P("[[1|Linacs are commonly calibrated to give 1 cGy per MU at d<sub>max</sub> in water for a 10 × 10 cm field.]] The two conventions differ in where that d<sub>max</sub> point sits, which sets the calibration distance d<sub>cal</sub> from the source. SSD calibration is the convention used at this clinic. SAD calibration is common elsewhere and on exam problems, so both are worked here. Every question says which one it uses."),
         TABLE(["", "SSD calibration (this clinic)", "SAD calibration"], [
             ["Where 1 cGy/MU is delivered", "d<sub>max</sub>, with the surface at 100 cm", "d<sub>max</sub>, with the point at 100 cm"],
-            ["Calibration distance d<sub>cal</sub>", "100 + d<sub>max</sub> (101.5 cm for 6 MV)", "100 cm"]]),
-        EQ("inverse-square term = (d<sub>cal</sub> / d)²", "d = source-to-point distance in the treatment: f + d<sub>max</sub> for the SSD technique, 100 cm for the SAD technique"),
+            ["[[1|Calibration distance d<sub>cal</sub>]]", "[[1|100 + d<sub>max</sub> (101.5 cm for 6 MV)]]", "[[1|100 cm]]"]]),
+        EQ("[[1|inverse-square term = (d<sub>cal</sub> / d)²]]", "d = source-to-point distance in the treatment: f + d<sub>max</sub> for the SSD technique, 100 cm for the SAD technique"),
         P("The dose per MU at the treatment point differs from the calibration by the inverse square of the two distances. This one rule gives every inverse-square term:"),
         TABLE(["Inverse-square term (d<sub>max</sub> = 1.5 cm)", "SSD technique, SSD f", "SAD technique"], [
             ["SSD calibration", f"[(100 + d<sub>max</sub>)/(f + d<sub>max</sub>)]²: 1.000 at f = 100, {(101.5 / 121.5) ** 2:.3f} at f = 120", f"[(100 + d<sub>max</sub>)/100]² = {cal:.3f}"],
@@ -39,21 +39,21 @@ TOPIC = dict(
         P(f"The two calibrations are different machine settings, about {100 * (cal - 1):.0f}% apart. A machine calibrated at SSD 100 cm delivers {cal:.3f} cGy/MU at the isocenter, because the isocenter is nearer the source than the calibration point. Confirm which convention applies before using any inverse-square term."),
 
         H("SSD technique"),
-        EQ("Dose/MU = Ḋ<sub>0</sub> · S<sub>c</sub>(A<sub>c</sub>) · S<sub>p</sub>(A) · PDD(d, A, f)/100 · [d<sub>cal</sub>/(f + d<sub>max</sub>)]² · WF · TF"),
+        EQ("[[1|Dose/MU = Ḋ<sub>0</sub> · S<sub>c</sub>(A<sub>c</sub>) · S<sub>p</sub>(A) · PDD(d, A, f)/100 · [d<sub>cal</sub>/(f + d<sub>max</sub>)]²]] · WF · TF"),
         UL("Ḋ<sub>0</sub> = 1 cGy/MU at d<sub>max</sub>, 10 × 10 cm, at distance d<sub>cal</sub>.",
            "A is the field at the surface. A<sub>c</sub> is the collimator opening projected to 100 cm, A × 100/f.",
-           f"With SSD calibration d<sub>cal</sub> = 100 + d<sub>max</sub>, so the term is 1 at f = 100 cm and below 1 at an extended SSD, which raises the MU. With SAD calibration d<sub>cal</sub> = 100 cm, so the term is already {cal_inv:.3f} at f = 100 cm."),
+           f"With SSD calibration d<sub>cal</sub> = 100 + d<sub>max</sub>, so [[1|the term is 1 at f = 100 cm]] and [[2|below 1 at an extended SSD, which raises the MU]]. With SAD calibration d<sub>cal</sub> = 100 cm, so the term is already {cal_inv:.3f} at f = 100 cm."),
 
         H("SAD technique"),
-        EQ("Dose/MU = Ḋ<sub>0</sub> · S<sub>c</sub>(A<sub>c</sub>) · S<sub>p</sub>(A<sub>d</sub>) · TMR(d, A<sub>d</sub>) · (d<sub>cal</sub>/100)² · WF · TF"),
+        EQ("[[1|Dose/MU = Ḋ<sub>0</sub> · S<sub>c</sub>(A<sub>c</sub>) · S<sub>p</sub>(A<sub>d</sub>) · TMR(d, A<sub>d</sub>) · (d<sub>cal</sub>/100)²]] · WF · TF"),
         UL("A<sub>d</sub> is the field at the isocenter plane, and d is the depth of the isocenter.",
            "The point stays at 100 cm, so the only inverse-square term comes from the calibration distance.",
-           f"With SSD calibration it is [(100 + d<sub>max</sub>)/100]² = {cal:.3f}, a 3% gain in dose per MU. With SAD calibration it is 1."),
+           f"[[1|With SSD calibration it is [(100 + d<sub>max</sub>)/100]² = {cal:.3f}, a 3% gain in dose per MU. With SAD calibration it is 1.]]"),
 
         H("Beam modifiers"),
         TABLE(["Factor", "Meaning", "Effect on MU"], [
-            ["WF (wedge factor)", "Dose with the wedge ÷ dose without, at the same point and field size", "MU × 1/WF"],
-            ["TF (tray factor)", "Transmission through the blocking tray", "MU × 1/TF"],
+            ["WF (wedge factor)", "Dose with the wedge ÷ dose without, at the same point and field size", "[[1|MU × 1/WF]]"],
+            ["TF (tray factor)", "Transmission through the blocking tray", "[[1|MU × 1/TF]]"],
             ["OAR (off-axis ratio)", "Dose at an off-axis point ÷ dose on the axis at the same depth", "Applies when the point is off the central axis"]]),
 
         H("Worked examples"),

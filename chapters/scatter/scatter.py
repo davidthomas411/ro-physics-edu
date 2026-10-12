@@ -10,22 +10,22 @@ TOPIC = dict(
         H("Collimator and phantom scatter"),
         P("Output per MU depends on field size for two separate reasons. Photons scattered in the treatment head (flattening filter, primary collimator, jaws) change the fluence that reaches the patient. This collimator scatter is set by the jaw opening. Photons scattered in the patient add dose at the point, and that depends on the field irradiating the phantom."),
         TABLE(["Factor", "Name", "How it is obtained", "Depends on"], [
-            ["S<sub>c</sub>", "Collimator scatter factor (in-air output ratio)", "Chamber in air with a build-up cap at 100 cm; collimator setting A relative to 10 × 10 cm", "Collimator (jaw) opening"],
-            ["S<sub>p</sub>", "Phantom scatter factor", "S<sub>cp</sub> / S<sub>c</sub>", "Field irradiating the phantom"],
+            ["S<sub>c</sub>", "Collimator scatter factor (in-air output ratio)", "Chamber in air with a build-up cap at 100 cm; collimator setting A relative to 10 × 10 cm", "[[1|Collimator (jaw) opening]]"],
+            ["S<sub>p</sub>", "Phantom scatter factor", "S<sub>cp</sub> / S<sub>c</sub>", "[[1|Field irradiating the phantom]]"],
             ["S<sub>cp</sub>", "Total scatter factor (output factor)", "Dose per MU in the phantom at the reference depth; field A relative to 10 × 10 cm", "Both"]]),
-        EQ("S<sub>cp</sub>(A) = S<sub>c</sub>(A<sub>c</sub>) × S<sub>p</sub>(A)", "S<sub>p</sub> = S<sub>cp</sub> / S<sub>c</sub>"),
-        P("All three equal 1.000 for the 10 × 10 cm reference field. Each rises with field size, so S<sub>cp</sub> is below 1 for smaller fields and above 1 for larger ones. S<sub>p</sub> cannot be measured on its own, so it is derived from S<sub>cp</sub> (phantom) and S<sub>c</sub> (air)."),
+        EQ("[[1|S<sub>cp</sub>(A) = S<sub>c</sub>(A<sub>c</sub>) × S<sub>p</sub>(A)]]", "S<sub>p</sub> = S<sub>cp</sub> / S<sub>c</sub>"),
+        P("[[1|All three equal 1.000 for the 10 × 10 cm reference field.]] Each rises with field size, so S<sub>cp</sub> is below 1 for smaller fields and above 1 for larger ones. S<sub>p</sub> cannot be measured on its own, so it is derived from S<sub>cp</sub> (phantom) and S<sub>c</sub> (air)."),
         P("The build-up cap for S<sub>c</sub> is thick enough to give electronic equilibrium in air at the chamber for the beam energy."),
 
         H("Blocked and shaped fields"),
         FIG("scatter_geometry", "A block under the collimators narrows the field in the phantom but leaves the jaw opening unchanged."),
-        P("A shielding block changes the field reaching the phantom, not the jaw opening. Use S<sub>c</sub> for the jaw opening and S<sub>p</sub> for the equivalent square of the blocked field. The two scatter components are therefore tabulated separately."),
+        P("[[1|A shielding block changes the field reaching the phantom, not the jaw opening. Use S<sub>c</sub> for the jaw opening and S<sub>p</sub> for the equivalent square of the blocked field.]] The two scatter components are therefore tabulated separately."),
 
         H("Equivalent squares"),
         P("Output and depth-dose tables are measured for square fields. A rectangle is replaced by the square with the same area-to-perimeter ratio (Sterling's A/P rule)."),
-        EQ("rectangle a × b: A/P = ab / [2(a + b)]", "square of side s: A/P = s/4", "s = 2ab / (a + b)"),
+        EQ("rectangle a × b: A/P = ab / [2(a + b)]", "square of side s: A/P = s/4", "[[1|s = 2ab / (a + b)]]"),
         EX("Equivalent square", STEM("", ["rectangular field = 6 × 18 cm"], "Find the [[equivalent square]]."), ["s = 2 × 6 × 18 / (6 + 18) = 216/24."], f"{es:.1f} cm."),
-        P("The rule is least accurate for elongated rectangles. For irregular fields, Clarkson integration divides the field around the calculation point into sectors and sums their scatter contributions. Planning systems and second-check software do this; a hand calculation uses the equivalent square."),
+        P("The rule is least accurate for elongated rectangles. [[1|For irregular fields, Clarkson integration divides the field around the calculation point into sectors and sums their scatter contributions.]] Planning systems and second-check software do this; a hand calculation uses the equivalent square."),
 
     ],
     cards=[

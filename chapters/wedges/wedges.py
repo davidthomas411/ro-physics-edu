@@ -12,20 +12,20 @@ TOPIC = dict(
     ref=dict(aapm="", khan="12", ford="12"),
     guide=[
         H("Wedge physics"),
-        P("A wedge attenuates a beam more on one side than on the other. The thick end is the heel and the thin end is the toe. The wedge angle is not the angle of the metal. It is the angle that an isodose line makes with the line perpendicular to the beam axis, measured at a reference depth, usually 10 cm."),
+        P("A wedge attenuates a beam more on one side than on the other. The thick end is the heel and the thin end is the toe. [[1|The wedge angle is not the angle of the metal. It is the angle that an isodose line makes with the line perpendicular to the beam axis, measured at a reference depth, usually 10 cm.]]"),
         P("Wedges come in several forms. Physical wedges of fixed angles, such as 15°, 30°, 45°, and 60°, are mounted on a holder in the head of the linac. A motorized wedge is a single 60° wedge inside the head, and smaller angles are made from combinations of open and wedged beams. In a dynamic wedge there is no metal in the beam: a jaw moves across the field while the beam is on, and the side covered longer by the jaw receives less dose and plays the role of the heel."),
-        P("A wedge removes part of the beam, so the monitor units must rise. The wedge factor WF is the dose per MU with the wedge divided by the dose per MU without it, at a reference point, and the MU scale as 1/WF."),
+        P("A wedge removes part of the beam, so the monitor units must rise. The wedge factor WF is the dose per MU with the wedge divided by the dose per MU without it, at a reference point, and [[1|the MU scale as 1/WF]]."),
         EX("MU with a wedge", STEM("A wedged field.", ["MU without the wedge = 150", "wedge factor = 0.55"], "Find the [[MU with the wedge]]."), ["MU = 150 / 0.55"], f"{mu_w:.1f} MU."),
 
         H("Planning with wedges"),
         P("Wedges correct the gradient of a pair of beams that meet at an angle. The angle between the central axes of the two beams is the hinge angle φ. The wedge angle that gives a uniform dose in the overlap is approximately 90° − φ/2. For parallel-opposed beams φ = 180° and no wedge is needed. For perpendicular beams φ = 90° and the wedges are 45°."),
-        EQ("wedge angle ≈ 90° − φ / 2", "φ = hinge angle between the beams"),
+        EQ("[[1|wedge angle ≈ 90° − φ / 2]]", "φ = hinge angle between the beams"),
         TABLE(["Hinge angle φ", "Wedge angle"], [[f"{p}°", f"{hinge(p):.0f}°"] for p in (60, 90, 100, 120, 150, 180)]),
-        P("The wedges are oriented heels together, toes apart. The heels sit at the corner where the two beams overlap near the surface, where the dose would otherwise be highest. A machine with only a motorized 60° wedge reaches intermediate angles, such as 50°, by weighting the open and wedged beams."),
+        P("[[1|The wedges are oriented heels together, toes apart.]] The heels sit at the corner where the two beams overlap near the surface, where the dose would otherwise be highest. A machine with only a motorized 60° wedge reaches intermediate angles, such as 50°, by weighting the open and wedged beams."),
         EX("Wedge angle for a hinge angle", STEM("Two oblique beams.", ["hinge angle φ = 100°"], "Find the [[wedge angle]]."), ["Wedge angle = 90° − φ / 2 = 90° − 50°"], "40°."),
 
         H("Compensation for thickness"),
-        P("Wedges also compensate for a patient whose thickness changes across the field. In a breast treated with tangent fields, the tissue is thicker toward the medial side and thinner at the outer edge. A wedge with the heel toward the thinner side attenuates the beam where the tissue is thin and evens out the dose. A shaped metal compensator, thicker where more attenuation is needed, can do the same in two dimensions."),
+        P("Wedges also compensate for a patient whose thickness changes across the field. [[1|In a breast treated with tangent fields, the tissue is thicker toward the medial side and thinner at the outer edge.]] [[1|A wedge with the heel toward the thinner side attenuates the beam where the tissue is thin and evens out the dose.]] A shaped metal compensator, thicker where more attenuation is needed, can do the same in two dimensions."),
         EX("Wedge and tray together", STEM("A field with both a wedge and a blocking tray.", ["MU without accessories = 180", "wedge factor = 0.66", "tray factor = 0.97"], "How many [[MU with both]]?"), ["MU = 180 / (0.66 × 0.97)"], f"{mu_both:.1f} MU."),
     ],
     cards=[

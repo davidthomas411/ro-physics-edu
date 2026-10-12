@@ -9,14 +9,14 @@ TOPIC = dict(
     ref=dict(aapm="8.1", khan="9, 10", ford="11"),
     guide=[
         H("Limits of PDD"),
-        P("PDD depends on the SSD. In an isocentric treatment the SSD changes with every beam angle and patient contour, while the distance from the source to the point of interest stays fixed. A quantity that does not depend on the SSD makes dose calculation at the isocenter simpler."),
+        P("[[1|PDD depends on the SSD. In an isocentric treatment the SSD changes with every beam angle and patient contour]], while the distance from the source to the point of interest stays fixed. A quantity that does not depend on the SSD makes dose calculation at the isocenter simpler."),
 
         H("TAR, TMR, and TPR"),
         TABLE(["Quantity", "Definition", "Notes"], [
             ["TAR", "Dose at depth d in the phantom ÷ dose that the same beam gives at that point in free space", "Independent of SSD. Used for kilovoltage and Co-60. The backscatter factor (BSF, peak scatter factor at megavoltage energies) is TAR at d<sub>max</sub>."],
-            ["TMR", "Dose at depth d ÷ dose at d<sub>max</sub>, at the same point", "1 at d<sub>max</sub>. Depends on depth, energy, and the field size at depth. Independent of SSD."],
-            ["TPR", "Dose at depth d ÷ dose at a reference depth, at the same point", "TMR is the TPR whose reference depth is d<sub>max</sub>. TPR<sub>20,10</sub> uses 20 and 10 cm."]]),
-        EQ("TMR(d, A<sub>d</sub>) = D<sub>P</sub>(depth d) / D<sub>P</sub>(depth d<sub>max</sub>)"),
+            ["TMR", "[[1|Dose at depth d ÷ dose at d<sub>max</sub>, at the same point]]", "[[1|1 at d<sub>max</sub>.]] Depends on depth, energy, and the field size at depth. [[1|Independent of SSD.]]"],
+            ["TPR", "Dose at depth d ÷ dose at a reference depth, at the same point", "[[1|TMR is the TPR whose reference depth is d<sub>max</sub>.]] TPR<sub>20,10</sub> uses 20 and 10 cm."]]),
+        EQ("[[1|TMR(d, A<sub>d</sub>) = D<sub>P</sub>(depth d) / D<sub>P</sub>(depth d<sub>max</sub>)]]"),
         P("TMR assumes the scatter at a point depends on the field size at that point and the thickness above it, not on the divergence of the beam, so it can be independent of SSD."),
         FIG("pdd_vs_tmr", "PDD compares two points at different distances from the source. TMR compares the same point with different thicknesses of phantom above it."),
 
@@ -26,11 +26,11 @@ TOPIC = dict(
             ["Source-to-point distance", "Changes with depth", "Constant"],
             ["Includes inverse square", "Yes", "No"],
             ["Depends on SSD", "Yes", "No"],
-            ["Field size", "At the surface", "At the point's depth"],
-            ["Used for", "SSD technique, extended SSD, electrons", "SAD (isocentric) technique"]]),
+            ["Field size", "At the surface", "[[1|At the point's depth]]"],
+            ["[[1|Used for]]", "[[1|SSD technique, extended SSD, electrons]]", "[[1|SAD (isocentric) technique]]"]]),
 
         H("Converting PDD to TMR"),
-        EQ("TMR(d, A<sub>d</sub>) = PDD(d, A, f)/100 × [(f + d)/(f + d<sub>max</sub>)]<sup>2</sup> × S<sub>p</sub>(A<sub>dmax</sub>)/S<sub>p</sub>(A<sub>d</sub>)"),
+        EQ("[[1|TMR(d, A<sub>d</sub>) = PDD(d, A, f)/100 × [(f + d)/(f + d<sub>max</sub>)]<sup>2</sup> × S<sub>p</sub>(A<sub>dmax</sub>)/S<sub>p</sub>(A<sub>d</sub>)]]"),
         P("A is the field at the surface, A<sub>d</sub> = A(f + d)/f is the field at depth d, and A<sub>dmax</sub> = A(f + d<sub>max</sub>)/f is the field at d<sub>max</sub>. The squared factor corrects for the two points being at different distances from the source. The S<sub>p</sub> ratio corrects for the different field sizes at the two planes, and is close to 1 for modest depths."),
         EX("PDD to TMR", STEM("A 6 MV beam.", ["d<sub>max</sub> = 1.5 cm", "PDD = 67.0% at 10 cm depth, SSD 100 cm", "S<sub>p</sub> ratio = 1"], "Estimate the [[TMR]] at 10 cm."),
            [f"[(100 + 10)/(100 + 1.5)]² = (110/101.5)² = {k:.3f}.", f"TMR = 0.670 × {k:.3f}."], f"About {tmr10:.3f}."),

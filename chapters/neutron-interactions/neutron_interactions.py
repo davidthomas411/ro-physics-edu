@@ -101,12 +101,12 @@ wr_th, wr_01, wr_1, wr_100, wr_200 = wr_n(E_TH * 1e-6), wr_n(0.1), wr_n(1.0), wr
 q_100 = q_l(100)
 
 ROWS_CLASS = [
-    ["Thermal", f"Below about 0.5 eV; 0.025 eV (about {round(v_th, -2):,.0f} m/s) at 20 °C", "Scattering with no net energy loss, then capture by <sup>1</sup>H(n,γ) or <sup>14</sup>N(n,p)"],
-    ["Epithermal", "About 0.5 eV to 10 keV", "Elastic scattering on hydrogen, which slows them to thermal energies"],
-    ["Fast", "Above about 10 keV", "Elastic scattering, mostly on hydrogen; above a few MeV also inelastic scattering and (n,α)"]]
+    ["Thermal", f"[[2|Below about 0.5 eV; 0.025 eV (about {round(v_th, -2):,.0f} m/s) at 20 °C]]", "Scattering with no net energy loss, then capture by <sup>1</sup>H(n,γ) or <sup>14</sup>N(n,p)"],
+    ["Epithermal", "[[2|About 0.5 eV to 10 keV]]", "Elastic scattering on hydrogen, which slows them to thermal energies"],
+    ["Fast", "[[2|Above about 10 keV]]", "Elastic scattering, mostly on hydrogen; above a few MeV also inelastic scattering and (n,α)"]]
 ROWS_CAPTURE = [
-    ["<sup>1</sup>H(n,γ)<sup>2</sup>H", f"{S_H:.2f}", f"{Q_H:.2f} MeV γ ray", "Main capture in water and tissue"],
-    ["<sup>14</sup>N(n,p)<sup>14</sup>C", f"{S_N:.1f}", f"{Q_N:.2f} MeV; proton {e_pn:.2f} MeV", "Local thermal-neutron dose in tissue"],
+    ["[[2|<sup>1</sup>H(n,γ)<sup>2</sup>H]]", f"{S_H:.2f}", f"[[2|{Q_H:.2f} MeV γ ray]]", "Main capture in water and tissue"],
+    ["[[2|<sup>14</sup>N(n,p)<sup>14</sup>C]]", f"{S_N:.1f}", f"[[2|{Q_N:.2f} MeV; proton {e_pn:.2f} MeV]]", "Local thermal-neutron dose in tissue"],
     ["<sup>10</sup>B(n,α)<sup>7</sup>Li", f"{S_B:,.0f}", f"{Q_B0:.2f} MeV; in {100 * F_B1:.0f}% of captures {Q_B1:.2f} MeV (α {e_a:.2f}, Li {e_li:.2f} MeV) and a {G_B:.2f} MeV γ ray", "BF<sub>3</sub> counters, BNCT"],
     ["<sup>3</sup>He(n,p)<sup>3</sup>H", f"{S_HE:,.0f}", f"{Q_HE:.2f} MeV", "He-3 counters"],
     ["<sup>6</sup>Li(n,α)<sup>3</sup>H", f"{S_LI:.0f}", f"{Q_LI:.2f} MeV", "TLD-600 chips"],
@@ -117,15 +117,15 @@ TOPIC = dict(
     ref=dict(aapm="", khan="", ford="6"),
     guide=[
         H("Energy classes and cross sections"),
-        P("A neutron carries no charge, so it passes atomic electrons without ionizing and interacts only with nuclei, through the short-range nuclear force. A fast neutron travels a few centimetres in tissue between collisions. Like a photon it is indirectly ionizing, but its charged secondaries are recoil nuclei, mostly protons, and reaction products, all densely ionizing."),
+        P("A neutron carries no charge, so it passes atomic electrons without ionizing and [[1|interacts only with nuclei]], through the short-range nuclear force. A fast neutron travels a few centimetres in tissue between collisions. Like a photon it is indirectly ionizing, but [[1|its charged secondaries are recoil nuclei, mostly protons, and reaction products, all densely ionizing]]."),
         TABLE(["Class", "Energy (boundaries vary between sources)", "Main interactions in tissue"], ROWS_CLASS),
-        P("The macroscopic cross section Σ = Nσ, the cross section per nucleus (in barns, 1 b = 10<sup>−24</sup> cm²) times the nuclei per cm³, corresponds to μ for photons: uncollided neutrons fall as e<sup>−Σx</sup>. At low energies capture cross sections vary as 1/v, so slow neutrons are captured far more readily."),
+        P("The [[3|macroscopic cross section Σ = Nσ, the cross section per nucleus (in barns, 1 b = 10<sup>−24</sup> cm²) times the nuclei per cm³]], corresponds to μ for photons: uncollided neutrons fall as e<sup>−Σx</sup>. [[3|At low energies capture cross sections vary as 1/v, so slow neutrons are captured far more readily.]]"),
         EQ("Σ = N σ,   Φ(x) = Φ<sub>0</sub> e<sup>−Σx</sup>,   mean free path = 1/Σ", "σ(E) = σ<sub>0</sub> √(0.025 eV / E)   (1/v region)"),
 
         H("Elastic scattering and moderation"),
-        P(f"In elastic scattering the struck nucleus stays in its ground state and the kinetic energy is shared. With nuclear masses taken as A neutron masses, the largest transfer, in a head-on collision, depends only on A. For scattering isotropic in the centre-of-mass frame, the energy after a collision is spread evenly from αE to E, so on average a neutron loses half its energy to hydrogen but {100 * ml_o:.0f}% to oxygen."),
-        EQ("ΔE<sub>max</sub> / E = 4A / (1 + A)² = 1 − α,   α = [(A − 1) / (A + 1)]²", "ξ = mean of ln(E / E′) = 1 + α ln α / (1 − α),   ξ = 1 for hydrogen", "collisions from E<sub>0</sub> to E:   n = ln(E<sub>0</sub> / E) / ξ"),
-        P(f"The logarithmic energy decrement ξ, the mean drop in ln E per collision, does not depend on the energy: a 2 MeV neutron reaches 0.025 eV after about {n_h:.0f} collisions in hydrogen, {n_c:.0f} in carbon, and {round(n_pb, -2):,.0f} in lead. A moderator, a material that slows neutrons, works best when rich in hydrogen, like water, polyethylene, and tissue, in which fast neutrons give their energy mostly to recoil protons."),
+        P(f"In elastic scattering the struck nucleus stays in its ground state and the kinetic energy is shared. With nuclear masses taken as A neutron masses, [[1|the largest transfer, in a head-on collision, depends only on A]]. For scattering isotropic in the centre-of-mass frame, the energy after a collision is spread evenly from αE to E, so on average a neutron loses half its energy to hydrogen but {100 * ml_o:.0f}% to oxygen."),
+        EQ("[[1|ΔE<sub>max</sub> / E = 4A / (1 + A)² = 1 − α,   α = [(A − 1) / (A + 1)]²]]", "ξ = mean of ln(E / E′) = 1 + α ln α / (1 − α),   ξ = 1 for hydrogen", "[[2|collisions from E<sub>0</sub> to E:   n = ln(E<sub>0</sub> / E) / ξ]]"),
+        P(f"The logarithmic energy decrement ξ, the mean drop in ln E per collision, does not depend on the energy: [[2|a 2 MeV neutron reaches 0.025 eV after about {n_h:.0f} collisions in hydrogen, {n_c:.0f} in carbon, and {round(n_pb, -2):,.0f} in lead]]. [[3|A moderator, a material that slows neutrons, works best when rich in hydrogen, like water, polyethylene, and tissue, in which fast neutrons give their energy mostly to recoil protons.]]"),
         EX("Largest energy given to a nucleus", STEM("A 2.0 MeV neutron strikes a nucleus at rest head-on. Take the nuclear mass as A neutron masses.", ["targets: hydrogen (A = 1), carbon (A = 12), oxygen (A = 16)"], "Find the [[largest energy each nucleus can receive]]."),
            [f"Hydrogen: 4 × 1 / 2² = {e_max(1):.0f}, so {2.0 * e_max(1):.1f} MeV",
             f"Carbon: 4 × 12 / 13² = 48/169 = {f_c:.3f}, so {2.0 * f_c:.2f} MeV",
@@ -137,19 +137,19 @@ TOPIC = dict(
            f"About {n_h:.0f} in hydrogen, {n_w:.0f} in water, and {n_c:.0f} in carbon, {n_c / n_h:.0f} times as many as in hydrogen."),
 
         H("Capture and other reactions"),
-        P(f"In inelastic scattering, (n,n′), the nucleus is left excited and emits a γ ray. It needs several MeV in tissue nuclei ({thr_c:.1f} MeV for carbon) and is the main way fast neutrons lose energy in heavy metals."),
-        P("In radiative capture, (n,γ), a nucleus absorbs a slow neutron and emits the binding energy as γ rays; in water and tissue most captures are by hydrogen, each giving a 2.2 MeV γ ray. B-10, He-3, and Li-6 emit charged particles instead, and cadmium absorbs nearly all neutrons below about 0.5 eV. Capture often leaves a radioactive nucleus (activation), as in the production of Co-60 and Ir-192. Fission of U-235 after capture releases about 200 MeV and two or three neutrons."),
+        P(f"[[1|In inelastic scattering, (n,n′), the nucleus is left excited and emits a γ ray. It needs several MeV in tissue nuclei]] ({thr_c:.1f} MeV for carbon) and is the main way fast neutrons lose energy in heavy metals."),
+        P("In radiative capture, (n,γ), a nucleus absorbs a slow neutron and emits the binding energy as γ rays; in water and tissue most captures are by hydrogen, each giving a 2.2 MeV γ ray. [[3|B-10, He-3, and Li-6 emit charged particles instead, and cadmium absorbs nearly all neutrons below about 0.5 eV.]] Capture often leaves a radioactive nucleus (activation), as in the production of Co-60 and Ir-192. Fission of U-235 after capture releases about 200 MeV and two or three neutrons."),
         TABLE(["Reaction", "Thermal σ (b)", "Energy released", "Use or effect"], ROWS_CAPTURE),
 
         H("Kerma, dose, and radiation weighting"),
         P("Neutron kerma, the kinetic energy given to charged particles per unit mass, equals the dose away from surfaces and interfaces, since the secondaries travel micrometres to millimetres."),
-        P(f"Hydrogen, about 10% of soft tissue by mass, gives about 90% or more of the fast-neutron kerma below a few MeV: per gram it has {h_more:.1f} times as many nuclei as the other elements together and takes half the energy per collision. Fat therefore absorbs more per gram than muscle, and bone less, the reverse of a kilovoltage photon beam."),
-        P(f"Thermal neutrons give dose through N(n,p), whose {e_pn:.2f} MeV proton stops within about 10 µm, and H(n,γ), which releases about {r_hn:.0f} times as much energy as 2.2 MeV γ rays that travel tens of centimetres and dominate the dose to a whole body."),
-        P(f"In ICRP 103 the radiation weighting factor w<sub>R</sub> is set by the energy of the neutrons reaching the body, from about {wr_th:.1f} for thermal neutrons to a peak near {wr_1:.0f} at about 1 MeV. It falls above the peak as the recoil protons get faster, and below it as capture γ rays give more of the dose. The older quality factor Q depends on the LET at a point and gives H = QD in the operational quantities that survey meters estimate."),
+        P(f"Hydrogen, about 10% of soft tissue by mass, [[1|gives about 90% or more of the fast-neutron kerma below a few MeV]]: per gram it has {h_more:.1f} times as many nuclei as the other elements together and takes half the energy per collision. [[1|Fat therefore absorbs more per gram than muscle, and bone less]], the reverse of a kilovoltage photon beam."),
+        P(f"[[2|Thermal neutrons give dose through N(n,p), whose {e_pn:.2f} MeV proton stops within about 10 µm, and H(n,γ), which releases about {r_hn:.0f} times as much energy as 2.2 MeV γ rays that travel tens of centimetres and dominate the dose to a whole body.]]"),
+        P(f"In ICRP 103 [[3|the radiation weighting factor w<sub>R</sub> is set by the energy of the neutrons reaching the body, from about {wr_th:.1f} for thermal neutrons to a peak near {wr_1:.0f} at about 1 MeV]]. It falls above the peak as the recoil protons get faster, and below it as capture γ rays give more of the dose. [[3|The older quality factor Q depends on the LET at a point]] and gives H = QD in the operational quantities that survey meters estimate."),
 
         H("Neutrons in radiotherapy and detection"),
-        P("Photons above about 10 MV release neutrons of about 1 MeV in the linac head, and proton beams release neutrons in the patient and, with passive scattering, in the nozzle. Boron neutron capture therapy (BNCT) loads tumour cells with B-10 and irradiates them with epithermal neutrons, which become thermal within a few centimetres; the α particle and lithium ion of each capture travel 5 to 9 µm, about one cell diameter, so the dose stays in cells that hold boron."),
-        P("In a BF<sub>3</sub> or He-3 counter each capture gives about 2.3 or 0.76 MeV to charged particles in the gas, far above photon pulses, which a pulse-height threshold rejects. A bare counter responds mainly to slow neutrons, so a hydrogen-rich moderator surrounds it for fast ones."),
+        P("[[1|Photons above about 10 MV release neutrons of about 1 MeV in the linac head, and proton beams release neutrons in the patient and, with passive scattering, in the nozzle.]] [[1|Boron neutron capture therapy (BNCT) loads tumour cells with B-10 and irradiates them with epithermal neutrons]], which become thermal within a few centimetres; [[2|the α particle and lithium ion of each capture travel 5 to 9 µm, about one cell diameter]], so the dose stays in cells that hold boron."),
+        P("[[3|In a BF<sub>3</sub> or He-3 counter each capture gives about 2.3 or 0.76 MeV to charged particles in the gas, far above photon pulses, which a pulse-height threshold rejects. A bare counter responds mainly to slow neutrons, so a hydrogen-rich moderator surrounds it for fast ones.]]"),
     ],
     cards=[
         F("Neutron interactions with matter", "Uncharged, so a neutron interacts only with nuclei, through the nuclear force. Its charged secondaries are recoil nuclei and reaction products, all densely ionizing."),

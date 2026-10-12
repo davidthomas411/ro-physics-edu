@@ -11,10 +11,10 @@ TOPIC = dict(
     ref=dict(aapm="5.1, 5.2, 5.4", khan="5", ford="5"),
     guide=[
         H("Directly and indirectly ionizing radiation"),
-        P("Charged particles (electrons, protons, α particles) ionize directly along their tracks. Photons and neutrons are indirectly ionizing: they first transfer energy to charged particles, and those charged particles deposit the dose. A photon either passes through, is scattered, or is absorbed."),
+        P("Charged particles (electrons, protons, α particles) ionize directly along their tracks. [[1|Photons and neutrons are indirectly ionizing: they first transfer energy to charged particles, and those charged particles deposit the dose.]] A photon either passes through, is scattered, or is absorbed."),
 
         H("Attenuation"),
-        EQ("I = I<sub>0</sub> e<sup>−μx</sup>", "HVL = ln 2 / μ = 0.693 / μ", "TVL = ln 10 / μ = 3.32 HVL", "mean free path = 1/μ = 1.44 HVL"),
+        EQ("[[1|I = I<sub>0</sub> e<sup>−μx</sup>]]", "[[1|HVL = ln 2 / μ = 0.693 / μ]]", "[[1|TVL = ln 10 / μ = 3.32 HVL]]", "[[1|mean free path = 1/μ = 1.44 HVL]]"),
         P("μ is the linear attenuation coefficient (1/cm). The mass attenuation coefficient μ/ρ (cm²/g) removes the dependence on density. The exponential holds for a narrow beam of single-energy photons. In a broad beam, scattered photons also reach the detector, so the transmission is larger by a build-up factor B ≥ 1: I = B I<sub>0</sub> e<sup>−μx</sup>. A polyenergetic beam hardens as it passes through material, so its HVL grows with thickness."),
         EX("Shield thickness", STEM("A lead shield (illustrative values).", [f"HVL = {HVL} cm", "transmission = 1%"], "Find the [[shield thickness]]."),
            [f"Number of HVLs = log<sub>2</sub>(1/0.01) = {n1:.2f}.", f"Thickness = {n1:.2f} × {HVL} cm = {x1:.1f} cm.", f"Check: TVL = 3.32 × {HVL} = {tvl:.1f} cm, and 1% is two TVLs."], f"About {x1:.0f} cm."),
@@ -22,16 +22,16 @@ TOPIC = dict(
         H("Interaction processes"),
         TABLE(["Interaction", "What happens", "Z and energy dependence", "Dominant in water"], [
             ["Coherent (Rayleigh) scattering", "The photon changes direction with no energy loss and no ionization.", "Small, at low energy only", "Never dominant"],
-            ["Photoelectric effect", "The photon is absorbed by a bound electron, which leaves with the photon energy minus its binding energy. The vacancy gives a characteristic x-ray or an Auger electron.", "τ/ρ ∝ Z³/E³, with sharp rises at absorption edges", "Below about 30 keV"],
-            ["Compton scattering", "The photon scatters from a loosely bound electron and gives it part of its energy.", "Per electron it does not depend on Z, so per gram it is nearly the same for all tissues. It falls slowly with energy.", "About 30 keV to 24 MeV"],
-            ["Pair production", "In the field of a nucleus the photon becomes an electron and a positron. Threshold 1.022 MeV; the excess is kinetic energy. The positron then annihilates into two 511 keV photons.", "Per atom ∝ Z², per gram ∝ Z. Rises with energy above threshold.", "Above about 24 MeV"],
+            ["Photoelectric effect", "The photon is absorbed by a bound electron, which leaves with the photon energy minus its binding energy. The vacancy gives a characteristic x-ray or an Auger electron.", "[[1|τ/ρ ∝ Z³/E³]], with sharp rises at absorption edges", "[[1|Below about 30 keV]]"],
+            ["Compton scattering", "The photon scatters from a loosely bound electron and gives it part of its energy.", "[[1|Per electron it does not depend on Z]], so per gram it is nearly the same for all tissues. It falls slowly with energy.", "[[1|About 30 keV to 24 MeV]]"],
+            ["Pair production", "In the field of a nucleus the photon becomes an electron and a positron. [[1|Threshold 1.022 MeV]]; the excess is kinetic energy. The positron then annihilates into two 511 keV photons.", "Per atom ∝ Z², per gram ∝ Z. Rises with energy above threshold.", "[[1|Above about 24 MeV]]"],
             ["Triplet production", "Pair production in the field of an electron. Threshold 2.044 MeV.", "Small compared with pair production in the nuclear field", "Not dominant"],
             ["Photodisintegration", "The nucleus absorbs the photon and ejects a neutron or proton. Thresholds are typically 8–10 MeV or more, depending on the nuclide.", "Needs photon energy above the threshold", "Matters for beams of 10 MV and above"]]),
         FIG("interaction_regions", "Schematic. The left curve marks equal probability of photoelectric and Compton interactions; the right curve marks equal probability of Compton and pair production."),
 
         H("Compton scattering"),
-        EQ("E′ = E / [1 + (E / 511 keV)(1 − cos θ)]", "E<sub>electron</sub> = E − E′"),
-        UL("The scattered photon keeps less energy as the angle grows. The electron gets the most at θ = 180° (backscatter).",
+        EQ("[[1|E′ = E / [1 + (E / 511 keV)(1 − cos θ)]]]", "E<sub>electron</sub> = E − E′"),
+        UL("The scattered photon keeps less energy as the angle grows. [[1|The electron gets the most at θ = 180° (backscatter).]]",
            "As the incident energy rises, the scattered photon approaches 511 keV at 90° and 255 keV at 180°, and cannot exceed those.",
            "At megavoltage energies the electrons travel mostly forward."),
         EX("Compton energies", STEM("A photon undergoes Compton scattering.", ["incident energy = 1.0 MeV", "scattering angle θ = 90°"], "Find the [[scattered photon energy]] and the [[electron energy]]."),
@@ -39,8 +39,8 @@ TOPIC = dict(
            f"Photon {e90:.3f} MeV, electron {1.0-e90:.3f} MeV. (At 180° they would be {e180:.3f} and {1.0-e180:.3f} MeV.)"),
 
         H("Clinical consequences"),
-        UL("At megavoltage energies in tissue Compton scattering dominates. It depends on electrons per gram, which is nearly the same for every element except hydrogen. Bone and soft tissue absorb alike per gram, and MV images show contrast from density, not atomic number.",
-           "At kilovoltage energies the photoelectric effect, which scales as Z³, gives strong contrast between bone (effective Z about 13) and soft tissue (about 7.4). It is also why lead and tungsten shield well.",
+        UL("[[1|At megavoltage energies in tissue Compton scattering dominates.]] It depends on electrons per gram, which is nearly the same for every element except hydrogen. Bone and soft tissue absorb alike per gram, and [[1|MV images show contrast from density, not atomic number]].",
+           "[[2|At kilovoltage energies the photoelectric effect, which scales as Z³, gives strong contrast between bone (effective Z about 13) and soft tissue (about 7.4). It is also why lead and tungsten shield well.]]",
            "Pair production and photodisintegration matter for beams of 10 MV and above. Photoneutrons add to the shielding requirements.",
            "In the diagnostic range the two main interactions play different parts. Compton scattering is the most frequent interaction in soft tissue above about 30 keV, and it produces the scatter that degrades a radiograph. The photoelectric effect, which depends on Z<sup>3</sup>, produces most of the difference in attenuation between bone and soft tissue, so it forms the contrast."),
 

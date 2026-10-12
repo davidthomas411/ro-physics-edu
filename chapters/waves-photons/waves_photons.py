@@ -27,8 +27,8 @@ TOPIC = dict(
         P("Electromagnetic waves are transverse: the electric and magnetic fields oscillate perpendicular to the direction of travel, and no medium is needed. Sound is a longitudinal wave, in which the particles of the medium oscillate along the direction of travel, and it needs a medium. Ultrasound imaging uses sound."),
         EQ("c = λν"),
         P("In absorption and scattering, radiation behaves as particles called photons. Photon energy is set by frequency alone:"),
-        EQ("E = hν = hc/λ", "h = 4.136 × 10<sup>−15</sup> eV·s", "hc = 1240 eV·nm = 12.4 keV·Å = 1.24 MeV·pm"),
-        P("In practical units, wavelength (nm) = 1240 / energy (eV)."),
+        EQ("E = hν = hc/λ", "h = 4.136 × 10<sup>−15</sup> eV·s", "[[1|hc = 1240 eV·nm = 12.4 keV·Å = 1.24 MeV·pm]]"),
+        P("[[1|In practical units, wavelength (nm) = 1240 / energy (eV).]]"),
         TABLE(["Region", "Wavelength", "Photon energy", "Where it occurs"], [
             ["Radio and microwave", "> 1 mm", f"< {b_mm:.1f} meV", f"Linac RF power (3 GHz is {e_lin_uev:.0f} µeV), MRI"],
             ["Infrared", "700 nm – 1 mm", f"{b_mm:.1f} meV – {b_ir:.1f} eV", "Heat, thermal cameras"],
@@ -36,8 +36,8 @@ TOPIC = dict(
             ["Ultraviolet", "10 – 400 nm", f"{b_vis:.1f} – {b_uv:.0f} eV", "Sterilization, tanning"],
             ["X-ray and γ-ray", "< 10 nm", f"> {b_uv:.0f} eV", "Diagnostic 20–150 keV; therapy 0.1–25 MeV"]]),
         P("Region boundaries are conventional. The main elements in tissue have ionization energies of about 10 to 15 eV, so photons above that energy ionize. Therapy photons are 10<sup>4</sup> to 10<sup>6</sup> times above it."),
-        P("X-rays and γ-rays differ in origin, not energy: γ-rays come from the nucleus, x-rays from electrons (bremsstrahlung or atomic transitions)."),
-        P("Intensity and photon energy are independent: doubling the intensity of a monochromatic beam doubles the photons per second and leaves each photon's energy unchanged."),
+        P("[[2|X-rays and γ-rays differ in origin, not energy: γ-rays come from the nucleus, x-rays from electrons (bremsstrahlung or atomic transitions).]]"),
+        P("[[3|Intensity and photon energy are independent: doubling the intensity of a monochromatic beam doubles the photons per second and leaves each photon's energy unchanged.]]"),
 
         H("Units and prefixes"),
         TABLE(["Prefix", "Symbol", "Factor", "Prefix", "Symbol", "Factor"], [
@@ -46,11 +46,11 @@ TOPIC = dict(
             ["milli", "m", "10<sup>−3</sup>", "giga", "G", "10<sup>9</sup>"],
             ["centi", "c", "10<sup>−2</sup>", "tera", "T", "10<sup>12</sup>"]]),
         P("The electron-volt (eV) is the energy an electron gains crossing one volt:"),
-        EQ("1 eV = 1.602 × 10<sup>−19</sup> J", "1 MeV = 1.602 × 10<sup>−13</sup> J"),
-        P("Units of energy: joule, electron-volt, kilowatt-hour. Power is energy per unit time (watt). Frequency is cycles per second (hertz)."),
+        EQ("[[1|1 eV = 1.602 × 10<sup>−19</sup> J]]", "[[1|1 MeV = 1.602 × 10<sup>−13</sup> J]]"),
+        P("Units of energy: joule, electron-volt, kilowatt-hour. Power is energy per unit time (watt). Frequency is cycles per second (hertz). [[2|Length units: 1 nm = 10 Å = 1000 pm.]]"),
 
         H("Matter waves"),
-        P(f"A particle with momentum p has wavelength λ = h/p (de Broglie). A 100 keV electron has λ = {lam_e100_pm:.1f} pm, far smaller than an atom (about 100 pm), so electron beams can resolve atomic structure. A 100 keV photon has λ = {lam_100k_pm:.1f} pm."),
+        P(f"[[1|A particle with momentum p has wavelength λ = h/p (de Broglie). A 100 keV electron has λ = {lam_e100_pm:.1f} pm, far smaller than an atom (about 100 pm), so electron beams can resolve atomic structure.]] A 100 keV photon has λ = {lam_100k_pm:.1f} pm."),
 
         EX("Linac microwaves", STEM("A linac accelerating structure is driven at a microwave frequency.", ["f = 2.998 GHz"], "Find the [[wavelength]] and the [[photon energy]]."),
            ["λ = c/ν = (2.998 × 10<sup>8</sup> m/s) / (2.998 × 10<sup>9</sup> s<sup>−1</sup>) = 0.100 m", f"E = hν = (4.136 × 10<sup>−15</sup> eV·s)(2.998 × 10<sup>9</sup> s<sup>−1</sup>) = {e_lin_uev:.1f} µeV"],

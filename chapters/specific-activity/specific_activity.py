@@ -26,15 +26,15 @@ TOPIC = dict(
     guide=[
         H("Activity per gram"),
         P("Specific activity is the activity per unit mass of the radioactive material. For a pure sample of one radionuclide it follows from the decay constant and the number of atoms in a gram."),
-        EQ("S = A / m = λ N<sub>A</sub> / M = ln 2 · N<sub>A</sub> / (T<sub>1/2</sub> · M)", "N<sub>A</sub> = 6.022 × 10<sup>23</sup> mol<sup>−1</sup>,   M = molar mass in g/mol"),
-        P("A short half-life and a light atom both raise S: more decays per atom, and more atoms per gram. Units are Bq/g or Ci/g."),
+        EQ("[[1|S = A / m = λ N<sub>A</sub> / M = ln 2 · N<sub>A</sub> / (T<sub>1/2</sub> · M)]]", "N<sub>A</sub> = 6.022 × 10<sup>23</sup> mol<sup>−1</sup>,   M = molar mass in g/mol"),
+        P("[[1|A short half-life and a light atom both raise S: more decays per atom, and more atoms per gram.]] Units are Bq/g or Ci/g."),
         TABLE(["Nuclide", "T<sub>1/2</sub>", "S (Bq/g)", "S (Ci/g)", "Use"],
-              [[n, t, sci(S[n]), (f"{ci(n):,.0f}" if ci(n) >= 10 else f"{ci(n):.2f}"), u] for n, _, _, t, u in NUC]),
+              [[n, t, "[[2|" + sci(S[n]) + "]]", "[[2|" + (f"{ci(n):,.0f}" if ci(n) >= 10 else f"{ci(n):.2f}") + "]]", u] for n, _, _, t, u in NUC]),
         P("These are theoretical maxima for pure, carrier-free material. Real sources are lower. Ir-192 is made by neutron capture on stable Ir-191, so most of the atoms in an iridium source are still stable iridium."),
 
         H("Source size and carrier"),
-        P(f"In brachytherapy, specific activity sets how small a source can be. 370 GBq (10 Ci) of Ir-192 is about {m_ir_mg:.1f} mg of iridium, small enough for near-point geometry. The same activity of Cs-137 is {m_cs_mg:.0f} mg, {m_cs_mg / m_ir_mg:.0f} times the mass and too bulky for an HDR catheter."),
-        P(f"In radiopharmaceutical therapy, specific activity sets how much non-radioactive carrier is given with the activity, and carrier can compete for receptor sites. Lu-177 made by neutron capture on Lu-176 keeps stable Lu-176 in the product. Irradiating Yb-176 gives Yb-177, which decays to Lu-177 that can be separated chemically and approaches the theoretical {sci(lu)} Bq/g."),
+        P(f"In brachytherapy, specific activity sets how small a source can be. [[1|370 GBq (10 Ci) of Ir-192 is about {m_ir_mg:.1f} mg of iridium, small enough for near-point geometry.]] The same activity of Cs-137 is {m_cs_mg:.0f} mg, {m_cs_mg / m_ir_mg:.0f} times the mass and too bulky for an HDR catheter."),
+        P(f"In radiopharmaceutical therapy, [[2|specific activity sets how much non-radioactive carrier is given with the activity]], and carrier can compete for receptor sites. [[2|Lu-177 made by neutron capture on Lu-176 keeps stable Lu-176 in the product.]] Irradiating Yb-176 gives Yb-177, which decays to Lu-177 that can be separated chemically and approaches the theoretical {sci(lu)} Bq/g."),
 
         EX("Specific activity of I-125", STEM("", ["T<sub>1/2</sub> = 59.4 d", "molar mass M = 124.9 g/mol"], "Find the [[specific activity]] S of I-125."),
            [f"λ = 0.693 / (59.4 × 86,400 s) = {sci(lam_i, 4)} s<sup>−1</sup>", f"Atoms per gram = 6.022 × 10<sup>23</sup> / 124.9 = {sci(atoms_i, 4)}", f"S = λ × atoms per gram = {sci(S['I-125'], 3)} Bq/g"],

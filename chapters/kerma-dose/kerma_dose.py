@@ -9,24 +9,24 @@ TOPIC = dict(
     ref=dict(aapm="6.1, 6.2", khan="6, 8", ford="7"),
     guide=[
         H("Fluence and energy fluence"),
-        P("Fluence Φ is the number of particles crossing a small sphere per unit cross-sectional area (1/m²). Energy fluence Ψ is the energy those particles carry per unit area (J/m²). For monoenergetic photons Ψ = Φ E."),
+        P("[[1|Fluence Φ is the number of particles crossing a small sphere per unit cross-sectional area (1/m²).]] [[1|Energy fluence Ψ is the energy those particles carry per unit area (J/m²).]] For monoenergetic photons Ψ = Φ E."),
 
         H("Kerma"),
-        EQ("K = dE<sub>tr</sub> / dm   (unit: Gy = J/kg)", "K = Ψ (μ<sub>tr</sub>/ρ)"),
+        EQ("[[1|K = dE<sub>tr</sub> / dm   (unit: Gy = J/kg)]]", "[[1|K = Ψ (μ<sub>tr</sub>/ρ)]]"),
         P("Kerma is the kinetic energy transferred to charged particles per unit mass at a point. Some of that energy is then radiated as bremsstrahlung, so kerma has a collision part and a radiative part:"),
-        EQ("K = K<sub>col</sub> + K<sub>rad</sub>", "K<sub>col</sub> = K (1 − g) = Ψ (μ<sub>en</sub>/ρ)"),
+        EQ("K = K<sub>col</sub> + K<sub>rad</sub>", "[[1|K<sub>col</sub> = K (1 − g) = Ψ (μ<sub>en</sub>/ρ)]]"),
         P("g is the fraction of the electron energy lost radiatively. It is small in low-Z media at therapy energies and grows with energy. μ<sub>en</sub> = μ<sub>tr</sub> (1 − g)."),
 
         H("Absorbed dose"),
-        EQ("D = dE / dm   (unit: Gy = J/kg; 1 Gy = 100 cGy = 100 rad)"),
+        EQ("[[1|D = dE / dm]]   (unit: Gy = J/kg; 1 Gy = 100 cGy = 100 rad)"),
         P("Absorbed dose is the energy deposited locally per unit mass. It depends on where the charged particles stop, so dose and kerma differ near surfaces and interfaces."),
         FIG("kerma_dose", "Schematic. Kerma falls from the surface with the photon fluence. Dose builds up as electrons travel downstream, peaks at d<sub>max</sub>, and then stays slightly above kerma. The gap is exaggerated."),
-        UL("Build-up region: D < K<sub>col</sub>, because electrons set in motion upstream have not yet arrived.",
-           "Charged-particle equilibrium (CPE): D = K<sub>col</sub> = Ψ (μ<sub>en</sub>/ρ).",
-           "Beyond d<sub>max</sub> in a megavoltage beam there is transient CPE: D = β K<sub>col</sub> with β slightly above 1, because the electrons come from slightly shallower points where the fluence was higher."),
+        UL("[[1|Build-up region: D &lt; K<sub>col</sub>, because electrons set in motion upstream have not yet arrived.]]",
+           "[[1|Charged-particle equilibrium (CPE): D = K<sub>col</sub> = Ψ (μ<sub>en</sub>/ρ).]]",
+           "[[1|Beyond d<sub>max</sub> in a megavoltage beam there is transient CPE: D = β K<sub>col</sub> with β slightly above 1]], because the electrons come from slightly shallower points where the fluence was higher."),
 
         H("Exposure"),
-        EQ("X = dQ / dm   (C/kg of air)", "1 R = 2.58 × 10<sup>−4</sup> C/kg", "W<sub>air</sub>/e = 33.97 J/C, so 1 R = 0.876 cGy in air"),
+        EQ("X = dQ / dm   (C/kg of air)", "[[1|1 R = 2.58 × 10<sup>−4</sup> C/kg]]", "W<sub>air</sub>/e = 33.97 J/C, so [[1|1 R = 0.876 cGy in air]]"),
         P("Exposure is the charge of one sign produced in air per unit mass by photons, once the secondary electrons have stopped. It is defined for photons below about 3 MeV, because the free-air chamber needs the electrons to stop within the air. The roentgen is the legacy unit; the SI quantity is C/kg."),
         P("W is the mean energy that a charged particle spends in air for each ion pair it forms, about 33.97 eV, so that W/e = 33.97 J/C. Under charged-particle equilibrium the dose in another medium follows from the dose in air: it is the dose to air multiplied by the ratio of the mass energy-absorption coefficients, medium to air. The f-factor combines this ratio with the conversion of 0.876 cGy/R, so that D<sub>med</sub> = f X."),
         EQ("D<sub>med</sub> = f X,   f = 0.876 cGy/R × (μ<sub>en</sub>/ρ)<sub>med</sub> / (μ<sub>en</sub>/ρ)<sub>air</sub>"),
@@ -36,10 +36,11 @@ TOPIC = dict(
            ["μ<sub>en</sub>/ρ = 0.0297 cm²/g = 2.97 × 10<sup>−3</sup> m²/kg.", f"K<sub>col</sub> = 0.50 × 2.97 × 10<sup>−3</sup> = {sci(k, 3)} Gy."], f"{k*100:.2f} cGy."),
 
         H("Protection quantities"),
+        P("[[1|1 Gy = 100 cGy = 100 rad]]; the protection quantities below are in sievert."),
         TABLE(["Quantity", "Definition", "Unit"], [
-            ["Equivalent dose H<sub>T</sub>", "Σ w<sub>R</sub> D<sub>T,R</sub>: dose in a tissue weighted by the radiation type", "Sv (1 Sv = 100 rem)"],
-            ["Effective dose E", "Σ w<sub>T</sub> H<sub>T</sub>: equivalent doses weighted by tissue sensitivity", "Sv"]]),
-        TABLE(["Radiation", "w<sub>R</sub> (ICRP 103)"], [["Photons, electrons", "1"], ["Protons", "2"], ["α particles", "20"], ["Neutrons", "2.5 to 20, depending on energy"]]),
+            ["Equivalent dose H<sub>T</sub>", "Σ w<sub>R</sub> D<sub>T,R</sub>: dose in a tissue weighted by the radiation type", "[[1|Sv (1 Sv = 100 rem)]]"],
+            ["Effective dose E", "Σ w<sub>T</sub> H<sub>T</sub>: equivalent doses weighted by tissue sensitivity", "[[1|Sv]]"]]),
+        TABLE(["Radiation", "w<sub>R</sub> (ICRP 103)"], [["[[1|Photons, electrons]]", "[[1|1]]"], ["[[1|Protons]]", "[[1|2]]"], ["[[1|α particles]]", "[[1|20]]"], ["Neutrons", "2.5 to 20, depending on energy"]]),
 
     ],
     cards=[
