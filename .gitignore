@@ -17,3 +17,4 @@ ROECSG*.pdf
 
 # git worktrees of parallel agents
 .claude/worktrees/
+src/photos/.lock

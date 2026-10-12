@@ -79,6 +79,7 @@ TOPIC = dict(
         P("In electron mode the target moves out and a scattering foil replaces the filter; in a dual-foil system a thin high-Z foil spreads the narrow beam and a shaped second foil evens it out. The current is lowered: photon mode needs about 100 to 1000 times more, since most of the electron energy becomes heat in the target. A flattening filter would stop most electrons near the axis, where it is thicker than their range."),
         TABLE(["", "Photon mode", "Electron mode"], [["Target", "In the beam", "Moved out"], ["Filter or foil", "Flattening filter", "Scattering foils"],
                                                      ["Electron current", "High", "About 100 to 1000 times lower"], ["Field near the patient", "Jaws and MLC", "Applicator and cutout, with the jaws set for the applicator"]]),
+        PHOTO("linac-components-head-diagram"),
         P("A flattening-filter-free (FFF) beam leaves the filter out, sometimes with a thin metal plate in its place. At the same electron energy it is softer: one 6 MV beam had TPR<sub>20,10</sub> 0.629 without the filter and 0.665 with it. Other designs raise the electron energy to match the flattened depth dose. The spectrum varies less across the field, fewer electrons strike the target per MU, so head leakage per MU falls, and each pulse carries more dose."),
 
         H("Collimation and dose monitoring"),

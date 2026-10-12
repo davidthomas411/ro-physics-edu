@@ -41,6 +41,7 @@ TOPIC = dict(
         P("Most seeds are a sealed titanium capsule about 4.5 mm long and 0.8 mm across, small enough to pass through a 17- or 18-gauge needle. The capsule contains the radionuclide. Its thin wall, 0.05 mm of titanium in the I-125 Model 6711, absorbs electrons and the lowest-energy x-rays that would add dose at the seed surface without reaching the target. A dense marker, a silver rod in the 6711 or a lead marker in the Pd-103 Model 200, makes the seed visible on radiographs and CT."),
         P("The marker, the end welds, and the capsule wall absorb photons travelling along the seed axis, so the dose there is lower than at the same distance on the transverse axis. This anisotropy is part of the TG-43 dose calculation."),
         P("An HDR source is a pellet of Ir-192, about 3.6 mm long, in a stainless steel capsule laser-welded to the end of a flexible cable. A new source holds about 10 Ci (370 GBq), far too active to handle. A remote afterloader stores it in a shield, drives the cable through catheters or applicators to programmed dwell positions, and retracts it, all from outside a shielded room."),
+        PHOTO("brachy-sources-hdr-ir192"),
         P("Other forms of internal radiation therapy exist. Electronic brachytherapy uses a miniature x-ray tube or an electron source inside an applicator, so no radionuclide is involved. Radiopharmaceutical therapy places unsealed sources in the body, for example I-131 for thyroid cancer or Y-90 microspheres for liver tumours."),
     ],
     cards=[

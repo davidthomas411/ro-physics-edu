@@ -35,6 +35,7 @@ TOPIC = dict(
         P("The leaves have a maximum speed, about 2.5 cm/s for many machines. When a part of the plan needs few MU at the point, the leaves would have to cross it faster than the limit allows. The dose rate is then lowered, which lengthens the delivery. Faster leaves, or a plan with a smoother fluence, remove the limit. VMAT has the same constraint, with the gantry speed as a further limit."),
         EX("Leaf speed against dose rate", STEM("A sliding gap of 1 cm. The maximum leaf speed is 2.5 cm/s.", ["dose rate = 600 MU/min = 10 MU/s", "the plan needs 2 MU at one point"], "Find the [[MU delivered]] at 2 cm/s, and the [[highest dose rate]] that can deliver 2 MU."), ["MU = 10 × 1 / 2", "Rate = MU × v / g = 2 × 2.5 / 1"], f"{sw_mu(rate_s, 1, 2):.0f} MU at 2 cm/s. Delivering only 2 MU at 10 MU/s would need a leaf speed of 10 × 1 / 2 = {rate_s * 1 / 2:.0f} cm/s, beyond the limit. The highest dose rate that works is {sw_rate(2, 1, 2.5):.0f} MU/s = {60 * sw_rate(2, 1, 2.5):.0f} MU/min."),
         P("The width of a leaf, projected to the isocenter, sets how closely the field edge follows a curved target. Narrow leaves of 2.5 to 5 mm suit small targets, and wider ones are acceptable for large targets, where the edge matters less."),
+        PHOTO("mlc-imrt-dual-layer"),
     ],
     cards=[
         F("MU in IMRT", "Most of each field is blocked at any moment, so IMRT commonly needs several times the MU of a conventional plan for the same dose."),

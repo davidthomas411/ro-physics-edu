@@ -48,6 +48,7 @@ TOPIC = dict(
             ["C-arm linac", "Isocentric arcs at several couch angles, through cones or an MLC with 2.5 to 5 mm leaves", "Frame or mask; cone-beam CT, stereoscopic kV, or surface imaging"],
             ["Helical unit", "6 MV on a ring; a binary MLC shapes a fan beam as the couch moves", "Megavoltage CT"]]),
         P("A frame pinned to the skull carries a localizer whose rods give every CT and MR image point frame coordinates, and then fixes the head to the couch. A mask alone does not guarantee 1 mm, so frameless treatment relies on imaging before and during treatment, with couch corrections in six degrees of freedom."),
+        PHOTO("srs-sbrt-gamma-knife-setups"),
         P("The target is contoured on MR fused to the planning CT. Registration adds error, and MR is distorted: gradient nonlinearity grows with distance from the centre of the magnet, and susceptibility differences shift tissue near air and bone. For SRS the distortion is measured with a phantom and corrected."),
 
         H("Small-field dosimetry"),

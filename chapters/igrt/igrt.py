@@ -107,6 +107,7 @@ TOPIC = dict(
 
         H("Surface, ultrasound, and electromagnetic guidance"),
         P("Surface-guided radiotherapy (SGRT) projects light onto the patient and reconstructs the skin from ceiling-mounted cameras, with no ionizing dose, and gives its offset from a reference surface. It serves for setup, for monitoring during the beam, for breath-hold in left-breast treatment, and for frameless SRS in an open-face mask. It sees only the skin, so a target that moves relative to it, such as a lung tumour, is not tracked."),
+        PHOTO("igrt-sgrt-bore-cameras"),
         P("Transabdominal ultrasound shows the prostate, bladder, and rectum with no dose, but depends on the operator, and probe pressure can displace the prostate. Electromagnetic transponders, usually three implanted in the prostate, are located continuously by an array over the patient, and the beam is held when the target moves. They are invasive, lose accuracy far from the array, and cause artifacts on MR. Gold markers serve the same purpose with kV imaging, and a robotic linac can follow them."),
 
         H("MR-guided treatment"),

@@ -117,6 +117,7 @@ TOPIC = dict(
            f"{tl_d:.2f} Gy."),
         P("An optically stimulated luminescent dosimeter (OSLD) of Al<sub>2</sub>O<sub>3</sub>:C is read with green light, which releases the trapped charge as blue light near 420 nm. Each reading uses a small fraction of the signal and can be repeated; optical bleaching under bright light empties the traps for reuse. Mailed OSLDs check beam outputs in remote audits (IROC Houston, 5% criterion)."),
         P("Calibrated in a megavoltage beam, LiF (effective atomic number 8.2, water 7.4) reads about 1.3 times high near 30 keV (published values run from about 1.2 to 1.4), and Al<sub>2</sub>O<sub>3</sub> (about 11) three to four times. A dose from either carries an uncertainty of roughly 2% to 5% (one standard deviation, TG-191), the low end only with a careful calibration and controlled conditions of use."),
+        PHOTO("dosimeters-osld-phantom"),
 
         H("Radiographic and radiochromic film"),
         P("Film records dose across a plane at a resolution set by the reader. Its darkening is the optical density, from the light falling on the film and the light passing through it; the net optical density subtracts the OD of unexposed film from the same batch."),

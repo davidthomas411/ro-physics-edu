@@ -60,6 +60,7 @@ TOPIC = dict(
             ["Small volume", "A few hundredths of a cm³ or less", "Small-field profiles and output factors"],
             ["Free-air", "Plates in open air with guard electrodes", "Primary standard of air kerma, about 10 to 300 kV"]]),
         P("Most chambers are vented: the cavity air exchanges with the room, so its mass, and the reading for a given dose, follow the temperature and pressure. A sealed chamber holds a fixed mass of gas and needs no air correction, but a slow leak changes its response between calibrations. A wall close to air in composition, such as graphite or an air-equivalent plastic, keeps the response nearly independent of photon energy. Free in air, the wall and a build-up cap must be at least as thick as the range of the secondary electrons, about 0.5 g/cm² for Co-60, so that the electrons crossing the cavity start in the wall. In water the water supplies them, and no cap is used."),
+        PHOTO("ion-chambers-farmer-slab"),
 
         H("Charge collection and recombination"),
         P("As the voltage rises, the collected charge rises to a plateau, the saturation region, where nearly every ion reaches an electrode. Chambers run on the plateau at a few hundred volts, often 300 V for a Farmer chamber. Far above it, accelerated electrons ionize the gas themselves, as in a proportional counter. On the plateau a small fraction of the ions still recombines, and P<sub>ion</sub> corrects the reading to full collection."),

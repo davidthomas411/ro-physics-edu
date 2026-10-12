@@ -80,6 +80,7 @@ TOPIC = dict(
 
         H("Electron beam calibration"),
         P("Electron beam quality is specified by R<sub>50</sub>, the depth at which the dose falls to 50% of its maximum, measured at SSD 100 cm. A chamber gives the depth of 50% ionization, I<sub>50</sub>, read on a curve shifted upstream by 0.5 r<sub>cav</sub> for a cylindrical chamber, and TG-51 converts it:"),
+        PHOTO("tg51-water-tank-setup"),
         EQ("R<sub>50</sub> = 1.029 I<sub>50</sub> − 0.06 cm   (2 ≤ I<sub>50</sub> ≤ 10 cm)", "R<sub>50</sub> = 1.059 I<sub>50</sub> − 0.37 cm   (I<sub>50</sub> > 10 cm)", "d<sub>ref</sub> = 0.6 R<sub>50</sub> − 0.1 cm"),
         P("A cylindrical chamber has its cavity center at d<sub>ref</sub>, and its k<sub>Q</sub> has three factors:"),
         EQ("D<sub>w</sub><sup>Q</sup> = M P<sub>gr</sub><sup>Q</sup> k′<sub>R50</sub> k<sub>ecal</sub> N<sub>D,w</sub><sup>60Co</sup>",

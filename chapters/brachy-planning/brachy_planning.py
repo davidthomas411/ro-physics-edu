@@ -134,6 +134,8 @@ TOPIC = dict(
 
         H("Eye plaques and skin applicators"),
         P("An episcleral plaque treats a choroidal melanoma from outside the eye: seeds, usually I-125, in a Silastic carrier inside a gold-alloy shell sutured to the sclera. The shell and its lip collimate the dose and shield the orbit, and a notch fits the plaque around the optic nerve. The Collaborative Ocular Melanoma Study (COMS) prescribed 85 Gy to the tumour apex, or to 5 mm for a thinner tumour, and the ABS suggests 0.60 to 1.05 Gy/h at the apex, so 3 to 7 days. With the gold and Silastic included, 85 Gy calculated in water at 5 mm is about 75 Gy (TG-129)."),
+        PHOTO("brachy-planning-coms-plaque"),
+        PHOTO("brachy-planning-plaque-assay"),
         P("Skin brachytherapy uses an Ir-192 HDR source in a Leipzig-type applicator, a shielded cup a few centimetres across holding the source above the skin, or in a flap or mould for larger or curved surfaces; a flap holds catheters about 5 mm from the skin. The dose falls steeply with depth, so the surface receives more than the prescription depth. The ABS working group gives 3 mm for a thin lesion, with 40 Gy in 8 fractions or 42 Gy in 6 for surface applicators."),
         EQ("D(z) / D(0) ≈ [h / (h + z)]²   (one dwell position, inverse square alone; h = source height above the skin, z = depth)",
            f"at z = 3 mm: {100 * skin10:.0f}% of the surface dose for h = 10 mm, {100 * skin5:.0f}% for h = 5 mm"),

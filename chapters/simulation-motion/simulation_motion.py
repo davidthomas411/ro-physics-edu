@@ -113,6 +113,7 @@ TOPIC = dict(
            "<b>Breath hold.</b> The beam is on while the breath is held at a set level, watched on an external signal or fixed by active breathing control, a spirometer valve that closes at a set lung volume. For the left breast, deep inspiration moves the heart away from the chest wall. Each hold has to be repeatable.",
            "<b>Gating.</b> The beam is on only while the breathing signal is inside a window, usually near end-exhale. The duty cycle, the fraction of the time the beam is on, is typically 30% to 50%; a wider window is faster and leaves more residual motion. An external signal can drift from the internal target, so imaging during treatment checks the correlation.",
            "<b>Tracking.</b> The MLC, the couch, or a robotic linac follows the target, located by fiducials or by a model linking an external signal to them, predicting the motion to cover the system delay."),
+        PHOTO("simulation-motion-compression-plate"),
         EQ("duty cycle = beam-on time / elapsed time", "delivery time = beam-on time / duty cycle"),
         EX("Delivery time with gating", STEM("A field is delivered with gating.", [f"{MU_G} MU at {RATE_G} MU/min", f"breathing period = {T_B:.1f} s", f"gate open for {GATE:.1f} s of each breath"], "Find the [[duty cycle]] and the [[delivery time]]."),
            [f"Beam-on time = {MU_G} / {RATE_G} = {ton_g:.1f} min", f"Duty cycle = {GATE:.1f} / {T_B:.1f} = {100 * duty_g:.0f}%", f"Delivery time = {ton_g:.1f} / {duty_g:.2f}"],

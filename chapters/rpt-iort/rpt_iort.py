@@ -131,6 +131,7 @@ TOPIC = dict(
             ["Low-energy x-rays", "50 kV source at the centre of a spherical applicator, 1.5 to 5 cm across", "20 Gy at the surface, about 5 to 7 Gy at 1 cm (TARGIT)", "No structural shielding; mobile shields"],
             ["HDR brachytherapy", "Ir-192 source stepping through a flexible applicator laid on the bed", "Prescribed at 0.5 to 1 cm depth", "A shielded operating room"]]),
         P("A linac applicator is fixed to the head (hard docking) or clamped to the table with the head aligned to it without contact (soft docking); each applicator, bevel, and energy is commissioned for output, depth dose, and profiles (AAPM TG-72). The 50 kV dose falls by inverse square from the applicator centre and by attenuation; with an illustrative effective attenuation coefficient of 0.3 cm<sup>−1</sup>:"),
+        PHOTO("rpt-iort-ham-applicator"),
         EQ("D(r) = D<sub>s</sub> (a/r)² e<sup>−µ(r − a)</sup>   (a = applicator radius, r measured from its centre)",
            f"3 cm applicator, 1 cm deep: {DS:.0f} Gy × ({A_APP:g}/{A_APP + DEPTH:g})² × e<sup>−{MU_X:g} × {DEPTH:.1f}</sup> = {D_X:.1f} Gy   (inverse square alone: {D_X_IS:.1f} Gy)"),
         P("A single large fraction is biologically potent, so normal tissue is kept out of the beam; the linear-quadratic model is less certain above about 10 Gy. Surveys at the highest energy set the weekly case limit, and a checklist before the beam confirms applicator, bevel, docking, energy, dose, depth, monitor units (independently checked), beam stopper, tissue shields, and that staff are clear."),

@@ -9,5 +9,192 @@
   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "source_url": "https://commons.wikimedia.org/wiki/File%3AAnode_Tube_RayonX.jpg",
   "title": "File:Anode Tube RayonX.jpg"
+ },
+ {
+  "id": "brachy-sources-hdr-ir192",
+  "file": "brachy-sources-hdr-ir192.jpg",
+  "alt": "Two side-by-side drawings of an iridium-192 high dose rate source, each a thin cylinder with the active core inside a steel capsule, welded to a cable that extends to the left. Lengths of 3.6 mm and 3.5 mm and diameters of 0.65 mm and 0.6 mm are marked.",
+  "caption": "Cutaway drawings of two commercial HDR iridium-192 source designs. The active core is sealed in a capsule about 3.5 mm long and 0.6 mm across, attached to the drive cable. The small size and the cable end explain the source-position and anisotropy effects near the tip.",
+  "creator": "Tsuji et al., PLOS ONE 2024",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10857611/",
+  "title": "High dose rate 192Ir brachytherapy source model Monte Carlo dosimetry: mHDR-v2 and mHDR-v2r"
+ },
+ {
+  "id": "rpt-iort-ham-applicator",
+  "file": "rpt-iort-ham-applicator.jpg",
+  "alt": "Top left, a flat transparent applicator pad with six parallel catheters and a ruler. Top right, six catheters leaving an HDR afterloader head in an operating room. Bottom, two computed isodose maps of the applicator.",
+  "caption": "A flexible multi-catheter applicator for HDR intraoperative radiotherapy: six parallel channels in a flat pad, the transfer tubes running to the afterloader, and the isodose pattern the plan gives over the treated surface. The pad is laid on the tumour bed, so its shape in the patient sets the dose.",
+  "creator": "Insley et al., Journal of Applied Clinical Medical Physics 2025",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12658346/",
+  "title": "Monte Carlo simulations of geometric deformation of Harrison–Anderson–Mick applicators used in intraoperative radiation therapy"
+ },
+ {
+  "id": "igrt-sgrt-bore-cameras",
+  "file": "igrt-sgrt-bore-cameras.jpg",
+  "alt": "Three photographs of a surface-guided radiotherapy installation: a view into the linac bore with two camera sets outlined in red, a foam-supported thorax phantom with blue projected light lines, and a phantom on the couch seen from the bore.",
+  "caption": "Ceiling and bore-mounted camera units of a surface-guided system project light patterns onto a phantom and rebuild its surface in three dimensions. The left panel outlines two camera sets; the other two panels show the projected pattern on a phantom and its positioning on the couch.",
+  "creator": "Li et al., Journal of Applied Clinical Medical Physics 2026",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13083584/",
+  "title": "Daily quality assurance, system and procedure‐specific commissioning of a bore‐based optical surface imaging system for surface‐guided radiotherapy (SGRT)"
+ },
+ {
+  "id": "electron-fields-cutout-insert",
+  "file": "electron-fields-cutout-insert.jpg",
+  "alt": "Electron applicator insert made of a flat frame with a patient-shaped opening, shown assembled, in a drawing, and as four separate plastic and metal parts.",
+  "caption": "An electron cutout insert that fits the bottom of the applicator. The opening is shaped to the target outline, and the frame around it holds the blocking material that stops the beam outside the opening. Frames of this kind replace a cast alloy block.",
+  "creator": "Breitkreutz et al., Journal of Applied Clinical Medical Physics 2021",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8504586/",
+  "title": "Nontoxic electron collimators"
+ },
+ {
+  "id": "skin-bolus-printed",
+  "file": "skin-bolus-printed.jpg",
+  "alt": "Four panels of printed bolus and electron cutout parts: a block placed on the cheek of a head phantom, blue frames with shaped openings, a red block on a foot phantom, and a white block with a hollow matching a surface contour.",
+  "caption": "Custom bolus printed from a CT surface contour. The block sits directly on the phantom skin, and its underside follows the contour so that no air gap remains. Printed electron cutout frames appear in the upper right panel.",
+  "creator": "Pinckney et al., Bioengineering 2026",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12837786/",
+  "title": "A Review of 3D-Printed Medical Devices for Cancer Radiation Therapy"
+ },
+ {
+  "id": "qa-linac-chamber-array",
+  "file": "qa-linac-chamber-array.jpg",
+  "alt": "A two-panel photograph of a linear accelerator with a flat ionization chamber array lying on the couch under the gantry head, one panel with a build-up plate and one with a wedge-shaped attachment holding the array.",
+  "caption": "A 2D ionization chamber array set on the couch for a routine linac output and profile check. The array reads many points at once, so one exposure gives output, flatness, and symmetry.",
+  "creator": "Taneja et al., Journal of Applied Clinical Medical Physics 2024",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11492307/",
+  "title": "Implementation of an ionization chamber array for linear accelerator monthly dosimetry QA"
+ },
+ {
+  "id": "mlc-imrt-dual-layer",
+  "file": "mlc-imrt-dual-layer.jpg",
+  "alt": "Top view of a multileaf collimator with two crossed layers of thin metal leaves, with an open aperture at the center and the many parallel leaf edges visible.",
+  "caption": "Dual-layer multileaf collimator seen from the source side. Each layer is a bank of narrow tungsten leaves, and the two layers run at right angles, so the opening at the center is shaped by leaf ends from both. The leaves slide in their banks, and their edges define the aperture of each segment of an IMRT field.",
+  "creator": "Xiao et al., Frontiers in Oncology 2026",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13150568/",
+  "title": "Dosimetric impact of two multileaf collimator systems in simultaneous integrated boost volumetric modulated arc therapy for lymph node metastases in stage IIIC "
+ },
+ {
+  "id": "qa-linac-wl-cube",
+  "file": "qa-linac-wl-cube.jpg",
+  "alt": "A white rectangular phantom block strapped to a black couch top, with small cross marks on its upper face that line it up with the room lasers.",
+  "caption": "A Winston-Lutz phantom, a block with a hidden steel ball and surface marks, strapped to the couch. The marks bring the ball near the isocenter before the small-field images are taken.",
+  "creator": "Gao et al., Journal of Applied Clinical Medical Physics 2024",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11466459/",
+  "title": "Off‐iso Winston‐Lutz test on seven linear accelerators"
+ },
+ {
+  "id": "simulation-motion-compression-plate",
+  "file": "simulation-motion-compression-plate.jpg",
+  "alt": "Left, a person lying supine on a stereotactic body frame with an arched bar over the abdomen; right, a flat tray holding two dark compression plates and four graded fixation posts.",
+  "caption": "An abdominal compression device: an arch fixed to the body frame carries a plate that presses on the upper abdomen to shrink diaphragm excursion. Plates come in two sizes and the post length sets the pressure. The plate sits in the beam path, so its density has to be in the planning CT.",
+  "creator": "Vaithianathan et al., Journal of Applied Clinical Medical Physics 2021",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8425938/",
+  "title": "Transmission study of the Abdominal Compression plate (BodyFIX Diaphragm Control) for abdominal and stereotactic body radiotherapy"
+ },
+ {
+  "id": "srs-sbrt-gamma-knife-setups",
+  "file": "srs-sbrt-gamma-knife-setups.jpg",
+  "alt": "Two photographs of a head phantom set up for a Gamma Knife treatment: on the left held in a stereotactic frame with side posts, on the right held by a thermoplastic mask.",
+  "caption": "A head phantom in the two ways radiosurgery fixes the head. The frame is rigid and defines coordinates directly; the open mask on the right depends on cone-beam CT and a motion monitor for localization and gives up some rigidity for comfort and fractionation.",
+  "creator": "Hu et al., Journal of Applied Clinical Medical Physics 2022",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8906202/",
+  "title": "Characterization and commissioning of a Leksell Gamma Knife ICON system for framed and frameless stereotactic radiosurgery"
+ },
+ {
+  "id": "dosimeters-osld-phantom",
+  "file": "dosimeters-osld-phantom.jpg",
+  "alt": "Three photographs of an anthropomorphic phantom: lying on a CT couch under room lasers, its slices with small OSL dosimeters set in numbered positions, and a side view on the couch.",
+  "caption": "An anthropomorphic slice phantom for in-vivo-style dosimetry. Small OSL nanoDots sit in slots in the slices at organ positions, are irradiated with the phantom, and are read out afterwards.",
+  "creator": "Tantaoui et al., Journal of Applied Clinical Medical Physics 2026",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12758999/",
+  "title": "Organ‐specific low‐dose assessment in pediatric radiotherapy using nanodot OSL and NTCP modeling: Application to medulloblastoma"
+ },
+ {
+  "id": "brachy-planning-coms-plaque",
+  "file": "brachy-planning-coms-plaque.jpg",
+  "alt": "Cross-section drawing of a curved eye plaque seen from the side: a thin metal backing shell holding a grey Silastic insert, with yellow seeds in slots along the inner surface. Labels mark the sclera above, the Silastic thickness of 2.25 mm, the base thickness of 1 mm, and the seed slot depth of 1.25 mm.",
+  "caption": "Cross-section of a COMS eye plaque. Seeds sit in slots of a Silastic insert inside a gold backing shell, and the insert holds them a fixed distance from the sclera. The insert thickness and slot depth set the seed-to-tumour distance, so a small error in them changes the dose.",
+  "creator": "Oare et al., Journal of Applied Clinical Medical Physics 2021",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8364280/",
+  "title": "On the importance of quality assurance (QA) for COMS eye plaque Silastic inserts: A guide to measurement methods, typical variations, and an example of how QA i"
+ },
+ {
+  "id": "brachy-planning-plaque-assay",
+  "file": "brachy-planning-plaque-assay.jpg",
+  "alt": "Left, a photograph looking down into a plastic dipper of a dose calibrator, with a small white holder containing a gold eye plaque. Right, a computer drawing of the holder, a teal block with a shaped recess for the plaque.",
+  "caption": "An eye plaque in a 3D-printed holder, placed in the dipper of a dose calibrator (left), and the holder model (right). A fixed holder puts the plaque in the same position for every assay, so the seed activity reading repeats and can be compared with the order.",
+  "creator": "Wang et al., Journal of Applied Clinical Medical Physics 2024",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11302816/",
+  "title": "Novel 3D printed universal conical holder for eye plaque quality assurance"
+ },
+ {
+  "id": "ion-chambers-farmer-slab",
+  "file": "ion-chambers-farmer-slab.jpg",
+  "alt": "A stack of solid plastic slabs with a layer of bolus on top, a thin scintillator fibre taped across the top, and a thimble ionization chamber with its cable inserted at the side, both labelled.",
+  "caption": "A thimble chamber of the Farmer type (PTW 30013) built into a solid-slab phantom beside a scintillator fibre. The chamber is the reference detector; the cable runs out at the side to the electrometer.",
+  "creator": "White et al., Journal of Applied Clinical Medical Physics 2026",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13296819/",
+  "title": "Pulse‑level characterization of low monitor unit deliveries on a modern linear accelerator using a plastic scintillation detector"
+ },
+ {
+  "id": "tg51-water-tank-setup",
+  "file": "tg51-water-tank-setup.jpg",
+  "alt": "Two photographs of a clear water tank on a linac couch with a vertical scanning arm and a parallel-plate chamber under water, its blue cable looping out to a coiled triaxial cable; the second view shows the tank without the chamber.",
+  "caption": "A water tank set up on the couch for chamber measurements under a linac. The chamber hangs on the arm at the reference depth below the water surface, and its cable runs to the electrometer.",
+  "creator": "Butler et al., Journal of Applied Clinical Medical Physics 2025",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12638264/",
+  "title": "The contribution of the cable to the polarity effect in ionization chamber dosimetry"
+ },
+ {
+  "id": "field-shaping-photon-blocks",
+  "file": "field-shaping-photon-blocks.jpg",
+  "alt": "Photographs of three pairs of photon shielding blocks on perforated tray plates, seen from above and from the side, with gray metal blocks beside red, white, and pink printed ones.",
+  "caption": "Patient-specific photon blocks on tray plates, one patient per row. The gray blocks are cast low-melting alloy and the colored ones are printed shells filled with shielding material. Each block shapes the field edge by absorbing the beam outside the treatment area, and the pairs show that either route gives the same outline.",
+  "creator": "Schulz et al., Journal of Applied Clinical Medical Physics 2024",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10929986/",
+  "title": "A clinical solution for non‐toxic 3D‐printed photon blocks in external beam radiation therapy"
+ },
+ {
+  "id": "linac-components-head-diagram",
+  "file": "linac-components-head-diagram.jpg",
+  "alt": "Line drawing of a linac treatment head, top to bottom: accelerating tube, target and slider, primary collimator, flattening filter, monitor chamber, anti-scatter plate, mirror, Y jaws, X jaws, MLC, accessories, and isocenter below.",
+  "caption": "Components of one linac treatment head in beam order, from the electron beam entering the target to the isocenter. The monitor chamber sits below the flattening filter, the light-field mirror above the jaws, and the MLC below the jaws. The drawing is of one vendor's machine; the order differs in details between models.",
+  "creator": "Yu et al., Journal of Applied Clinical Medical Physics 2021",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8292712/",
+  "title": "Commissioning of and preliminary experience with a new fully integrated computed tomography linac"
  }
 ]
