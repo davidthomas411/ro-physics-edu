@@ -182,6 +182,7 @@ TOPIC = dict(
         P("A piezoelectric crystal, usually lead zirconate titanate (PZT), converts a voltage pulse to vibration and an echo to a voltage. A quarter-wavelength matching layer passes more sound into the patient, and a backing layer damps the ringing to two or three cycles per pulse, giving finer detail along the beam at some loss of sensitivity."),
         P("Linear arrays give a rectangular image, curvilinear arrays a fan for the abdomen and pelvis, and phased arrays a beam steered by small firing delays from a footprint that fits between ribs. Delays also focus the beam in the image plane; a lens focuses it across the plane."),
         P("Axial resolution, along the beam, is half the spatial pulse length nλ. Lateral resolution, in the image plane, is the beam width, smallest at the focus. Elevational resolution, across the plane, is the slice thickness, usually the coarsest. The beam of an unfocused disc of diameter D narrows over the near field, of length D<sup>2</sup>/(4λ), and diverges beyond it."),
+        PHOTO("ultrasound-hypoechoic-phantom"),
         EQ("λ = c / f,   spatial pulse length = n λ   (n cycles)", "axial resolution = n λ / 2",
            "near field N = D<sup>2</sup> / (4λ),   beyond it sin θ = 1.22 λ / D"),
         EX("Wavelength and axial resolution", STEM("A transducer sends short pulses into soft tissue.", [f"frequency = {x3_f:.1f} MHz", f"cycles per pulse = {x3_n}", "c = 1540 m/s"],

@@ -295,5 +295,16 @@
   "licence_url": "https://creativecommons.org/licenses/by/4.0/",
   "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10542438/",
   "title": "Quantitative validation of Monte Carlo SPECT simulation: application to a Mediso AnyScan GATE simulation"
+ },
+ {
+  "id": "ultrasound-hypoechoic-phantom",
+  "file": "ultrasound-hypoechoic-phantom.jpg",
+  "alt": "Left, a cylindrical ultrasound test phantom with a printed label, its wall showing a scatter of dark dots; right, a drawing of its cross-section as a 10 cm by 11.5 cm rectangle filled with random small circles, with the sound speed, attenuation, and sphere properties listed.",
+  "caption": "An ultrasound test phantom whose background is tissue-like and holds many random 2 mm hypoechoic spheres. Scanning it at different depths and settings shows how far down small low-contrast objects can still be seen, which depends on frequency, focus, and gain. The right panel is the design drawing.",
+  "creator": "Yu et al., Medical Physics 2026",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12807791/",
+  "title": "Assessing imaging performance of ultrasound systems using a random hypoechoic sphere phantom with freehand scanning"
  }
 ]
