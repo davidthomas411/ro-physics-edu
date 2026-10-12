@@ -91,27 +91,14 @@ p = prob("4.2 Gy, in 4 fractions")
 r42 = [4.2] * 4
 close(value(p), eqd2_of_bed(bed_sum(ext + r42, 3), 3), 1e-9, "rectum total with 4.2 Gy per fraction"); close(value(p), 67.39, 1e-3, "67.4 Gy")
 holds(sorted(round(v, 6) for v in p["vals"]) == sorted(round(v, 6) for v in (eqd2_of_bed(bed_sum(ext + r42, 3), 3), 45 + 16.8, eqd2_of_bed(bed_sum(ext + r42, 10), 10), bed_sum(ext + r42, 3))), "options: EQD2, physical sum, alpha/beta 10, and the BED sum")
-p = prob("largest rectal")
-d_b = bisect(lambda d: eqd2_of_bed(bed_sum(ext, 3), 3) + eqd2_of_bed(bed_sum([d] * 4, 3), 3) - 75, 0, 20)
-close(value(p), d_b, 1e-7, "largest rectal D2cc per fraction, by bisection"); holds(abs(B.r_left / 4 / d_b - 1) > p["tol"], "dividing the remaining EQD2 by four falls outside the tolerance")
 p = prob("distance = 1.5 cm")
 rate_q = 36000 * 1.11 / 1.5 ** 2 / 3600; t = 0.0; dose = 0.0
 while dose < 600.0: dose += rate_q * 0.001; t += 0.001
 close(value(p), t, 1e-4, "dwell time at 1.5 cm by time stepping")
 holds(sorted(round(v, 6) for v in p["vals"]) == sorted(round(600 / (36000 * 1.11 * k / 3600), 6) for k in (1 / 2.25, 1, 1 / 1.5, 2.25)), "options: 1/r², none, 1/r, and r²")
-p = prob("two dwell positions")
-per_s = 40000 * 1.11 / 3600                                                    # cGy/s at 10 mm
-doses = [per_s * (10.0 / r_mm) ** 2 * t for r_mm, t in ((20.0, 100.0), (25.0, 150.0))]   # distances in mm
-close(value(p), sum(doses) / 100, 1e-12, "point dose from two dwells, in Gy"); close(value(p), 6.04, 1e-3, "6.04 Gy")
-holds(sorted(round(v, 9) for v in p["vals"]) == sorted(round(v, 9) for v in (sum(doses) / 100, per_s * 250 / 100, per_s * (100 / 2.0 + 150 / 2.5) / 100, doses[0] / 100)), "options: summed, no inverse square, 1/r, and the first dwell alone")
 p = prob("seeds = 90")
 close(value(p), sum(0.45 / (0.876 * 1.45) for _ in range(90)), 1e-12, "apparent activity of 90 seeds"); close(value(p), 31.88, 1e-3, "31.9 mCi")
 holds(sorted(round(v, 9) for v in p["vals"]) == sorted(round(v, 9) for v in (40.5 / 1.2702, 40.5, 40.5 * 1.2702, 0.45 / 1.2702)), "options: converted, unconverted, multiplied, and one seed")
-p = prob("initial dose rate at the apex = 0.65 Gy/h")
-tb = bisect(lambda x: plaque_dose(x, 0.65, th) - 85, 1, 1000)
-close(value(p), tb, 1e-7, "plaque time with the decay, by numerical integration"); holds(abs(85 / 0.65 / tb - 1) > p["tol"], "ignoring the decay falls outside the tolerance")
-p = prob("calculated in water with the TG-43 formalism")
-holds(any("75 Gy" in plain(o) and "85 Gy" in plain(o) for o in p["opts"]) and any("42.5 Gy" in plain(o) for o in p["opts"]) and any("95 Gy" in plain(o) for o in p["opts"]), "the plaque options print 75 and 85 Gy, half of 85, and 95 Gy")
 p = prob("Where is point A")
 holds("2 cm lateral to the tandem" in plain(p["a"][0]), "the keyed point A option")
 

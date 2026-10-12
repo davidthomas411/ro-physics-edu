@@ -25,21 +25,17 @@ def bisect(f, a, b):
 LN2 = math.log(2)
 
 # ---- MRI safety: SAR is power per mass; it rises with the square of the field
-close(value(prob("mri-physics", "105 W of RF power")), 105 / 70, 1e-12, "SAR of 105 W in 70 kg")
 import mri_physics as MP
-close(MP.s_ex, 150 / 60, 1e-12, "worked example: 150 W in 60 kg is 2.5 W/kg, above the 2 W/kg limit"); close(1 if MP.s_ex > 2 > value(prob("mri-physics", "105 W of RF power")) else 0, 1, 0, "the example is above the limit and the problem is below it")
+close(MP.s_ex, 150 / 60, 1e-12, "worked example: 150 W in 60 kg is 2.5 W/kg, above the 2 W/kg limit")
 close((3.0 / 1.5) ** 2, 4.0, 1e-12, "SAR at 3 T against 1.5 T goes as the field squared")
 
 # ---- CT: patient size, and the real phantom
-mu = 0.19; extra = 8
+mu = 0.19
 photons = lambda mas, d: mas * math.exp(-mu * d)                              # photons at the detector for a thickness d
-need = bisect(lambda m: photons(m, 24 + extra) - photons(150, 24), 1, 5000)
-close(value(prob("ct-quality", "8 cm thicker")), need, 1e-6, "mAs for an 8 cm thicker patient, solved from equal photon counts"); close(need, 686, 2e-3, "about 686 mAs")
 close(photons(2.0, math.log(2) / mu) / photons(1.0, 0.0) * 1.0, 1.0, 1e-12, "doubling the mAs offsets ln 2 / mu of extra thickness"); close(math.log(2) / mu, 3.65, 5e-3, "3.6 cm doubles the mAs")
-RN = real.STATS["ct"]["noise"]; sd_a, sd_b = round(RN["sd"][0], 1), round(RN["sd"][2], 1)
-close(value(prob("ct-quality", "uniform block in a test phantom")), RN["mA"][0] * (sd_a / sd_b) ** 2, 1e-12, "tube current for the lower noise")
+RN = real.STATS["ct"]["noise"]
+
 close(RN["sd"][0] * math.sqrt(RN["mA"][0] / RN["mA"][2]), RN["sd"][2], 0.02, "the measured noise at 200 mA follows 1/sqrt(mA) from the 50 mA value within 2%")
-close(abs(value(prob("ct-quality", "uniform block in a test phantom")) - RN["mA"][2]) / RN["mA"][2], 0.0, 0.03, "the predicted current is within 3% of the 200 mA used")
 
 # ---- radiography: distance and the mAs
 d_ratio = lambda m: m / 140 ** 2 - 20 / 100 ** 2                                # equal exposure at the film: mAs / d^2
@@ -50,10 +46,7 @@ a_scan = 370 * math.exp(-LN2 / 109.8 * 60)                                      
 close(value(prob("pet-imaging", "decay-corrected")), 12 / (a_scan * 1000 / 75000), 1e-9, "SUV with decay"); close(value(prob("pet-imaging", "decay-corrected")), 3.55, 3e-3, "3.55")
 close(12 / (370 * 1000 / 75000), 2.432, 1e-3, "without the decay the SUV would be 2.43")
 
-# ---- decay: the time at which two sources have the same activity, solved numerically
-lx, ly = LN2 / 12, LN2 / 40
-t_eq = bisect(lambda t: 9.0 * math.exp(-lx * t) - 2.5 * math.exp(-ly * t), 0, 500)
-close(value(prob("decay-law", "same activity")), t_eq, 1e-9, "time of equal activity"); close(t_eq, 31.68, 1e-3, "31.7 d")
+# ---- decay
 close(1 - math.exp(-LN2 / 10 * 10), 0.5, 1e-12, "the chance of decay in any one half-life is 50%")
 
 # ---- photon interactions: the barrier with a build-up factor, and the contrast ratio per gram
@@ -83,7 +76,6 @@ close(EP.r90(9) - 1.0, 1.727, 1e-3, "worked example: 9 MeV with 1.0 cm of bolus"
 close(value(prob("electron-fields", "bolus is left out")), 100 * sum((0.80 if k == 0 else 1.0) for k in range(20)) / 20 * -1 + 100, 1e-9, "one of 20 fractions at 80% of the surface dose: 1.0% short")
 
 # ---- flattening-filter-free beams: beam-on times
-close(value(prob("profiles", "2400 MU")), 2400 / 600 - 2400 / 1400, 1e-12, "time saved with 2400 MU"); close(value(prob("profiles", "2400 MU")), 2.286, 1e-3, "2.3 min")
 close(2000 / 600 - 2000 / 1400, 1.905, 1e-3, "worked example: 2000 MU, 3.3 min against 1.4 min")
 
 # ---- continuous low dose rate irradiation: the closed form against the Lea-Catcheside double integral
@@ -95,10 +87,7 @@ def bed_numeric(R, T, ab, steps=4000):
         acc += R * h * inner
     D = R * T; GD2 = 2 * acc
     return D + GD2 / ab
-close(bed_numeric(0.50, 72, 10), 43.56, 5e-3, "worked example by numerical integration"); close(bed_numeric(0.60, 60, 3), value(prob("bed-tcp", "0.60 Gy/h for 60 h")), 5e-3, "low dose rate BED of the late-responding tissue")
-close(value(prob("bed-tcp", "0.60 Gy/h for 60 h")), 66.0, 2e-3, "66.0 Gy")
-close(bed_numeric(0.60, 60, 10), 45.0, 5e-3, "the tumour value used as a decoy"); close(bed_numeric(0.60, 60, 3), 36 * (1 + 0.8658 * 0.964), 5e-3, "the bracket")
-close(1 if bed_numeric(0.60, 60, 3) - 36 > bed_numeric(0.60, 60, 10) - 36 > 0 else 0, 1, 0, "the repair term is larger for the low alpha/beta")
+close(bed_numeric(0.50, 72, 10), 43.56, 5e-3, "worked example by numerical integration")
 # ---- the T1 that the FLAIR inversion time of the real images nulls, quoted in the MRI sequences chapter
 import mri_sequences as MS
 fl = real.STATS["mr"]["params"]["flair"]

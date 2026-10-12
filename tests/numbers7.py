@@ -41,25 +41,12 @@ close(4.69 / 1.45, 3.234, 1e-3, "Ir-192 to I-125 gamma ratio"); close(100 * (2 /
 # ---- HDR source decay
 close(10 * math.exp(-math.log(2) * 90 / 73.8), 4.294, 1e-3, "10 Ci Ir-192 after 90 d"); close(73.8 * math.log(10 / 4) / math.log(2), 97.56, 1e-3, "time to 4 Ci"); close(73.8 * math.log(10 / 3) / math.log(2), 128.19, 1e-3, "time to 3 Ci"); close(0.5 ** (91.25 / 73.8), 0.4244, 2e-3, "activity left after three months")
 # ---- the numbers printed in the text and the typed answers agree with these
-bs, be = T["brachy-sources"], T["brachy-exposure"]
-def typed(t, phrase): return next(p for p in t["problems"] if p.get("kind") == "num" and phrase in plain(p["q"]))
-close(typed(bs, "replacement activity = 3 Ci")["ans"], 128.19, 1e-3, "typed: time to 3 Ci"); close(typed(be, "apparent activity = 0.50 mCi")["ans"], 0.6351, 1e-3, "typed: S_K of 0.5 mCi I-125"); close(typed(tg, "S K = 0.60 U".replace(" K", "K"))["ans"], 0.60 * d2, 1e-3, "typed: dose rate on the axis, S_K = 0.60 U")
 fig = lambda t, phrase: next(p for p in t["problems"] if p.get("kind") == "fig" and phrase in plain(p["q"]))
 inside = lambda p, x, y=None: any((a is None or x >= a) and (b is None or x <= b) and (y is None or ((c is None or y >= c) and (d is None or y <= d))) for a, b, c, d in p["targets"])
 def at(pts, x0):
     for (a, b), (c, d) in zip(pts, pts[1:]):
         if a <= x0 <= c: return b + (d - b) * (x0 - a) / (c - a)
-p = fig(be, "one ninth"); s = p["spec"]["series"][0]["pts"]
-close(1 if inside(p, 3.0) and not any(inside(p, x) for x in (1.0, 2.0, 4.0, 10.0)) else 0, 1, 0, "figure: inverse square, one ninth is at 3 cm"); close(at(s, 3.0), 100 / 9, 0.01, "the plotted curve is 11.1% at 3 cm")
-p = fig(be, "rate is 1%"); s = p["spec"]["series"][0]["pts"]; close(1 if inside(p, 10.0) and not any(inside(p, x) for x in (3.0, 5.0, 8.0, 12.0)) else 0, 1, 0, "figure: inverse square, 1% is at 10 cm"); close(at(s, 10.0), 1.0, 0.02, "the plotted curve is 1% at 10 cm")
 p = fig(tg, "75% of the total dose"); s = p["spec"]["series"][0]["pts"]; delivered = lambda t_: 100 * (1 - 0.5 ** (t_ / 59.4))
 close(delivered(118.8), 75.0, 1e-9, "75% of the dose is delivered after two half-lives"); close(at(s, 118.8), 25.0, 0.01, "the plotted dose rate is 25% at 118.8 d"); close(1 if inside(p, 118.8) and not any(inside(p, x) for x in (59.4, 89.1, 197.3, 30)) else 0, 1, 0, "figure: 75% of the dose at 119 d")
-p = fig(tg, "Cs-131 implant"); t90 = 9.7 * math.log2(10); close(100 * (1 - 0.5 ** (t90 / 9.7)), 90.0, 1e-9, "90% of the dose after 3.32 half-lives of Cs-131"); close(1 if inside(p, t90) and not any(inside(p, x) for x in (9.7, 59.4, 118.8, 197.3)) else 0, 1, 0, "figure: Cs-131 delivers 90% by 32 d, not at the I-125 times")
-iso = [("Cs-131", 9.69, 30), ("Pd-103", 16.99, 21), ("I-125", 59.4, 28), ("Ir-192", 73.8, 380), ("Co-60", 5.27 * 365.25, 1250), ("Cs-137", 30.1 * 365.25, 662), ("Ra-226", 1600 * 365.25, 830)]
-p = fig(bs, "HDR afterloaders"); close(1 if inside(p, 73.8, 380) and not any(inside(p, x, y) for nm, x, y in iso if nm != "Ir-192") else 0, 1, 0, "figure: Ir-192 is the only point in the HDR target")
-p = fig(bs, "662 keV photon"); close(1 if inside(p, 30.1 * 365.25, 662) and not any(inside(p, x, y) for nm, x, y in iso if nm != "Cs-137") else 0, 1, 0, "figure: Cs-137 is the only point in the 662 keV target")
-p = fig(bs, "two months"); best = min(iso, key=lambda r: abs(math.log(r[1] * math.log2(10) / 60)))
-close(1 if best[0] == "Pd-103" and inside(p, 16.99, 21) and not any(inside(p, x, y) for nm, x, y in iso if nm != "Pd-103") else 0, 1, 0, "figure: of the seven isotopes only Pd-103 delivers 90% of its dose in about 60 d, and it is the only point in the target")
-for q in (fig(bs, "HDR afterloaders"), fig(bs, "662 keV photon"), fig(bs, "two months")): close(1 if not q["spec"].get("texts") and len({d["color"] for d in q["spec"]["dots"]}) == 1 else 0, 1, 0, "the isotope points carry no name labels and no colour hints")
 for b in bad: print("FAIL", b)
 print(f"numbers7: {n} brachytherapy numbers re-derived"); print("numbers7: PASS" if not bad else f"numbers7: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)

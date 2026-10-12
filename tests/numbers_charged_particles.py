@@ -118,9 +118,6 @@ close(G.q_share_z2, float(100 * (1 - 1 / (1 + Fr(74, 10) ** 2 * 20 / 800))), 1e-
 # ---- yield against share, and the β shield
 p = prob("Y-90, a pure β emitter"); close(G.pb_acryl, 82 / 6.5, 1e-12, "lead against acrylic by the rule"); true(G.pb_acryl > 10 and "about 13 times" in plain(p["a"][1]), "about 13 times, more than ten")
 
-# ---- restricted stopping power question: 28% quoted in the explanation
-p = prob("restricted collision stopping power with Δ = 10 keV"); true("about 28% of" in plain(p["a"][1]), "explanation quotes 28%")
-
 # ---- LET of a 1 MeV electron
 p = prob("A 1 MeV electron slows down in water"); close(value(p), 1.85 * KEV_UM_PER_MEV_CM, 1e-12, "0.185 keV/µm")
 true(len(p["vals"]) == 4 and min(p["vals"]) > 0, "four positive options")

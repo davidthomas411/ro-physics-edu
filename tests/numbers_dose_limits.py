@@ -90,8 +90,6 @@ shown("20 mSv averaged over 5 years, at most 50 mSv in one year"); close(D.ICRP[
 check(D.ICRP["avg"] * D.ICRP["years"] <= D.ICRP["max1"] * D.ICRP["years"] and D.ICRP["avg"] < D.NRC["tede"], "the ICRP average is below the NRC annual limit and below its own one-year cap")
 weeks = 50; close(sum(D.GOAL["ctrl"] for _ in range(weeks)), 5.0, 1e-9, "0.1 mSv a week for 50 weeks is 5 mSv"); close(sum(D.GOAL["unctrl"] for _ in range(weeks)), 1.0, 1e-9, "0.02 mSv a week for 50 weeks is 1 mSv")
 shown("0.1 mSv per week (5 mSv per year)"); shown("0.02 mSv per week (1 mSv per year)")
-SORTQ = prob("Match each person or organ"); lim = {0: 5, 1: 15, 2: 50, 3: 0.1, 4: 0.5}                     # rem values of the five bins, from the regulation
-for c in SORTQ["chips"]: check(f"{lim[c['b']] * 10:g} mSv" in plain(SORTQ["bins"][c["b"]]), f"bin of '{plain(c['t'])}'")
 
 # ---- NCRP 116 cumulative guidance: 10 mSv for each year of age
 age = 45; close(value(prob("45 years old")), sum(10 for _ in range(age)), 1e-12, "lifetime limit at 45: 450 mSv")

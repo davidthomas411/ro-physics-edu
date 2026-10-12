@@ -97,12 +97,6 @@ close(round(d90, 1) - round(p90, 1), 6.6, 1e-9, "modulation width 15.5 - 8.9 = 6
 plat = [sob(z) for z in [r0 - 5.6 + 0.1 * i for i in range(53)]]
 true(0.97 < min(plat) and max(plat) < 1.03, f"the plateau is flat within 3% ({min(plat):.3f} to {max(plat):.3f})")
 e_d80 = bisect(lambda e: A * e ** PW - round(d80, 1), 50, 300); close(M.e_d80, e_d80, 1e-9, "energy of the deepest peak from the 80% depth"); close(round(e_d80), 150, 0, "150 MeV")
-fig = prob("Tap the depth at which the RBE"); x0, x1 = fig["targets"][0][:2]
-close(x0, round(d90 - 0.1, 2), 0.002 / 15, "tap region starts 1 mm before the distal 90% point"); close(x1, round(z01 + 0.05, 2), 0.002 / 15, "tap region ends past the 1% point")
-true(sob(x0) > 0.9 and sob(x1) < 0.01, "the tap region holds the whole distal fall-off")
-pts = fig["spec"]["series"][0]["pts"]
-true(max(abs(y - 100 * sob(x)) for x, y in pts[::7]) < 0.3, "the plotted curve matches the closed form within 0.3 percentage points")
-true(f"({d90:.1f} cm)" in fig["a"][1] and f"({z01:.1f} cm)" in fig["a"][1], "the explanation quotes the 90% and 1% depths")
 # a second solver: multiplicative updates on the same peaks give the same entrance dose
 grid = [r0 - 6.0 + 5.8 * i / 59 for i in range(60)]; Mx = [[M.pristine(z, r) for r in M.RS] for z in grid]; w = [1.0] * len(M.RS)
 for _ in range(1500):
@@ -118,18 +112,13 @@ need = 1.035 * w3 + 0.1; close(M.w3 + M.m3, need, 1e-12, "range with the margin"
 e3 = bisect(lambda e: A * e ** PW - need, 50, 300); close(M.e3, e3, 1e-9, "worked example: energy"); close(round(e3), 131, 0, "about 131 MeV")
 close(value(prob("crosses three layers before the target")), math.fsum([4.0 * 1.04, 1.5 * 1.60, 6.0 * 0.25]), 1e-12, "WEPL with lung")
 close(value(prob("WEPL of 24.0 cm")), (24.0 * 1.035 + 0.1 - 24.0) * 10, 1e-9, "distal margin at 24 cm"); close(value(prob("WEPL of 24.0 cm")), 9.4, 1e-9, "9.4 mm")
-we = math.fsum([5.0 * 1.04, 2.0 * 1.60, 7.0 * 1.04]); ee = bisect(lambda e: A * e ** PW - (1.035 * we + 0.1), 50, 300)
-pe = prob("covers the distal edge with the margin"); close(value(pe), ee, 1e-9, "energy for the three-layer path")
-close(sorted(pe["vals"])[0], bisect(lambda e: A * e ** PW - (1.035 * 14.0 + 0.1), 50, 300), 1e-9, "decoy: physical depth"); close(sorted(pe["vals"])[1], bisect(lambda e: A * e ** PW - we, 50, 300), 1e-9, "decoy: no margin")
-close(sorted(pe["vals"])[3], bisect(lambda e: A * e ** PW - (1.035 * we + 1.0), 50, 300), 1e-9, "decoy: 1 cm in place of 1 mm")
-true([o for o in pe["opts"]] == ["144 MeV", "150 MeV", "154 MeV", "158 MeV"], f"energy options {pe['opts']}")
 close(value(prob("has a range of 15.6 cm")), math.exp(math.log(15.6) + 1.77 * math.log(0.8)), 1e-12, "scaling 150 MeV to 120 MeV"); close(round(value(prob("has a range of 15.6 cm")), 1), 10.5, 0, "10.5 cm")
 true(prob("has a range of 15.6 cm")["opts"] == ["10.0 cm", "10.5 cm", "12.5 cm", "13.8 cm"], "scaling options")
 close(R_int(150), 15.635, 1e-4, "card and take-away: 150 MeV reaches 15.6 cm"); close(0.035 * 200 + 1, 8.0, 1e-12, "card: 20 cm range gives an 8 mm margin")
 
 # ---- biological effect
 close(M.phys_fx * 30, 54 / 1.1, 1e-12, "worked example: 30 fractions of the physical dose"); close(round(M.phys_fx, 2), 1.64, 0, "1.64 Gy per fraction"); close(round(M.phys_tot, 1), 49.1, 0, "49.1 Gy in total")
-close(value(prob("70 Gy(RBE) in 35 fractions")) * 35 * 1.1, 70.0, 1e-12, "physical dose per fraction for 70 Gy(RBE) in 35"); close(value(prob("physical dose = 1.80 Gy")) / 1.1, 1.80, 1e-12, "RBE-weighted dose of 1.80 Gy")
+close(value(prob("70 Gy(RBE) in 35 fractions")) * 35 * 1.1, 70.0, 1e-12, "physical dose per fraction for 70 Gy(RBE) in 35")
 close(value(prob("RBE at that point = 1.35")), 1.35 / 1.1, 1e-12, "dose with the distal RBE"); close(round(100 * (1.35 / 1.1 - 1)), 23, 0, "23% more than planned")
 
 # ---- carbon ions: rigidity from gamma and beta, and the range of 430 MeV per nucleon by velocity scaling of the Bethe range

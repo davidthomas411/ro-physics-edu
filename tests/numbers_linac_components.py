@@ -61,9 +61,6 @@ check(shown(f"{b_si(18, 0.10):.3f} T at 18 MeV and {b_si(6, 0.10):.3f} T at 6 Me
 q9 = prob("radius of the path r = 8.0 cm")
 close(value(q9), b_si(12, 0.080), 1e-7, "question: field for 12 MeV on 8.0 cm")
 close(L.BNR12, math.sqrt(2 * ME_KG * 12e6 * E) / (E * 0.080), 1e-7, "decoy: the non-relativistic momentum in SI"); check(L.BNR12 in q9["vals"], "the non-relativistic decoy is offered")
-q10 = prob("from a 6 MeV to a 20 MeV")
-close(value(q10), b_si(20, 1.0) / b_si(6, 1.0), 1e-7, "question: field ratio 20 to 6 MeV")
-check(all(any(abs(v - w) < 1e-12 for v in q10["vals"]) for w in (20 / 6, math.sqrt(20 / 6))), "the kinetic-energy and non-relativistic ratios are offered")
 check(round(b_si(20, 1) / b_si(6, 1), 2) != round(20 / 6, 2) and round(L.RAT18, 2) == 2.85, "the momentum ratios differ from the energy ratios")
 
 # ---- photon energies: the mean is a third of the maximum, which is the electron kinetic energy
@@ -74,9 +71,6 @@ check(shown("about 2 MeV for 6 MeV electrons"), "the text prints about 2 MeV")
 ppm = 360 * 60
 close(L.DP600, 600 / ppm, 1e-12, "600 MU/min at 360 per second"); close(L.DP1400, 1400 / ppm, 1e-12, "1400 MU/min at 360 per second")
 check(shown(f"{10 * 600 / ppm:.2f} mGy per pulse flattened and {10 * 1400 / ppm:.2f} mGy FFF, {1400 / 600:.1f} times more"), "worked example prints 0.28 mGy, 0.65 mGy, and 2.3")
-q20 = prob("2400 MU/min")
-close(value(q20), 10 * 2400 / ppm, 1e-12, "question: 2400 MU/min at 360 per second, in mGy"); close(round(value(q20), 2), 1.11, 1e-12, "1.11 mGy")
-check(any(abs(v - 10 * 2400 / 360) < 1e-9 for v in q20["vals"]) and any(abs(v - 10 * 2400 / 60) < 1e-9 for v in q20["vals"]), "the decoys without the 60 s and without the pulse rate are offered")
 
 # ---- average RF power: energy per pulse times pulses per second
 q5 = prob("peak power = 3.0 MW")

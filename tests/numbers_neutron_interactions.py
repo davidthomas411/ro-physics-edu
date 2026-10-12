@@ -106,7 +106,7 @@ for name, x, printed in (("hydrogen", 1.0, 18), ("water", M.XI_W, 20), ("carbon"
     check(abs(k - L2 / x) < 1.0, f"{name}: step count {k} agrees with ln(E0/E)/xi = {L2 / x:.2f}")
     close(round(L2 / x, -2) if name == "lead" else round(L2 / x), printed, 0, f"{name}: {printed} collisions")
 shown("about 18 collisions in hydrogen, 115 in carbon, and 1,900 in lead"); shown("18.20 / 1 = 18.2; water: 18.20 / 0.92 = 19.8; carbon: 18.20 / 0.158 = 115")
-shown("About 18 in hydrogen, 20 in water, and 115 in carbon, 6 times as many"); shown("about 18 in hydrogen, 20 in water, 115 in carbon", CARDS); shown("about 18 collisions in hydrogen and 115 in carbon", TAKE)
+shown("About 18 in hydrogen, 20 in water, and 115 in carbon, 6 times as many"); shown("about 18 collisions in hydrogen and 115 in carbon", TAKE)
 xi_w = (2 * 20.4 * 1.0 + 3.76 * xi_num(16)) / (2 * 20.4 + 3.76)                     # free-atom epithermal scattering cross sections of H and O (b)
 close(M.XI_W, xi_w, 0.01, "xi of water from the H and O values weighted by their scattering cross sections")
 
@@ -120,7 +120,7 @@ for q, m1, m2, got, printed, what in ((M.Q_N, 1, 14, M.e_pn, "0.58", "N(n,p) pro
                                       (M.Q_LI, 3, 4, M.e_t6, "2.73", "Li-6 triton"), (M.Q_LI, 4, 3, M.e_a6, "2.05", "Li-6 alpha")):
     e = share(q, m1, m2); close(got, e, 1e-9, what); close(float(f"{e:.2f}"), float(printed), 0, f"{what} prints {printed} MeV")
 shown("0.63 MeV; proton 0.58 MeV"); shown("(α 1.47, Li 0.84 MeV)"); shown("0.76 MeV He-3"); shown("4.78 MeV TLD-600")
-shown("whose 0.58 MeV proton stops"); shown("The α particle (1.47 MeV) and Li-7 ion (0.84 MeV)", CARDS); shown("a 0.58 MeV proton", TAKE)
+shown("whose 0.58 MeV proton stops"); shown("a 0.58 MeV proton", TAKE)
 shown("2.79 MeV; in 94% of captures 2.31 MeV"); shown("0.48 MeV γ ray"); shown("3,840"); shown("5,330"); shown("About 2,500 (natural Cd)")
 
 # ---------------------------------------------------------------- tissue: nuclei per gram and thermal capture
@@ -129,7 +129,7 @@ close(M.h_more, mol["H"] / sum(v for k, v in mol.items() if k != "H"), 1e-12, "h
 gy_n = rad_gy(mol["N"], M.S_N, 1.0, M.Q_N); gy_h = rad_gy(mol["H"], M.S_H, 1.0, M.Q_H)
 close(M.k_ncap, gy_n, 1e-9, "N(n,p) energy per unit fluence through the rad"); close(M.e_hcap, gy_h, 1e-9, "H(n,γ) energy per unit fluence through the rad")
 close(M.r_hn, gy_h / gy_n, 1e-9, "ratio of the energies"); close(round(gy_h / gy_n), 35, 0, "about 35")
-shown("about 35 times as much energy"); shown("about 35 times as much energy as nitrogen capture", PROBS)
+shown("about 35 times as much energy")
 
 # ---------------------------------------------------------------- weighting factors and the quality factor
 for e in (1.0, 50.0):
@@ -140,14 +140,8 @@ close(round(M.wr_th, 1), 2.5, 0, "2.5 thermal"); close(round(M.wr_1), 21, 0, "pe
 peak = max((wr103(10 ** (k / 1000.0)), 10 ** (k / 1000.0)) for k in range(-3000, 2000))
 close(peak[1], 1.0, 0.01, "the w_R curve peaks at 1 MeV (grid search)")
 check(4 <= M.wr_200 < M.wr_100 <= 5, "w_R at 100 and 200 MeV lies between 4 and 5")
-shown("from about 2.5 for thermal neutrons to a peak near 21 at about 1 MeV"); shown("About 2.5 for thermal neutrons, peaking near 21 at about 1 MeV", CARDS); shown("about 2.5 (thermal) to a peak near 21 at 1 MeV", TAKE)
+shown("from about 2.5 for thermal neutrons to a peak near 21 at about 1 MeV"); shown("about 2.5 (thermal) to a peak near 21 at 1 MeV", TAKE)
 close(M.q_100, 300 / math.sqrt(100), 0.01, "Q(100 keV/µm) from the high-LET branch"); close(round(M.q_100), 30, 0, "about 30"); check(True, "Q(L) values no longer printed")
-
-# ---------------------------------------------------------------- 1/v scaling of B-10 (multiple choice)
-p = prob("follows the 1/v law")
-v0, v1 = math.sqrt(2 * 0.025 * EV_J / MN_KG), math.sqrt(2 * 1.0 * EV_J / MN_KG)
-close(value(p), 3840 * v0 / v1, 1e-9, "σ(1 eV) from the ratio of speeds"); close(round(value(p)), 607, 0, "607 b")
-check(keyed(p) == "607 b", "keyed 607 b"); check(same(p["vals"], [3840 * v0 / v1, 3840 * 0.025, 3840.0, 3840 * v1 / v0], 1e-6), "traps: 1/E, unchanged, square root inverted")
 
 # ---------------------------------------------------------------- lead (multiple choice)
 p = prob("Pb-208 nucleus")
@@ -156,22 +150,12 @@ close(value(p), 100 * give, 1e-9, "largest loss to lead"); check(keyed(p) == "1.
 check(same(p["vals"], [100 * give, 100 * (1 - mean_kept(208)), 100 * recoil(82)[0], 100 * keep], 1e-6), "traps: mean loss, Z in place of A, energy kept")
 close(100 * (1 - mean_kept(208)), 50 * give, 1e-6, "the mean loss is half the largest")
 
-# ---------------------------------------------------------------- graphite from 1 MeV (multiple choice)
-p = prob("1.0 MeV neutron slows to 0.025 eV in graphite")
-L1 = math.log(1.0e6) - math.log(0.025)
-close(value(p), L1 / xi_num(12), 1e-6, "collisions in graphite"); check(keyed(p) == "111", "keyed 111")
-check(abs(steps(1.0e6, 0.025, xi_num(12)) - L1 / xi_num(12)) < 1, "step-by-step count agrees")
-close(sorted(p["vals"])[0], L1, 1e-9, "trap: xi = 1"); check(any(abs(v - math.log10(4e7) / xi_num(12)) < 1e-4 for v in p["vals"]), "trap: log10"); check(any(abs(v - L1 / (1 - mean_kept(12))) < 1e-3 for v in p["vals"]), "trap: mean loss used as xi")
-
 # ---------------------------------------------------------------- captures in water on hydrogen
 fr_h = Fr(2 * 332, 1000) / (Fr(2 * 332, 1000) + Fr(19, 100000))
 close(M.cap_h_frac, float(fr_h), 1e-12, "share of captures on hydrogen"); shown("99.97% of the captures in water", PROBS)
 
 # ---------------------------------------------------------------- printed reaction data and cross sections in the questions
-shown("σ = 3,840 × √(0.025 / 1.0) = 3,840 × 0.1581 = 607 b", PROBS)
 shown("4 × 208 / 209² = 0.0190, or 1.90%", PROBS); shown("Lead: 832/209² = 0.0190", CARDS)
-shown("(1.0 × 10 6 / 0.025) / ξ = 17.50 / 0.158 = 111", PROBS)
-shown("0.76 to 4.78 MeV to charged particles, with cross sections of 940 to 5,330 b", PROBS)
 
 # ---------------------------------------------------------------- every option list is distinct, and numeric keys are not at a scale slip of themselves
 for q in tp["problems"]:

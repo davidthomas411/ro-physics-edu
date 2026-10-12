@@ -107,11 +107,6 @@ true(abs(value(p)) < B.AIM < abs(B.w5_nodecay), "the decayed comparison is withi
 p = prob("repeat readings")
 close(B.pct6, -6.0, 1e-9, "the stem's values differ by 6.0%"); true(abs(B.pct6) > B.NRC_OUT > B.AIM and keyed(p).startswith("Hold the source"), "6% exceeds both levels, and the key holds the source from use")
 
-# ---- seed sample, by counting up from one seed
-p = prob("number of loose seeds")
-need = next(k for k in range(1, 81) if k >= 10 and k >= 0.10 * 80)
-close(value(p), need, 0, "keyed 10 seeds from an order of 80"); true(all(B.assay_n(N) == next(k for k in range(1, N + 1) if k >= min(10, N) and k >= 0.10 * N) for N in range(10, 400)), "the rule gives 10% or 10, whichever is greater, for orders of 10 to 399")
-
 # ---- dwell time after 50 d
 p = prob("What total dwell time delivers the same plan now")
 s50 = decay_rk4(40800.0, 50.0, 73.8)

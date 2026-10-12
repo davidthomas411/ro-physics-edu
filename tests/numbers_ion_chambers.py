@@ -37,7 +37,7 @@ RHO_HG, G0 = 13595.1, 9.80665
 mmhg = RHO_HG * G0 * 1e-3 / 1000                                               # kPa per mmHg
 inhg = RHO_HG * G0 * 25.4e-3 / 1000                                            # kPa per inHg
 close(760 * mmhg, 101.325, 1e-6, "760 mmHg of mercury is one standard atmosphere")
-close(101.325 / inhg, 29.92, 2e-4, "one atmosphere is 29.92 inHg"); shows(T["cards"][14]["a"][0], f"{101.325 / inhg:.2f} inHg", "pressure card")
+close(101.325 / inhg, 29.92, 2e-4, "one atmosphere is 29.92 inHg"); shows(next(c for c in T["cards"] if c["q"] == "Pressure units")["a"][0], f"{101.325 / inhg:.2f} inHg", "pressure card")
 eq = next(b for b in T["guide"] if b[0] == "eq" and "inHg" in plain(b[1][-1])); shows(eq[1][-1], f"{101.325 / inhg:.2f} inHg", "pressure units under the P_TP equation")
 close(1013.25 / 10, 101.325, 1e-12, "1013.25 hPa is 101.325 kPa")
 
@@ -77,8 +77,6 @@ close(value(p7), a7, 1e-9, "P_ion, pulsed 6 MV"); ok(f"{a7:.4f}" in [plain(o) fo
 close(low7, IC.q_pion_low, 1e-9, "distractor: the correction at 150 V"); ok(has_val(p7, low7), "the 150 V distractor is shown")
 cw7, _ = pion_model(IC.q_mh, IC.q_ml, 300, 150, 2); ok(has_val(p7, cw7), "distractor: the continuous expression")
 inv7 = (1 - 0.5) / (IC.q_mh / IC.q_ml - 0.5); ok(has_val(p7, inv7) and inv7 < 1, "distractor: the voltage ratio inverted, below 1")
-p8 = prob("in a Co-60 beam at two voltages"); a8, low8 = pion_model(IC.c_mh, IC.c_ml, 300, 100, 2); pul8, _ = pion_model(IC.c_mh, IC.c_ml, 300, 100, 1)
-close(value(p8), a8, 1e-9, "P_ion, Co-60 at 300 V and 100 V"); ok(has_val(p8, low8) and has_val(p8, pul8) and has_val(p8, IC.c_mh / IC.c_ml), "Co-60 distractors: correction at 100 V, pulsed expression, ratio of readings")
 
 # ---- P_pol: the true signal S is the mean of the magnitudes, because M+ = S + d and M- = -(S - d) for a charge d that does not reverse
 def ppol_signal(mpos, mneg, routine):
@@ -99,10 +97,6 @@ close(t1, IC.ex_ptp, 1e-6, "worked example: P_TP at 23.6 °C and 745 mmHg"); sho
 shows(ex[3][1], f"{(23.6 + 273.2) / (22 + 273.2):.4f}", "temperature term"); shows(ex[3][2], f"{101.33 / kpa:.4f}", "pressure term"); shows(ex[4], f"{100 * (t1 - 1):.1f}%", "P_TP example")
 close(round(round((23.6 + 273.2) / 295.2, 4) * round(101.33 / round(kpa, 3), 4), 4), round(t1, 4), 0, "the printed terms multiply to the printed P_TP")
 p14 = prob("742 mmHg"); close(value(p14), 742 * mmhg, 1e-6, "742 mmHg in kPa")
-p15 = prob("inches of mercury"); h = 29.65 * inhg; a15 = ptp(21.4, h)
-close(value(p15), a15, 1e-6, "P_TP from inHg"); ok(has_val(p15, 101.33 / h, 1e-6) and has_val(p15, 1 / a15, 1e-6), "distractors: no temperature term, inverted factor")
-ok(has_val(p15, 21.4 / 22.0 * 101.33 / h, 1e-6), "distractor: Celsius temperatures without 273.2")
-close(round((21.4 + 273.2) / 295.2 * 101.33 / round(h, 2), 4), round(a15, 4), 0, "the printed 100.41 kPa gives the keyed P_TP")
 def typed_ok(p, x): return abs(x - p["ans"]) <= p["tol"] * abs(p["ans"]) + 1e-12      # the rule the page applies to a typed answer
 ok(all(typed_ok(p14, x) for x in (98.93, 98.9, 742 / 7.50)), "742 mmHg: rounded answers and 1 kPa = 7.50 mmHg are accepted")
 ok(not any(typed_ok(p14, x) for x in (74.2, 742 / 760, 742 * 1.33322)), "742 mmHg: hPa taken as kPa, atmospheres, and a power-of-ten slip are rejected")

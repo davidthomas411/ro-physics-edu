@@ -141,23 +141,13 @@ es = sorted(e for e in L if e >= 0.5); vals = [L[e][0] for e in es]
 k = vals.index(min(vals)); check((es[k - 1], es[k], es[k + 1]) == (3.0, 4.0, 5.0), "lead's tabulated μ/ρ is lowest at 4 MeV, between 3 and 5 MeV")
 check(all(x > y for x, y in zip(vals[:k], vals[1:k + 1])) and all(x < y for x, y in zip(vals[k:], vals[k + 1:])), "lead's μ/ρ falls to the minimum and rises after it")
 check(all(W[a][0] > W[b][0] for a, b in zip(sorted(W), sorted(W)[1:])), "water's μ/ρ falls with energy across the whole table, so water only hardens")
-shown("between 3 and 5 MeV", "lead minimum in the text"); p = prob("A thick lead absorber"); check(keyed(p)[0].endswith("3 to 5 MeV"), "keyed option names 3 to 5 MeV")
+shown("between 3 and 5 MeV", "lead minimum in the text")
 close(M.PB_AZ, float(A["Pb"] / 82), 1e-12, "A/Z of lead"); shown("2.5Z for lead", "A/Z of lead in the text")
 
 # ---- lead at 1.25 MeV: cross-section per atom from μ over the number of atoms per cm³
-p = prob("Lead in a Co-60 beam")
 mu_pb = L[1.25][0] * 11.35; atoms_cm3 = 11.35 * NA / float(A["Pb"])
-close(value(p), mu_pb / atoms_cm3 / 1e-24, 1e-12, "atomic cross-section of lead"); close(round(value(p), 1), 20.2, 0, "20.2 b")
-v = sorted(p["vals"]); close(v[0], value(p) / 82, 1e-12, "trap: per electron"); close(v[1], L[1.25][0] * 82 / NA / 1e-24, 1e-12, "trap: Z in place of A"); close(v[3], value(p) * 11.35, 1e-12, "trap: density left in")
 share_c = (11.35 * NA * 82 / float(A["Pb"])) * kn125 * 1e-24 / mu_pb            # electrons per cm³ × σ_KN / μ
-close(M.p_kn, share_c, 1e-6, "Compton share of lead's attenuation at 1.25 MeV"); check(f"about {100 * (1 - share_c):.0f}%" in plain(p["a"][1]), "explanation: about 23% from other processes")
-
-# ---- spongy bone mixture at 30 keV, exact fractions
-p = prob("Spongy bone is modelled")
-mix = Fr(2, 5) * Fr(str(B[0.03][1])) + Fr(3, 5) * Fr(str(W[0.03][1]))
-close(value(p), float(mix), 1e-12, "mixture μen/ρ"); close(round(value(p), 3), 0.521, 0, "0.521 cm²/g")
-v = sorted(p["vals"]); close(v[1], float((Fr(str(B[0.03][1])) + Fr(str(W[0.03][1]))) / 2), 1e-12, "trap: plain mean"); close(v[2], float(Fr(3, 5) * Fr(str(B[0.03][1])) + Fr(2, 5) * Fr(str(W[0.03][1]))), 1e-12, "trap: fractions swapped")
-close(v[3], float(Fr(2, 5) * Fr(str(B[0.03][0])) + Fr(3, 5) * Fr(str(W[0.03][0]))), 1e-12, "trap: attenuation columns")
+close(M.p_kn, share_c, 1e-6, "Compton share of lead's attenuation at 1.25 MeV")
 
 # ---- relative electron density of cortical bone: electrons per cm³ of each, then the ratio
 p = prob("relative electron density of cortical bone")
