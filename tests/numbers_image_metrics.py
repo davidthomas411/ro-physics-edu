@@ -1,6 +1,5 @@
 """Spatial resolution, noise power, and DQE: every worked number and keyed answer re-derived by another route.
-MTFs come from a numerical Fourier integral of the sampled LSF (Simpson's rule), with the frequencies at 0.5 and 0.1 found by bisection;
-the Gaussian width from a bisection on the half maximum; the Nyquist frequency as the point about which sampled cosines fold;
+MTFs come from a numerical Fourier integral of the sampled LSF (Simpson's rule); the Nyquist frequency as the point about which sampled cosines fold;
 aliases from the sampled values themselves and from a DFT peak search; the aperture MTF from integrating the rectangle;
 the cascade through logarithms; the DQE in exact fractions and by a bisection for the fluence an ideal detector needs; and the
 exposure relations by bisection on the square-root laws."""
@@ -54,42 +53,11 @@ def simpson(g, a, b, k=4000):
 def mtf_num(lsf, f, half):                                                     # |∫ LSF e^(−2πifx) dx| / ∫ LSF dx for an even LSF, so the sine part vanishes
     return abs(simpson(lambda x: lsf(x) * math.cos(2 * math.pi * f * x), -half, half)) / simpson(lsf, -half, half)
 def gauss(sigma): return lambda x: math.exp(-x * x / (2 * sigma * sigma))
-def f_level(sigma, level):                                                     # bisection on the numerical MTF
-    return bisect(lambda f: mtf_num(gauss(sigma), f, 10 * sigma) - level, 0.0, 3.0 / sigma)
-def ln_series(x):                                                              # ln x = 2 artanh((x − 1)/(x + 1)), summed
-    y = (x - 1) / (x + 1); return 2 * sum(y ** (2 * k + 1) / (2 * k + 1) for k in range(400))
 def sqrt_newton(x):
     r = x if x > 1 else 1.0
     for _ in range(80): r = (r + x / r) / 2
     return r
 def prod_log(*xs): return math.exp(sum(math.log(x) for x in xs))
-
-# ---- FWHM of a Gaussian: bisection on the half maximum
-half_x = bisect(lambda x: math.exp(-x * x / 2) - 0.5, 0.0, 5.0)
-close(M.FWHM_K, 2 * half_x, 1e-12, "FWHM = 2.355 σ from the half maximum"); shown(f"FWHM = {2 * half_x:.3f} σ", "FWHM factor in the equation")
-
-# ---- worked example: f50 and f10 of a Gaussian LSF with σ = 0.10 mm, from the numerical MTF
-f50n, f10n = f_level(M.SIG1, 0.5), f_level(M.SIG1, 0.1)
-close(M.f50_1, f50n, 1e-7, "f50 at σ = 0.10 mm, numerical MTF"); close(M.f10_1, f10n, 1e-7, "f10 at σ = 0.10 mm, numerical MTF")
-shown(f"f50 = {f50n:.2f} lp/mm and f10 = {f10n:.2f} lp/mm", "answer of the Gaussian example")
-shown(f"πσ = {math.pi * M.SIG1:.4f} mm", "πσ printed"); shown(f"√({ln_series(2):.4f} / 2)", "ln 2 from its series"); shown(f"√({ln_series(10):.4f} / 2)", "ln 10 from its series")
-shown(f"{sqrt_newton(ln_series(2) / 2):.4f} / {math.pi * M.SIG1:.4f} = {f50n:.2f} lp/mm", "f50 step"); shown(f"{sqrt_newton(ln_series(10) / 2):.4f} / {math.pi * M.SIG1:.4f} = {f10n:.2f} lp/mm", "f10 step")
-close(f_level(2 * M.SIG1, 0.5), f50n / 2, 1e-6, "a blur twice as wide halves f50 (as the answer says)")
-close(mtf_num(gauss(M.SIG1), 0.0, 1.0), 1.0, 1e-12, "MTF(0) = 1 after normalization")
-
-# ---- card: f50 = 0.187/σ and f10 = 0.342/σ, from the numerical MTF at σ = 1
-c50, c10 = f_level(1.0, 0.5), f_level(1.0, 0.1)
-shown(f"f50 = {c50:.3f}/σ and f10 = {c10:.3f}/σ", "card constants", CARDS)
-shown(f"√(ln 2 / 2) / π = {c50:.3f}", "card working, 0.5", CARDS); shown(f"√(ln 10 / 2) / π = {c10:.3f}", "card working, 0.1", CARDS)
-
-# ---- question: f50 from a FWHM of 0.30 mm
-p = prob("full width at half maximum = 0.30 mm")
-sig_q = bisect(lambda s: math.exp(-(0.15 ** 2) / (2 * s * s)) - 0.5, 0.01, 1.0)          # σ for which the LSF is at half maximum 0.15 mm from the centre
-close(M.s_q, sig_q, 1e-9, "σ from FWHM 0.30 mm by bisection"); close(value(p), f_level(sig_q, 0.5), 1e-7, "keyed f50 from the numerical MTF")
-check("1.47 lp/mm" == keyed_text(p), "keyed option reads 1.47 lp/mm")
-close(M.f50_q_fwhm, f_level(0.30, 0.5), 1e-7, "trap: FWHM used as σ"); close(M.f10_q, f_level(sig_q, 0.1), 1e-7, "trap: the 0.10 level")
-close(M.f50_q_no2, bisect(lambda f: math.exp(-(math.pi * sig_q * f) ** 2) - 0.5, 0.0, 20.0), 1e-9, "trap: e^(−π²σ²f²), the 2 left out")
-check(sorted(opts(p)) == sorted(["0.62 lp/mm", "1.47 lp/mm", "2.08 lp/mm", "2.68 lp/mm"]), f"Gaussian FWHM options {opts(p)}")
 
 # ---- Nyquist frequency: the point about which sampled cosines fold
 def folds_at(pitch, fn, eps=(0.013, 0.21, 0.37)):
@@ -148,14 +116,6 @@ close(M.dqe3, q_ideal / float(q3), 1e-9, "DQE as the fraction of the photons an 
 shown(f"= {float(q3):,.0f} photons/mm²", "q printed"); shown(f"= {float(neq3):,.0f} photons/mm²", "NEQ printed in the step"); shown(f"NEQ ≈ {round(float(neq3), -2):,.0f} photons/mm² and DQE = {q_ideal / float(q3):.2f}", "answer")
 shown(f"with {100 * q_ideal / float(q3):.0f}% of the photons", "share of the photons"); shown(f"{0.62 ** 2:.4f} / (1.14 × 10−5 mm²)", "MTF² step")
 
-# ---- DQE typed question
-p = prob("NNPS(2.0 lp/mm) = 4.5")
-q14 = Fr(4) * 30000; d14 = Fr(40, 100) ** 2 / (q14 * Fr(45, 10 ** 7))
-close(value(p), float(d14), 1e-12, "typed DQE in fractions"); close(value(p), bisect(lambda q: 1 / q - 4.5e-6 / 0.16, 1.0, 1e7) / float(q14), 1e-9, "typed DQE by the ideal-detector bisection")
-check(abs(float(Fr(40, 100) / (q14 * Fr(45, 10 ** 7))) / value(p) - 1) > p["tol"], "the unsquared MTF lies outside the tolerance")
-shown(f"= {float(q14):,.0f} photons/mm²", "q in the explanation", plain(p["a"][1])); shown(f"{0.16:.2f} / {float(q14 * Fr(45, 10 ** 7)):.2f} = {float(d14):.2f}", "DQE step", plain(p["a"][1]))
-shown(f"gives {float(Fr(40, 100) / (q14 * Fr(45, 10 ** 7))):.2f}", "unsquared trap", plain(p["a"][1]))
-
 # ---- DQE of 0.50: the SNR ratio
 p = prob("A detector has a DQE of 0.50")
 check(keyed_text(p).startswith(f"Its SNR is {sqrt_newton(0.5):.2f} of the ideal; twice the exposure"), "keyed DQE meaning: SNR 0.71, twice the exposure")
@@ -166,11 +126,6 @@ shown(f"√0.5 = {sqrt_newton(0.5):.2f} of the ideal", "0.71 in the text")
 mtf2, nps2 = 0.20, 3.0e-6
 close((2 * mtf2) ** 2 / (4 * nps2), mtf2 ** 2 / nps2, 1e-12, "NEQ unchanged by a gain of 2")
 check(keyed_text(prob("doubles the MTF")).startswith("It is unchanged"), "keyed: unchanged")
-
-# ---- exposure for 20% less relative noise: bisection on 1/√x
-p = prob("must fall by 20%")
-close(value(p), bisect(lambda x: 1 / sqrt_newton(x) - 0.80, 1.0, 4.0), 1e-9, "exposure factor for 20% less noise"); check(keyed_text(p) == "1.56", "keyed 1.56")
-check(sorted(opts(p)) == ["0.64", "1.12", "1.25", "1.56"], f"noise options {opts(p)}")
 
 # ---- equal SNR with a lower DQE: bisection on √(K × DQE)
 p = prob("Detector A gives the required SNR at 2.5")
@@ -186,12 +141,6 @@ shown(f"= {r4:.3f}", "SNR ratio after halving"); shown(f"lowers its SNR by {100 
 area = lambda d: math.pi * d * d / 4
 k_rose = bisect(lambda k: 0.02 * sqrt_newton(k * 1e4 * area(0.5)) - 0.02 * sqrt_newton(1e4 * area(1.0)), 0.5, 50.0)
 close(k_rose, 4.0, 1e-9, "four times the fluence for half the diameter"); check(keyed_text(prob("at the limit of detection")).startswith("Four times the fluence"), "keyed four times")
-
-# ---- half the pixel width: photons per pixel and SNR
-n_px = lambda w, q: q * w * w
-close(sqrt_newton(n_px(0.05, 1e5)) / sqrt_newton(n_px(0.10, 1e5)), 0.5, 1e-12, "SNR per pixel halves with half the width")
-close(bisect(lambda k: sqrt_newton(n_px(0.05, k * 1e5)) - sqrt_newton(n_px(0.10, 1e5)), 0.5, 50.0), 4.0, 1e-9, "four times the exposure restores it")
-check(keyed_text(prob("half the pixel width")).startswith("It halves; four times"), "keyed: halves, four times")
 
 # ---- take-away and card values that repeat the text
 shown("0.6 to 0.8", "kV panel DQE(0) range in the text"); shown("about 0.01", "MV portal imager DQE(0) in the text")

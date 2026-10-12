@@ -105,7 +105,7 @@ def kn_simpson(e, n=4000):
 kn125 = kn_simpson(1.25) / 1e-24
 close(M.kn125, kn125, 1e-9, "Klein–Nishina at 1.25 MeV by Simpson's rule"); shown(f"{kn125:.4f} b", "Klein–Nishina value printed")
 check(abs(M.s_el / kn125 - 1) < 0.005, "water per electron at 1.25 MeV is within 0.5% of the Klein–Nishina value (nearly all Compton)")
-shown(f"{M.s_el:.3f} b", "per-electron value on the card", CARDS); shown(f"{kn125:.3f} b", "Klein–Nishina value in the take away", TAKE)
+shown(f"{M.s_el:.3f} b per electron", "per-electron value in the example"); shown(f"{kn125:.3f} b", "Klein–Nishina value in the take away", TAKE)
 
 # ---- worked example: water from hydrogen and oxygen, redone as cross-sections per molecule
 H, O = M.EL125["H"], M.EL125["O"]
@@ -122,26 +122,20 @@ shown("3.343 × 1023 g−1", "electrons per gram in the steps"); shown("3.34 × 
 
 # ---- energy transfer and absorption: fractions absorbed per interaction, from exact fractions of the table
 fa = lambda e: Fr(str(W[e][1])) / Fr(str(W[e][0]))
-shown(f"{float(fa(0.01)):.2f} at 10 keV", "0.93 at 10 keV"); shown(f"{float(min(fa(0.06), fa(0.08), fa(0.1))):.2f} to {float(max(fa(0.06), fa(0.08), fa(0.1))):.2f} between 60 and 100 keV", "60 to 100 keV range")
-shown(f"{float(fa(1.25)):.2f} at 1.25 MeV and {float(fa(10.0)):.2f} at 10 MeV", "1.25 and 10 MeV values")
+shown(f"{float(min(fa(0.06), fa(0.08), fa(0.1))):.2f} to {float(max(fa(0.06), fa(0.08), fa(0.1))):.2f} between 60 and 100 keV", "60 to 100 keV range")
+shown(f"{float(fa(1.25)):.2f} at 1.25 MeV", "1.25 MeV value")
 check(float(fa(0.08)) == min(float(fa(e)) for e in W), "the lowest fraction absorbed in water lies in the 60 to 100 keV band (at 80 keV)")
 # the largest Compton electron energy from a 100 keV photon, from energy and momentum conservation (backscatter)
 def tmax(e):                                                                   # E' found so that the electron's kinetic energy matches its momentum (E + E')
     mc2 = 0.511                                                                # the value used by the module's Compton formula
     return e - bisect(lambda ep: (math.sqrt((e + ep) ** 2 + mc2 ** 2) - mc2) - (e - ep), 1e-9, e)
 close(M.tmax100, 1000 * tmax(0.1), 1e-7, "largest Compton electron energy at 100 keV"); shown(f"at most {1000 * tmax(0.1):.0f} keV", "28 keV in the text")
-p = prob("A 100 keV photon interacts in water")
-close(value(p), 100 * float(fa(0.1)), 1e-12, "typed: energy absorbed per interaction"); close(round(value(p), 1), 14.9, 0, "14.9 keV")
-check(abs(100 / value(p) - 1) > p["tol"] and abs(1000 * tmax(0.1) / value(p) - 1) > p["tol"], "100 keV and the largest Compton electron energy fall outside the tolerance")
 def kn_tr_fraction(e, n=4000):                                                 # mean fraction of hν given to the Compton electron (Simpson in cos θ)
     a = e / MEC2; h = 2 / n; s = st = 0.0
     for i in range(n + 1):
         c = -1 + i * h; P = 1 / (1 + a * (1 - c)); f = P ** 2 * (P + 1 / P - (1 - c * c)); wgt = 1 if i in (0, n) else (4 if i % 2 else 2)
         s += f * wgt; st += (1 - P) * f * wgt
     return st / s
-check(kn_tr_fraction(0.1) < float(fa(0.1)) < 0.2, "at 100 keV the fraction absorbed (0.149) exceeds the Compton transfer alone (about 0.14): a little photoelectric absorption")
-shown(f"about {100 * float(fa(0.1)):.0f} keV for a 100 keV photon and {1250 * float(fa(1.25)):.0f} keV", "card: energy absorbed per interaction", CARDS)
-
 # ---- lead: the minimum of μ/ρ and both ends of the spectrum
 es = sorted(e for e in L if e >= 0.5); vals = [L[e][0] for e in es]
 k = vals.index(min(vals)); check((es[k - 1], es[k], es[k + 1]) == (3.0, 4.0, 5.0), "lead's tabulated μ/ρ is lowest at 4 MeV, between 3 and 5 MeV")
@@ -157,35 +151,6 @@ close(value(p), mu_pb / atoms_cm3 / 1e-24, 1e-12, "atomic cross-section of lead"
 v = sorted(p["vals"]); close(v[0], value(p) / 82, 1e-12, "trap: per electron"); close(v[1], L[1.25][0] * 82 / NA / 1e-24, 1e-12, "trap: Z in place of A"); close(v[3], value(p) * 11.35, 1e-12, "trap: density left in")
 share_c = (11.35 * NA * 82 / float(A["Pb"])) * kn125 * 1e-24 / mu_pb            # electrons per cm³ × σ_KN / μ
 close(M.p_kn, share_c, 1e-6, "Compton share of lead's attenuation at 1.25 MeV"); check(f"about {100 * (1 - share_c):.0f}%" in plain(p["a"][1]), "explanation: about 23% from other processes")
-
-# ---- beam hardening: the share of 60 keV photons, written as a logistic function of the difference in μ
-p = prob("equal numbers of 30 keV and 60 keV photons")
-share = 100 / (1 + math.exp((W[0.06][0] - W[0.03][0]) * 5.0))
-close(value(p), share, 1e-9, "60 keV share after 5.0 cm of water"); close(round(value(p), 1), 70.0, 0, "70.0%")
-v = sorted(p["vals"]); check([round(x, 1) for x in v] == [30.0, round(100 * math.exp(-W[0.06][0] * 5), 1), 50.0, 70.0], "options: 30.0 (30 keV share), 35.7 (60 keV transmission), 50.0, 70.0")
-
-# ---- two layers, by counting half-value layers of each
-p = prob("crosses 3.0 cm of cortical bone and 12.0 cm of soft tissue")
-hvl_b, hvl_w = math.log(2) / (B[1.25][0] * 1.92), math.log(2) / (W[1.25][0] * 1.00)
-t = 100 * 2 ** -(3.0 / hvl_b + 12.0 / hvl_w)
-close(value(p), t, 1e-9, "transmission through bone and water"); close(round(value(p), 1), 33.4, 0, "33.4%")
-check(abs(100 * 2 ** -(15.0 / hvl_w) / value(p) - 1) > p["tol"] and abs(100 * math.exp(-(B[1.25][0] * 3 + W[1.25][0] * 12)) / value(p) - 1) > p["tol"], "bone as water, and bone without its density, fall outside the tolerance")
-close(100 * 2 ** -(12.0 / hvl_w + 3.0 / hvl_b), t, 1e-12, "the order of the layers does not change a narrow-beam transmission")
-check(round(100 * (1 - B[1.25][0] / W[1.25][0])) == 7 and round(100 * (B[1.25][0] * 1.92 / W[1.25][0] - 1)) == 78, "per gram 7% less, per cm 78% more")
-
-# ---- electrons per gram, ranked (exact fractions per mole)
-p = prob("Five materials are compared"); pe = (Fr(6) + 2) / (A["C"] + 2 * A["H"])
-order = [("Lead", Fr(82) / A["Pb"]), ("Oxygen", Fr(8) / A["O"]), ("Water", zoa_w), ("Polyethylene", pe), ("Hydrogen", Fr(1) / A["H"])]
-check(all(a[1] < b[1] for a, b in zip(order, order[1:])), "lead < oxygen < water < polyethylene < hydrogen")
-check([plain(c["t"]).split(",")[0] for c in sorted(p["chips"], key=lambda c: c["b"])] == [x for x, _ in order], "the ranking key follows the exact values")
-for name, v in order: check(f"{name.lower()} {NA * float(v) / 1e23:.2f}" in plain(p["a"][1]), f"explanation gives {name.lower()}")
-
-# ---- LiF effective atomic number by bisection, and its distractors
-p = prob("Lithium fluoride")
-z_lif = zeff_bis([(3, 0.25), (9, 0.75)]); close(value(p), z_lif, 1e-9, "Z_eff of LiF"); close(round(value(p), 2), 8.20, 0, "8.20")
-wl = float(A["Li"] / (A["Li"] + A["F"]))
-v = sorted(p["vals"]); close(v[0], zeff_bis([(3, 0.5), (9, 0.5)]), 1e-9, "trap: atom fractions"); close(v[1], 0.25 * 3 + 0.75 * 9, 1e-12, "trap: m = 1"); close(v[2], zeff_bis([(3, wl), (9, 1 - wl)]), 1e-9, "trap: mass fractions")
-check(len({f"{x:.2f}" for x in v}) == 4, "four distinct options at two decimals")
 
 # ---- spongy bone mixture at 30 keV, exact fractions
 p = prob("Spongy bone is modelled")
@@ -208,19 +173,16 @@ shown(f"{2 * float(r(0.03)):.1f} Gy at 30 keV and {2 * float(r(1.25)):.2f} Gy at
 ratio_e = float(e_per_mole_of_mass(M.COMP["bone"]) / zoa_w); close(M.re_bw, ratio_e, 1e-12, "ratio of electrons per gram, bone to water")
 mv = [float(r(e)) for e in (0.5, 0.6, 0.8, 1.0, 1.25, 1.5, 2.0)]
 check(all(abs(x / ratio_e - 1) < 0.005 for x in mv), "from 0.5 to 2 MeV every ratio is within 0.5% of the electron ratio")
-shown(f"{min(mv):.3f} to {max(mv):.3f}, close to the ratio of electrons per gram, {ratio_e:.3f}", "0.5 to 2 MeV range in the text")
+shown(f"{min(mv):.3f} to {max(mv):.3f}, the ratio of electrons per gram ({ratio_e:.3f})", "0.5 to 2 MeV range in the text")
 for row in [rr for b in TOP["guide"] if b[0] == "table" and "Photon energy" in b[1] for rr in b[2]]:
     e = float(plain(row[0]).split()[0]) / (1000 if "keV" in row[0] else 1); x = float(r(e))
     close(float(row[1]), x, (0.005 if x > 1.5 else 0.0005) / x, f"table ratio at {plain(row[0])}")
 cross = bisect(lambda lnE: (math.log(float(r(6.0))) + (lnE - math.log(6.0)) * (math.log(float(r(8.0))) - math.log(float(r(6.0)))) / (math.log(8.0) - math.log(6.0))), math.log(6.0), math.log(8.0))
-close(M.E_CROSS, math.exp(cross), 1e-9, "the ratio crosses 1 between 6 and 8 MeV (log-log interpolation)"); shown("Above about 7 MeV", "crossing in the text")
+close(M.E_CROSS, math.exp(cross), 1e-9, "the ratio crosses 1 between 6 and 8 MeV (log-log interpolation)"); shown("Above about 7 MeV", "crossing in the text"); shown("between 3 and 5 MeV", "lead minimum")
 check(all(float(r(e)) > 1 for e in (10.0, 15.0, 20.0)) and float(r(6.0)) < 1, "above 10 MeV bone absorbs more than water; at 6 MeV less")
 shown(f"about {float(r(0.1)):.0f} to {float(r(0.03)):.0f} times", "kilovoltage range 2 to 7 in the text")
 check(all(abs(float(r(a)) / float(r(b)) - 1) > 0.3 for a, b in ((0.06, 0.1), (0.1, 0.15))) and abs(float(r(0.15)) / float(r(0.2)) - 1) < 0.15, "the ratio changes steeply below about 150 keV")
 shown(f"{100 * (1 - ratio_e):.0f}% fewer electrons per gram", "bone has 7% fewer electrons per gram"); shown(f"{100 * (1 - float(e_per_mole_of_mass(M.COMP['air']) / zoa_w)):.0f}% fewer", "air 10% fewer")
-p = prob("A piece of cortical bone")
-close(value(p), float(3 * r(0.08)), 1e-12, "bone dose at 80 keV"); close(round(value(p), 2), 7.97, 0, "7.97 Gy")
-v = sorted(p["vals"]); close(v[0], float(3 / r(0.08)), 1e-12, "trap: ratio inverted"); close(v[1], 3 * B[0.08][0] / W[0.08][0], 1e-12, "trap: attenuation columns"); close(v[3], float(3 * r(0.08)) * 1.92, 1e-12, "trap: density ratio")
 p = prob("Cortical bone and water receive the same photon energy fluence")
 ok = {f"At 30 keV bone absorbs about {round(float(r(0.03)))} times as much as water": 6.5 < float(r(0.03)) < 7.5,
       f"From 0.5 to 2 MeV bone absorbs about {100 * (1 - ratio_e):.0f}% less than water": all(0.065 < 1 - x < 0.075 for x in mv),

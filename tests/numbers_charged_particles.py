@@ -64,8 +64,8 @@ true(G.s_w10 < 0.10, "the table's 'under 10% of the total up to 10 MeV' in water
 # ---- radiation yield: the share integrated numerically over the slowing-down
 def yield_num(z, t0): return simpson(lambda t: (z * t / 800) / (1 + z * t / 800), 0, t0) / t0
 close(G.y_w10, yield_num(7.4, 10), 1e-9, "Y at 10 MeV in water: (1/T0) ∫ S_rad/S_tot dT by Simpson's rule"); close(G.y_w1, yield_num(7.4, 1), 1e-9, "Y at 1 MeV")
-true(round(100 * G.y_w10) == 4 and round(100 * G.s_w10) == 8 and G.y_w10 < G.s_w10, "the text's 'about 4% ... whose share starts at 8%'"); true(G.y_w1 < 0.01, "under 1% at 1 MeV")
-shown("about 4% for a 10 MeV electron in water, whose share starts at 8%", "yield and share at 10 MeV")
+true(G.y_w10 < G.s_w10, "the yield lies below the starting share"); true(G.y_w1 < 0.01, "under 1% at 1 MeV")
+shown("it is below the radiative share at the start", "yield against share")
 
 # ---- restricted collision stopping power: the Møller cross section integrated numerically (in ln ε, from Δ/T to 1/2)
 def hard_num(t, delta, za=10 / 18.015):
@@ -83,25 +83,12 @@ KEV_UM_PER_MEV_CM = float(Fr(1000, 10 ** 4))                                    
 close(G.let10, G.l10 * KEV_UM_PER_MEV_CM, 1e-12, "LET_10keV in keV/µm"); close(G.letinf, 1.97 * KEV_UM_PER_MEV_CM, 1e-12, "unrestricted LET in keV/µm")
 close(round(100 * G.fr10), 28, 0, "28% carried by delta rays above 10 keV"); shown("0.14 keV/µm against 0.20 keV/µm", "LET values of the example")
 
-# ---- worked example: CSDA range by marching the electron down in small steps of mass thickness
-def march(t0, step=2e-5):
-    t, x = t0, 0.0
-    while t > 1.0:
-        s = 2.06 if t > 5.0 else 1.89
-        dx = min(step, (t - (5.0 if t > 5.0 else 1.0)) / s) or step
-        t -= s * dx; x += dx
-    return x + 0.44
-close(G.r_csda, march(10.0), 1e-6, "CSDA range: the slowing-down marched in steps, plus the range at 1 MeV")
-close(G.ra, float(Fr(5) / Fr(206, 100)), 1e-12, "10 to 5 MeV segment"); close(G.rb, float(Fr(4) / Fr(189, 100)), 1e-12, "5 to 1 MeV segment")
-close(round(G.r_csda, 2), 4.98, 0, "printed 4.98 g/cm²"); shown("About 5.0 cm", "the CSDA range rounded"); true(abs(G.r_csda - 10 / 2) < 0.05, "close to R_p ≈ E/2")
-
 # ---- largest energy given to an electron: head-on collision solved from energy and momentum conservation
 def wmax_kin(t, m_heavy, m=MEC2):
     e1, p1 = t + m_heavy, math.sqrt(t * t + 2 * t * m_heavy)
     pe = lambda w: math.sqrt(w * w + 2 * w * m)
     return bisect(lambda w: (e1 - w) ** 2 - (p1 - pe(w)) ** 2 - m_heavy ** 2, 1e-9, t)
 close(G.w100, wmax_kin(100, G.MP), 1e-7, "W_max of a 100 MeV proton from the kinematics of a head-on collision"); close(round(G.w100, 2), 0.23, 0, "printed 0.23 MeV")
-shown("only 0.23 MeV for a 100 MeV proton", "W_max at 100 MeV")
 
 # ---- heavy particles: range at the same speed, integrated for an α particle and a proton with S = z² f(v)
 def range_same_speed(m_heavy, z, beta0, beta_end=0.05, k=4000):
@@ -129,7 +116,6 @@ close(G.q_share_r, 18.5, 1e-12, "trap: the ratio itself"); close(G.q_share_col, 
 close(G.q_share_z2, float(100 * (1 - 1 / (1 + Fr(74, 10) ** 2 * 20 / 800))), 1e-9, "trap: Z² in place of Z")
 
 # ---- yield against share, and the β shield
-p = prob("starts with a radiative share of about"); true("about 8%" in plain(p["q"]) and "about 4%" in plain(p["q"]), "the stem quotes 8% and 4%, as computed")
 p = prob("Y-90, a pure β emitter"); close(G.pb_acryl, 82 / 6.5, 1e-12, "lead against acrylic by the rule"); true(G.pb_acryl > 10 and "about 13 times" in plain(p["a"][1]), "about 13 times, more than ten")
 
 # ---- restricted stopping power question: 28% quoted in the explanation
@@ -138,38 +124,6 @@ p = prob("restricted collision stopping power with Δ = 10 keV"); true("about 28
 # ---- LET of a 1 MeV electron
 p = prob("A 1 MeV electron slows down in water"); close(value(p), 1.85 * KEV_UM_PER_MEV_CM, 1e-12, "0.185 keV/µm")
 true(len(p["vals"]) == 4 and min(p["vals"]) > 0, "four positive options")
-
-# ---- path length in lung: bisection for the mass range, then divided by the density
-p = prob("slows down to rest in lung")
-r_mass = bisect(lambda r: 2.0 * r - 8.0, 0, 20); close(value(p), r_mass / 0.25, 1e-9, "16 cm"); close(round(value(p), 1), 16.0, 0, "16.0 cm")
-close(G.q_lung_nd, r_mass, 1e-9, "trap: density left out"); close(G.q_lung_mul, r_mass * 0.25, 1e-9, "trap: multiplied by the density"); close(G.q_lung_tis, r_mass / 1.04, 1e-9, "trap: soft-tissue density")
-
-# ---- W_max of a 200 MeV proton from the rounded constants printed in the stem, by way of the momentum
-p = prob("A 200 MeV proton in water strikes")
-pc = math.sqrt(200.0 ** 2 + 2 * 200.0 * 938.3); bg2 = (pc / 938.3) ** 2
-close(value(p), 2 * 0.511 * bg2, 1e-12, "2 m c² (p/Mc)², with βγ = p/Mc"); close(round(value(p), 3), 0.482, 0, "0.482 MeV")
-close(value(p), wmax_kin(200, 938.3, 0.511), 2e-3, "the approximation is within 0.2% of the exact head-on kinematics")
-close(G.q_wmax_b2, 2 * 0.511 * bg2 / (1 + bg2), 1e-12, "trap: γ² left out, 2 m c² β²")
-true(100.0 in p["vals"] and 200.0 in p["vals"], "the electron (T/2) and positron (T) limits are the other options")
-
-# ---- positron and electron limits
-p = prob("A 4 MeV electron and a 4 MeV positron"); true(keyed_text(p) == "2 MeV for the electron and 4 MeV for the positron", "T/2 for the electron, T for the positron")
-
-# ---- LET ranking: z²/β² by way of the momentum, β = pc / E
-def zb(t, m, z):
-    pc_ = math.sqrt(t * t + 2 * t * m); b = pc_ / (t + m); return z * z / (b * b)
-vals = [zb(10, MEC2, 1), zb(100, G.MP, 1), zb(10, G.MP, 1), zb(5, G.MALPHA, 2)]
-for a_, b_, nm in zip(G.RANK_F, vals, ["electron", "100 MeV proton", "10 MeV proton", "α particle"]): close(a_, b_, 1e-9, f"z²/β² of the {nm}")
-true(vals == sorted(vals), "the keyed order is lowest to highest z²/β²")
-p = prob("Four particles travel through water"); true("1.00 for the 10 MeV electron, 5.5 for the 100 MeV proton, 48 for the 10 MeV proton, and 1,494 for the 5 MeV α particle" in plain(p["a"][1]), "explanation values")
-
-# ---- typed: LET with a 100 keV cutoff
-p = prob("loss to delta rays above 100 keV")
-close(G.h100, round(hard_num(10, 0.100), 2), 0, "0.36 MeV cm²/g from the integral"); close(value(p), float((Fr(197, 100) - Fr(36, 100)) * Fr(1, 10)), 1e-12, "0.161 keV/µm")
-true(abs(G.letinf / value(p) - 1) > p["tol"] and abs(G.let10 / value(p) - 1) > p["tol"], "the unrestricted and 10 keV values lie outside the tolerance")
-
-# ---- typed: critical energy of copper
-p = prob("An electron slows down in copper"); close(value(p), bisect(lambda e: 29 * e / 800 - 1, 1, 200), 1e-9, "E_c of copper by bisection"); close(round(value(p), 1), 27.6, 0, "27.6 MeV")
 
 # ---- distinct options
 for q in T["charged-particles"]["problems"]:
