@@ -194,12 +194,14 @@ def render(blocks, figs, tid=None, ncards=0, problems=(), inline=None, num="", t
     `num` numbers the sections (1.4.1, 1.4.2, ...). `terms` are key terms wrapped at their first occurrence in the running text."""
     inline = inline or {}; out = []; sec = -1; placed = set(); done = set()
     qid = lambda n: f"{tid}:{ncards + n}"
+    kk = lambda s: re.sub(r"\[\[(\d+)\|(.*?)\]\]", lambda m: f'<mark class="kn" data-k="{tid}-s{sec + 1}-{m.group(1)}">{m.group(2)}</mark>', s, flags=re.S)   # [[2|text]] marks the passage that Must know line 2 of the section summarises
     def box(i):
         items = take[i] if i < len(take) else None
         if not items: return ""
-        lis = "".join((f'<li><span class="tt">{_mark(x[0])}</span><figure class="av" data-av="{x[1]}"></figure></li>' if isinstance(x, tuple) else f"<li>{_mark(x)}</li>") for x in items)
+        kd = lambda j: f'class="kl" data-k="{tid}-s{i + 1}-{j}" tabindex="0"'
+        lis = "".join((f'<li {kd(j)}><span class="tt">{_mark(x[0])}</span><figure class="av" data-av="{x[1]}"></figure></li>' if isinstance(x, tuple) else f"<li {kd(j)}>{_mark(x)}</li>") for j, x in enumerate(items, 1))
         return '<aside class="take"><div class="hd">Must know</div><ul>' + lis + "</ul></aside>"
-    txt = lambda s: _mark(_wrap_terms(s, terms, done)) if terms else _mark(s)
+    txt = lambda s: kk(_mark(_wrap_terms(s, terms, done)) if terms else _mark(s))
     def flush(i):
         ns = [n for n in inline.get(i, []) if 1 <= n <= len(problems)]
         if ns:
@@ -212,16 +214,16 @@ def render(blocks, figs, tid=None, ncards=0, problems=(), inline=None, num="", t
             out.append(f'<h2 id="{tid}-s{sec + 1}"><span class="sn">{num}.{sec + 1}</span>{b[1]}</h2>' if num else f"<h2>{b[1]}</h2>")
         elif k in ("h3", "p"): out.append(f"<{k}>{txt(b[1]) if k == 'p' else b[1]}</{k}>")
         elif k in ("ul", "ol"): out.append(f"<{k}>" + "".join(f"<li>{txt(i)}</li>" for i in b[1]) + f"</{k}>")
-        elif k == "eq": out.append('<div class="eq">' + "<br>".join(b[1]) + "</div>")
+        elif k == "eq": out.append('<div class="eq">' + "<br>".join(kk(x) for x in b[1]) + "</div>")
         elif k == "avf":
             out.append(f'<figure class="av" data-av="{b[1]}"></figure>')
         elif k == "photo": out.append(photolib.figure_html(b[1]))
         elif k == "fig":
             assert b[1] in figs, b[1]
-            out.append(f'<figure class="figure"><div class="fig">{figs[b[1]]}</div><div class="cap">{b[2]}</div></figure>')
+            out.append(f'<figure class="figure"><div class="fig">{figs[b[1]]}</div><div class="cap">{kk(b[2])}</div></figure>')
         elif k == "table":
             head = "".join(f"<th>{h}</th>" for h in b[1])
-            rows = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in b[2])
+            rows = "".join("<tr>" + "".join(f"<td>{kk(c)}</td>" for c in r) + "</tr>" for r in b[2])
             out.append(f'<div class="tblwrap"><table class="tbl"><tr>{head}</tr>{rows}</table></div>')
         elif k == "ex":
             steps = "".join(f"<li>{s}</li>" for s in b[3])

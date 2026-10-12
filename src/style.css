@@ -6,7 +6,7 @@
   --paper:#FFFFFF; --paper-2:#F6F6F6;
   --ink:#111111; --text:#1F1F1F; --muted:#5C5C5C;
   --rule:#E3E3E3; --line:#C9C9C9;
-  --accent:#0B5FD1; --must:#B35C00; --ray-r:#0B5FD1; --ray-c:#1B7F4B; --ray-q:#C23B22; --danger:#B3261E;
+  --accent:#0B5FD1; --must:#B35C00; --hl:rgba(255,214,0,.32); --hl-on:rgba(255,214,0,.78); --ray-r:#0B5FD1; --ray-c:#1B7F4B; --ray-q:#C23B22; --danger:#B3261E;
   /* data only (plots, charts); never decoration */
   --plot-1:#1F4E79; --plot-2:#C0561F; --plot-3:#2E7D5B; --plot-4:#6B4C9A;
   color-scheme:light;
@@ -15,14 +15,14 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --paper:#121212; --paper-2:#1C1C1C; --ink:#F2F2F2; --text:#E6E6E6; --muted:#A8A8A8;
-    --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --ray-r:#7FB3FF; --ray-c:#5FC98A; --ray-q:#FF8A7A; --danger:#FF8A7A;
+    --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --hl:rgba(255,214,0,.2); --hl-on:rgba(255,214,0,.5); --ray-r:#7FB3FF; --ray-c:#5FC98A; --ray-q:#FF8A7A; --danger:#FF8A7A;
     --plot-1:#8FBCE6; --plot-2:#E9A271; --plot-3:#7FC8A4; --plot-4:#B79BE0;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --paper:#121212; --paper-2:#1C1C1C; --ink:#F2F2F2; --text:#E6E6E6; --muted:#A8A8A8;
-  --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --ray-r:#7FB3FF; --ray-c:#5FC98A; --ray-q:#FF8A7A; --danger:#FF8A7A;
+  --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --hl:rgba(255,214,0,.2); --hl-on:rgba(255,214,0,.5); --ray-r:#7FB3FF; --ray-c:#5FC98A; --ray-q:#FF8A7A; --danger:#FF8A7A;
   --plot-1:#8FBCE6; --plot-2:#E9A271; --plot-3:#7FC8A4; --plot-4:#B79BE0;
   color-scheme:dark;
 }
@@ -581,3 +581,11 @@ aside.take .hd::before{content:"";display:inline-block;margin-right:8px;vertical
 .brand.open .bw i,.brand:hover .bw i,.brand:focus-visible .bw i{max-width:9em;opacity:1}
 @media (max-width:900px){.prism{height:32px}.brand{gap:8px}.brand.open .bw,.brand:hover .bw{font-size:11px}}
 @media (max-width:420px){.brand{min-width:0;max-width:100%}.bw{flex-wrap:wrap;max-width:calc(100vw - 112px);row-gap:0}}
+
+/* Must know lines and the passages they summarise: a yellow wash on the passage, stronger on both when either is pointed at */
+mark.kn{background:var(--hl);color:inherit;border-radius:3px;padding:1px 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone;scroll-margin-top:120px;cursor:pointer;transition:background .2s,box-shadow .2s}
+mark.kn.kn-on,aside.take li.kl.kn-on{background:var(--hl-on);box-shadow:0 0 0 2px var(--hl-on)}
+aside.take li.kl{cursor:pointer;border-radius:3px;transition:background .2s,box-shadow .2s}
+aside.take li.kl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+aside.take li.kl.kn-on:has(.tt){background:none;box-shadow:none}
+aside.take li.kl.kn-on>.tt{display:inline;background:var(--hl-on);box-shadow:0 0 0 2px var(--hl-on);border-radius:3px}
