@@ -49,10 +49,10 @@ with sync_playwright() as p:
     check(q2.locator('[data-act="use"]').is_visible(), "a matching result offers Select")
     q2.locator('[data-act="use"]').click(); check(q2.locator(".opt[aria-pressed='true']").count() == 1 and q2.locator(".chk").is_enabled(), "Select chooses the matching option")
     q2.locator(".chk").click(); check(q2.locator("details.calc").is_hidden(), "the panel is hidden once the question is checked")
-    deut = next(s for s in specs if s[0] == "nuclear-structure"); pg.goto(U + "#ref"); pg.goto(U + "#t/nuclear-structure"); pg.wait_for_timeout(40)
+    deut = next(s for s in specs if s[0] == "scatter" and "+" in s[2]["calc"]["ops"]); pg.goto(U + "#ref"); pg.goto(U + "#t/scatter"); pg.wait_for_timeout(40)
     q3 = pg.locator(f'.pq[data-id="{deut[1]}"]'); q3.locator("details.calc summary").click()
-    for it in ("H1", "+", "u→MeV"): press(q3, it, deut[2]["calc"])
-    check("Cannot add u and MeV/u" in q3.locator(".cres").inner_text(), "adding quantities with different units is refused")
+    for it in ("2", "+", "a"): press(q3, it, deut[2]["calc"])
+    check("Cannot add a pure number and cm" in q3.locator(".cres").inner_text(), "adding a number to a length is refused")
     # phone: panel fits, nothing scrolls sideways, tiles are tappable
     ph = b.new_context(viewport={"width": 390, "height": 844}); pp = ph.new_page(); pp.on("pageerror", lambda e: errors.append(str(e))); worst = 0; small = 0
     for tid2 in sorted({s[0] for s in specs}):
