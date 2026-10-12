@@ -127,7 +127,11 @@ function courseStats(){
   const fl=allFlash(), cards=fl.length?seenCount(fl)/fl.length:0, qz=DATA.cards.filter(c=>c.opts), nq=qz.length+MUC().length, q=nq?(qz.filter(c=>qSel(c.id)).length+MUC().filter(c=>muDone(c.id)).length)/nq:0;      // MU cases count with the questions
   return {read,cards,q,total:(read+cards+q)/3};
 }
-function showCourse(){const s=courseStats(), p=100*s.total, pc=x=>Math.round(100*x)+'%';
+// the logo's light: three rays leave the prism, one each for chapters read, flash cards seen, and questions answered; each is as long as that share of the course
+function updatePrism(){const sv=document.getElementById('prism'); if(!sv) return; const s=courseStats(), pc=x=>Math.round(100*x)+'%';
+  [['pr-q',s.q,[54,17]],['pr-c',s.cards,[54,23]],['pr-r',s.read,[54,29]]].forEach(([id,f,e])=>{const t=0.15+0.85*Math.min(1,Math.max(0,f||0)), el=document.getElementById(id); el.setAttribute('d',`M28 20 ${(28+(e[0]-28)*t).toFixed(1)} ${(20+(e[1]-20)*t).toFixed(1)}`);});
+  document.getElementById('prism-t').textContent=`Chapters read ${pc(s.read)}, flash cards seen ${pc(s.cards)}, questions answered ${pc(s.q)}`;}
+function showCourse(){updatePrism(); const s=courseStats(), p=100*s.total, pc=x=>Math.round(100*x)+'%';
   setProgress(s.total,(p<10?p.toFixed(1):String(Math.round(p)))+'%','of the course',`Chapters read ${pc(s.read)}, flash cards seen ${pc(s.cards)}, questions answered ${pc(s.q)}`);}
 // reading a chapter moves the linac: the furthest point reached counts toward the chapters read
 const chapterProg=id=>()=>{const mx=document.documentElement.scrollHeight-innerHeight, f=mx>0?Math.min(1,Math.max(0,scrollY/mx)):1, cur=readOf(id), nv=f>=0.995?1:Math.round(f*1000)/1000;
@@ -1990,7 +1994,7 @@ function route(){
   else {html=homeView(); tab='home';}
   const lp=!!progFn;
   $('#main').innerHTML=html; $('#side').innerHTML=list?(lp?lpHTML():'')+sideHTML(cur,mode,openN):''; $('#lpm').innerHTML=lp?lpHTML():'';
-  document.body.classList.toggle('cp',lp); document.body.classList.toggle('nolist',!list);
+  updatePrism(); document.body.classList.toggle('cp',lp); document.body.classList.toggle('nolist',!list);
   const sel=$('#jump'); sel.innerHTML=jumpHTML(mode); sel.value=jv;
   document.querySelectorAll('.tabs a').forEach(a=>{a.classList.toggle('on',a.dataset.tab===tab); if(a.dataset.tab==='cards') a.setAttribute('href','#t/'+ctx+'/c'); if(a.dataset.tab==='questions') a.setAttribute('href','#t/'+ctx+'/q');});
   window.scrollTo(0,0); bind(); refreshProgress();

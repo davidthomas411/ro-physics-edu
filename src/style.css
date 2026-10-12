@@ -6,7 +6,7 @@
   --paper:#FFFFFF; --paper-2:#F6F6F6;
   --ink:#111111; --text:#1F1F1F; --muted:#5C5C5C;
   --rule:#E3E3E3; --line:#C9C9C9;
-  --accent:#0B5FD1; --must:#B35C00; --danger:#B3261E;
+  --accent:#0B5FD1; --must:#B35C00; --ray-r:#0B5FD1; --ray-c:#1B7F4B; --ray-q:#C23B22; --danger:#B3261E;
   /* data only (plots, charts); never decoration */
   --plot-1:#1F4E79; --plot-2:#C0561F; --plot-3:#2E7D5B; --plot-4:#6B4C9A;
   color-scheme:light;
@@ -15,14 +15,14 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --paper:#121212; --paper-2:#1C1C1C; --ink:#F2F2F2; --text:#E6E6E6; --muted:#A8A8A8;
-    --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --danger:#FF8A7A;
+    --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --ray-r:#7FB3FF; --ray-c:#5FC98A; --ray-q:#FF8A7A; --danger:#FF8A7A;
     --plot-1:#8FBCE6; --plot-2:#E9A271; --plot-3:#7FC8A4; --plot-4:#B79BE0;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --paper:#121212; --paper-2:#1C1C1C; --ink:#F2F2F2; --text:#E6E6E6; --muted:#A8A8A8;
-  --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --danger:#FF8A7A;
+  --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --ray-r:#7FB3FF; --ray-c:#5FC98A; --ray-q:#FF8A7A; --danger:#FF8A7A;
   --plot-1:#8FBCE6; --plot-2:#E9A271; --plot-3:#7FC8A4; --plot-4:#B79BE0;
   color-scheme:dark;
 }
@@ -563,3 +563,13 @@ aside.take .hd::before{content:"";display:inline-block;margin-right:8px;vertical
   /* phones have no side menu: the heading of the section being read stays under the top bar */
   .guide h2[id]{position:sticky;top:62px;z-index:4;background:var(--paper);margin-top:26px;padding:6px 0;font-size:17px;border-bottom:1px solid var(--rule)}
 }
+
+/* logo: a prism that splits one beam into three rays, each as long as that share of the course */
+.brand{display:inline-flex;align-items:center;gap:10px;letter-spacing:.08em}
+.prism{height:40px;width:auto;flex:none;overflow:visible}
+.prism .pf{fill:url(#pg);fill-opacity:.28} .prism .po{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.prism .pb{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.prism .pt path,.prism .pr path{fill:none;stroke-linecap:round}
+.prism .pt path{stroke-width:3;opacity:.3} .prism #pt-q{stroke:var(--ray-q)} .prism #pt-c{stroke:var(--ray-c)} .prism #pt-r{stroke:var(--ray-r)}
+.prism .pr path{stroke-width:3.4;transition:d .4s}
+.prism #pr-q{stroke:var(--ray-q)} .prism #pr-c{stroke:var(--ray-c)} .prism #pr-r{stroke:var(--ray-r)}

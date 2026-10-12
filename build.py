@@ -81,11 +81,11 @@ html = f"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-{ROBOTS}<title>Radiation oncology physics</title>
+{ROBOTS}<title>PRISM · Physics Resources and Interactive Study Materials</title>
 <style>{CSS}</style>
 </head>
 <body>
-<header class="top"><div class="in"><a class="brand" href="#home">Radiation oncology physics</a>
+<header class="top"><div class="in"><a class="brand" href="#home" aria-label="PRISM, Physics Resources and Interactive Study Materials"><svg class="prism" id="prism" viewBox="0 0 56 32" role="img" aria-label="" focusable="false"><title id="prism-t">PRISM</title><defs><linearGradient id="pg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--ray-r)"/><stop offset=".5" stop-color="var(--ray-c)"/><stop offset="1" stop-color="var(--ray-q)"/></linearGradient></defs><path class="pf" d="M20 4 32 28H8Z"/><path class="pb" d="M0 19 14 16 28 20"/><g class="pt"><path id="pt-q" d="M28 20 54 17"/><path id="pt-c" d="M28 20 54 23"/><path id="pt-r" d="M28 20 54 29"/></g><g class="pr"><path id="pr-q" d="M28 20 54 17"/><path id="pr-c" d="M28 20 54 23"/><path id="pr-r" d="M28 20 54 29"/></g><path class="po" d="M20 4 32 28H8Z"/></svg><span>PRISM</span></a>
 <nav class="tabs"><a href="#home" data-tab="home">Home</a><a href="#cards" data-tab="cards">Flash cards</a><a href="#questions" data-tab="questions">Questions</a><a href="#mu" data-tab="mu">MU calc</a><a href="#ref" data-tab="ref">Reference</a></nav></div></header>
 <div class="wrap" id="wrap"><aside class="side" id="side"></aside><main><div class="topbar-m"><div id="lpm"></div><select id="jump" aria-label="Go to"></select></div><div id="main"></div></main></div>
 <script>
