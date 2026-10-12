@@ -36,7 +36,6 @@ TOPIC = dict(
 
         H("Bolus"),
         P("Bolus is material placed on the skin to raise the skin or superficial dose, for example when the target includes a scar or the skin itself. Common materials are gel sheets such as Superflab, beeswax, and paraffin, and 3D-printed pieces shaped to the patient. Most bolus is tissue-equivalent, and metal mesh is sometimes used."),
-        PHOTO("skin-bolus-printed"),
         P("A bolus of thickness t moves the build-up region toward the skin. For a tissue-equivalent bolus in full contact, the dose at depth d below the skin is the dose at depth t + d in the beam. A bolus equal to d<sub>max</sub>, about 1.5 cm for 6 MV, puts the maximum dose at the skin. Bolus also attenuates the beam, so a plan whose monitor units were set without it delivers less dose at the target. An air gap between the bolus and the skin reduces its effect."),
         EQ("Dose at depth d below the skin with bolus of thickness t = PDD(t + d)"),
         EX("Dose at the target with bolus", STEM("A 6 MV, 10 × 10 cm field at SSD 100 cm.", ["prescription = 200 cGy at 3 cm below the skin, MU set without bolus", f"PDD(3 cm) = {p3}%,   PDD(4 cm) = {p4}%", "1.0 cm bolus is added and the MU are unchanged"], "Find the [[dose at the target]]."),

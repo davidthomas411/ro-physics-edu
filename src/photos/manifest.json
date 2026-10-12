@@ -55,17 +55,6 @@
   "title": "Nontoxic electron collimators"
  },
  {
-  "id": "skin-bolus-printed",
-  "file": "skin-bolus-printed.jpg",
-  "alt": "Four panels of printed bolus and electron cutout parts: a block placed on the cheek of a head phantom, blue frames with shaped openings, a red block on a foot phantom, and a white block with a hollow matching a surface contour.",
-  "caption": "Custom bolus printed from a CT surface contour. The block sits directly on the phantom skin, and its underside follows the contour so that no air gap remains. Printed electron cutout frames appear in the upper right panel.",
-  "creator": "Pinckney et al., Bioengineering 2026",
-  "licence": "CC BY 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
-  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12837786/",
-  "title": "A Review of 3D-Printed Medical Devices for Cancer Radiation Therapy"
- },
- {
   "id": "qa-linac-chamber-array",
   "file": "qa-linac-chamber-array.jpg",
   "alt": "A two-panel photograph of a linear accelerator with a flat ionization chamber array lying on the couch under the gantry head, one panel with a build-up plate and one with a wedge-shaped attachment holding the array.",
