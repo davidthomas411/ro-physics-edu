@@ -8,7 +8,7 @@ PLAN = [
     ("I.E", "6", "Heavy charged particles and the Bragg peak"), ("I.E", "6", "Neutron interactions"),
     ("II.A", "7", "Cavity theory and stopping power ratios"),
     ("II.B", "16", "Ion chamber design and charge collection"), ("II.B", "16", "Ion recombination and polarity effects"), ("II.B", "16", "Electrometers, cables, and leakage"),
-    ("II.B", "16", "TG-51 photon beam calibration"), ("II.B", "16", "TG-51 electron beam calibration"), ("II.B", "17", "Diodes, MOSFETs, and scintillators"),
+    ("II.B", "17", "Diodes, MOSFETs, and scintillators"),
     ("II.B", "17", "TLD and OSLD dosimetry"), ("II.B", "17", "Film dosimetry and radiochromic film"), ("II.B", "17", "Arrays, gels, and 3D dosimetry"), ("II.B", "16–17", "Calibration traceability and kV dosimetry"),
     ("IV.A", "19", "MTF, NPS, and DQE"), ("IV.A", "19", "Fluoroscopy and image intensifiers"), ("IV.A", "20", "Ultrasound physics"), ("IV.B", "21", "CT simulation and image registration"), ("IV.B", "21", "PET and MRI in treatment planning"), ("IV.B", "21", "4DCT and motion management"), ("IV.B", "21", "Portal imaging and EPID"),
     ("IV.B", "21", "CBCT and image-guided shifts"), ("IV.B", "21", "Surface guidance and tracking"), ("IV.B", "21", "MR-guided radiotherapy"),
