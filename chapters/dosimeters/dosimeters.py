@@ -158,7 +158,7 @@ TOPIC = dict(
         P(f"[[3|Calorimetry, which measures the temperature rise from the absorbed energy ({cal_mk:.2f} mK per gray in water), is a primary method behind national absorbed-dose standards.]]"),
 
         H("Detector choice by task"),
-        P("Volume averaging limits a detector in small fields; the response to low-energy scatter, in large photon fields; readout delay, in vivo; and spatial resolution, in planar QA. [[1|Mailed OSLDs serve remote audits.]]"),
+        P("Volume averaging limits a detector in small fields; the response to low-energy scatter, in large photon fields; readout delay, in vivo; and spatial resolution, in planar QA. [[1|For mailed remote audits, an OSLD is the usual choice.]]"),
         TABLE(["Task", "Usual detectors"], [
             ["[[1|In vivo, at once]]", "[[1|Diode, MOSFET]]"],
             ["[[1|In vivo, later]]", "[[1|TLD, OSLD]]"],
