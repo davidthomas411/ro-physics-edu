@@ -38,3 +38,7 @@ Public means that anyone can read every file and the whole history. Check these 
 - **No third-party text.** No textbook text, OCR output, or slide content may be tracked. `python tools/check_overlap.py <folder of local OCR text>` flags any run of 8 words that the site shares with those files. Keep the OCR folder outside the repository.
 - **Ownership.** Check the institution's policy on who owns teaching material and software before choosing the licenses in `LICENSE` and `LICENSE-CONTENT.md`. `LICENSE` names "the authors of this repository" as the copyright holder; replace it if the institution or a lab must be named.
 - **Actions versions.** `pages.yml` pins major versions of the GitHub actions. Update them when GitHub announces a new major version.
+
+## Preview
+
+`.github/workflows/preview.yml` builds the development page (`python build.py`, placeholders for missing owner values, noindex, no usage data) and publishes it on GitHub Pages after every push to `main`. It needs the same Pages settings as a release, with the branch `main` allowed under Settings > Environments > github-pages. Until a release is made the preview is the only published version; it is not a release and carries no DOI.

@@ -1,0 +1,48 @@
+name: Preview
+
+# Publishes a development build of the site on GitHub Pages after every push to main, so that content can be reviewed as it is written.
+# The page is noindex, shows placeholders for the owner values, and sends no usage data. A release is made by pages.yml from a v* tag.
+# Settings needed once: Pages source "GitHub Actions", and the branch main allowed under Settings > Environments > github-pages. See RELEASING.md.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Build the development page
+        run: python build.py
+      - name: Stage the site
+        run: |
+          mkdir _site
+          cp dist/ro-physics.html _site/index.html
+          touch _site/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
