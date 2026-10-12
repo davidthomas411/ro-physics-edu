@@ -20,7 +20,9 @@ def ddx_from_pb(pb, foil_cm=50):
     """%dd(10)_x from %dd(10)_Pb measured with 1 mm of lead 50 cm or 30 cm above the phantom surface (TG-51)."""
     a, b, cut = (0.8905, 0.00150, 73.0) if foil_cm == 50 else (0.8116, 0.00264, 71.0)
     return (a + b * pb) * pb if pb >= cut else pb
-def ddx_open(dd10): return 1.267 * dd10 - 20.0          # flattened beams of 10 MV and above, no foil (accepted by the 2014 addendum)
+def ddx_open(dd10):
+    """%dd(10)_x of a flattened beam measured without the foil (2014 addendum): open-beam %dd(10) from 75% to 89%; below 75%, %dd(10)_x = %dd(10)."""
+    return 1.267 * dd10 - 20.0 if dd10 >= 75 else dd10
 def pct_diff(measured, expected): return 100 * (measured - expected) / expected
 
 PDD10, TMR10 = bd.PDD[(10, 10)], bd.TMR[(10, 10)]       # illustrative 6 MV beam: 10 x 10 cm, SSD 100 cm and SAD
@@ -54,7 +56,7 @@ TOPIC = dict(
         H("Traceability and the dose equation"),
         P("The AAPM TG-51 protocol for megavoltage photon and electron beams starts from a chamber calibrated in absorbed dose to water. An Accredited Dosimetry Calibration Laboratory (ADCL) irradiates the chamber in Co-60 under reference conditions and issues its calibration coefficient N<sub>D,w</sub><sup>60Co</sup>: the dose to water per unit corrected reading, in Gy/C, or in Gy per reading unit when chamber and electrometer are calibrated as a pair."),
         P("The ADCL's instruments are calibrated against the national primary standard. In the United States that is a water calorimeter at NIST, which derives dose from the temperature rise of irradiated water; some other national laboratories use graphite calorimeters."),
-        EQ("D<sub>w</sub><sup>Q</sup> = M k<sub>Q</sub> N<sub>D,w</sub><sup>60Co</sup>", "M = P<sub>ion</sub> P<sub>TP</sub> P<sub>elec</sub> P<sub>pol</sub> M<sub>raw</sub>"),
+        EQ("D<sub>w</sub><sup>Q</sup> = M k<sub>Q</sub> N<sub>D,w</sub><sup>60Co</sup>", "M = P<sub>ion</sub> P<sub>TP</sub> P<sub>elec</sub> P<sub>pol</sub> M<sub>raw</sub>   (original TG-51; the 2014 addendum adds P<sub>leak</sub> and P<sub>rp</sub>)"),
         P("D<sub>w</sub><sup>Q</sup> is the dose to water at the chamber's point of measurement in a beam of quality Q, with the chamber removed; M is the fully corrected reading. The quality conversion factor k<sub>Q</sub> converts the Co-60 coefficient to quality Q (k<sub>Q</sub> = 1 in Co-60). It depends on the beam and the chamber model: the water-to-air stopping-power ratio changes with the beam, and each design's wall, central electrode, and cavity perturb the fluence differently."),
 
         H("Photon beam calibration"),
@@ -64,8 +66,8 @@ TOPIC = dict(
            "foil 30 cm above the surface: %dd(10)<sub>x</sub> = (0.8116 + 0.00264 %dd(10)<sub>Pb</sub>) %dd(10)<sub>Pb</sub>,   for %dd(10)<sub>Pb</sub> ≥ 71%",
            "below those values %dd(10)<sub>x</sub> = %dd(10)<sub>Pb</sub>; the foil is removed for the dose measurement"),
         P("k<sub>Q</sub> is read for that %dd(10)<sub>x</sub> from the table or fit for the exact chamber model; for Farmer-type chambers it falls from about 0.99 at 6 MV to about 0.97 at 18 MV. Models differ, so another model's value biases every calibration made with it."),
-        P("The 2014 addendum for photon beams kept the dose equation and reference conditions. It gave Monte Carlo k<sub>Q</sub> values for more chamber models, fitted against %dd(10)<sub>x</sub> from 63% to 86%; set specifications for a reference-class chamber; and added P<sub>rp</sub>, which corrects for dose changing along the chamber in a beam that is not flat, such as a flattening-filter-free beam. Flattened beams may skip the foil (k<sub>Q</sub> changes by at most 0.2%); flattening-filter-free beams still use it."),
-        EQ("%dd(10)<sub>x</sub> = 1.267 %dd(10) − 20.0   (flattened beams of 10 MV and above, %dd(10) of the open beam)"),
+        P("The 2014 addendum for photon beams kept the dose equation and reference conditions. It gave Monte Carlo k<sub>Q</sub> values for more chamber models, fitted against %dd(10)<sub>x</sub> from 63% to 86%; set specifications for a reference-class chamber; and added P<sub>rp</sub>, which corrects for the radial dose profile averaged over the chamber's sensitive volume in a beam that is not flat, such as a flattening-filter-free beam, and P<sub>leak</sub>, a correction for leakage. Flattened beams may skip the foil (k<sub>Q</sub> changes by at most 0.2%); flattening-filter-free beams still use it."),
+        EQ("%dd(10)<sub>x</sub> = 1.267 %dd(10) − 20.0   (flattened beam measured without the foil; open-beam %dd(10) from 75% to 89%)", "below 75%, %dd(10)<sub>x</sub> = %dd(10)"),
         EX("Dose at 10 cm in a 6 MV beam",
            STEM("A Farmer-type chamber in a 6 MV beam, TG-51 SSD setup: SSD 100 cm, 10 × 10 cm field at the surface, cavity center at 10 cm depth. The k<sub>Q</sub> value is an illustrative table entry for this chamber model.",
                 [f"N<sub>D,w</sub><sup>60Co</sup> = {sci(NDW, 3)} Gy/C", f"M<sub>raw</sub> = {MRAW1:.2f} nC for 100 MU", f"P<sub>ion</sub> = {PION1:.3f},   P<sub>TP</sub> = {PTP1:.3f},   P<sub>elec</sub> = {PELEC1:.3f},   P<sub>pol</sub> = {PPOL1:.3f}", f"%dd(10)<sub>x</sub> = {PDD10:.1f}%, so k<sub>Q</sub> = {KQ1:.3f}"],
@@ -85,14 +87,14 @@ TOPIC = dict(
            "k′<sub>R50</sub> = 0.9905 + 0.0710 e<sup>−R<sub>50</sub>/3.67</sup>   (Farmer-like chambers, 2 ≤ R<sub>50</sub> ≤ 9 cm)"),
         UL("k<sub>ecal</sub>, the photon-electron conversion factor, is fixed for each chamber model and converts the Co-60 coefficient to an electron beam with R<sub>50</sub> = 7.5 cm; k′<sub>R50</sub> then converts to the beam's own R<sub>50</sub>.",
            "P<sub>gr</sub>, the gradient correction, applies to cylindrical chambers only. Their effective point of measurement in an electron beam lies 0.5 r<sub>cav</sub> upstream of the center, so the reading with the center 0.5 r<sub>cav</sub> deeper stands for the dose at d<sub>ref</sub>. The gradient differs between beams of one R<sub>50</sub>, so P<sub>gr</sub> is measured in each beam."),
-        P("Plane-parallel chambers are required below R<sub>50</sub> = 2.6 cm (about 6 MeV), and for them P<sub>gr</sub> = 1. Their Co-60 coefficients carry wall effects that differ between chambers of one model, so TG-51 prefers cross-calibration: in a high-energy electron beam a calibrated cylindrical chamber gives the dose at d<sub>ref</sub>, and the plane-parallel chamber at the same depth is assigned the product k<sub>ecal</sub> N<sub>D,w</sub><sup>60Co</sup> that reproduces it."),
-        P("A 2024 AAPM addendum for electron beams (4 to 22 MeV) allows a reference-class cylindrical chamber at every energy, centered at d<sub>ref</sub>, with no measured P<sub>gr</sub>: its Monte Carlo k<sub>Q</sub> values include the gradient. Doses per MU come out up to about 2% higher than with the original protocol."),
+        P("In the original TG-51 (1999), plane-parallel chambers are required below R<sub>50</sub> = 2.6 cm (about 6 MeV), and for them P<sub>gr</sub> = 1. Their Co-60 coefficients carry wall effects that differ between chambers of one model, so TG-51 prefers cross-calibration: in a high-energy electron beam a calibrated cylindrical chamber gives the dose at d<sub>ref</sub>, and the plane-parallel chamber at the same depth is assigned the product k<sub>ecal</sub> N<sub>D,w</sub><sup>60Co</sup> that reproduces it."),
+        P("A 2024 AAPM addendum for electron beams (Report 385, Muir et al.) allows a reference-class cylindrical chamber at every energy from 4 to 22 MeV, with no measured P<sub>gr</sub>: its Monte Carlo k<sub>Q</sub> values include the gradient. Doses per MU come out up to about 2% higher than with the original protocol."),
         TABLE(["Reference conditions", "Photon beams", "Electron beams"], [
             ["Beam quality", "%dd(10)<sub>x</sub>, SSD 100 cm", "R<sub>50</sub>, SSD 100 cm"],
             ["Depth", "10 cm", "0.6 R<sub>50</sub> − 0.1 cm"],
             ["Field", "10 × 10 cm at the surface (SSD) or chamber (SAD)", "10 × 10 cm or more; 20 × 20 cm if R<sub>50</sub> &gt; 8.5 cm"],
             ["Distance", "SSD or SAD setup", "SSD 90 to 110 cm"]]),
-        TABLE(["Chamber", "Photon beams", "Electron beams"], [
+        TABLE(["Chamber", "Photon beams", "Electron beams, original TG-51"], [
             ["Type", "Cylindrical only", "Either; plane-parallel required if R<sub>50</sub> &lt; 2.6 cm, preferred if &lt; 4.3 cm"],
             ["Point of measurement", "Cavity center", "Cavity center; inner face of the front window if plane-parallel"],
             ["Depth-curve shift", "0.6 r<sub>cav</sub> upstream", "0.5 r<sub>cav</sub> upstream"],
@@ -132,13 +134,13 @@ TOPIC = dict(
         F("Photon reference conditions", "Cylindrical chamber with its cavity center at 10 cm depth in water; 10 × 10 cm field at the surface (SSD setup) or at the chamber's depth (SAD setup)."),
         F("Photon beam quality %dd(10)<sub>x</sub>", "Percent depth dose at 10 cm for a 10 × 10 cm field at SSD 100 cm, from photons alone. Below 10 MV it equals the measured %dd(10)."),
         F("Lead foil for photon beam quality", "From 10 MV up: 1 mm of lead about 50 cm (or 30 cm) above the phantom surface while %dd(10)<sub>Pb</sub> is measured, then converted to %dd(10)<sub>x</sub>. The foil is removed for the dose measurement."),
-        F("2014 photon addendum", "Monte Carlo k<sub>Q</sub> for more chambers, reference-class chamber specifications, and P<sub>rp</sub> for beams that are not flat. Flattened beams may skip the foil and use %dd(10)<sub>x</sub> = 1.267 %dd(10) − 20.0."),
+        F("2014 photon addendum", "Monte Carlo k<sub>Q</sub> for more chambers, reference-class chamber specifications, and P<sub>rp</sub> for beams that are not flat. Flattened beams may skip the foil and use %dd(10)<sub>x</sub> = 1.267 %dd(10) − 20.0 for an open-beam %dd(10) from 75% to 89%."),
         F("Electron beam quality R<sub>50</sub>", "R<sub>50</sub> = 1.029 I<sub>50</sub> − 0.06 cm for 2 ≤ I<sub>50</sub> ≤ 10 cm, and 1.059 I<sub>50</sub> − 0.37 cm for I<sub>50</sub> above 10 cm."),
         F("Electron reference conditions", "d<sub>ref</sub> = 0.6 R<sub>50</sub> − 0.1 cm; field at least 10 × 10 cm (20 × 20 cm if R<sub>50</sub> > 8.5 cm); SSD 90 to 110 cm."),
         F("Electron k<sub>Q</sub> for a cylindrical chamber", "k<sub>Q</sub> = P<sub>gr</sub> k′<sub>R50</sub> k<sub>ecal</sub>. k<sub>ecal</sub> is fixed by the chamber model and refers to R<sub>50</sub> = 7.5 cm; k′<sub>R50</sub> converts to the beam's R<sub>50</sub>."),
-        F("Gradient correction P<sub>gr</sub>", "M<sub>raw</sub>(center at d<sub>ref</sub> + 0.5 r<sub>cav</sub>) / M<sub>raw</sub>(center at d<sub>ref</sub>), measured in each electron beam. It is 1 for a plane-parallel chamber."),
+        F("Gradient correction P<sub>gr</sub>", "Original TG-51: M<sub>raw</sub>(center at d<sub>ref</sub> + 0.5 r<sub>cav</sub>) / M<sub>raw</sub>(center at d<sub>ref</sub>), measured in each electron beam. It is 1 for a plane-parallel chamber."),
         F("Effective point of measurement, cylindrical chamber", "Upstream of the center by 0.6 r<sub>cav</sub> in photon beams and 0.5 r<sub>cav</sub> in electron beams. Depth-ionization curves are shifted by these amounts."),
-        F("Plane-parallel chambers in electron beams", "Required for R<sub>50</sub> below 2.6 cm, preferred below 4.3 cm. Cross-calibrated against a cylindrical chamber in a high-energy electron beam, because their Co-60 wall effects vary between chambers."),
+        F("Plane-parallel chambers in electron beams", "Original TG-51: required for R<sub>50</sub> below 2.6 cm, preferred below 4.3 cm. Cross-calibrated against a cylindrical chamber in a high-energy electron beam, because their Co-60 wall effects vary between chambers."),
         F("Transfer of the calibration to d<sub>max</sub>", "Dose per MU at d<sub>max</sub> = dose per MU at 10 cm ÷ (clinical %dd(10)/100) for the SSD convention, or ÷ TMR(10 cm) for the SAD convention. %dd(10)<sub>x</sub> is not used."),
         F("2024 electron addendum", "Reference-class cylindrical chambers at every electron energy from 4 to 22 MeV, no measured P<sub>gr</sub>, and doses per MU up to about 2% higher than with the original TG-51."),
     ],
@@ -230,7 +232,7 @@ PROBLEMS = [
     TYPED(STEM("A depth-ionization curve is measured in an electron beam with a cylindrical chamber and shifted upstream by 0.5 r<sub>cav</sub>.", [f"I<sub>50</sub> on the shifted curve = {I50_T1:.2f} cm"], "What is the [[reference depth d<sub>ref</sub>]]?"), DREF_T1, 0.01, "cm",
           f"R<sub>50</sub> = 1.029 × {I50_T1:.2f} − 0.06 = {R50_T1:.3f} cm, so d<sub>ref</sub> = 0.6 × {R50_T1:.3f} − 0.1 = {DREF_T1:.2f} cm. Using I<sub>50</sub> in place of R<sub>50</sub> gives {dref_of(I50_T1):.2f} cm, outside the tolerance.",
           w=[f"R<sub>50</sub> = 1.029 × {I50_T1:.2f} − 0.06 = {R50_T1:.3f} cm", f"d<sub>ref</sub> = 0.6 × {R50_T1:.3f} − 0.1 = {DREF_T1:.3f} cm"], lvl="Moderate"),
-    PR(STEM("A plane-parallel chamber will be used to calibrate a 6 MeV electron beam.", [], "Why does TG-51 prefer to [[cross-calibrate]] it against a cylindrical chamber in a high-energy electron beam rather than use its Co-60 coefficient?"),
+    PR(STEM("A plane-parallel chamber will be used to calibrate a 6 MeV electron beam.", [], "Why does the original TG-51 prefer to [[cross-calibrate]] it against a cylindrical chamber in a high-energy electron beam rather than use its Co-60 coefficient?"),
        "Its Co-60 coefficient carries wall effects that vary between chambers",
        ["Plane-parallel chambers cannot be calibrated in a Co-60 beam", "Plane-parallel chambers have no polarity effect in electron beams", "Cylindrical chambers need no corrections in an electron beam"],
        "In Co-60 the wall of a plane-parallel chamber changes the reading by amounts that differ from chamber to chamber, which makes k<sub>ecal</sub> N<sub>D,w</sub><sup>60Co</sup> uncertain. In a high-energy electron beam a calibrated cylindrical chamber gives the dose at d<sub>ref</sub>, and the plane-parallel chamber read at the same depth is assigned that product directly. Plane-parallel chambers can be calibrated in Co-60; the issue is how reliable that coefficient is.", lvl="Moderate"),
@@ -279,11 +281,11 @@ TAKE = [
      "N<sub>D,w</sub><sup>60Co</sup> comes from an ADCL in Co-60 and is traceable, in the United States, to the NIST water calorimeter.",
      "k<sub>Q</sub> depends on the beam quality and on the chamber model."],
     ["Photons: cylindrical chamber, cavity center at 10 cm depth, 10 × 10 cm field; the gradient is inside k<sub>Q</sub>.",
-     "Beam quality is %dd(10)<sub>x</sub>, from photons alone, with a 1 mm lead foil from 10 MV up.",
+     "Beam quality is %dd(10)<sub>x</sub>, from photons alone, with a 1 mm lead foil from 10 MV up or, for flattened beams, the no-foil relation of the 2014 addendum.",
      "Farmer-type chambers: k<sub>Q</sub> about 0.99 at 6 MV and 0.97 at 18 MV."],
     ["R<sub>50</sub> = 1.029 I<sub>50</sub> − 0.06 cm for I<sub>50</sub> up to 10 cm; d<sub>ref</sub> = 0.6 R<sub>50</sub> − 0.1 cm.",
-     "Cylindrical chamber: k<sub>Q</sub> = P<sub>gr</sub> k′<sub>R50</sub> k<sub>ecal</sub>, with P<sub>gr</sub> measured in each beam.",
-     "Plane-parallel chambers below R<sub>50</sub> = 2.6 cm, cross-calibrated in a high-energy electron beam."],
+     "Original TG-51, cylindrical chamber: k<sub>Q</sub> = P<sub>gr</sub> k′<sub>R50</sub> k<sub>ecal</sub>, with P<sub>gr</sub> measured in each beam.",
+     "Original TG-51: plane-parallel chambers below R<sub>50</sub> = 2.6 cm, cross-calibrated in a high-energy electron beam."],
     ["Dose per MU at d<sub>max</sub> = dose per MU at 10 cm ÷ (clinical %dd(10)/100) for SSD calibration, or ÷ TMR(10 cm) for SAD calibration.",
      "%dd(10)<sub>x</sub> selects k<sub>Q</sub> and is not used to transfer dose.",
      "Percent difference = 100 × (measured − expected) / expected."],

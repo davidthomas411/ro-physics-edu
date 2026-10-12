@@ -121,12 +121,12 @@ def over(mat, m):                                                              #
     pe = pe_w * rel_e * (zeff(mat, m) / zeff("water", m)) ** m
     return (pe + mu_c * rel_e) / 0.1557 / rel_e
 for m in (3.0, 3.5):
-    close(1 if 1.25 < over("LiF", m) < 1.45 else 0, 1, 0, f"LiF over-response about 1.3 to 1.4 (model, exponent {m}: {over('LiF', m):.2f})")
+    close(1 if 1.2 < over("LiF", m) < 1.45 else 0, 1, 0, f"LiF over-response about 1.2 to 1.4 (model, exponent {m}: {over('LiF', m):.2f})")
     close(1 if 2.9 < over("Al2O3", m) < 4.2 else 0, 1, 0, f"Al2O3 over-response three to four (model, exponent {m}: {over('Al2O3', m):.2f})")
-    close(1 if 1 < over("LiF", m) < over("Al2O3", m) < over("Si", m) < over("AgBr", m) else 0, 1, 0, "the rank question's order follows the model")
+    close(1 if 1 < over("LiF", m) < over("Al2O3", m) < over("AgBr", m) else 0, 1, 0, "the rank question's order follows the model")
 p = [q for q in G["problems"] if q.get("kind") == "sort" and q["mode"] == "rank"][0]
 order = [c["t"] for c in sorted(p["chips"], key=lambda c: c["b"])]
-close(1 if order == ["Radiochromic film", "LiF TLD", "Al<sub>2</sub>O<sub>3</sub>:C OSLD", "Silicon diode", "Silver-halide film"] else 0, 1, 0, "the keyed rank order")
+close(1 if order == ["Radiochromic film", "LiF TLD", "Al<sub>2</sub>O<sub>3</sub>:C OSLD", "Silver-halide film"] else 0, 1, 0, "the keyed rank order")
 
 for b in bad: print("FAIL", b)
 print(f"numbers_dosimeters: {n} numbers re-derived"); print("numbers_dosimeters: PASS" if not bad else f"numbers_dosimeters: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)

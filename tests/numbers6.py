@@ -43,10 +43,11 @@ check("mu-calc", "prescription = 300 cGy", 300 / (1.017 * 1.014 * 0.680), accept
 check("mu-calc", "dose = 120 cGy at 12 cm", 120 / (1.021 * 1.013 * 0.738 * 1.015 ** 2), accept=(152.6, 153), reject=(120 / (1.021 * 1.013 * 0.738), 120 / (1.021 * 1.013 * 0.738 / 1.015 ** 2), 150.0))
 check("mu-calc", "wedge and a blocking tray", 180 / (0.66 * 0.97), accept=(281, 282), reject=(180 / 0.66, 180 / 0.97, 180 * 0.66 * 0.97))
 # every typed question: one ask, a marked quantity to find, a sensible tolerance and a unit
+DIMENSIONLESS = ("net optical density", "γ at the measured point")                 # answers that have no unit
 for tid, p in ALL:
     q = p["q"]
     if q.count('class="ask"') != 1 or "<f>" not in q: bad.append((tid, "stem needs one ask with a marked quantity", plain(q)[:60]))
     if not 0.002 <= p["tol"] <= 0.03: bad.append((tid, "tolerance", p["tol"]))
-    if not p["unit"].strip() or not math.isfinite(p["ans"]) or p["ans"] <= 0: bad.append((tid, "unit or answer", p["unit"], p["ans"]))
+    if not (p["unit"].strip() or any(d in plain(q) for d in DIMENSIONLESS)) or not math.isfinite(p["ans"]) or p["ans"] <= 0: bad.append((tid, "unit or answer", p["unit"], p["ans"]))
 print(f"numbers6: {n} typed answers re-derived, accepted and rejected values checked; {len(ALL)} typed questions"); [print("FAIL", b) for b in bad]
 print("numbers6: PASS" if not bad else f"numbers6: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)

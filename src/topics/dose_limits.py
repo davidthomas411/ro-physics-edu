@@ -113,7 +113,7 @@ TOPIC = dict(
            f"{h2:.2f} mSv. The neutrons give {n_share:.0f}% of it from {d_share:.0f}% of the absorbed dose."),
 
         H("Dose limits"),
-        P("Limits cover workers and the public, not background or a patient's own medical exposure. 10 CFR 20, or an Agreement State's matching rule, covers radioactive material such as an HDR source; linacs fall under state rules with the same limits. ICRP and NCRP values are recommendations and change between editions."),
+        P("Limits cover workers and the public, not background or a patient's own medical exposure. 10 CFR 20, or an Agreement State's matching rule, covers radioactive material such as an HDR source; linacs are not byproduct material and fall under state radiation-control rules, which in nearly every state carry the same numerical limits. ICRP and NCRP values are recommendations and change between editions."),
         TABLE(["Limit per year, unless stated", "10 CFR 20 (NRC)", "ICRP 103 and 118", "NCRP 116"], [
             ["Worker, effective dose", f"{mr(NRC['tede'])} TEDE", f"{ICRP['avg']:g} mSv averaged over {ICRP['years']} years, at most {ICRP['max1']:g} mSv in one year", f"{NCRP['annual']:g} mSv; lifetime {NCRP['per_age']:g} mSv × age"],
             ["Worker, lens of the eye", mr(NRC["lens"]), "the same values (ICRP 118)", f"{NCRP['lens']:g} mSv; {LENS_C26:g} mGy in Commentary 26"],
@@ -141,9 +141,9 @@ TOPIC = dict(
         P("The whole-body badge goes on the trunk, at the collar outside a lead apron; a declared pregnant worker adds one at the waist, under the apron. A ring badge goes under the glove on the hand nearer the source, chip facing the source."),
 
         H("Survey instruments"),
-        P("An ion chamber survey meter collects the charge released in its gas, so it reads exposure rate with a nearly flat energy response over a wide range of rates; it is the instrument for linac and HDR surveys."),
+        P("An ion chamber survey meter collects the charge released in its gas, so it reads exposure rate with a nearly flat response over a wide range of photon energies and dose rates; it is the instrument for linac and HDR surveys."),
         P("A Geiger–Mueller (GM) counter turns each ionizing event into a discharge of the same size, so it is sensitive but records no energy; without a compensating filter it over-responds to low-energy photons. After each discharge the tube is insensitive for its dead time, of the order of 100 µs. A linac delivers pulses a few microseconds long a few hundred times per second, so a whole pulse falls within one dead time: the counter registers at most one count per pulse and reads far too low. It suits a search for a lost seed."),
-        P("A neutron rem meter surrounds a BF<sub>3</sub> or He-3 counter with a polyethylene moderator, which slows fast neutrons for capture and is sized so that the reading follows the dose equivalent. Survey meters are calibrated before first use, yearly, and after repair, against sources traceable to NIST directly or through an ADCL; a meter more than 20% off is withdrawn (10 CFR 35.61)."),
+        P("A neutron rem meter surrounds a BF<sub>3</sub> or He-3 counter with a polyethylene moderator, which slows fast neutrons for capture and is sized so that the reading follows the dose equivalent. Survey meters used to show compliance are calibrated before first use, annually, and after a repair that affects calibration, on every scale up to 10 mSv/h with two readings per scale or decade; a meter whose indicated rate differs from the calculated rate by more than 20% is not used (10 CFR 35.61). By usual practice the source is traceable to NIST, directly or through an ADCL."),
     ],
     cards=[
         F("ICRP 103 tissue weights of 0.12", "Red bone marrow, colon, lung, stomach, breast, and the remainder tissues."),
@@ -186,7 +186,7 @@ PROBLEMS = [
        f"10 CFR 20.1207 limits a minor to 10% of each adult limit, {NRC['minor'] * NRC['tede']:g} mSv TEDE per year. Exposure under 18 is permitted, so the full adult limit and a ban are both wrong.", lvl="Easy"),
     PRN(STEM("A physicist is 45 years old.", [], f"What [[lifetime effective dose]] does NCRP 116 allow at this age?"), cum, [cum_annual, cum_18, NCRP["annual"]], "{:,.0f} mSv",
         f"NCRP 116 caps the lifetime effective dose at 10 mSv × age = 10 × {age} = {cum:,.0f} mSv. Multiplying the annual limit by the age gives {cum_annual:,.0f} mSv, and counting only the years since age 18 gives {cum_18:,.0f} mSv.", lvl="Easy"),
-    PR(STEM(f"A radiation therapist declares her pregnancy in writing. The deep dose on her badge since conception is {pg_before:.1f} mSv, all occupational.", [], "How much more dose may the embryo/fetus receive during the rest of the pregnancy under 10 CFR 20?"),
+    PR(STEM(f"A radiation therapist declares her pregnancy in writing. The deep dose on her badge since conception is {pg_before:.1f} mSv, all occupational, and is taken as the dose to the embryo/fetus.", [], "How much more dose may the embryo/fetus receive during the rest of the pregnancy under 10 CFR 20?"),
        f"{pg_left:.1f} mSv, because the {NRC['fetus']:g} mSv limit covers the whole pregnancy", [f"{NRC['fetus']:.1f} mSv, because the limit counts from the declaration", f"{ICRP['fetus']:.1f} mSv, because the limit after declaration is {ICRP['fetus']:g} mSv", f"{NRC['fetus_near']:.1f} mSv, because some dose was received before declaration"],
        f"The {NRC['fetus']:g} mSv limit of 10 CFR 20.1208 covers the entire pregnancy, so {NRC['fetus']:g} − {pg_before:.1f} = {pg_left:.1f} mSv remains. The {ICRP['fetus']:g} mSv value is ICRP's advice, and the {NRC['fetus_near']:g} mSv allowance applies only when {NRC['fetus'] - NRC['fetus_near']:g} mSv or more has accrued at declaration.", lvl="Moderate"),
     PR("10 CFR 20 limits the dose to the lens of the eye separately from the total effective dose equivalent. What is the reason?",
@@ -227,9 +227,9 @@ PROBLEMS = [
         ["Its dead time lets it register at most about one count per beam pulse", "Without energy compensation it over-responds to low-energy photons"],
         ["Its pulse height is proportional to the energy each photon deposits", "It needs a polyethylene moderator before it can detect photons"],
         "The linac delivers each pulse within a few microseconds, far shorter than a dead time of the order of 100 µs, so the counter misses all but one event per pulse. An uncompensated tube also over-responds to low-energy scatter. Every GM pulse has the same size, and a moderator is needed only for neutrons.", lvl="Moderate"),
-    SORT("Match each task to the instrument used for it.", ["Ion chamber survey meter", "GM counter", "Moderated BF<sub>3</sub> or He-3 counter", "TLD ring badge", "OSL badge"],
+    SORT("Match each task to the instrument used for it.", ["Ion chamber survey meter", "GM counter", "Moderated BF<sub>3</sub> or He-3 counter", "Ring badge", "Whole-body badge"],
          [("Survey outside a linac vault with the beam on", 0), ("Search of an operating room floor for a dropped seed", 1), ("Neutron dose equivalent at the door of an 18 MV vault", 2), ("Dose to the fingers of a worker who loads seeds", 3), ("Monthly whole-body dose of a radiation therapist", 4)],
-         "The ion chamber reads exposure rate correctly in a pulsed beam. Of these instruments, the GM counter is the most sensitive for finding a source. Neutrons need a moderated counter, the fingers need a small TLD ring, and the whole-body record comes from a badge.", lvl="Moderate", mode="match", cap=1),
+         "The ion chamber reads exposure rate correctly in a pulsed beam. Of these instruments, the GM counter is the most sensitive for finding a source. Neutrons need a moderated counter, the fingers need a ring badge, and the whole-body record comes from a badge worn on the trunk.", lvl="Moderate", mode="match", cap=1),
 ]
 
 INLINE = {0: [1, 2, 3, 4], 1: [5, 6, 8, 9], 2: [11, 12, 13], 3: [15, 16, 17]}
@@ -249,5 +249,5 @@ TAKE = [
     ["OSL is read with light and can be read again; TLD is read by heat, which erases it, and suits ring badges.",
      "Collar badge outside the apron; a declared pregnant worker adds one at the waist under it."],
     ["Ion chamber for linac and HDR surveys. A GM counter registers at most one count per linac pulse.",
-     "Neutrons need a moderated BF<sub>3</sub> or He-3 counter. Survey meters are calibrated yearly and withdrawn when more than 20% off."],
+     "Neutrons need a moderated BF<sub>3</sub> or He-3 counter. Survey meters are calibrated yearly; a meter reading more than 20% from the calculated rate is not used."],
 ]
