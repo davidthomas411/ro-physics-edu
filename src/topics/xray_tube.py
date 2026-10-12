@@ -92,6 +92,7 @@ TOPIC = dict(
             ["Envelope", "Evacuated glass or metal", "Electrons reach the anode without striking gas"],
             ["Oil and housing", "Oil bath inside a lead-lined housing", "Insulation and cooling; leakage of a diagnostic tube at most 0.88 mGy air kerma in 1 h at 1 m (21 CFR 1020.30)"],
             ["Window", "Thin glass, or beryllium in low-kV tubes", "Lets the beam out with little filtration"]]),
+            PHOTO("xray-tube-anode"),
         P("The anode face makes a small angle θ, typically 7° to 20°, with the central ray. Viewed along the central ray, the strip of length L that the electrons strike is foreshortened to L sin θ (the line-focus principle). A smaller angle gives a smaller effective spot for the same heat load but covers a smaller field, since rays more than θ from the central ray on the anode side run into the anode."),
         EQ("effective focal spot = actual focal spot length × sin θ"),
         EX("Effective focal spot", STEM("A diagnostic tube.", [f"actual focal spot length = {L2:.1f} mm", f"anode angle θ = {TH2:.0f}°"], "Find the [[effective focal spot size]] along the central ray."),
