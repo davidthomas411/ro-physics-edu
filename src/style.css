@@ -207,7 +207,7 @@ table.tbl th{font-size:13px;color:var(--muted);font-weight:600;border-top:0;bord
 .dial.m{display:none}
 
 /* cards */
-.fc{max-width:760px}
+.fc{max-width:760px;touch-action:pan-y}
 .fc .top-row{display:flex;align-items:center;gap:16px;margin-bottom:14px}
 .ring{width:96px;height:96px;flex:none}
 .ring .gantry{transform-box:fill-box;transform-origin:49.4% 47%;transition:transform .6s ease}

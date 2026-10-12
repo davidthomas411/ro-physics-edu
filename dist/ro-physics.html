@@ -214,7 +214,7 @@ table.tbl th{font-size:13px;color:var(--muted);font-weight:600;border-top:0;bord
 .dial.m{display:none}
 
 /* cards */
-.fc{max-width:760px}
+.fc{max-width:760px;touch-action:pan-y}
 .fc .top-row{display:flex;align-items:center;gap:16px;margin-bottom:14px}
 .ring{width:96px;height:96px;flex:none}
 .ring .gantry{transform-box:fill-box;transform-origin:49.4% 47%;transition:transform .6s ease}
@@ -645,7 +645,7 @@ function arcPath(cx,cy,r,a0,a1){const x0=cx+r*Math.cos(rad(a0)),y0=cy+r*Math.sin
 function linacGroup(cx,cy,size,angle){const s=size,x=cx-0.494*s,y=cy-0.47*s;return `<image href="${LINAC.base}" x="${x}" y="${y}" width="${s}" height="${s}"/><g class="gantry" style="transform:rotate(${lim(angle)}deg)"><image href="${LINAC.gantry}" x="${x}" y="${y}" width="${s}" height="${s}"/></g><image href="${LINAC.couch}" x="${x}" y="${y}" width="${s}" height="${s}"/>`;}
 function dialSVG(mobile){
   const angs=catAngles();
-  const G=mobile?{vw:800,vh:780,cx:400,cy:390,R:200,S:360,fn:26,fs:22,fnum:22,lo:26}:{vw:1120,vh:740,cx:560,cy:370,R:245,S:500,fn:24,fs:17,fnum:24,lo:30};
+  const G=mobile?{vw:860,vh:780,cx:430,cy:390,R:200,S:360,fn:26,fs:22,fnum:22,lo:26}:{vw:1120,vh:740,cx:560,cy:370,R:245,S:500,fn:24,fs:17,fnum:24,lo:30};
   const {cx,cy,R,S}=G; const out=[`<circle class="ring" cx="${cx}" cy="${cy}" r="${R-26}"/>`];
   DATA.domains.forEach((c,ci)=>{
     const [a0,a1]=angs[ci], am=(a0+a1)/2, cs=DATA.cards.filter(x=>x.dom===c.n&&x.opts), k=cs.filter(x=>qSel(x.id)).length, on=topicsOfDom(c.n).length>0, nt=topicsOfDom(c.n).length;
