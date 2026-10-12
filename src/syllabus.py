@@ -12,5 +12,5 @@ PLAN = [
     ("IV.B", "21", "CBCT and image-guided shifts"), ("IV.B", "21", "Surface guidance and tracking"), ("IV.B", "21", "MR-guided radiotherapy"),
     ("V", "26", "Permanent seed implant dosimetry"), ("V", "26", "HDR planning and dwell times"), ("V", "26", "Gynecologic applicators and ICRU points"), ("V", "26", "Source calibration and well chambers"),
     ("V", "26", "Eye plaques and skin brachytherapy"), ("V", "25–26", "Brachytherapy radiation safety"),
-    ("VI.A", "23", "Total body irradiation"), ("VI.A", "23", "Total skin electron therapy"), ("VI.A", "23", "Intraoperative radiotherapy"), ("VI.A", "27", "Radiopharmaceutical therapy dosimetry"), ("VI.A", "27", "Unsealed sources and patient release"),
+    ("VI.A", "23", "Intraoperative radiotherapy"), ("VI.A", "27", "Radiopharmaceutical therapy dosimetry"), ("VI.A", "27", "Unsealed sources and patient release"),
     ("VII.B", "25", "Brachytherapy and unsealed-source protection"), ]

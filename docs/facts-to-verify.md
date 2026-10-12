@@ -97,3 +97,13 @@ The regulation text was checked only through search summaries and state rules th
 - The TG-100 scale endpoints (occurrence of 1 is about 1 in 10,000; severity of 1 is no effect) and that TG-100 advises against ranking by RPN alone: TG-100 Table II and its text.
 - The six-level ranking of quality-management tools, with protocols and standards above independent checks: TG-100, or the AAPM guide to it (the ranking follows the Institute for Safe Medication Practices).
 - The Joint Commission sentinel event for a dose more than 25% above the planned dose: its current Sentinel Event Policy.
+
+## Total body and total skin irradiation (`tbi-tset`)
+
+- Dose uniformity of ±10% and a dose-rate ceiling of 20 cGy/min: the ACR-ARS practice parameter for total body irradiation.
+- A usual dose rate of 5 to 15 cGy/min, a treatment distance of 3 to 5 m, and a lung dose limit of 8 to 10 Gy: AAPM Report 17 (TG-29) and published protocols.
+- That AAPM Report 23 names the multiplication factor B: Report 23.
+- The EORTC limit of 0.7 Gy for the photon dose and 30 to 36 Gy over 8 to 10 weeks: EORTC consensus, J Am Acad Dermatol 2002;47:364.
+- Total skin electron geometry: gantry angles of about 15° to 20° (18° at Stanford), a 1 cm acrylic scatter plate, and a distance of 3 to 4 m: Report 23.
+- A beam spoiler giving at least 90% of the skin dose within about 20 cm: single studies.
+- Invented values, labelled as illustrative in the text: the 18 MV tissue-maximum ratios (from an exponential model), the output factor of 1.07 at 100 cm, the lung factors 1.10 and 1.12, and the dose fractions for each total skin position.
