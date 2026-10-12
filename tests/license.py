@@ -85,7 +85,7 @@ ok("ROECSG" in gi, ".gitignore does not keep the ROECSG guide out")
 
 # ---------------------------------------------------------------- the Pages workflow
 wf = (ROOT / ".github" / "workflows" / "pages.yml").read_text(encoding="utf-8")
-for needle in ("tags:", '"v*"', "workflow_dispatch", "actions/setup-python", "python build.py --release", "actions/upload-pages-artifact", "actions/deploy-pages", "index.html", ".nojekyll", "python tests/"):
+for needle in ("tags:", '"v*"', "workflow_dispatch", "actions/setup-python", "python build.py --release", "actions/upload-pages-artifact", "actions/deploy-pages", "index.html", ".nojekyll", "python tests/", "tests/numbers*.py"):
     ok(needle in wf, f"pages.yml lacks {needle}")
 ok((ROOT / ".nojekyll").read_text() == "", ".nojekyll must be empty")
 ok("RELEASING" in (ROOT / "README.md").read_text(encoding="utf-8"), "README.md does not point to RELEASING.md")

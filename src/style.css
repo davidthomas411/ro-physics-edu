@@ -536,3 +536,4 @@ table.kv{max-width:36em}
 .cite .ch{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
 .cite pre{margin:0;padding:8px 14px;background:var(--paper-2);border-radius:3px;font:inherit;font-size:15px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
 .about .tblwrap{max-height:none;border:0;border-radius:0}
+.guide .tblwrap{max-height:none}

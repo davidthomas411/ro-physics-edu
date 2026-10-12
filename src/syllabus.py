@@ -17,8 +17,6 @@ PLAN = [
     ("VI.A", "23", "Total body irradiation"), ("VI.A", "23", "Total skin electron therapy"), ("VI.A", "23", "Intraoperative radiotherapy"), ("VI.A", "27", "Radiopharmaceutical therapy dosimetry"), ("VI.A", "27", "Unsealed sources and patient release"),
     ("VI.B", "24", "Proton Bragg peak and spread-out peak"), ("VI.B", "24", "Passive scattering and pencil beam scanning"), ("VI.B", "24", "Proton range uncertainty and planning"), ("VI.B", "24", "Carbon ions, LET, and RBE"),
     ("VI.C", "22", "Stereotactic radiosurgery systems"), ("VI.C", "22", "Small-field dosimetry"), ("VI.C", "22", "SBRT planning and motion"), ("VI.C", "22", "Stereotactic QA and end-to-end tests"),
-    ("VII.A", "18", "QA program and TG-142 tests"), ("VII.A", "18", "Imaging system QA"), ("VII.A", "18", "MLC and IMRT QA"), ("VII.A", "18", "Treatment planning system QA"), ("VII.A", "18", "Commissioning and acceptance testing"),
-    ("VII.B", "25", "Dose limits and ALARA"), ("VII.B", "25", "Shielding design for linac vaults"), ("VII.B", "25", "Primary and secondary barriers"), ("VII.B", "25", "Neutron shielding above 10 MV"),
-    ("VII.B", "25", "Brachytherapy and unsealed-source protection"), ("VII.B", "25", "Survey instruments and regulations"),
+    ("VII.B", "25", "Dose limits and ALARA"), ("VII.B", "25", "Brachytherapy and unsealed-source protection"), ("VII.B", "25", "Survey instruments and regulations"),
     ("VII.C", "28", "Quality management and TG-100"), ("VII.C", "28", "Incident reporting and root cause analysis"), ("VII.C", "28", "Medical events and communication"),
 ]
