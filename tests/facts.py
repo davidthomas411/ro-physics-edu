@@ -7,7 +7,7 @@ from topics import TOPICS
 from facts import TITLES, HEADS
 from playwright.sync_api import sync_playwright
 plain = lambda s: re.sub(r"<[^>]+>", "", s).strip()
-BAN = re.compile(r"\b(you|your|we|let's|remember|know that|keep in mind|note that|that is why|this is why|that's why|what matters|simply|just|actually|basically|essentially|obviously|clearly|of course|worth|a lot of|a bit)\b", re.I)
+BAN = re.compile(r"\b(you|your|we|let's|remember|know that|keep in mind|note that|that is why|this is why|that's why|what matters|simply|just(?! culture)|actually|basically|essentially|obviously|clearly|of course|worth|a lot of|a bit)\b", re.I)
 ASK = re.compile(r"^(what|why|how|which|when|where|who|define|state|write|give|name|list|describe|explain|relate|distinguish|convert|repeat|is|are|does|do|can|a|an)\b", re.I)
 bad = []; n = 0
 def check(c, m):

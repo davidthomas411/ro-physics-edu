@@ -85,3 +85,15 @@ Values that were confirmed from several secondary sources are not listed. The nu
 - RBE of about 1.35 at the distal edge and 1.7 in the fall-off, and a range extension of a few millimetres: TG-256.
 - Carbon-ion RBE of 2 to 4, 430 MeV/u reaching about 30 cm, 6.6 T m, a synchrotron about 20 m across: HIT publications.
 - That helium ions rank between protons and carbon for lateral scatter was not checked.
+
+## Risk management and TG-100 (`risk-management`)
+
+The regulation text was checked only through search summaries and state rules that copy it.
+
+- 10 CFR 35.3045 deadlines and disclosure: a telephone report by the next calendar day, a written report in 15 days without the patient's name, the physician and the patient told within 24 hours: 35.3045(c) to (e).
+- Events caused by the patient are reported only when there is permanent functional damage: 35.3045(b).
+- Permanent seed implants have separate criteria: 35.3045(a)(2).
+- The contents of a written directive for HDR: 35.40(b).
+- The TG-100 scale endpoints (occurrence of 1 is about 1 in 10,000; severity of 1 is no effect) and that TG-100 advises against ranking by RPN alone: TG-100 Table II and its text.
+- The six-level ranking of quality-management tools, with protocols and standards above independent checks: TG-100, or the AAPM guide to it (the ranking follows the Institute for Safe Medication Practices).
+- The Joint Commission sentinel event for a dose more than 25% above the planned dose: its current Sentinel Event Policy.

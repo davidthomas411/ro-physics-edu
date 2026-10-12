@@ -9,7 +9,7 @@ from topics import TOPICS
 from facts import TITLES, HEADS
 
 strip = lambda s: re.sub(r"<[^>]+>", "", s)
-BAN = re.compile(r"\b(you|your|we|let's|remember|know that|keep in mind|note that|that is why|this is why|that's why|what matters|tells you|simply|just|actually|basically|"
+BAN = re.compile(r"\b(you|your|we|let's|remember|know that|keep in mind|note that|that is why|this is why|that's why|what matters|tells you|simply|just(?! culture)|actually|basically|"
                  r"essentially|obviously|clearly|of course|the one to|in other words|it turns out|worth|a lot of|a bit|cold|"
                  r"very|highly|slips?|wanders?|tuck(?:s|ed)? in|rough rule|common currency|ready-made|notice|observe|beware|imagine|be sure)\b", re.I)
 HEAD_BAD = re.compile(r"\b(is|are|has|have|was|were|too|why|what|how|which|when|you|your|we|matters|works)\b|[?!:]", re.I)
