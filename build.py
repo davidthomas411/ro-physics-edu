@@ -42,7 +42,8 @@ for n in sorted(order):                                   # study order: by doma
     for k, t in enumerate(order[n], 1):
         assert t["sub"] in subcodes, (t["id"], t["sub"])
         num = f"{n}.{k}"
-        secs = [dict(id=f'{t["id"]}-s{i}', n=f"{num}.{i}", t=b[1]) for i, b in enumerate((x for x in t["guide"] if x[0] == "h2"), 1)]
+        tk = t.get("take") or ()
+        secs = [dict(id=f'{t["id"]}-s{i}', n=f"{num}.{i}", t=b[1], mk=bool(i - 1 < len(tk) and tk[i - 1])) for i, b in enumerate((x for x in t["guide"] if x[0] == "h2"), 1)]
         topics.append(dict(id=t["id"], dom=t["domain"], sub=t["sub"], title=t["title"], ref=t["ref"], num=num, secs=secs,
                            html=blocks.render(t["guide"], FIGS, tid=t["id"], ncards=len(t["cards"]), problems=t.get("problems", []), inline=t.get("inline"), num=num, terms=t.get("terms") or (), take=t.get("take") or ())))
         for i, c in enumerate(list(t["cards"]) + list(t.get("problems", [])), 1):

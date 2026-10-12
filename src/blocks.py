@@ -198,7 +198,7 @@ def render(blocks, figs, tid=None, ncards=0, problems=(), inline=None, num="", t
         items = take[i] if i < len(take) else None
         if not items: return ""
         lis = "".join((f'<li><span class="tt">{_mark(x[0])}</span><figure class="av" data-av="{x[1]}"></figure></li>' if isinstance(x, tuple) else f"<li>{_mark(x)}</li>") for x in items)
-        return '<aside class="take"><div class="hd">Take away</div><ul>' + lis + "</ul></aside>"
+        return '<aside class="take"><div class="hd">Must know</div><ul>' + lis + "</ul></aside>"
     txt = lambda s: _mark(_wrap_terms(s, terms, done)) if terms else _mark(s)
     def flush(i):
         ns = [n for n in inline.get(i, []) if 1 <= n <= len(problems)]

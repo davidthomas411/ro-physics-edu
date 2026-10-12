@@ -42,7 +42,7 @@ with sync_playwright() as pw:
             check(box["x"] >= col["x"] - 1 and box["x"] + box["width"] <= col["x"] + col["width"] + 1, f"{w}px {scheme}: the figure fits the text column")
             check(pg.locator("figure.photo img").get_attribute("alt") == "A synthetic test image" and pg.locator("figure.photo img").get_attribute("loading") == "lazy", f"{w}px {scheme}: alt text and lazy loading")
             txt = pg.locator("figure.photo figcaption").inner_text()
-            check("Photo: Test Creator With A Long Name, CC BY 4.0" in txt and pg.locator("figure.photo figcaption a").count() == 2, f"{w}px {scheme}: caption and credit with two links")
+            check("Image: Test Creator With A Long Name, CC BY 4.0" in txt and pg.locator("figure.photo figcaption a").count() == 2, f"{w}px {scheme}: caption and credit with two links")
             check(errs == [], f"{w}px {scheme}: no console error {errs}")
             ctx.close()
     b.close()

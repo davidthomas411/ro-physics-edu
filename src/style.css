@@ -6,7 +6,7 @@
   --paper:#FFFFFF; --paper-2:#F6F6F6;
   --ink:#111111; --text:#1F1F1F; --muted:#5C5C5C;
   --rule:#E3E3E3; --line:#C9C9C9;
-  --accent:#0B5FD1; --danger:#B3261E;
+  --accent:#0B5FD1; --must:#B35C00; --danger:#B3261E;
   /* data only (plots, charts); never decoration */
   --plot-1:#1F4E79; --plot-2:#C0561F; --plot-3:#2E7D5B; --plot-4:#6B4C9A;
   color-scheme:light;
@@ -15,14 +15,14 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --paper:#121212; --paper-2:#1C1C1C; --ink:#F2F2F2; --text:#E6E6E6; --muted:#A8A8A8;
-    --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --danger:#FF8A7A;
+    --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --danger:#FF8A7A;
     --plot-1:#8FBCE6; --plot-2:#E9A271; --plot-3:#7FC8A4; --plot-4:#B79BE0;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --paper:#121212; --paper-2:#1C1C1C; --ink:#F2F2F2; --text:#E6E6E6; --muted:#A8A8A8;
-  --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --danger:#FF8A7A;
+  --rule:#303030; --line:#4A4A4A; --accent:#7FB3FF; --must:#F0A24B; --danger:#FF8A7A;
   --plot-1:#8FBCE6; --plot-2:#E9A271; --plot-3:#7FC8A4; --plot-4:#B79BE0;
   color-scheme:dark;
 }
@@ -152,7 +152,7 @@ sub,sup{line-height:0}
 .side .blk{margin:20px 0 4px}
 .side .blk .nm{font-weight:700;color:var(--ink)}
 .side a.wk{display:flex;gap:10px;padding:3px 0;color:var(--text);text-decoration:none;line-height:1.35;position:relative}
-.side a.wk .n{color:var(--muted);width:18px;flex:none;font-size:13px}
+.side a.wk .n{color:var(--muted);width:28px;flex:none;font-size:13px;font-variant-numeric:tabular-nums}
 .side a.wk:hover{text-decoration:underline}
 .side a.wk.on{color:var(--ink);font-weight:600}
 .side a.wk.on::before{content:"";position:absolute;left:-14px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--ink)}
@@ -350,8 +350,8 @@ nav.toc .sn{display:inline-block;min-width:3.4em}
 @media (hover:none){.kbd .kb{display:none}.kbd .sw{display:inline}}
 
 /* take away: the minimum to remember from a section */
-aside.take{margin:20px 0;padding:10px 16px 6px;border:2px solid var(--ink);border-radius:4px;background:var(--paper)}
-aside.take .hd{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
+aside.take{margin:20px 0;padding:10px 16px 6px;border:2px solid var(--must);border-left-width:6px;border-radius:4px;background:var(--paper-2)}
+aside.take .hd{font-size:13px;font-weight:700;color:var(--must);margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
 aside.take ul{margin:0;padding-left:20px}
 aside.take li{margin:6px 0;font-size:16px;line-height:1.5;font-weight:600;color:var(--ink)}
 
@@ -547,3 +547,19 @@ table.kv{max-width:36em}
 .cite pre{margin:0;padding:8px 14px;background:var(--paper-2);border-radius:3px;font:inherit;font-size:15px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
 .about .tblwrap{max-height:none;border:0;border-radius:0}
 .guide .tblwrap{max-height:none}
+
+/* sections of the open chapter in the menu: the one being read, the ones reached, and the ones with a Must know box */
+.side ol.secs{list-style:none;margin:2px 0 8px;padding:0}
+.side a.sec{display:flex;align-items:baseline;gap:8px;padding:2px 4px 2px 10px;margin-left:0;font-size:13.5px;line-height:1.35;color:var(--muted);border-left:2px solid var(--rule)}
+.side a.sec .sn{flex:none;min-width:34px;font-size:12px;font-variant-numeric:tabular-nums}
+.side a.sec .st{min-width:0}
+.side a.sec.rd{color:var(--accent);border-left-color:var(--accent)}
+.side a.sec.on{color:var(--ink);font-weight:600;border-left-color:var(--ink)}
+.side a.sec.on::before{display:none}
+.side a.sec .mk,aside.take .hd::before{flex:none;width:8px;height:8px;border-radius:2px;background:var(--must);align-self:center}
+aside.take .hd::before{content:"";display:inline-block;margin-right:8px;vertical-align:baseline}
+
+@media (max-width:900px){
+  /* phones have no side menu: the heading of the section being read stays under the top bar */
+  .guide h2[id]{position:sticky;top:62px;z-index:4;background:var(--paper);margin-top:26px;padding:6px 0;font-size:17px;border-bottom:1px solid var(--rule)}
+}

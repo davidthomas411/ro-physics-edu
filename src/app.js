@@ -132,7 +132,7 @@ function showCourse(){const s=courseStats(), p=100*s.total, pc=x=>Math.round(100
 // reading a chapter moves the linac: the furthest point reached counts toward the chapters read
 const chapterProg=id=>()=>{const mx=document.documentElement.scrollHeight-innerHeight, f=mx>0?Math.min(1,Math.max(0,scrollY/mx)):1, cur=readOf(id), nv=f>=0.995?1:Math.round(f*1000)/1000;
   if(nv>cur){reads[id]=nv; readDirty=true; clearTimeout(readTimer); readTimer=setTimeout(flushReads,600);} showCourse();};
-function refreshProgress(){ if(progFn) progFn(); }
+function refreshProgress(){ if(progFn) progFn(); spySide(); }
 function gantryAngle(g){const t=getComputedStyle(g).transform; if(!t||t==='none') return 0; const v=t.match(/matrix\(([^)]+)\)/)[1].split(',').map(Number); let a=Math.atan2(v[1],v[0])*180/Math.PI; if(Math.abs(a)>179.9){const an=g.getAnimations()[0]; a=an&&(an.currentTime%220000)>=110000?-180:180;} return Math.round(a*100)/100;}
 function bindDial(){
   if(dialTimer){clearInterval(dialTimer); dialTimer=null;}
@@ -1940,13 +1940,23 @@ function copyText(t){
 }
 
 // ---------------------------------------------------------------- navigation
+// the sections of the open chapter, under its entry in the menu: the one being read is bold, the ones already reached take the accent colour
+function secList(t){const nq=quizOf(t.id).length;
+  return `<ol class="secs" data-topic="${t.id}" aria-label="Sections of ${esc(t.title)}">`+(t.secs||[]).map(x=>`<li><a class="sec" href="#t/${t.id}" data-go="${esc(x.id)}" data-sec="${esc(x.id)}"><span class="sn">${esc(x.n)}</span><span class="st">${x.t}</span>${x.mk?'<span class="mk" title="Has a Must know box"></span>':''}</a></li>`).join('')+(nq?`<li><a class="sec" href="#t/${t.id}" data-go="${t.id}-q" data-sec="${t.id}-q"><span class="sn"></span><span class="st">Practice questions</span></a></li>`:'')+'</ol>';}
+function spySide(){const ol=document.querySelector('#side ol.secs'); if(!ol) return;
+  const links=[...ol.querySelectorAll('a.sec')], hs=links.map(a=>document.getElementById(a.dataset.sec)), f=readOf(ol.dataset.topic), mx=document.documentElement.scrollHeight-innerHeight;
+  let act=-1; hs.forEach((h,i)=>{if(h&&h.getBoundingClientRect().top<=110) act=i;});
+  let changed=false;
+  links.forEach((a,i)=>{const h=hs[i], pos=(h&&mx>0)?(h.getBoundingClientRect().top+scrollY)/mx:0, on=i===act, rd=!on&&(i<act||pos<=f);
+    if(a.classList.contains('on')!==on){a.classList.toggle('on',on); if(on) changed=true;} a.classList.toggle('rd',rd);});
+  if(changed){const sd=$('#side'), a=links[act], ar=a.getBoundingClientRect(), sr=sd.getBoundingClientRect(); if(ar.top<sr.top+70||ar.bottom>sr.bottom-30) sd.scrollTop+=ar.top-sr.top-sr.height/3;}}
 function sideHTML(cur,mode,openN){
   const cards=mode==='cards', qm=mode==='q', suf=cards?'/c':(qm?'/q':'');
   const out=[];
   if(cards) out.push(`<a class="top-link${cur==='mix'?' on':''}" href="#mix">Mix all topics</a>`);
   out.push('<nav class="acc" aria-label="Topics by domain">');
   for(const d of activeDoms()){const open=d.n===openN;
-    out.push(`<div class="blk${open?' open':''}" data-dom="${d.n}"><button type="button" class="nm" aria-expanded="${open}" aria-controls="sb-${d.n}"><span class="chev" aria-hidden="true"></span><span class="rn">${esc(d.roman)}.</span><span class="dnm">${esc(d.name)}</span></button><div class="items" id="sb-${d.n}"><div class="in">${topicsOfDom(d.n).map(t=>`<a class="wk${cur===('t/'+t.id+suf)?' on':''}" href="#t/${t.id}${suf}"><span class="n">${esc(t.num.split('.')[1])}</span><span>${esc(t.title)}</span></a>`).join('')}</div></div></div>`);}
+    out.push(`<div class="blk${open?' open':''}" data-dom="${d.n}"><button type="button" class="nm" aria-expanded="${open}" aria-controls="sb-${d.n}"><span class="chev" aria-hidden="true"></span><span class="rn">${esc(d.roman)}.</span><span class="dnm">${esc(d.name)}</span></button><div class="items" id="sb-${d.n}"><div class="in">${topicsOfDom(d.n).map(t=>`<a class="wk${cur===('t/'+t.id+suf)?' on':''}" href="#t/${t.id}${suf}"><span class="n">${esc(t.num)}</span><span>${esc(t.title)}</span></a>${(!suf&&cur==='t/'+t.id)?secList(t):''}`).join('')}</div></div></div>`);}
   out.push('</nav>'); return out.join('');
 }
 function jumpHTML(mode){

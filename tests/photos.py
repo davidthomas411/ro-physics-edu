@@ -109,7 +109,7 @@ with tempfile.TemporaryDirectory() as d:
     # the figure that PHOTO draws
     os.environ["PHOTOS_MANIFEST"] = str(d / "m.json"); run([entry()])
     h = photolib.figure_html("fixture")
-    for needle in ('<figure class="photo">', 'src="data:image/jpeg;base64,', 'loading="lazy"', 'decoding="async"', 'alt="A synthetic test image"', "<figcaption>", "Test caption.", "Photo: Test Creator, ", '>CC BY 4.0</a>', 'href="https://commons.wikimedia.org/wiki/File:Test.jpg"'):
+    for needle in ('<figure class="photo">', 'src="data:image/jpeg;base64,', 'loading="lazy"', 'decoding="async"', 'alt="A synthetic test image"', "<figcaption>", "Test caption.", "Image: Test Creator, ", '>CC BY 4.0</a>', 'href="https://commons.wikimedia.org/wiki/File:Test.jpg"'):
         check(needle in h, f"the photo figure lacks {needle}")
     try: photolib.get("nope"); check(False, "an unknown photo id must raise")
     except KeyError: pass

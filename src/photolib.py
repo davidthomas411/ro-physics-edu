@@ -25,6 +25,6 @@ def figure_html(pid):
     f = manifest_path().parent / e["file"]
     src = f"data:{MIME[f.suffix.lower()]};base64," + base64.b64encode(f.read_bytes()).decode()
     return (f'<figure class="photo"><img src="{src}" alt="{esc(e["alt"])}" loading="lazy" decoding="async">'
-            f'<figcaption><div class="cap">{e["caption"]}</div><div class="credit">Photo: {esc(e["creator"])}, '
+            f'<figcaption><div class="cap">{e["caption"]}</div><div class="credit">Image: {esc(e["creator"])}, '
             f'<a href="{esc(e["licence_url"])}" target="_blank" rel="noopener">{esc(e["licence"])}</a>. '
             f'<a href="{esc(e["source_url"])}" target="_blank" rel="noopener">Source</a></div></figcaption></figure>')
