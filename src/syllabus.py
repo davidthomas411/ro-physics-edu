@@ -14,6 +14,5 @@ PLAN = [
     ("V", "26", "Eye plaques and skin brachytherapy"), ("V", "25–26", "Brachytherapy radiation safety"),
     ("VI.A", "23", "Total body irradiation"), ("VI.A", "23", "Total skin electron therapy"), ("VI.A", "23", "Intraoperative radiotherapy"), ("VI.A", "27", "Radiopharmaceutical therapy dosimetry"), ("VI.A", "27", "Unsealed sources and patient release"),
     ("VI.B", "24", "Proton Bragg peak and spread-out peak"), ("VI.B", "24", "Passive scattering and pencil beam scanning"), ("VI.B", "24", "Proton range uncertainty and planning"), ("VI.B", "24", "Carbon ions, LET, and RBE"),
-    ("VII.B", "25", "Dose limits and ALARA"), ("VII.B", "25", "Brachytherapy and unsealed-source protection"), ("VII.B", "25", "Survey instruments and regulations"),
-    ("VII.C", "28", "Quality management and TG-100"), ("VII.C", "28", "Incident reporting and root cause analysis"), ("VII.C", "28", "Medical events and communication"),
+    ("VII.B", "25", "Brachytherapy and unsealed-source protection"), ("VII.C", "28", "Quality management and TG-100"), ("VII.C", "28", "Incident reporting and root cause analysis"), ("VII.C", "28", "Medical events and communication"),
 ]
