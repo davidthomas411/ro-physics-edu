@@ -57,10 +57,10 @@ def article(pmcid):
     year = (re.findall(r"<pub-date[^>]*>.*?<year>(\d{4})</year>", x, re.S) or [""])[0]
     jr = plain((re.findall(r"<journal-title>(.*?)</journal-title>", x, re.S) or [""])[0])
     figs = []
-    for fm in re.finditer(r"<fig id=\"([^\"]+)\".*?</fig>", x, re.S):
+    for fm in re.finditer(r"<fig [^>]*?\bid=\"([^\"]+)\".*?</fig>", x, re.S):
         b = fm.group(0)
         label = plain((re.findall(r"<label>(.*?)</label>", b, re.S) or [""])[0]); cap = plain((re.findall(r"<caption>(.*?)</caption>", b, re.S) or [""])[0])
-        path = (re.findall(r"cloudpmc-path ([^ ?]+)", b) or [""])[0]; w = (re.findall(r"original-width (\d+)", b) or ["0"])[0]
+        path = (re.findall(r"cloudpmc-path ([^ ?]+)", b) or re.findall(r"image-cloudpmc-urn urn:cdn:(blobs/[^ ?]+)", b) or [""])[0]; w = (re.findall(r"original-width (\d+)", b) or ["0"])[0]
         href = (re.findall(r'content-type="image"[^>]*xlink:href="([^"]+)"', b) or [""])[0]
         figs.append(dict(id=fm.group(1), label=label, caption=cap, path=path, width=int(w), file=href))
     return dict(pmcid=pmcid, licence=lic, licence_url=lic_url.replace("http://", "https://"), title=title, first=first, n_au=n_au, year=year, journal=jr, figs=figs)

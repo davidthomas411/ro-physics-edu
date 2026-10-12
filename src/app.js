@@ -2034,6 +2034,7 @@ $('#side').addEventListener('click',e=>{const bt=e.target.closest('.nm'); if(!bt
 window.addEventListener('scroll',()=>{ if(progMode!=='scroll'||progRaf) return; progRaf=requestAnimationFrame(()=>{progRaf=0; refreshProgress();}); },{passive:true});
 window.addEventListener('resize',()=>refreshProgress());
 window.addEventListener('pagehide',flushReads);
+{const br=document.querySelector('.brand'); if(br){setTimeout(()=>br.classList.add('open'),500); setTimeout(()=>br.classList.remove('open'),5600);}}      // the name spells out once per visit
 window.addEventListener('hashchange',route);
 $('#jump').addEventListener('change',e=>{location.hash=e.target.value;});
 route();
