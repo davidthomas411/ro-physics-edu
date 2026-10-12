@@ -1,6 +1,6 @@
-# Radiation oncology physics
+# PRISM
 
-Study site for radiation oncology residents preparing for the ABR Medical Physics for Radiation Oncology exam. Each topic is a short guide followed by flashcards. The site is one self-contained HTML file.
+PRISM (Physics Resources and Interactive Study Materials) is a study site for radiation oncology residents preparing for the ABR Medical Physics for Radiation Oncology exam. Each topic is a short guide followed by flashcards. The site is one self-contained HTML file.
 
 ## Release and citation
 
@@ -15,18 +15,18 @@ Cite the version of the site that you used. `CITATION.cff` holds the same inform
 
 APA
 
-> [authors missing] (2026). Radiation oncology physics study site (Version 1.0.0) [Computer software]. GitHub Pages. [URL missing]
+> [authors missing] (2026). PRISM: Physics Resources and Interactive Study Materials (Version 1.0.0) [Computer software]. GitHub Pages. [URL missing]
 
 AMA
 
-> [authors missing]. Radiation oncology physics study site. Version 1.0.0. GitHub Pages; 2026. [URL missing]
+> [authors missing]. PRISM: Physics Resources and Interactive Study Materials. Version 1.0.0. GitHub Pages; 2026. [URL missing]
 
 BibTeX
 
 ```bibtex
-@software{author2026radiation,
+@software{author2026prism,
   author    = {[authors missing]},
-  title     = {Radiation oncology physics study site},
+  title     = {PRISM: Physics Resources and Interactive Study Materials},
   year      = {2026},
   version   = {1.0.0},
   publisher = {GitHub Pages},

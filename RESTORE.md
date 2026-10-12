@@ -1,4 +1,4 @@
-# Radiation oncology physics study site: source archive
+# PRISM source archive
 
 Built with Python; the output is one self-contained HTML file (dist/ro-physics.html).
 

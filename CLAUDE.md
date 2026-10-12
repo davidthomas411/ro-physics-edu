@@ -1,4 +1,4 @@
-# Radiation oncology physics study site
+# PRISM: radiation oncology physics study site
 
 Single-file study guide for radiation oncology residents preparing for the ABR Medical Physics for Radiation Oncology exam (seven domains, 20 subsections; weights in `src/blueprint.py`). Each topic is a chapter (a guide page with worked examples and practice questions) with a deck of flash-card facts. There is no calendar: no months, years, or weekly sessions. The site is also released on GitHub Pages as part of an education research study; `RELEASING.md` describes the release.
 

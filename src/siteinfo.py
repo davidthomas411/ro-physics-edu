@@ -204,7 +204,7 @@ def build_about(cfg, build, counts, real_sources, photos=()):
     cites = citations(cfg, build["version"], (build["released"] or "")[:4])
     S = []
     def sec(id, title, blocks): S.append(dict(id=f"about-{id}", title=title, blocks=blocks))
-    sec("what", "What this is", [["p", f"A study site for radiation oncology residents who are preparing for the ABR Medical Physics for Radiation Oncology exam. It has {counts['chapters']} chapters, {counts['flash']:,} flash cards, and {counts['questions']:,} questions, arranged by the seven ABR content domains."]])
+    sec("what", "What this is", [["p", f"PRISM (Physics Resources and Interactive Study Materials) is a study site for radiation oncology residents who are preparing for the ABR Medical Physics for Radiation Oncology exam. It has {counts['chapters']} chapters, {counts['flash']:,} flash cards, and {counts['questions']:,} questions, arranged by the seven ABR content domains."]])
     A = cfg.get("authors") or []
     people = ["ul", [f"<b>{esc(a.get('given_names', ''))} {esc(a.get('family_names', ''))}</b>, {esc(a.get('affiliation', ''))}. {esc(a.get('role', ''))}." + (f" ORCID {link('https://orcid.org/' + a['orcid'], a['orcid'])}." if a.get("orcid") else "") for a in A]] if A else ["p", miss("author names")]
     blocks = [["h3", "Authors"], people]
