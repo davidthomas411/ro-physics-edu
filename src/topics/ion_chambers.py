@@ -107,8 +107,6 @@ TOPIC = dict(
     cards=[
         F("Farmer-type chamber", "A cylindrical chamber of about 0.6 cm³ with a graphite or plastic wall and an aluminium or graphite central electrode, used for reference dosimetry of megavoltage beams."),
         F("Parallel-plate chamber", "Plates 1 to 2 mm apart, a guard ring, and a thin entrance window. Used for low-energy electron beams, the build-up region, and surface dose."),
-        F("Well-type chamber", "A re-entrant chamber that nearly surrounds the source, used to measure the air kerma strength of brachytherapy sources."),
-        F("Free-air chamber", "Collecting plates in open air, with guard electrodes and a diaphragm that defines the beam. The primary standard of air kerma for x-rays of about 10 to 300 kV."),
         F("Vented and sealed chambers", "A vented chamber needs P<sub>TP</sub>, because the mass of air in it follows the temperature and pressure. A sealed chamber needs none."),
         F("Saturation region", "The plateau of collected charge against voltage, where nearly every ion is collected. Chambers run there, at a few hundred volts."),
         F("Initial and general recombination", ["Initial: ions of one track. Independent of dose rate, larger at high LET.", "General: ions of different tracks. Rises with the dose per pulse or the dose rate."]),
@@ -116,7 +114,6 @@ TOPIC = dict(
         F("Size of P<sub>ion</sub>", "Usually 1.002 to 1.02 in linac beams, highest for a high dose per pulse, and nearer 1 in Co-60. Above 1.05 another chamber is needed."),
         F("Polarity correction", ["P<sub>pol</sub> = |(M<sup>+</sup> − M<sup>−</sup>) / (2M)|, with signed readings and M at the routine polarity, the one used at calibration.", "Largest for parallel-plate and small-volume chambers, electron beams, and shallow depths."]),
         F("Leakage limit", "Below 0.1% of the reading for a reference-class chamber (2014 TG-51 addendum), measured with the bias on and the beam off."),
-        F("Triaxial cable", "The signal runs on the central conductor inside a guard at the collector potential, so current leaking through the insulation misses the collector."),
         F("Electrometer correction", "P<sub>elec</sub> comes from an ADCL calibration of the electrometer. It is 1.000 when chamber and electrometer are calibrated together."),
         F("Temperature and pressure correction", "P<sub>TP</sub> = [(273.2 + T)/295.2] × (101.33/P), with T in °C and P the local pressure in kPa, not reduced to sea level."),
         F("Pressure units", f"1 atm = 101.325 kPa = 760 mmHg = 1013.25 hPa (mbar) = {atm_inhg:.2f} inHg."),
@@ -197,14 +194,8 @@ PROBLEMS = [
         "General recombination grows with the density of ions, so with the dose per pulse, and a higher voltage clears the ions faster. Beams with the same average dose rate can have different doses per pulse, and the loss along dense α tracks is initial recombination.", lvl="Moderate"),
     PRN(STEM("A Farmer chamber is read in a 6 MV beam at two voltages, with the same monitor units.", [f"M<sub>H</sub> = {q_mh:.3f} nC at {q_vh} V", f"M<sub>L</sub> = {q_ml:.3f} nC at {q_vl} V"], f"What is [[P<sub>ion</sub>]] at {q_vh} V?"), q_pion, [q_pion_inv, q_pion_cont, q_pion_low], "{:.4f}",
         f"For a pulsed beam P<sub>ion</sub> = (1 − 2)/({q_mh / q_ml:.5f} − 2) = {q_pion:.4f}. The continuous-beam expression gives {q_pion_cont:.4f} and applies to Co-60 only, inverting the voltage ratio gives {q_pion_inv:.4f}, below 1, and {q_pion_low:.4f} is the correction at {q_vl} V.", lvl="Moderate"),
-    PRN(STEM("A Farmer chamber is read in a Co-60 beam at two voltages, with the same exposure time.", [f"M<sub>H</sub> = {c_mh:.3f} nC at {c_vh} V", f"M<sub>L</sub> = {c_ml:.3f} nC at {c_vl} V"], f"What is [[P<sub>ion</sub>]] at {c_vh} V?"), c_pion, [c_pion_pulsed, c_ratio, c_pion_low], "{:.4f}",
-        f"Co-60 is a continuous beam, so the voltage ratio is squared: P<sub>ion</sub> = (1 − 9)/({c_ratio:.5f} − 9) = {c_pion:.4f}. The pulsed expression gives {c_pion_pulsed:.4f}, the ratio of the readings is {c_ratio:.4f}, and {c_pion_low:.4f} is the correction at {c_vl} V.", lvl="Moderate"),
 
     # polarity, electrometer, and cables
-    PR(STEM("A thimble chamber is connected to its electrometer by a triaxial cable. The middle conductor of the cable is held at the potential of the collector.", [], "What does this guard conductor do?"),
-       "It intercepts leakage current through the insulation",
-       ["It carries the collected charge to the electrometer", "It shields the signal conductor from scattered photons", "It discharges the chamber between two readings"],
-       "No current flows between two conductors at the same potential, so current through the insulation ends on the guard and not on the signal conductor. The central conductor carries the signal.", lvl="Easy"),
     PR(STEM("Readings are taken at both polarities in four set-ups.", [], "In which set-up is the polarity effect expected to be largest?"),
        "A parallel-plate chamber at 0.5 cm depth in a 6 MeV electron beam",
        ["A Farmer chamber at 10 cm depth in a 10 MV photon beam", "A Farmer chamber with a build-up cap in a Co-60 beam", "A well chamber holding an HDR Ir-192 source"],
@@ -223,14 +214,8 @@ PROBLEMS = [
     # temperature, pressure, and the corrected reading
     TYPED(STEM(f"A barometer in the treatment room reads {t_mm:.0f} mmHg.", [], "What is the pressure in [[kPa]]?"), t_kpa, 0.003, "kPa",
           f"760 mmHg = 101.325 kPa, so 1 mmHg = {MMHG:.4f} kPa and {t_mm:.0f} mmHg = {t_kpa:.2f} kPa.", lvl="Easy"),
-    PRN(STEM("A Farmer chamber has reached the temperature of the water around it. The barometer in the room reads in inches of mercury.", [f"water temperature = {h_t:.1f} °C", f"pressure = {h_in:.2f} inHg"], "What is [[P<sub>TP</sub>]]?"), h_ptp, [h_not, h_celsius, h_inv], "{:.4f}",
-        f"1 inHg = 25.4 mmHg = {INHG:.4f} kPa, so P = {h_kpa:.2f} kPa. P<sub>TP</sub> = ({273.2 + h_t:.1f}/295.2) × (101.33/{h_kpa:.2f}) = {h_ptp:.4f}. Leaving out the temperature term gives {h_not:.4f}, the Celsius temperatures without 273.2 give {h_celsius:.4f}, and the inverted factor is {h_inv:.4f}.", lvl="Moderate"),
     TYPED(STEM("A chamber is read in a water phantom.", [f"water temperature = {y_t:.1f} °C", f"pressure = {y_hpa:.0f} hPa"], "What is [[P<sub>TP</sub>]]?"), y_ptp, 0.002, "(ratio)",
           f"{y_hpa:.0f} hPa = {y_hpa / 10:.1f} kPa. P<sub>TP</sub> = ({273.2 + y_t:.1f}/295.2) × (101.33/{y_hpa / 10:.1f}) = {y_ptp:.4f}. Leaving out the temperature term gives {P_REF / (y_hpa / 10):.4f}.", lvl="Moderate"),
-    SORT(STEM("Four factors convert the raw reading of a chamber to the corrected reading M.", [], "What does each factor correct?"),
-         ["P<sub>ion</sub>", "P<sub>TP</sub>", "P<sub>pol</sub>", "P<sub>elec</sub>"],
-         [("Ions that recombine before they reach an electrode", 0), ("A mass of air in the cavity that differs from the calibration", 1), ("Readings that differ when the bias is reversed", 2), ("A display that differs from the true charge", 3)],
-         "P<sub>ion</sub> restores full collection, P<sub>TP</sub> scales the air in the cavity to 22 °C and 101.33 kPa, P<sub>pol</sub> corrects the reading to the mean of the two polarities, and P<sub>elec</sub> is the calibration of the electrometer.", lvl="Easy", mode="match", cap=1),
 
     # scenarios and the full correction (practice set)
     PR(STEM("At the start of a morning output check, a chamber is connected and six consecutive readings of 100 MU are taken in a water phantom.", ["readings (nC) = " + ", ".join(f"{x:.2f}" for x in READ)], "What is the most likely cause of the low early readings?"),
@@ -250,7 +235,7 @@ PROBLEMS = [
         f"P = {m_mm:.0f} × 101.325/760 = {m_kpa:.2f} kPa, and P<sub>TP</sub> = ({273.2 + m_t:.1f}/295.2) × (101.33/{m_kpa:.2f}) = {m_ptp:.4f}. M = {m_raw:.3f} × {m_ion:.4f} × {m_ptp:.4f} × {m_elec:.4f} × {m_pol:.4f} = {m_corr:.2f} nC. Leaving out P<sub>TP</sub> gives {m_notp:.2f}, dividing by it gives {m_divtp:.2f}, and leaving out P<sub>ion</sub> gives {m_noion:.2f} nC.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 7, 8], 2: [9, 10, 11, 12, 13], 3: [14, 15, 16, 17]}
+INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 7], 2: [8, 9, 10, 11], 3: [12, 13]}
 
 TERMS = ["guard electrode", "vented", "saturation region", "initial recombination", "general recombination", "polarity effect", "leakage", "triaxial cable"]
 

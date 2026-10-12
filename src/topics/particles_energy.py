@@ -51,10 +51,8 @@ TOPIC = dict(
         C("How many MeV is 1 atomic mass unit?", "931.5 MeV."),
         C("How are total energy, kinetic energy, and rest energy related?", "E<sub>total</sub> = KE + m₀c² = γm₀c², so KE = (γ − 1)m₀c²."),
         C("When is KE = ½mv² valid?", "When KE is small compared with the rest energy (under about 10%). For electrons that is below ~50 keV, so therapy electrons need the relativistic expressions."),
-        C("How fast is a 6 MeV electron?", f"About {b6:.4f}c (γ = {g6:.1f}).", w=[f"γ = 1 + 6/0.511 = {g6:.2f}", "β = √(1 − 1/γ²)"]),
         C("What happens when a positron at rest meets an electron at rest?", "They annihilate into two 511 keV photons emitted in opposite directions."),
         C("What is the threshold photon energy for pair production?", "1.022 MeV (2m₀c²). Any excess is shared as kinetic energy of the electron and positron."),
-        C("A 3.0 MeV photon creates an electron–positron pair. What is their combined kinetic energy?", "3.0 − 1.022 = 1.978 MeV."),
         C("Which is moving faster, a 20 MeV electron or a 150 MeV proton?", f"The electron: {calc.beta_ke(20, calc.ME):.5f}c against {calc.beta_ke(150, calc.MP):.2f}c. Electrons saturate near c; protons do not at therapy energies.", fig="beta_vs_ke"),
     ],
 )
@@ -71,9 +69,6 @@ PROBLEMS = [
     PRN("How much <f>energy</f> is equivalent to a mass of <v>0.0020 u</v>?", 0.0020 * u_mev, [0.0020 * u_mev / 10, 0.0020 * u_mev * 10, 0.0020 * u_mev * 100], "{:.3g} MeV",
         f"E = 0.0020 u × 931.5 MeV/u = {0.0020 * u_mev:.2f} MeV.", lvl="Moderate",
         calc=CALC("MeV", [TILE("m", 0.0020, "u", disp="0.0020"), CONV("u", "MeV", 931.5), TILE("mₑc²", 0.511, "MeV", id="mec2"), TILE("c", 3.00e8, "m/s", disp="3.00 × 10⁸")], solution=["m", "×", "u→MeV"])),
-    PRN("What is the <f>speed</f> of an electron with <v>1.0 MeV</v> of kinetic energy?", b1, [0.51, 0.76, 0.999], "{:.3f}c",
-        f"γ = 1 + 1.0/0.511 = {calc.gamma_ke(1.0, calc.ME):.3f}, so β = √(1 − 1/γ²) = {b1:.3f}. The classical formula gives {cl1:.2f}c, which exceeds c.", lvl="Moderate",
-        calc=CALC("", [TILE("KE", 1.0, "MeV", disp="1.0"), TILE("m₀c²", 0.511, "MeV", id="m0"), NUM(1), NUM(2)], ops=("×", "÷", "+", "−", "(", ")", "²", "√("), solution=["√(", "1", "−", "1", "÷", "(", "1", "+", "KE", "÷", "m0", ")", "²", ")"])),
     PR("Using ½mv² for a 6 MeV electron gives a speed greater than c. Why is the formula wrong here?", "The kinetic energy is far larger than 10% of the rest energy, so relativistic expressions are needed",
        ["The electron is charged, so its kinetic energy is not ½mv²", "6 MeV is too low an energy for the classical formula", "The electron loses mass at high speed"],
        "KE = 6 MeV is about twelve times the 0.511 MeV rest energy. The classical formula assumes KE ≪ m₀c².", lvl="Moderate"),
@@ -83,15 +78,9 @@ PROBLEMS = [
         "KE<sub>pair</sub> = hν − 2m₀c² = 3.000 − 1.022 = 1.978 MeV (the nucleus takes a negligible recoil).", lvl="Moderate"),
     PRN("What is the <f>total energy</f>, including rest energy, of an electron with <v>2.0 MeV</v> of kinetic energy?", 2.0 + calc.ME, [2.0 - calc.ME, 2.0, 2.0 + 2 * calc.ME], "{:.3f} MeV",
         "E<sub>total</sub> = KE + m₀c² = 2.000 + 0.511 = 2.511 MeV.", lvl="Moderate"),
-    PRN("A therapy proton has <v>100 MeV</v> of kinetic energy. What is its <f>speed</f>?", bp100, [0.143, clp100, 0.70], "{:.2f}c",
-        f"γ = 1 + 100/938.3 = {gp100:.4f}, so β = √(1 − 1/γ²) = {bp100:.4f}. The classical value {clp100:.2f}c is about 8% too high.", lvl="Challenging"),
-    PRN("An electron and a positron, each with <v>1.00 MeV</v> of kinetic energy, annihilate in flight into two photons. What is the <f>total photon energy</f>?", 2 * (1.0 + calc.ME), [2 * calc.ME, 2.0, 1.0 + calc.ME], "{:.3f} MeV",
-        "Total energy is conserved: each particle has KE + m₀c² = 1.511 MeV, so the photons carry 2 × 1.511 = 3.022 MeV together.", lvl="Challenging"),
-    PRN("What <f>photon energy</f> creates a pair in which the electron and the positron each receive <v>0.50 MeV</v> of kinetic energy?", 2 * calc.ME + 1.0, [1.0, calc.ME * 2 + 0.5, 3.044], "{:.3f} MeV",
-        "hν = 2m₀c² + KE<sub>e⁻</sub> + KE<sub>e⁺</sub> = 1.022 + 0.50 + 0.50 = 2.022 MeV.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 4, 5], 1: [6, 7]}
+INLINE = {0: [1, 4, 5], 1: [6]}
 
 TERMS = ['rest energies', 'positron']
 

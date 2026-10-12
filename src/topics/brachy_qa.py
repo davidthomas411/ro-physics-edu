@@ -152,7 +152,6 @@ TOPIC = dict(
         F("Sweet spot of a well chamber", "The position along the axis of the well with the largest response, found by stepping the source through the insert. The coefficient applies there, and small position errors change the reading least."),
         F("Well-chamber calibration coefficient", "Specific to the source model and the insert, set by an ADCL with a source traceable to NIST. The NRC requires a calibration within the previous 2 years."),
         F("Source strength against the certificate", f"Both are decayed to the same time. Above {AIM:g}% (MPPG 13.a, GEC-ESTRO) the difference is investigated; above {NRC_OUT:g}%, the NRC requirement for HDR output, the source is held from use."),
-        F("Seed assay for a permanent implant", f"{SEED_PCT}% of the seeds or {SEED_MIN} seeds, whichever is greater, with the sample mean within {SEED_MEAN:g}% of the vendor's value (AAPM working group, 2008)."),
         F("Dwell time and source decay", f"Dwell times scale as 1/S<sub>K</sub>. Ir-192 is at {100 * f90:.0f}% of its strength after 90 d and {100 * f120:.0f}% after 120 d, so HDR sources are replaced every 3 to 4 months."),
         F("Daily checks of an HDR unit", "Door interlock, warning lights, room monitor, viewing and intercom, emergency kit, timer, clock, and the decayed source strength in the console (NRC)."),
         F("Checks at each new HDR source", ["Output, and source position within 1 mm", "Retraction on the backup battery", "Transfer tube and applicator lengths", "Timer accuracy and linearity", "Function of tubes, applicators, and connections (NRC)"]),
@@ -186,8 +185,6 @@ PROBLEMS = [
     PR(STEM("A new HDR source is measured at the sweet spot, and the certificate is decayed to the time of the measurement.", [f"measured S<sub>K</sub> = {m6:,.0f} U", f"certificate, decayed = {c6:,.0f} U", "repeat readings = within 0.2% of each other"], "What is the next step?"),
        "Hold the source from clinical use until the cause is found", ["Treat with the certificate value, because it is traceable", "Treat with the measured value and report the difference later", "Treat with the mean of the two values until the next source"],
        f"The difference is {sgn(pct6)}%, beyond both the {AIM:g}% level for investigation and the {NRC_OUT:g}% NRC requirement, and the repeat readings rule out noise. Until the setup, insert, corrections, decay, coefficient, or certificate is found to be at fault, neither value can be trusted, and treating with either one or their mean risks a dose error of up to 6%.", lvl="Challenging"),
-    PRN(STEM("An order of seeds arrives for a permanent prostate implant.", [f"number of loose seeds = {n7}"], "What [[minimum number of seeds]] does the 2008 AAPM working group recommend assaying?"), seeds7, [0.10 * n7, 0.05 * n7, float(n7)], "{:.0f} seeds",
-        f"10% of {n7} is {0.10 * n7:.0f}, fewer than 10, so {seeds7} seeds are assayed. 10% alone gives {0.10 * n7:.0f}, 5% gives {0.05 * n7:.0f}, and assaying all {n7} is allowed but is more than the minimum.", lvl="Easy"),
     PRN(STEM("An HDR plan was made with a new Ir-192 source and is repeated later.", [f"S<sub>K</sub> when the plan was made = {s8:,.0f} U", f"total dwell time then = {t8:.0f} s", f"time since then = {days8:.0f} d", "T<sub>1/2</sub> = 73.8 d"], "What [[total dwell time]] delivers the same plan now?"),
         t8_now, [w8_lin, w8_inv, w8_exp], "{:.0f} s",
         f"S<sub>K</sub> falls to ½<sup>{days8:.0f}/73.8</sup> = {f8:.4f} of its value, and the time scales as 1/S<sub>K</sub>: {t8:.0f} / {f8:.4f} = {t8_now:.0f} s. A straight-line decay gives {w8_lin:.0f} s, multiplying by the fraction instead of dividing gives {w8_inv:.0f} s, and e<sup>t/T</sup> treats the half-life as a mean life ({w8_exp:.0f} s).", lvl="Moderate"),
@@ -229,7 +226,7 @@ PROBLEMS = [
           f"The mean life is 1.44 × 59.4 d × 24 h/d = {tau20:,.0f} h, so D = {r20:g} × {tau20:,.0f} × {E_NRC:g} = {d20:.2f} mSv: below {REL:g} mSv, so the patient can be released, and above {INSTR:g} mSv, so instructions are required. Using the half-life in place of the mean life gives {w20:.2f} mSv.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 4, 7], 1: [9, 10, 11], 2: [13, 14, 15]}            # questions on the last section, and the rest, form the practice set
+INLINE = {0: [1, 2, 4], 1: [8, 9, 10], 2: [12, 13, 14]}
 
 TERMS = ["calibration coefficient", "sweet spot", "autoradiograph", "emergency container", "leak test"]
 

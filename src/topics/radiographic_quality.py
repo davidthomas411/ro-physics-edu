@@ -56,9 +56,7 @@ TOPIC = dict(
         F("Contrast at megavoltage energy", "Little Z-dependence in the mass attenuation coefficient, so contrast comes from density alone."),
         F("Resolution and source size", "The edge of a high-contrast object blurs by s·b/a, with s the source size, a the source to object distance, and b the object to detector distance."),
         F("Magnification", "m = (a + b)/a = 1 + b/a. It rises as the object moves away from the detector."),
-        F("Magnification and resolution trade-off", "Moving the object away from the detector magnifies it and worsens the resolution."),
         F("EPID layers", "A copper conversion plate (Compton electrons), a scintillator such as gadolinium oxysulfide, and an amorphous-silicon photodiode array."),
-        F("EPID readout", "Gate lines select a row and data lines carry the charge from each pixel. The image is read row by row."),
         F("Thickness trade-off in a detector", "A thicker conversion layer or scintillator detects more photons but spreads the light and blurs the image. The modulation transfer function quantifies it."),
         F("Noise in x-ray imaging", "Random fluctuation in the number of photons per pixel, a Poisson process: for a mean N the noise is √N."),
         F("Signal-to-noise ratio", "SNR = N/√N = √N. Four times the photons doubles the SNR."),
@@ -79,14 +77,10 @@ PROBLEMS = [
         f"m = (a + b)/a = 100 / 90 = {m_a:.2f}. Inverting the ratio gives {90 / 100:.2f}, and dividing by b instead of a gives {1 + 90 / 10:.2f}.", lvl="Moderate"),
     PRN(STEM("A 1.0 mm source. An object lies 90 cm from the source and 10 cm from the detector.", [], "What is the [[blur]] of its edge on the detector?"), b_a, [1.0 * 90 / 10, 1.0 * 10 / 100, 1.0], "{:.2f} mm",
         f"Blur = s·b/a = 1.0 × 10 / 90 = {b_a:.2f} mm. Using a/b gives {1.0 * 90 / 10:.0f} mm, and using the source-to-detector distance for a gives {1.0 * 10 / 100:.2f} mm.", lvl="Moderate"),
-    PRN(STEM("10 cm of water, compared with 8 cm of water and 2 cm of cortical bone.", ["50 keV: μ/ρ = 0.2269 cm²/g for water and 0.4242 cm²/g for bone", "bone density = 1.92 g/cm³"], "What is the [[ratio of the transmitted fluences]]?"), r50, [r30, 0.4242 / 0.2269, 1 + 2 * (0.4242 * 1.92 - 0.2269)], "{:.2f}",
-        f"μ<sub>bone</sub> = 0.4242 × 1.92 = 0.8145 cm<sup>−1</sup>. The exponent is (0.8145 − 0.2269) × 2 = 1.175, and the ratio is e<sup>1.175</sup> = {r50:.2f}. The ratio of the mass coefficients, 1.87, ignores the density and the thickness.", lvl="Moderate"),
     PR("The dominant source of noise in x-ray imaging is:", "random fluctuation in the number of photons registered in each pixel", ["scatter in the patient", "the size of the focal spot", "the thickness of the scintillator"],
        "Photon counting follows the Poisson distribution, in which the noise is √N for a mean of N.", lvl="Moderate"),
     PRN(STEM("A pixel registers an average of 10,000 photons.", [], "What is the [[SNR]]?"), snr(10000), [10000.0, 10000 / 100 / 100, math.sqrt(100)], "{:.0f}",
         f"SNR = N / √N = √N = {snr(10000):.0f}. The signal is 10,000 and the noise is 100.", lvl="Moderate"),
-    PRN(STEM("The mAs of a radiograph is increased fourfold, with everything else unchanged.", [], "By what factor does the [[SNR]] change?"), snr(4), [4.0, 0.5, 16.0], "{:.0f}",
-        "The number of photons rises fourfold, and the SNR rises as the square root of the number of photons: √4 = 2.", lvl="Moderate"),
     PR("Scatter lowers the quality of a radiograph because the scattered photons:", "add signal that carries no information about the path through the patient", ["reduce the signal", "improve the contrast", "increase the resolution"],
        "They raise the signal, but they did not travel along a straight line from the source, so they add noise and lower the contrast.", lvl="Moderate"),
     PR("Which technique gives the lowest exposure at the skin of the patient?", "60 kVp, 16 mAs", ["80 kVp, 10 mAs", "100 kVp, 8 mAs", "120 kVp, 5 mAs"],
@@ -108,22 +102,15 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Does each change improve, worsen, or leave unchanged the sharpness of a radiograph?", ["Improves sharpness", "Worsens sharpness", "No change"],
          [("The object is moved closer to the detector", 0), ("A larger focal spot", 1), ("Smaller detector pixels", 0), ("A thicker scintillator", 1), ("A higher mA", 2), ("The object is moved closer to the source", 1)],
          "Blur grows with the source size and with the object to detector distance. Smaller pixels sample finely, and a thicker scintillator spreads the light. A higher mA changes the noise and not the sharpness.", lvl="Moderate"),
-    TYPED(STEM("The source-to-detector distance is 100 cm, and an object lies 25 cm from the detector.", [], "What is the [[magnification]]?"), mag(75, 25), 0.01, "(ratio)",
-          f"a = 75 cm, so m = (75 + 25) / 75 = {mag(75, 25):.2f}.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the magnification against the distance of the object from the detector, for a source-to-detector distance of 100 cm.", [], "Tap the [[object-to-detector distance at which the magnification is 1.25]]."),
-         FS(x=dict(min=0, max=40, ticks=[0, 10, 20, 30, 40], label="Object to detector distance (cm)"), y=dict(min=1.0, max=1.7, ticks=[1.0, 1.2, 1.4, 1.6], label="Magnification"), series=[dict(pts=PTS(lambda b: 100 / (100 - b), 0, 40), color="plot-1")], xunit=" cm", xdec=1, xname="Distance", label="Magnification against object to detector distance"),
-         [(17.0, 23.0)], "m = 100 / (100 − b) = 1.25 gives b = 20 cm. The level 1.25 is not marked on the axis.", lvl="Challenging", note="about 20 cm"),
 ]
-INLINE = {0: [1, 2, 6], 1: [3, 4, _n0 + 1, _n0 + 3], 2: [7, 8, 11, 12], 3: [10, 13]}
+INLINE = {0: [1, 2, 13], 1: [3, 4, 12], 2: [6, 7, 9, 10, 17], 3: [8, 11]}
 
 
 # ---------------------------------------------------------------- exposure factors and the interactions behind the contrast
-_n1 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Which interaction accounts for each feature of a radiograph made at diagnostic energy?", ["Photoelectric effect", "Compton scattering"],
          [("The attenuation per gram rises steeply with the atomic number", 0), ("Bone shows more contrast against soft tissue at a lower kVp", 0), ("The photon is absorbed and all of its energy goes to one electron", 0),
@@ -142,5 +129,3 @@ PROBLEMS += [
     PRN(STEM("A screen-film radiograph at a source-to-detector distance of 100 cm with 20 mAs gives the right optical density. The distance is increased to 140 cm, with the same kVp and film.", [], "What [[mAs]] keeps the optical density?"), mas_far, [20 * 100 / 140, 20.0, 20 * 140 / 100], "{:.1f} mAs",
         f"The exposure at the film falls with the square of the distance, by (100 / 140)² = {(100 / 140) ** 2:.2f}, so the mAs has to rise by (140 / 100)² = {(140 / 100) ** 2:.2f}: 20 × {(140 / 100) ** 2:.2f} = {mas_far:.1f} mAs. Leaving the mAs unchanged gives 20.0, scaling with the distance alone gives {20 * 140 / 100:.1f}, and inverting the ratio gives {20 * 100 / 140:.1f}.", lvl="Moderate"),
 ]
-INLINE[0].append(_n1 + 1)
-INLINE[2].append(_n1 + 5)

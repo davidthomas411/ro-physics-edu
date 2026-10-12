@@ -107,7 +107,6 @@ TOPIC = dict(
         F("TBI monitor units for opposed fields", "MU per field = (D/2) / [O<sub>SPD</sub> × TMR(t/2) × OAR], prescribed at the midline at the umbilicus, with O<sub>SPD</sub> ≈ O<sub>100</sub> (100/SPD)²."),
         F("TMR in TBI calculations", "The TMR does not depend on the source distance, so it applies at 4 m. A PDD from tables at SSD 100 cm does not."),
         F("Thickness and dose uniformity in TBI", "Thinner sites (head, neck, legs) receive a higher midline dose. Compensators bring every site within ±10% of the prescription (ACR practice parameter)."),
-        F("Total marrow irradiation", "Helical tomotherapy or VMAT aimed at the bone marrow, sparing the lungs, the liver, and other organs."),
         F("TSET indication and target", "Mycosis fungoides, a cutaneous T-cell lymphoma, over much of the skin. The target is the whole skin to a depth of a few millimetres."),
         F("TSET beam energy", "4 to 10 MeV at the accelerator window and about 3 to 7 MeV at the patient, after the scatter plate and the air (AAPM Report 23)."),
         F("Stanford six-dual-field technique", "Standing at 3 to 4 m, six positions 60° apart, two fields per position angled about 15° to 20° up and down, three positions a day in a two-day cycle."),
@@ -167,9 +166,6 @@ PROBLEMS = [
         "Lung injury rises with the lung dose and the dose rate and falls with fractionation. Blocks lower the lung dose, and a lower dose rate spares the lung. The spoiler changes only the skin dose, and one large fraction or a higher rate raises the risk.", lvl="Moderate"),
 
     # ---- TBI dosimetry and monitor units (6-10)
-    PRN(STEM("The output for the TBI collimator setting is measured at the standard distance.", [f"O<sub>100</sub> = {O100:.2f} cGy/MU at d<sub>max</sub>, point 100 cm from the source", "d<sub>max</sub> = 3 cm"], "By the inverse square law, what is the [[dose per MU at d<sub>max</sub>]] when that point lies 400 cm from the source?"),
-        q_is, [q_is_lin, q_is_inv, q_is_dmax], lambda v: f"{v:.3g} cGy/MU",
-        f"O = {O100:.2f} × (100 / 400)² = {q_is:.4f} cGy/MU. The ratio not squared gives {q_is_lin:.3g}, the ratio inverted gives {q_is_inv:.3g}, and adding d<sub>max</sub> to the reference distance, (103 / 400)², gives {q_is_dmax:.3g}, a different calibration convention.", lvl="Moderate"),
     PRN(STEM("A bilateral TBI, prescribed at the midline at the umbilicus.", [f"dose per fraction = {D_FX:.0f} cGy, two fields of equal weight", f"separation at the umbilicus = {T2:.0f} cm", f"O<sub>100</sub> = {O100:.2f} cGy/MU at d<sub>max</sub>, point 100 cm from the source", f"SPD = {SPD2:.0f} cm", f"TMR({T2 / 2:.0f} cm) = {tmr2:.3f}"], "How many [[monitor units per field]] are needed?"),
         q_mu, [q_mu_nohalf, q_mu_lin, q_mu_notmr], "{:.0f} MU",
         f"Dose per MU at the midline = {O100:.2f} × (100 / {SPD2:.0f})² × {tmr2:.3f} = {dpm2:.5f} cGy/MU, and each field gives {D_FX / 2:.0f} cGy: {D_FX / 2:.0f} / {dpm2:.5f} = {q_mu:.0f} MU. The full {D_FX:.0f} cGy from each field gives {q_mu_nohalf:.0f}, the distance ratio not squared gives {q_mu_lin:.0f}, and leaving out the TMR gives {q_mu_notmr:.0f}.", lvl="Moderate"),
@@ -193,19 +189,11 @@ PROBLEMS = [
     PRN(STEM("A TSET course is given in two-day cycles.", [f"skin dose per cycle = {CYC:.0f} Gy", f"number of cycles = {NCYC}", f"photon dose at the midline, all fields together = {100 * XF:.1f}% of the skin dose"], "What [[photon dose]] does the course give to the whole body?"),
         q_x, [q_x_one, q_x_six, q_x / 10], "{:.2f} Gy",
         f"Skin dose of the course = {NCYC} × {CYC:.0f} = {NCYC * CYC:.0f} Gy, and {100 * XF:.1f}% of it is {q_x:.2f} Gy, under the 0.7 Gy of the EORTC consensus. One cycle alone gives {q_x_one:.2f} Gy, and multiplying again by the six positions gives {q_x_six:.2f} Gy, though the percentage already covers every field.", lvl="Moderate"),
-    TYPED(STEM("In the six-dual-field technique, D<sub>p</sub> is set so that a point on the anterior chest receives 2.0 Gy per cycle. A point on the right side of the chest receives these fractions of D<sub>p</sub> (illustrative).",
-               [f"D<sub>p</sub> = {dp1:.3f} Gy per dual field", f"right anterior and right posterior obliques = {SIDE['Right anterior oblique']:.2f} each", f"anterior and posterior = {SIDE['Anterior']:.2f} each", "left obliques = 0"],
-               "What [[dose per cycle]] does the point on the side receive?"), q_side, 0.01, "Gy",
-          f"Sum = 2 × {SIDE['Right anterior oblique']:.2f} + 2 × {SIDE['Anterior']:.2f} = {B_side:.2f}, so the dose = {B_side:.2f} × {dp1:.3f} = {q_side:.2f} Gy, {100 * q_side / CYC:.0f}% of the dose on the anterior chest. The skin dose varies around the body with the number of positions that face it and their obliquity.",
-          w=[f"Multiplication factor at the side = {B_side:.2f}", f"Dose = {B_side:.2f} × {dp1:.3f} = {q_side:.3f} Gy"], lvl="Challenging"),
 
     # ---- shielding, boosts, and in vivo dosimetry (15-17)
     PRN(STEM("An anterior–posterior TBI of 12 Gy in 6 fractions, prescribed at the midline at the umbilicus.", [f"lung midline dose without blocks = {LF2:.2f} × the prescription", f"effective block transmission at the lung midline = {LT2:.2f}", f"fractions with blocks = {NB2} of 6"], "What is the [[total lung dose]]?"),
         q_lung, [q_lung_nof, q_lung_all, q_lung_open], "{:.1f} Gy",
         f"Open fractions: {6 - NB2} × 2.0 × {LF2:.2f} = {(6 - NB2) * 2.0 * LF2:.2f} Gy. Blocked fractions: {NB2} × 2.0 × {LF2:.2f} × {LT2:.2f} = {NB2 * 2.0 * LF2 * LT2:.3f} Gy. Total {q_lung:.1f} Gy. Leaving out the lung factor gives {q_lung_nof:.1f}, blocks in every fraction give {q_lung_all:.1f}, and no blocks give {q_lung_open:.1f}.", lvl="Challenging"),
-    TYPED(STEM("An anterior–posterior TBI of 12 Gy in 6 fractions, with partial-transmission lung blocks in every fraction.", [f"lung midline dose without blocks = {LF1:.2f} × the prescription", "lung dose wanted = 8.0 Gy"], "What [[effective block transmission]] at the lung midline is needed?"), q_T8, 0.01, "%",
-          f"Without blocks the lung would receive 12 × {LF1:.2f} = {12 * LF1:.1f} Gy, so T = 8.0 / {12 * LF1:.1f} = {q_T8 / 100:.3f}, or {q_T8:.1f}%.",
-          w=[f"Open lung dose = 12 × {LF1:.2f} = {12 * LF1:.1f} Gy", f"T = 8.0 / {12 * LF1:.1f} = {q_T8 / 100:.3f}"], lvl="Moderate"),
     PRM("The six-dual-field technique leaves some regions of skin under-dosed. Which of these regions receive boosts?",
         ["The soles of the feet", "The perineum"],
         ["The anterior abdomen", "The upper back", "The outer thighs"],
@@ -221,15 +209,9 @@ PROBLEMS = [
     PR(STEM("After the first TSET cycle, OSLDs on the skin read these doses as a percentage of the prescription.", ["chest = 98%", "back = 101%", "soles of the feet = 35%", "perineum = 50%"], "What is the [[best response]]?"),
        "Add boost fields for the soles and the perineum", ["Raise the monitor units of all twelve fields", "Lower the energy to raise the surface dose", "Shield the chest and the back for one cycle"],
        "The soles and the perineum are self-shielded in the standing positions, so they receive boosts with separate electron fields. Raising every field would overdose the rest of the skin, which is already near the prescription.", lvl="Challenging"),
-    SORT("Match each device or arrangement to its purpose.", ["Beam spoiler", "Compensator", "Partial-transmission lung block", "Scatter plate", "Dual fields angled up and down"],
-         [("Raises the skin dose in TBI", 0), ("Lowers the midline dose at the neck and the knees in TBI", 1), ("Holds the lung dose near 8 to 10 Gy", 2),
-          ("Lowers the electron energy and spreads the TSET beam", 3), ("Gives an even TSET dose from head to foot with less x-ray dose to the trunk", 4)],
-         "The spoiler adds electrons at the skin, the compensator offsets the smaller separation of thin sites, and the lung block limits interstitial pneumonitis. In TSET the scatter plate degrades and spreads the beam, and the two angled fields sum to a uniform vertical profile while their x-ray-rich axes miss the trunk.", lvl="Easy", mode="match", cap=1),
-    SORT("A clinic starts TBI with its first patient. Rank the steps from the first to the last.", ["1st", "2nd", "3rd", "4th", "5th"], [(s, i) for i, s in enumerate(STEPS)],
-         "The beam is characterized in the treatment geometry before any patient. The separations then set the TMR at each site, from which the monitor units and the compensators follow. In vivo dosimetry on the first fraction checks the result, and the compensators are adjusted before the next.", lvl="Moderate", mode="rank", cap=1),
 ]
 
-INLINE = {0: [1, 2, 3, 4, 5], 1: [6, 7, 8, 9, 10], 2: [11, 12, 13, 14], 3: [15, 16, 17]}
+INLINE = {0: [1, 2, 3, 4, 5], 1: [6, 7, 8, 9], 2: [10, 11, 12], 3: [13, 14]}
 
 TERMS = ["myeloablative", "interstitial pneumonitis", "beam spoiler", "compensator", "total marrow irradiation", "scatter plate", "six-dual-field technique", "multiplication factor"]
 

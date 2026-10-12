@@ -33,7 +33,6 @@ TOPIC = dict(
     cards=[
         F("CT reconstruction", "A source and detector rotate around the patient. The profile of fluence at each angle is backprojected through the reconstruction space."),
         F("Backprojection from one angle", "It smears the signal along the beam path, showing that a dense object lies along it but not where."),
-        F("Many angles in CT", "Adding the backprojections from many angles builds up an image of the object. Without the filter the sum is blurred."),
         F("Filtered backprojection", "A frequency filter is applied to the profiles before backprojection, which makes the reconstruction mathematically exact."),
         F("CT pixel value", "The linear attenuation coefficient μ of that pixel, from I = I₀e<sup>−μx</sup>."),
         F("Hounsfield unit", "HU = 1000 × (μ − μ<sub>water</sub>) / μ<sub>water</sub>: the attenuation coefficient relative to water."),
@@ -54,8 +53,6 @@ PROBLEMS = [
        "CT derives μ from the transmission I = I₀e<sup>−μx</sup>. The HU expresses it relative to water.", lvl="Easy"),
     PRN(STEM("A material has a linear attenuation coefficient 10% larger than that of water.", [], "What is its [[Hounsfield unit]]?"), hu_a, [10.0, 1000 * 1.1, -100.0], "{:.0f} HU",
         f"HU = 1000 × (1.10 − 1) = {hu_a:.0f}. Multiplying 1000 by 1.10 gives 1100.", lvl="Moderate"),
-    PRN(STEM("A material has a linear attenuation coefficient 25% smaller than that of water.", [], "What is its [[Hounsfield unit]]?"), hu_b, [-25.0, 750.0, 250.0], "{:.0f} HU",
-        f"HU = 1000 × (0.75 − 1) = {hu_b:.0f}.", lvl="Moderate"),
     PRN(STEM("A pixel has −500 HU. The linear attenuation coefficient of water is 0.19 cm<sup>−1</sup>.", [], "What is the [[attenuation coefficient]] of the pixel?"), mu_lung, [0.19 * 1.5, 0.19 * 500 / 1000 * 2, 0.5], "{:.3f} cm<sup>−1</sup>",
         f"μ = μ<sub>water</sub> × (1 + HU/1000) = 0.19 × 0.5 = {mu_lung:.3f} cm<sup>−1</sup>.", lvl="Moderate"),
     PR("A single backprojection from one angle is not enough to reconstruct an object because it:", "shows that the object lies along the beam path, but not where along it", ["shows only the edge of the object", "measures the density but not the position", "measures only the atomic number"],
@@ -64,12 +61,8 @@ PROBLEMS = [
        "A softer beam raises the ratio of μ of bone to μ of water, so the HU of bone rises. The HU depends on the spectrum.", lvl="Moderate"),
     PR("The relationship between HU and mass density used in treatment planning is:", "non-linear and scanner-specific, so a calibration is established for each scanner", ["linear, with the same slope for every scanner", "the same for every tube voltage", "not needed, because the HU is a density"],
        "The HU depends on the composition and the spectrum as well as on the density, so each scanner and technique needs its own calibration.", lvl="Moderate"),
-    PRN(STEM("A pixel has +1000 HU. The linear attenuation coefficient of water is 0.19 cm<sup>−1</sup>.", [], "What is the [[attenuation coefficient]] of the pixel?"), mu_bone, [0.19 * 1000, 0.19 * 1.5, 0.19 / 2], "{:.2f} cm<sup>−1</sup>",
-        f"μ = 0.19 × (1 + 1000/1000) = {mu_bone:.2f} cm<sup>−1</sup>, twice that of water.", lvl="Challenging"),
     PR("Filtered backprojection requires a frequency filter because:", "without it the sum of the backprojections is blurred, and it is exact only with the filter", ["the filter removes the noise", "the filter changes the HU of water", "the detector measures frequencies"],
        "Backprojecting the unfiltered profiles smears each point over the whole path. The filter corrects this and makes the reconstruction mathematically exact.", lvl="Challenging"),
-    PR("Which of these changes the HU of bone in a CT image of a patient?", "A change of the tube voltage, because the spectrum changes", ["A change of the tube current", "A change of the scan time", "A change of the table height"],
-       "The HU depends on the spectrum of the beam, which the tube voltage and the filtration set. The current and the time change only the number of photons, and so the noise.", lvl="Challenging"),
 ]
 
 TERMS = ['filtered backprojection', 'Hounsfield unit', 'calibration', 'spectrum']
@@ -82,17 +75,11 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     PRM("Which of the following does the HU of a tissue depend on?", ["Its density", "Its composition, through the atomic number", "The x-ray spectrum of the beam"], ["The tube current", "The scan time", "The slice position on the table"],
         "The HU is the attenuation coefficient relative to water. That depends on the density, on the composition, and on the energies of the photons. The current and the time change only the noise.", lvl="Moderate"),
     SORT("Which Hounsfield-unit range does each material fall in?", ["About −1000 HU", "About 0 HU", "About +500 to +1000 HU"],
          [("Air", 0), ("A gas bubble in the bowel", 0), ("Water", 1), ("Distilled water in a phantom", 1), ("Cortical bone", 2), ("Dense bone", 2)],
          "Air is −1000 HU by definition and water is 0 HU. Bone attenuates more than water because of its density and its higher atomic number, giving about +500 to +1000 HU.", lvl="Moderate"),
-    TYPED(STEM("A pixel has a linear attenuation coefficient of 0.2166 cm<sup>−1</sup>. For water, μ = 0.19 cm<sup>−1</sup>.", [], "What is the [[HU]] of the pixel?"), hu_t, 0.01, "HU",
-          f"HU = 1000 × (0.2166 − 0.19) / 0.19 = {hu_t:.0f}.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the Hounsfield unit against the attenuation coefficient relative to water.", [], "Tap the [[relative attenuation at which the HU is +250]]."),
-         FS(x=dict(min=0, max=2, ticks=[0, 0.5, 1, 1.5, 2], label="μ / μ of water"), y=dict(min=-1000, max=1000, ticks=[-1000, -500, 0, 500, 1000], label="Hounsfield units"), series=[dict(pts=PTS(lambda r: 1000 * (r - 1), 0, 2), color="plot-1")], xunit="", xdec=2, xname="Relative attenuation", label="Hounsfield units against relative attenuation"),
-         [(1.13, 1.37)], "HU = 1000 × (r − 1) = 250 gives r = 1.25. The level +250 is not marked on the axis.", lvl="Challenging", note="about 1.25"),
 ]
-INLINE = {0: [7, 11], 1: [1, 4, _n0 + 2, _n0 + 4], 2: [9, 8, 10]}
+INLINE = {0: [6, 9], 1: [1, 4, 11], 2: [8, 7]}

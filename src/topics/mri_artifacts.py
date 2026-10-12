@@ -54,12 +54,6 @@ PROBLEMS = [
        "In an undistorted image the grid lines are straight and regular.", lvl="Moderate"),
     PRN(STEM("A local field error of 0.05 mT. The gradient is 10 mT/m.", [], "What is the [[shift of the pixel]]?"), s_a, [0.05 * 10, 0.05 / 10, s_a * 10], "{:.1f} mm",
         f"Shift = ΔB / G = 0.05 mT / 10 mT/m = 0.005 m = {s_a:.1f} mm. An error in the units gives 0.5 mm or 50 mm.", lvl="Moderate"),
-    PRN(STEM("A local field error of 0.05 mT. The gradient is 5 mT/m.", [], "What is the [[shift of the pixel]]?"), s_b, [s_a, s_b * 2, s_b / 10], "{:.1f} mm",
-        f"Shift = 0.05 / 5 = {s_b / 1000:.2f} m = {s_b:.0f} mm. The weaker gradient doubles the shift.", lvl="Moderate"),
-    PRN(STEM("A gradient is 5% larger than the system assumes. An object is 200 mm long.", [], "What [[length]] does it appear to have?"), g_a, [200 / 1.05, 200 * 0.95, 200 - 5], "{:.1f} mm",
-        f"Apparent length = 200 × 1.05 = {g_a:.1f} mm, stretched. Dividing by 1.05 gives {200 / 1.05:.1f}, and multiplying by 0.95 gives {200 * 0.95:.0f}.", lvl="Moderate"),
-    PRN(STEM("The gradient is 10 mT/m, and the main field is 1.5 T.", [], "How uniform must the local field be, in parts per million of the main field, for a [[shift of 0.1 mm]] at most?"), ppm(1.0 * 10 / 1000 * 0.1, 1.5), [ppm(10 / 1000 * 0.1, 1.5) * 10, ppm(10 / 1000 * 0.1, 1.5) / 10, 0.1], "{:.2f} ppm",
-        f"ΔB = shift × G = 0.0001 m × 10 mT/m = 0.001 mT = 1 µT. As a fraction of 1.5 T that is {ppm(10 / 1000 * 0.1, 1.5):.2f} parts per million.", lvl="Challenging"),
     PR("Why do MRI distortions matter more in radiation oncology than in many diagnostic studies?", "The positions of the target and organs are used directly to place the treatment beams", ["The patient is larger", "The field is weaker", "The gradient is not used"],
        "The delivery needs accurate geometry, so a few millimetres of distortion changes where the dose is delivered.", lvl="Challenging"),
 ]
@@ -73,15 +67,9 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Match each MRI artifact to its cause.", ["Susceptibility", "Gradient distortion", "Chemical shift", "B<sub>0</sub> inhomogeneity"],
          [("A metallic object distorts the local field", 0), ("The gradient is larger than expected", 1), ("Protons in different environments precess at different frequencies", 2), ("The main field bows out at the edge of the bore", 3)],
          "Susceptibility comes from metal in the field. Gradient distortion comes from a gradient that is not what the system assumes. The chemical shift comes from the chemical environment, and B<sub>0</sub> inhomogeneity bends the grid lines near the edge of the bore.", lvl="Moderate", mode="match", cap=1),
-    TYPED(STEM("A local field error of 0.02 mT. The gradient is 10 mT/m.", [], "What is the [[shift of the pixel]] in millimetres?"), shift(0.02, 10), 0.02, "mm",
-          f"Shift = 0.02 / 10 = 0.002 m = {shift(0.02, 10):.0f} mm.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the shift of a pixel against the local field error, for a gradient of 10 mT/m.", [], "Tap the [[field error that moves a pixel by 3 mm]]."),
-         FS(x=dict(min=0, max=0.1, ticks=[0, 0.02, 0.04, 0.06, 0.08, 0.1], label="Local field error (mT)"), y=dict(min=0, max=10, ticks=[0, 2.5, 5, 7.5, 10], label="Shift (mm)"), series=[dict(pts=PTS(lambda b: b / 10 * 1000, 0, 0.1), color="plot-1")], xunit=" mT", xdec=3, xname="Field error", label="Shift against local field error"),
-         [(dB_3 - 0.008, dB_3 + 0.008)], f"Shift = ΔB / G, so ΔB = 3 mm × 10 mT/m = {dB_3:.2f} mT. The level 3 mm is not marked on the axis.", lvl="Challenging", note=f"about {dB_3:.2f} mT"),
 ]
-INLINE = {0: [1, 6, 7, _n0 + 2], 1: [2, 3, 4, _n0 + 1]}
+INLINE = {0: [1, 6], 1: [2, 3, 4, 8]}

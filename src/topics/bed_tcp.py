@@ -68,12 +68,8 @@ PROBLEMS = [
        "It puts regimens with different fractionation on one scale, so that they can be compared and added.", lvl="Easy"),
     PRN(STEM("A regimen for a tumour with α/β = 10 Gy.", ["30 Gy in 10 fractions of 3 Gy"], "What is the [[BED]]?"), b_a, [30.0, 30 * (1 + 10 / 3), 30 * 3 / 10], "{:.1f} Gy",
         f"BED = 30 × (1 + 3/10) = {b_a:.1f} Gy. The physical dose is 30 Gy, and inverting the ratio gives {30 * (1 + 10 / 3):.1f}.", lvl="Moderate"),
-    PRN(STEM("A regimen for a tumour with α/β = 10 Gy.", ["32 Gy in 4 fractions of 8 Gy"], "What is the [[BED]]?"), b_b, [32.0, 32 * (1 + 10 / 8), e_a], "{:.1f} Gy",
-        f"BED = 32 × (1 + 8/10) = {b_b:.1f} Gy. The EQD2 is {e_a:.1f} Gy, and inverting the ratio gives {32 * (1 + 10 / 8):.1f}.", lvl="Moderate"),
     PRN(STEM("A regimen of 32 Gy in 4 fractions of 8 Gy, for a tumour with α/β = 10 Gy.", [], "What is the [[EQD2]]?"), e_a, [32.0, b_b, e_b], "{:.1f} Gy",
         f"EQD2 = 32 × (8 + 10) / (2 + 10) = {e_a:.1f} Gy. The BED is {b_b:.1f} Gy, and with α/β = 3 the EQD2 would be {e_b:.1f} Gy.", lvl="Moderate"),
-    PRN(STEM("A regimen of 32 Gy in 4 fractions of 8 Gy, for a late-responding tissue with α/β = 3 Gy.", [], "What is the [[EQD2]]?"), e_b, [32.0, e_a, bed(32, 8, 3)], "{:.1f} Gy",
-        f"EQD2 = 32 × (8 + 3) / (2 + 3) = {e_b:.1f} Gy, much more than the tumour value of {e_a:.1f} Gy.", lvl="Moderate"),
     PR("The tumour BED (α/β = 10) is kept constant while the dose per fraction is raised and the number of fractions lowered. The BED to a late-responding tissue (α/β = 3 Gy) will:", "rise, because it depends more strongly on the dose per fraction", ["fall, because there are fewer fractions", "stay the same, because the tumour BED is constant", "become zero"],
        "A low α/β means the BED grows faster with dose per fraction, so late-responding tissues are the concern with large fractions.", lvl="Moderate"),
     PR("The tumour control probability is the probability that:", "no clonogenic cells survive", ["half of the cells survive", "the tumour shrinks by half", "the normal tissue is spared"],
@@ -82,11 +78,9 @@ PROBLEMS = [
         f"EQD2 of the first course: 30 × (3 + 3)/5 = {e_p1:.1f} Gy. Second course: 8 × (8 + 3)/5 = {e_p2:.1f} Gy. Total {e_p1 + e_p2:.1f} Gy. The physical total is 38 Gy.", lvl="Challenging"),
     PRN(STEM("A tumour.", ["TCP = exp(−N e<sup>−α BED</sup>)", "N = 10<sup>7</sup> cells, α = 0.3 per Gy"], "What is the [[TCP]] at a BED of 60 Gy?"), tcp(60), [tcp(50), math.exp(-math.exp(-18)), 0.5], "{:.3f}",
         f"N × SF = 10<sup>7</sup> × e<sup>−18</sup> = {NCELL * math.exp(-18):.3f}, so TCP = e<sup>−{NCELL * math.exp(-18):.3f}</sup> = {tcp(60):.3f}. At a BED of 50 Gy the TCP is only {tcp(50):.3f}.", lvl="Challenging"),
-    PR("Two courses with different fractionation cannot be combined by adding their physical doses because:", "the biological effect of a dose depends on the dose per fraction, so each course must first be converted to EQD2", ["the second course always has a different energy", "physical doses cannot be added in any case", "the dose rate differs"],
-       "EQD2 puts both courses on the same footing, for a chosen α/β, so that they can be summed.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 4, 5], 1: [3, 6, 7], 2: [8, 9]}
+INLINE = {0: [1, 2, 4], 1: [3, 5, 10], 2: [6, 7]}
 
 TERMS = ['linear-quadratic model', 'EQD2', 'tumour control probability', 'therapeutic window']
 
@@ -99,27 +93,14 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Does each tissue usually have a high or a low α/β?", ["High α/β, about 10 Gy", "Low α/β, about 3 Gy"],
          [("Most tumours", 0), ("Early-responding tissue such as mucosa", 0), ("Spinal cord, a late-responding tissue", 1), ("Lung fibrosis, a late effect", 1), ("Skin reaction in the first weeks", 0), ("Late bowel damage", 1)],
          "Tumours and early-responding tissues usually have a high α/β. Late-responding tissues have a low α/β, so they are more sensitive to the dose per fraction.", lvl="Moderate"),
-    TYPED(STEM("A late-responding tissue with α/β = 3 Gy.", ["45 Gy in 15 fractions of 3 Gy"], "What is the [[BED]]?"), bed(45, 3, 3), 0.01, "Gy",
-          f"BED = 45 × (1 + 3/3) = {bed(45, 3, 3):.1f} Gy.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the tumour control probability against BED for N = 10<sup>7</sup> cells and α = 0.3 per Gy.", [], "Tap the [[BED at which the TCP is 90%]]."),
-         FS(x=dict(min=30, max=90, ticks=[30, 45, 60, 75, 90], label="BED (Gy)"), y=dict(min=0, max=1, ticks=[0, 0.25, 0.5, 0.75, 1], label="Tumour control probability"), series=[dict(pts=PTS(tcp, 30, 90), color="plot-1")], xunit=" Gy", xdec=1, xname="BED", label="Tumour control probability against BED"),
-         [(B90 - 3.5, B90 + 3.5)], f"TCP = 0.9 means N e<sup>−α BED</sup> = −ln 0.9 = 0.105, so BED = (ln 10<sup>7</sup> − ln 0.105) / 0.3 = {B90:.1f} Gy. The level 0.9 is not marked on the axis.", lvl="Challenging", note=f"about {B90:.0f} Gy"),
 ]
-INLINE = {0: [1, 2, 4, 5, _n0 + 2], 1: [3, 6, 7, _n0 + 1], 2: [8, 9, _n0 + 3]}
 
 
 # ---------------------------------------------------------------- continuous low dose rate irradiation
-_nl = len(PROBLEMS)
 ldr_late, ldr_tum = ldr_bed(0.60, 60, 3), ldr_bed(0.60, 60, 10)
 PROBLEMS += [
-    PRN(STEM("A low-dose-rate implant delivers 0.60 Gy/h for 60 h, a total of 36 Gy. Sublethal damage repairs with a half-time of 1.5 h.", ["late-responding tissue with α/β = 3 Gy"], "What is the [[BED]] of the late-responding tissue?"), ldr_late, [36.0, ldr_tum, 36 * (1 + 1 * 0.6 / (ldr_mu * 3) * (1 - (1 - math.exp(-ldr_mu * 60)) / (ldr_mu * 60)))], "{:.1f} Gy",
-        f"μ = ln 2 / 1.5 = {ldr_mu:.3f} per hour and μT = {ldr_mu * 60:.1f}. The bracket is 1 + (2 × 0.60 / ({ldr_mu:.3f} × 3)) × {1 - (1 - math.exp(-ldr_mu * 60)) / (ldr_mu * 60):.3f} = {ldr_late / 36:.3f}, so BED = 36 × {ldr_late / 36:.3f} = {ldr_late:.1f} Gy. Leaving out the repair term gives 36.0 Gy, using α/β = 10 Gy gives {ldr_tum:.1f} Gy, and leaving out the factor 2 gives {36 * (1 + 1 * 0.6 / (ldr_mu * 3) * (1 - (1 - math.exp(-ldr_mu * 60)) / (ldr_mu * 60))):.1f} Gy.", lvl="Challenging"),
-    PR("The dose rate of a continuous irradiation is lowered, with the total dose unchanged. The BED:", "falls toward the physical dose, more in a late-responding tissue than in the tumour", ["rises, because the treatment takes longer", "stays the same, because the total dose is unchanged", "falls, more in the tumour than in a late-responding tissue"],
-       "More of the sublethal damage is repaired during a longer treatment, so the BED falls toward the physical dose. The repair term is larger for a low α/β, so the fall is larger in late-responding tissue, which is why a low dose rate spares it.", lvl="Moderate"),
 ]
-INLINE.setdefault(2, []).append(_nl + 2)

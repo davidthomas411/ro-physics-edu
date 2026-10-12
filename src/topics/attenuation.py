@@ -153,16 +153,10 @@ TOPIC = dict(
     ],
     cards=[
         F("Linear and mass attenuation coefficients", "μ (cm<sup>−1</sup>) = ρ × μ/ρ (cm²/g). Ice, water, and steam share μ/ρ but differ in μ."),
-        F("Atomic and electronic coefficients", "Cross-sections per atom (<sub>a</sub>μ) and per electron (<sub>e</sub>μ), in cm² or barns (1 b = 10<sup>−24</sup> cm²). μ/ρ = (N<sub>A</sub>/A) <sub>a</sub>μ = (N<sub>A</sub>Z/A) <sub>e</sub>μ."),
         F("Energy-transfer coefficient", "μ<sub>tr</sub> = μ Ē<sub>tr</sub>/hν, with Ē<sub>tr</sub> the mean energy given to electrons and positrons as kinetic energy per interaction."),
         F("Coefficient for transmission and for dose", "μ ≥ μ<sub>tr</sub> ≥ μ<sub>en</sub>. Narrow-beam transmission and HVL follow μ, kerma μ<sub>tr</sub>/ρ, and dose under charged-particle equilibrium μ<sub>en</sub>/ρ."),
-        F("Radiative fraction ḡ", f"About {G_AIR} for Co-60 γ rays in air. It grows with the photon energy and with the atomic number of the medium."),
         F("Broad-beam measurement", "Scatter reaches the detector, so the transmission exceeds e<sup>−μx</sup> and a fitted coefficient is below μ. The build-up grows with thickness, field size, and closeness of the detector."),
-        F("Mixture rule", "(μ/ρ)<sub>mix</sub> = Σ w<sub>i</sub>(μ/ρ)<sub>i</sub> with weight fractions w<sub>i</sub>. It holds for μ/ρ and μ<sub>tr</sub>/ρ, and closely for μ<sub>en</sub>/ρ.",
-          w=[f"Water: w<sub>H</sub> = {wH:.4f}, w<sub>O</sub> = {wO:.4f}", f"μ/ρ at 1.25 MeV = {wH:.4f} × {EL125['H'][0]} + {wO:.4f} × {EL125['O'][0]} = {mu_mix:.5f} cm²/g"]),
         F("Electrons per gram", f"N<sub>A</sub> Σ w<sub>i</sub>Z<sub>i</sub>/A<sub>i</sub>. Z/A is {zoa_el['H']:.2f} for hydrogen and about 0.5 for C, N, O. Water {EG['water'] / 1e23:.2f}, air {EG['air'] / 1e23:.2f}, cortical bone {EG['bone'] / 1e23:.2f}, lead {EG['lead'] / 1e23:.2f} × 10<sup>23</sup>."),
-        F("Effective atomic number", f"(Σ a<sub>i</sub>Z<sub>i</sub><sup>{M_EXP}</sup>)<sup>1/{M_EXP}</sup>, with a<sub>i</sub> the shares of the electrons. Water {zw:.2f}, air {ZE['air']:.1f}, fat about {ZE['adipose']:.1f}, cortical bone about {ZE['bone']:.0f}.",
-          w=[f"Water: (0.2 × 1 + 0.8 × 8<sup>{M_EXP}</sup>)<sup>1/{M_EXP}</sup> = ({sum_w:.1f})<sup>1/{M_EXP}</sup> = {zw:.2f}"]),
         F("Bone-to-water ratio of μ<sub>en</sub>/ρ", f"About {q30:.1f} at 30 keV, {MV_R} from 0.5 to 2 MeV (the ratio of electrons per gram), and above 1 beyond about {E_CROSS:.0f} MeV (pair production)."),
     ],
 )
@@ -187,9 +181,6 @@ PROBLEMS = [
     PR(STEM("Ice, liquid water, and steam are each irradiated by photons of one energy.", [], "Which [[coefficient]] has the same value in all three?"),
        "The mass attenuation coefficient, μ/ρ", ["The linear attenuation coefficient, μ", "The half-value layer, in cm", "The mean free path, in cm"],
        "μ/ρ depends only on the composition and the photon energy, and all three are H<sub>2</sub>O. μ, the HVL in cm, and the mean free path all scale with density, which is far lower in steam than in ice or liquid water.", lvl="Easy"),
-    PRN(STEM("Lead in a Co-60 beam, with the photon energy taken as 1.25 MeV.", [f"μ/ρ = {LEA[1.25][0]} cm²/g (NIST)", f"ρ = {RHO['lead']} g/cm³", f"A = {A['Pb']} g/mol,   Z = {Z['Pb']}", "N<sub>A</sub> = 6.022 × 10<sup>23</sup> mol<sup>−1</sup>"], "What is the [[atomic cross-section]] of lead?"),
-        p_at, [p_el, p_zfa, p_lin], lambda v: f"{v:.3f} b" if v < 1 else f"{v:.1f} b",
-        f"<sub>a</sub>μ = (μ/ρ) A / N<sub>A</sub> = {LEA[1.25][0]} × {A['Pb']} / (6.022 × 10<sup>23</sup>) = {sci(p_at * BARN, 3)} cm² = {p_at:.1f} b. Dividing by Z gives the cross-section per electron ({p_el:.3f} b), using Z in place of A gives {p_zfa:.1f} b, and leaving the density in gives {p_lin:.1f} b. Per electron, lead exceeds the Klein–Nishina {kn125:.3f} b: at this energy about {100 * (1 - p_kn):.0f}% of its attenuation comes from processes other than Compton scattering.", lvl="Moderate"),
 
     # ---- energy transfer and absorption
     SORT(STEM("Photons of one energy cross a material.", [], "Which [[coefficient]] sets each quantity?"), ["μ", "μ/ρ", "μ<sub>tr</sub>/ρ", "μ<sub>en</sub>/ρ"],
@@ -199,25 +190,14 @@ PROBLEMS = [
     PR(STEM("The transmission of Cs-137 γ rays (662 keV) through concrete slabs is measured with a wide field and a detector close behind the slabs. An exponential is fitted to the readings.", [], "How does the fitted [[coefficient]] compare with the tabulated narrow-beam μ?"),
        "Smaller, because scattered photons add to the readings", ["Larger, because scattered photons are removed from the beam", "Equal, because μ depends only on the material and the energy", "Smaller, because the primary photons harden in the concrete"],
        "In a wide field, photons scattered in the slab reach a close detector, so each reading exceeds e<sup>−μx</sup> by a build-up factor that grows with thickness, and the fitted slope is less steep than μ. Removal of every scattered photon describes narrow-beam geometry, and the 662 keV photons are monoenergetic, so the primary beam cannot harden.", lvl="Moderate"),
-    PR(STEM("A thick lead absorber is placed in a narrow 18 MV x-ray beam.", [], "How does the lead change the [[photon spectrum]]?"),
-       f"It removes the lowest and the highest energies faster than those of {PB_LO:g} to {PB_HI:g} MeV", ["It removes the lowest energies only, as a filter does in a kilovoltage beam", "It removes all energies alike, because Compton scattering dominates in lead", "It removes the highest energies only, because pair production dominates in lead"],
-       f"In lead μ/ρ falls with energy to its lowest value near {PB_MIN:g} MeV ({LEA[PB_MIN][0]} cm²/g) and then rises through pair production, to {LEA[10.0][0]} cm²/g at 10 MeV, while below 1 MeV photoelectric absorption raises it steeply. Photons at both ends of the spectrum are therefore removed faster than those in between. In water μ/ρ keeps falling with energy, so water only hardens the beam.", lvl="Challenging"),
 
     # ---- compounds and mixtures
     PR(STEM("Materials rich in hydrogen have more electrons per gram than other low-Z materials.", [], "What is the [[reason]]?"),
        "Hydrogen has no neutrons, so its Z/A is about 1 against about 0.5 for C, N, and O", ["A hydrogen atom carries more electrons than a carbon or oxygen atom", "Materials rich in hydrogen have a higher density than other materials", "Hydrogen has the highest effective atomic number of the light elements"],
        f"Electrons per gram are N<sub>A</sub> Z/A. Hydrogen's nucleus is a single proton, so Z/A = {zoa_el['H']:.2f}, while carbon, nitrogen, and oxygen carry about as many neutrons as protons, giving Z/A ≈ 0.50. Each hydrogen atom has fewer electrons than a carbon atom, but far less mass per electron; density does not enter a quantity per gram.", lvl="Easy"),
-    PRN(STEM("Spongy bone is modelled, for illustration, as a mixture of cortical bone and water by mass. Use the table.", [f"cortical bone = {100 * FB:.0f}% by mass", f"water = {100 * (1 - FB):.0f}% by mass", "photon energy = 30 keV"], "What is the [[mass energy-absorption coefficient]] of the mixture?",
-             tables=[nd.table_two(["bone", "water"], [0.02, 0.03, 0.04])]),
-        q_mix, [q_mix_mean, q_mix_swap, q_mix_mu], "{:.3f} cm²/g",
-        f"By the mixture rule μ<sub>en</sub>/ρ = {FB:.2f} × {sig4(BON[0.03][1])} + {1 - FB:.2f} × {sig4(WAT[0.03][1])} = {FB * BON[0.03][1]:.4f} + {(1 - FB) * WAT[0.03][1]:.4f} = {q_mix:.3f} cm²/g, {q_mix / WAT[0.03][1]:.2f} times that of water. The plain mean of the two gives {q_mix_mean:.3f}, swapping the fractions gives {q_mix_swap:.3f}, and the attenuation columns give {q_mix_mu:.3f}.", lvl="Moderate"),
     PR(STEM("At 40 keV, adipose tissue attenuates less per gram than water.", [], "What is the main [[reason]]?"),
        "Its effective atomic number is lower, so photoelectric absorption per gram is lower", [f"Its density is lower, {RHO['adipose']:.2f} g/cm³ against {RHO['water']:.2f} g/cm³", "It has fewer electrons per gram than water", "Pair production is weaker in its carbon atoms"],
        f"Adipose tissue holds more carbon and less oxygen than water, so its Z<sub>eff</sub> is about {ZE['adipose']:.1f} against {ZE['water']:.1f}, and photoelectric absorption, about Z<sup>3</sup> per gram, is lower. Its electrons per gram ({EG['adipose'] / 1e23:.2f} × 10<sup>23</sup>) match water's ({EG['water'] / 1e23:.2f} × 10<sup>23</sup>), so Compton scattering per gram is the same. Density changes μ, not μ/ρ, and pair production needs more than 1.022 MeV.", lvl="Moderate"),
-    PRM(STEM("A physicist calculates μ/ρ of a new tissue-substitute plastic at 1.25 MeV from tabulated element data.", [], "Which of these are needed?"),
-        ["The mass fraction of each element in the plastic", "The μ/ρ of each element at 1.25 MeV"],
-        ["The density of the plastic", "The effective atomic number of the plastic", "The half-value layer of the plastic"],
-        "The mixture rule needs only the weight fractions and the element values at that energy. Density turns μ/ρ into μ but does not enter μ/ρ, Z<sub>eff</sub> summarizes photoelectric absorption and is not an input, and the HVL is a result of the calculation, not an input.", lvl="Moderate"),
     PRN(STEM("A treatment planning system needs the electron density of cortical bone relative to water.", [f"density of cortical bone = {RHO['bone']} g/cm³", f"Z/A of cortical bone = {ZA_B}", f"Z/A of water = {ZA_W}"], "What is the [[relative electron density]] of cortical bone?"),
         q_red, [q_red_rho, q_red_za, q_red_div], "{:.2f}",
         f"Electrons per cm³ are ρ N<sub>A</sub> Z/A, so relative to water: {RHO['bone']} × {ZA_B} / {ZA_W} = {q_red:.2f}. The density alone ({q_red_rho:.2f}) ignores the lower Z/A of bone, the Z/A ratio alone ({q_red_za:.2f}) is the ratio per gram, and dividing by it ({q_red_div:.2f}) applies the correction the wrong way. In the Compton region μ of cortical bone is about {q_red:.2f} times that of water.", lvl="Challenging"),
@@ -232,7 +212,7 @@ PROBLEMS = [
         f"The ratio of μ<sub>en</sub>/ρ, bone to water, is {bw(0.03):.2f} at 30 keV, {bw(0.06):.2f} at 60 keV, {bw(0.2):.2f} at 200 keV, {r_mv_lo:.3f} to {r_mv_hi:.3f} from 0.5 to 2 MeV, and {bw(10.0):.2f} at 10 MeV. Photoelectric absorption by calcium and phosphorus raises it at low energies, Compton scattering holds it near the ratio of electrons per gram ({re_bw:.3f}) at megavoltage energies, and pair production, about Z per gram, lifts it above 1 at high energies. Density changes the energy per cm³, not per gram.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2], 1: [3], 2: [4, 5], 3: [6, 7, 8]}      # questions on the last section, and the rest, form the practice set
+INLINE = {0: [1], 1: [2], 2: [3], 3: [4, 5]}
 
 TERMS = ["mass thickness", "atomic attenuation coefficient", "electronic attenuation coefficient", "energy-transfer coefficient", "energy-absorption coefficient", "mixture rule", "electron density", "effective atomic number"]
 

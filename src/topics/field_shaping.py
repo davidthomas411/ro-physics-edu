@@ -53,16 +53,12 @@ PROBLEMS = [
        "Blocks are labour-intensive, use toxic metals, and must be replaced between beams. An MLC reshapes the field under motor control.", lvl="Easy"),
     PRN(STEM("A shielding block.", ["thickness = 5 half-value layers"], "What [[percentage of the beam]] is transmitted?"), tr5, [5.0, 100 * 0.5 ** 6, 20.0], "{:.1f}%",
         f"Each HVL halves the beam: (½)<sup>5</sup> = 1/32 = {tr5:.1f}%.", lvl="Moderate"),
-    PRN(STEM("A shielding block.", ["half-value layer = 1.2 cm (illustrative)", "transmission wanted = 5%"], "What [[thickness]] is needed?"), t5, [4.32, 6.0, 1.2 * math.log10(20)], "{:.2f} cm",
-        f"The number of HVLs is log<sub>2</sub>(1/0.05) = 4.32, so the thickness is 4.32 × 1.2 = {t5:.2f} cm. Five HVLs would be 6.0 cm.", lvl="Moderate"),
     PR("The transmission through the full thickness of a tungsten MLC leaf is typically:", "1% to 1.5%", ["10% to 15%", "0.01% to 0.015%", "5% to 6%"],
        "Interleaf leakage is higher, about twice the leaf transmission.", lvl="Moderate"),
     PR("Compared with the transmission through a leaf, the leakage between two leaves is:", "about twice as large", ["about half as large", "the same", "ten times as large"],
        "The air gap between leaves lets more radiation through than the leaf itself.", lvl="Moderate"),
     PR("The main reason most MLCs use rounded leaf ends is that:", "the penumbra is nearly independent of the leaf position", ["the penumbra is zero", "they transmit less than flat ends", "they are easier to model with a planning system"],
        "Flat ends that do not diverge with the beam give a penumbra that depends on how far the leaf is from the axis. A rounded end keeps it nearly constant.", lvl="Moderate"),
-    PRM("Which are disadvantages of poured blocks?", ["They are labour-intensive to make", "They contain toxic metals", "A different block must be made and exchanged for each beam"], ["They transmit most of the beam", "They cannot be mounted on a tray"],
-        "Poured blocks shield well and are mounted on a plastic tray. Their problems are in making, handling, and exchanging them.", lvl="Moderate"),
     PRN(STEM("An open field gives 200 cGy.", ["interleaf leakage = 2.5%"], "What [[dose]] is delivered between two closed leaves?"), 200 * inter / 100, [200 * leaf / 100, 50.0, 0.5], "{:.1f} cGy",
         "Dose = 0.025 × 200 = 5.0 cGy. The leaf transmission of 1.25% would give 2.5 cGy behind a leaf.", lvl="Challenging"),
     PR("The tongue-and-groove effect refers to:", "a smearing of the dose fall-off at leaf edges caused by the interlocking sides of the leaves", ["the penumbra at the leaf tips", "the rounded shape of the leaf ends", "the thickness of the tungsten"],
@@ -71,7 +67,7 @@ PROBLEMS = [
        "In w = s [ (f + d) / SCD − 1 ], the distance from the source to the plane equals SCD, so the bracket is zero.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 4], 1: [6, 7], 2: [8]}
+INLINE = {0: [1, 4], 1: [5, 6], 2: [7]}
 
 TERMS = ['Cerrobend', 'multileaf collimator', 'tongue-and-groove effect']
 
@@ -83,15 +79,5 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
-    SORT("Does each statement describe a poured block or an MLC?", ["Poured block", "MLC"],
-         [("Made from Wood's metal", 0), ("Tungsten leaves moved by motors", 1), ("One is needed for each beam shape", 0), ("The shape can change during treatment", 1), ("Mounted on a plastic tray", 0), ("Has interleaf leakage and a tongue-and-groove effect", 1), ("Cut from Styrofoam with a heated wire", 0), ("Leaf width limits how closely the edge follows a curve", 1)],
-         "Poured blocks are cast from a low-melting alloy and made for each beam. An MLC is a motorized bank of tungsten leaves, so its limits are leaf width, leakage between leaves, and the tongue-and-groove effect.", lvl="Moderate"),
-    TYPED(STEM("A shielding block.", ["half-value layer = 1.5 cm (illustrative)", "transmission wanted = 2%"], "What [[thickness]] is needed?"), t2, 0.015, "cm",
-          f"The number of HVLs is log<sub>2</sub>(1/0.02) = {math.log2(50):.2f}, so the thickness is {math.log2(50):.2f} × 1.5 = {t2:.2f} cm.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the fraction of the beam transmitted by a block against its thickness.", [], "Tap the [[thickness of five half-value layers]]."),
-         FS(x=dict(min=0, max=8, ticks=[0, 1, 2, 3, 4, 5, 6, 7, 8], label="Block thickness (cm)"), y=dict(min=0, max=100, ticks=[0, 25, 50, 75, 100], label="Transmitted (%)", fmt="pct"), series=[dict(pts=PTS(lambda x: 100 * 0.5 ** (x / 1.2), 0, 8), color="plot-1")], xunit=" cm", xdec=1, xname="Thickness", label="Transmission through a block against thickness"),
-         [(5.5, 6.5)], "The half-value layer is the thickness that halves the beam. The curve reaches 50% at 1.2 cm, so five half-value layers are 5 × 1.2 = 6.0 cm, where the transmission is 3.1%. The curve lies almost on the axis there and cannot be read, so the thickness is worked out from the half-value layer.", lvl="Challenging", note="6.0 cm"),
 ]
-INLINE = {0: [1, 4, _n0 + 3], 1: [6, 7, _n0 + 1], 2: [8]}

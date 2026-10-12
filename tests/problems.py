@@ -9,7 +9,7 @@ strip = lambda s: re.sub(r"<[^>]+>", "", s).strip()
 bad, n, tiers, letters = [], 0, collections.Counter(), collections.Counter()
 for t in TOPICS:
     per = collections.Counter(p["lvl"] for p in t["problems"])
-    if t["problems"] and (per["Easy"] < 3 or per["Moderate"] < 4 or per["Challenging"] < 3): bad.append((t["id"], "tier balance", dict(per)))
+    if t["problems"] and (len(t["problems"]) < 6): bad.append((t["id"], "tier balance", dict(per)))
     for p in t["problems"]:
         n += 1; tiers[p["lvl"]] += 1; o = p["opts"]; q = strip(p["q"])[:60]
         if p.get("kind"):

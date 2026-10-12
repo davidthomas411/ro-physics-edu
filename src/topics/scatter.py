@@ -70,15 +70,10 @@ PROBLEMS = [
     PRN(STEM("A small field.", ["S<sub>c</sub> = 0.940", "S<sub>p</sub> = 0.975"], "What is the [[total scatter factor S<sub>cp</sub>]]?"), q_scp, [0.940 / 0.975, 0.975 / 0.940, 0.940 + 0.975], "{:.3f}",
         f"S<sub>cp</sub> = S<sub>c</sub> × S<sub>p</sub> = 0.940 × 0.975 = {q_scp:.3f}. Dividing the factors gives {0.940 / 0.975:.3f} or {0.975 / 0.940:.3f}, and adding them gives 1.915.", lvl="Moderate",
         calc=CALC("", [TILE("Sc", 0.940, "", disp="0.940"), TILE("Sp", 0.975, "", disp="0.975")], solution=["Sc", "×", "Sp"])),
-    PRN(STEM("A large field.", ["S<sub>cp</sub> = 1.072", "S<sub>c</sub> = 1.028"], "What is the [[phantom scatter factor S<sub>p</sub>]]?"), q_sp, [1.072 * 1.028, 1.028 / 1.072, 1.072 - 1.028], "{:.3f}",
-        f"S<sub>p</sub> = S<sub>cp</sub> / S<sub>c</sub> = 1.072 / 1.028 = {q_sp:.3f}. Multiplying gives {1.072 * 1.028:.3f}, and dividing the other way gives {1.028 / 1.072:.3f}.", lvl="Moderate",
-        calc=CALC("", [TILE("Scp", 1.072, "", disp="1.072"), TILE("Sc", 1.028, "", disp="1.028")], solution=["Scp", "÷", "Sc"])),
     PR("S<sub>c</sub> is measured with a chamber in air. Why is a build-up cap placed on the chamber?", "To give electronic equilibrium at the chamber for the beam energy", ["To absorb photons scattered from the treatment head", "To add the backscatter that a phantom would provide", "To shield the chamber from contaminant electrons only"],
        "In air there is no surrounding material to set up electronic equilibrium, so the cap supplies it. It must be thick enough for the beam energy.", lvl="Moderate"),
     PR("A block is placed under the collimators and the jaws are left unchanged. Compared with the open field, the block changes:", "S<sub>p</sub>, but not S<sub>c</sub>", ["S<sub>c</sub>, but not S<sub>p</sub>", "both S<sub>c</sub> and S<sub>p</sub>", "neither S<sub>c</sub> nor S<sub>p</sub>"],
        "S<sub>c</sub> follows the jaw opening, which has not changed. S<sub>p</sub> follows the field that irradiates the phantom, which the block has narrowed.", lvl="Moderate"),
-    PRM("The jaws are opened to 10 × 10 cm and blocks reduce the irradiated field to 5 × 5 cm. Compared with an open 5 × 5 cm field, which of these are true for the blocked field?", ["S<sub>c</sub> is larger", "S<sub>p</sub> is the same", "S<sub>cp</sub> is larger"], ["S<sub>p</sub> is smaller", "S<sub>c</sub> is smaller"],
-        "S<sub>c</sub> follows the jaw opening: S<sub>c</sub>(10 × 10) is larger than S<sub>c</sub>(5 × 5). S<sub>p</sub> follows the irradiated field, which is 5 × 5 cm in both cases. S<sub>cp</sub> = S<sub>c</sub> × S<sub>p</sub> is therefore larger for the blocked field.", lvl="Challenging"),
     PRN(STEM("Jaws open to 14 × 14 cm and blocks shape the field in the phantom to an equivalent square of 10 × 10 cm.", ["S<sub>c</sub>(14 × 14) = 1.010", "S<sub>p</sub>(14 × 14) = 1.012", "S<sub>p</sub>(10 × 10) = 1.000"], "What is the [[total scatter factor S<sub>cp</sub>]] of the blocked field?"), q_blocked, [1.010 * 1.012, 1.012, 1.000], "{:.3f}",
         f"S<sub>c</sub> uses the jaw opening (14 × 14 cm) and S<sub>p</sub> uses the irradiated field (10 × 10 cm): S<sub>cp</sub> = 1.010 × 1.000 = 1.010. Using the jaw field for S<sub>p</sub> as well gives {1.010 * 1.012:.3f}, and treating everything as 10 × 10 cm gives 1.000.", lvl="Challenging"),
     PR("Which statement about the equivalent square of a rectangular field is correct?", "The rectangle and its equivalent square have the same area-to-perimeter ratio", ["They have the same area", "They have the same perimeter", "They have the same diagonal"],
@@ -88,11 +83,9 @@ PROBLEMS = [
         calc=CALC("cm", [TILE("2", 2), TILE("a", 8, "cm"), TILE("b", 20, "cm")], ops=("+", "×", "÷", "(", ")"), solution=["2", "×", "a", "×", "b", "÷", "(", "a", "+", "b", ")"])),
     PR("For which field is the equivalent square from the area-to-perimeter rule least accurate?", "An elongated rectangle, such as 2 × 30 cm", ["A 10 × 10 cm square", "A 10 × 12 cm rectangle", "A 15 × 15 cm square"],
        "The rule is an approximation that works well for fields close to square. It is least reliable for elongated rectangles, and irregular fields need Clarkson integration.", lvl="Moderate"),
-    PRN(STEM("A rectangular field of 6 × 18 cm is looked up in a table of output factors.", ["S<sub>cp</sub>(8 × 8) = 0.976", "S<sub>cp</sub>(10 × 10) = 1.000"], "Estimate its [[S<sub>cp</sub>]] by linear interpolation at the equivalent square."), q_interp, [q_interp_area, 0.976, 1.000], "{:.3f}",
-        f"The equivalent square is 2 × 6 × 18 / 24 = {q_es618:.1f} cm, halfway between 8 and 10 cm, so S<sub>cp</sub> = (0.976 + 1.000)/2 = {q_interp:.3f}. The equal-area square (10.4 cm) extrapolates to {q_interp_area:.3f}. Reading the 8 × 8 or the 10 × 10 row gives 0.976 or 1.000.", lvl="Challenging"),
 ]
 
-INLINE = {0: [0, 3], 1: [6], 2: [9, 10]}
+INLINE = {0: [1, 2, 4, 5], 1: [6, 12], 2: [8, 9]}
 
 
 # ---------------------------------------------------------------- practice questions that use a data table
@@ -106,25 +99,13 @@ PROBLEMS += [
         q_sx1, [bd.SC[12] * bd.SP[12], bd.SC[15] * bd.SP[15], bd.sc_at(200 ** 0.5) * bd.sp_at(200 ** 0.5)], "{:.3f}",
         f"The equivalent square is 2 × 10 × 20 / 30 = {_es:.1f} cm, between 12 and 15 cm. S<sub>c</sub> = 1.009 + (1.3/3) × (1.020 − 1.009) = {bd.sc_at(_es):.3f} and S<sub>p</sub> = 1.004 + (1.3/3) × (1.010 − 1.004) = {bd.sp_at(_es):.3f}, so S<sub>cp</sub> = {q_sx1:.3f}. Reading the 12 cm row gives {bd.SC[12] * bd.SP[12]:.3f}, the 15 cm row gives {bd.SC[15] * bd.SP[15]:.3f}, and the equal-area square (14.1 cm) gives {bd.sc_at(200 ** 0.5) * bd.sp_at(200 ** 0.5):.3f}.", lvl="Challenging",
         calc=CALC("", [TILE("Sc", bd.sc_at(_es), "", disp=f"{bd.sc_at(_es):.3f}"), TILE("Sp", bd.sp_at(_es), "", disp=f"{bd.sp_at(_es):.3f}")], solution=["Sc", "×", "Sp"])),
-    PRN(STEM("The jaws are open to 15 × 15 cm and blocks shape the field in the phantom to an equivalent square of 8 × 8 cm. Use the table.", [], "Find the [[total scatter factor S<sub>cp</sub>]] of the blocked field.", tables=[bd.table_scatter([6, 8, 10, 12, 15])]),
-        q_sx2, [bd.SC[15] * bd.SP[15], bd.SC[8] * bd.SP[8], bd.SC[8] * bd.SP[15]], "{:.3f}",
-        f"S<sub>c</sub> follows the jaws (15 × 15): {bd.SC[15]:.3f}. S<sub>p</sub> follows the irradiated field (8 × 8): {bd.SP[8]:.3f}. S<sub>cp</sub> = {bd.SC[15]:.3f} × {bd.SP[8]:.3f} = {q_sx2:.3f}. Using the jaw field for both gives {bd.SC[15] * bd.SP[15]:.3f}, the blocked field for both gives {bd.SC[8] * bd.SP[8]:.3f}, and swapping the two (S<sub>c</sub> from the blocked field, S<sub>p</sub> from the jaws) gives {bd.SC[8] * bd.SP[15]:.3f}.", lvl="Moderate",
-        calc=CALC("", [TILE("Sc", bd.SC[15], "", disp=f"{bd.SC[15]:.3f}"), TILE("Sp", bd.SP[8], "", disp=f"{bd.SP[8]:.3f}")], solution=["Sc", "×", "Sp"])),
-    PRN(STEM("An open rectangular field of 5 × 20 cm. Use the table and the equivalent square.", [], "Find the [[total scatter factor S<sub>cp</sub>]].", tables=[bd.table_scatter([4, 5, 6, 8, 10, 12, 15])]),
-        q_sx3, [bd.SC[10] * bd.SP[10], bd.sc_at(12.5) * bd.sp_at(12.5), bd.SC[5] * bd.SP[5]], "{:.3f}",
-        f"The equivalent square is 2 × 5 × 20 / 25 = 8.0 cm, which is a row of the table: S<sub>c</sub> = {bd.SC[8]:.3f}, S<sub>p</sub> = {bd.SP[8]:.3f}, S<sub>cp</sub> = {q_sx3:.3f}. The equal-area square (10 cm) gives 1.000, the average of the sides (12.5 cm) gives {bd.sc_at(12.5) * bd.sp_at(12.5):.3f}, and the short side (5 cm) gives {bd.SC[5] * bd.SP[5]:.3f}.", lvl="Moderate"),
 ]
-INLINE = {0: [0, 3], 1: [6], 2: [9, 10, 13]}
 
 
 # ---------------------------------------------------------------- sorting and typed-number questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Does each statement describe S<sub>c</sub> or S<sub>p</sub>?", ["S<sub>c</sub>, collimator scatter", "S<sub>p</sub>, phantom scatter"],
          [("Follows the jaw opening", 0), ("Follows the field that reaches the phantom", 1), ("Measured in air with a build-up cap", 0), ("Obtained as S<sub>cp</sub> / S<sub>c</sub>", 1),
           ("Unchanged by a block under the jaws", 0), ("Falls when a block narrows the field", 1)],
          "S<sub>c</sub> describes the radiation leaving the head, which depends on the jaw opening and is measured in air with a build-up cap. S<sub>p</sub> describes the scatter inside the phantom, which depends on the field that reaches it, so a block changes S<sub>p</sub> but not S<sub>c</sub>.", lvl="Moderate"),
-    TYPED(STEM("A rectangular field.", ["12 × 30 cm"], "What is the side of its [[equivalent square]]?"), calc.equiv_square(12, 30), 0.01, "cm",
-          "s = 2ab/(a + b) = 2 × 12 × 30 / (12 + 30) = 720 / 42 = 17.1 cm. The square root of the area (19.0 cm) overestimates it for an elongated field.", lvl="Moderate"),
 ]
-INLINE = {0: [1, 2, 4, 6], 1: [7, _n0 + 1], 2: [10, 11, _n0 + 2]}

@@ -47,11 +47,9 @@ TOPIC = dict(
         C("Write the convolution dose calculation.", "Dose = TERMA convolved with the kernel."),
         C("How does the kernel change in lung?", "A density-scaled kernel is larger in lung, because the electrons travel farther."),
         C("List the dose algorithms in order of increasing accuracy.", "Correction-based (Clarkson, TAR), pencil beam, convolution/superposition, Acuros XB, Monte Carlo."),
-        C("What does Acuros XB solve?", "The linear Boltzmann transport equation, on a grid."),
         C("Why is Monte Carlo the reference standard, and what is its drawback?", "It follows individual particle histories with the full interaction physics. It is slow and has statistical noise."),
         C("What does a TPS beam model include?", "A model of the source and of the beam-shaping devices such as the MLC, with parameters fitted to measured data."),
         C("Which physical parameters of the beam model set the PDD slope, the superficial dose, and the penumbra?", "The photon spectrum sets the PDD slope, the electron flux from the head sets the superficial dose, and the source size sets the penumbra."),
-        C("How does dose to medium compare with dose to water?", "About 1% lower on average, because the electron stopping powers differ between tissue and water. Current recommendations favour dose to medium."),
         C("How is the CT number converted to density?", "With a CT-to-density calibration, made by scanning a phantom with inserts of known density."),
         C("What does lung do to the dose distribution?", "Less attenuation, so higher dose beyond the lung, and a wider penumbra, more so at higher energy."),
         C("How does the dose in bone compare with soft tissue at 6 MV and at higher energy?", "Close to soft tissue at about 6 MV. Higher at greater energies, because pair production grows with atomic number."),
@@ -69,23 +67,15 @@ PROBLEMS = [
        "The attenuation of the beam depends on the mass thickness, so the path length is weighted by density.", lvl="Moderate"),
     PRN(STEM("A ray crosses three layers.", ["3.0 cm of soft tissue, ρ = 1.0 g/cm³", "6.0 cm of lung, ρ = 0.3 g/cm³", "3.0 cm of soft tissue, ρ = 1.0 g/cm³"], "What is the [[radiological path length]]?"), rad, [phys, 6 * 0.3, 6.0], "{:.1f} g/cm²",
         f"Σ ρ Δx = 3.0 + 1.8 + 3.0 = {rad:.1f} g/cm². The physical depth is {phys:.0f} cm. Using the lung alone gives 1.8, and the soft tissue alone gives 6.0.", lvl="Moderate"),
-    PR("Acuros XB calculates dose by:", "solving the linear Boltzmann transport equation on a grid", ["convolving the fluence with a fixed kernel", "summing Clarkson sectors", "applying tissue-air ratios"],
-       "It is a deterministic solver of the transport equation, with accuracy close to Monte Carlo and a much shorter run time.", lvl="Moderate"),
-    PR("Averaged over tissues, the dose to medium compared with the dose to water is about:", "1% lower", ["1% higher", "10% lower", "identical"],
-       "The stopping powers of the secondary electrons differ between tissue and water, but the difference is small.", lvl="Moderate"),
     PRM("Which parameters of a beam model are fitted to measured data?", ["The photon energy spectrum, which sets the PDD slope", "The electron flux from the head, which sets the superficial dose", "The size of the source, which sets the penumbra"], ["The weight of the patient", "The slice thickness of the CT scan"],
         "The beam model describes the machine, and its parameters are tuned so that the calculation matches measurements in a water tank. Patient properties are not part of it.", lvl="Moderate"),
-    PRN(STEM("A point is 12 cm deep behind 6 cm of lung (ρ = 0.3) between two 3 cm layers of soft tissue.", ["TMR(d) = e<sup>−0.0282 (d − 1.5)</sup>", "physical depth = 12 cm,   radiological depth = 7.8 cm"], "The dose from the radiological depth is how many [[times that from the physical depth]]?"), ratio_lung, [1.0, 12 / 7.8, 1 / ratio_lung], "{:.2f}",
-        f"TMR(7.8) / TMR(12) = e<sup>0.0282 × 4.2</sup> = {ratio_lung:.3f}. Using the physical depth underestimates the dose behind the lung by about {100 * (1 - 1 / ratio_lung):.0f}%.", lvl="Challenging"),
-    PR("In a small field in lung, an algorithm built on TMR-like corrections is most likely to:", "overestimate the dose in the tumour", ["underestimate the dose in the tumour", "give the same result as Monte Carlo", "have no error because the density is known"],
-       "These methods do not model the loss of lateral electron equilibrium in low-density tissue, so they predict more dose in the tumour than is delivered.", lvl="Challenging"),
     PR("Beyond a slab of lung, the dose calculated with a heterogeneity correction, compared with a calculation that treats the patient as water, is:", "higher", ["lower", "the same", "zero"],
        "The lung attenuates the beam less than the same thickness of water, so more dose arrives beyond it.", lvl="Moderate"),
     PR("Within bone, compared with soft tissue, the dose from an 18 MV beam is:", "somewhat higher, because pair production grows with atomic number", ["lower, because bone is denser", "the same at every energy", "much lower, because bone absorbs electrons"],
        "At about 6 MV the two are similar. At higher energy pair production, which depends on Z, adds dose in bone.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 3, 4, 5], 1: [2, 6], 2: [7, 8], 3: [11]}
+INLINE = {0: [1, 3, 4, 5], 1: [2, 9], 2: [6], 3: [7]}
 
 TERMS = ['TERMA', 'kernel', 'radiological path length', 'convolution', 'Monte Carlo']
 
@@ -98,22 +88,11 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- matching, ranking, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Match each algorithm to its central idea.", ["Correction-based (Clarkson, TAR)", "Pencil beam", "Convolution / superposition", "Acuros XB", "Monte Carlo"],
          [("Tabulated factors with empirical corrections for shape and density", 0), ("A sum of narrow beams, each with a depth kernel", 1), ("TERMA convolved with a density-scaled kernel", 2), ("The Boltzmann transport equation solved on a grid", 3), ("Individual particle histories sampled at random", 4)],
          "Each class models more of the physics than the one before it. Correction-based methods use tables. Pencil beams add kernels. Convolution spreads TERMA in three dimensions. Acuros XB solves the transport equation, and Monte Carlo simulates the particles.", lvl="Moderate", mode="match", cap=1),
-    SORT("Rank these algorithms by accuracy, least accurate first.", ["1st (least accurate)", "2nd", "3rd", "4th", "5th (most accurate)"],
-         [("Clarkson integration", 0), ("Pencil beam", 1), ("Convolution / superposition", 2), ("Acuros XB", 3), ("Monte Carlo", 4)],
-         "Accuracy generally rises as more of the scatter and electron transport is modelled, with Monte Carlo as the reference standard.", lvl="Moderate", mode="rank", cap=1),
-    TYPED(STEM("A ray crosses three layers.", ["2.0 cm of soft tissue, ρ = 1.0 g/cm³", "5.0 cm of lung, ρ = 0.25 g/cm³", "4.0 cm of soft tissue, ρ = 1.0 g/cm³"], "What is the [[radiological path length]]?"), rad_typed, 0.01, "g/cm²",
-          f"Σ ρ Δx = 2.0 × 1.0 + 5.0 × 0.25 + 4.0 × 1.0 = 2.0 + 1.25 + 4.0 = {rad_typed:.2f} g/cm². The physical depth is 11 cm.", lvl="Moderate"),
-    FIGQ(STEM("In a one-dimensional picture, the dose is the TERMA, which falls exponentially with depth, convolved with a forward-directed kernel. The graph shows the result.", [], "Tap the [[depth of maximum dose]]."),
-         FS(x=dict(min=0, max=6, ticks=[0, 1, 2, 3, 4, 5, 6], label="Depth (cm)"), y=dict(min=0, max=1.1, ticks=[0, 0.25, 0.5, 0.75, 1], label="Relative dose"),
-            series=[dict(pts=PTS(lambda d: math.exp(-MU * d), 0, 6), color="plot-2", dash=True), dict(pts=PTS(dose_1d, 0, 6), color="plot-1")], texts=[dict(x=3.2, y=0.93, t="TERMA", color="plot-2", b=True), dict(x=3.2, y=0.76, t="dose", color="plot-1", b=True)], xunit=" cm", xdec=1, xname="Depth", label="TERMA and the dose after convolution with a forward kernel (schematic)"),
-         [(dmax_1d - 0.4, dmax_1d + 0.4)], f"The dose rises while the electrons from the first layers are still being carried forward, and it peaks where the kernel is fully filled, here at about {dmax_1d:.1f} cm. Beyond the peak it follows the falling TERMA. A longer kernel, as at higher energy, moves the peak deeper.", lvl="Easy", note=f"about {dmax_1d:.1f} cm"),
 ]
-INLINE = {0: [1, 3, 4, 5, _n0 + 4], 1: [2, 6, _n0 + 1], 2: [7, 8], 3: [11]}
 
 
 # ---------------------------------------------------------------- the edge of a lung tumour

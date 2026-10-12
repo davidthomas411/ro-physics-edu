@@ -82,8 +82,6 @@ PROBLEMS = [
         f"p = d / S = 15 / 10 = {pitch(15, 10):.1f}. Inverting the ratio gives {10 / 15:.2f}.", lvl="Moderate"),
     PRN(STEM("A helical scan covers 200 mm. The slice thickness is 5 mm, the pitch is 1.5, and the rotation time is 0.5 s.", [], "What is the [[scan time]]?"), t_p15, [t_p1, 200 / 1.5 * 0.5, 200 / 7.5], "{:.1f} s",
         f"The table travel is d = 1.5 × 5 = 7.5 mm per rotation. The scan needs 200 / 7.5 = 26.7 rotations, which take 26.7 × 0.5 = {t_p15:.1f} s.", lvl="Moderate"),
-    PRN(STEM("A CT scan is repeated with four times the mAs, with everything else unchanged.", [], "By what factor does the [[SNR]] change?"), 2.0, [4.0, 0.5, 16.0], "{:.0f}",
-        "The SNR is proportional to √(mA·s), and √4 = 2.", lvl="Moderate"),
     PR("Thicker CT slices have a higher SNR because:", "more photons are collected for each voxel", ["the pixel size is smaller", "the filter is sharper", "the focal spot is smaller"],
        "Photon-counting noise falls as the number of photons rises, and a thicker slice collects more of them.", lvl="Moderate"),
     PR("A bone filter used in reconstruction gives:", "a better resolution of small features, at the cost of a noisier image", ["a lower noise, at the cost of the resolution", "a change of the HU of water", "a faster acquisition"],
@@ -110,27 +108,13 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
-    SORT("Match each artifact to its cause.", ["Cupping", "Streaking", "Motion", "Ring"],
-         [("Larger scatter in the center, with beam hardening of the central rays", 0), ("Beam hardening at angles that pass through two dense objects", 1), ("Anatomy moves during the scan", 2), ("A faulty or miscalibrated detector pixel", 3)],
-         "Cupping comes from scatter and beam hardening at the center. Streaking comes from beam hardening between two dense objects. Motion comes from movement during the scan, and a ring comes from a detector pixel that reads wrongly.", lvl="Moderate", mode="match", cap=1),
-    TYPED(STEM("The table travels 12 mm in each rotation. The slice thickness is 8 mm.", [], "What is the [[pitch]]?"), pitch(12, 8), 0.01, "(ratio)",
-          f"p = 12 / 8 = {pitch(12, 8):.1f}.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the time to scan 200 mm against the pitch, for a slice thickness of 5 mm and a rotation time of 0.5 s.", [], "Tap the [[pitch at which the scan takes 10 s]]."),
-         FS(x=dict(min=0.75, max=2.5, ticks=[1, 1.5, 2, 2.5], label="Pitch"), y=dict(min=0, max=30, ticks=[0, 8, 16, 24], label="Scan time (s)"), series=[dict(pts=PTS(lambda p: 20 / p, 0.75, 2.5), color="plot-1")], xunit="", xdec=2, xname="Pitch", label="Scan time against pitch"),
-         [(1.88, 2.12)], "Time = (200 / (p × 5)) × 0.5 = 20 / p. Setting it to 10 s gives p = 2.0. The level 10 s is not marked on the axis.", lvl="Challenging", note="about 2.0"),
 ]
-INLINE = {0: [1, 2, 4, _n0 + 2], 1: [3, 6, 7, 8], 2: [9, 10], 3: [11, 12, _n0 + 1]}
+INLINE = {0: [1, 2, 4], 1: [3, 6, 7], 2: [8, 9, 14], 3: [10, 11]}
 
 
 # ---------------------------------------------------------------- patient size, real phantom noise, metal, and megavoltage imaging
-_n1 = len(PROBLEMS)
 PROBLEMS += [
-    PRN(STEM("A scan of a patient with a water-equivalent thickness of 24 cm has an acceptable noise at 150 mAs. A second patient is 8 cm thicker.", ["μ = 0.19 cm<sup>−1</sup> at the effective energy of the beam"], "What [[mAs]] gives the second patient the same noise?"), m_big, [150 * math.sqrt(math.exp(mu_soft * 8)), 150 * mu_soft * 8, 150 * 8], "{:.0f} mAs",
-        f"The number of photons that reach the detector falls by e<sup>−0.19 × 8</sup> = e<sup>−1.52</sup>, a factor of {math.exp(1.52):.2f}. The noise follows the number of detected photons, so the mAs has to rise by the same factor: 150 × {math.exp(1.52):.2f} = {m_big:.0f} mAs. Taking the square root of the factor gives {150 * math.sqrt(math.exp(1.52)):.0f} mAs, which leaves the noise {math.sqrt(math.exp(1.52) / math.sqrt(math.exp(1.52))):.1f} times too high.", lvl="Challenging"),
-    TYPED(STEM(f"A uniform block in a test phantom was scanned at {RN['mA'][0]} mA, and the noise, the standard deviation of the HU in the block, was {sd_a} HU. Every other setting is unchanged.", [], f"What [[tube current]] should give a noise of {sd_b} HU?"), ma_pred, 0.03, "mA",
-          f"The noise goes as 1/√mA, so the current goes as 1/noise². The current is {RN['mA'][0]} × ({sd_a} / {sd_b})² = {ma_pred:.0f} mA. The real scan that gave {sd_b} HU used {RN['mA'][2]} mA.", lvl="Moderate"),
     PR("The streaks between a metal implant and the surrounding tissue on a CT image arise mainly because the metal:", "attenuates the beam so strongly that few photons reach the detector, and it hardens the beam, so the data along those rays are inconsistent", ["emits radiation of its own that the detector registers", "has a lower density than soft tissue", "makes the patient move during the scan"],
        "Few photons are detected along the rays through the metal, and those that arrive have a harder spectrum than the reconstruction assumes. The reconstruction cannot reconcile these projections with the others, and streaks result.", lvl="Moderate"),
     PR("A planning CT of a patient with a hip prosthesis shows dark and bright streaks across the pelvis. Which approach is most appropriate for the dose calculation?", "Reconstruct with metal artifact reduction if it is available, and contour the prosthesis and assign it a density", ["Use the HU as they are, because the planning system corrects the streaks", "Repeat the scan at a lower kVp to reduce the streaks", "Ignore the prosthesis, because metal does not attenuate the treatment beam"],
@@ -138,5 +122,3 @@ PROBLEMS += [
     PR("Compared with a kilovoltage CBCT, a megavoltage CBCT of a patient with a hip prosthesis shows:", "fewer metal streaks, a lower soft-tissue contrast, and a higher dose", ["more metal streaks and a higher soft-tissue contrast", "fewer metal streaks, a higher soft-tissue contrast, and a lower dose", "more metal streaks, a lower soft-tissue contrast, and a lower dose"],
        "At megavoltage energy the Compton effect dominates, so the image follows the electron density and metal causes little streaking, but soft tissues differ little in density and the contrast is low. The detector is less efficient, so the dose is higher.", lvl="Moderate"),
 ]
-INLINE[1].append(_n1 + 2)                                                       # the real phantom noise, in the section on noise
-INLINE[2].append(_n1 + 5)                                                       # megavoltage against kilovoltage CBCT, in the section on cone-beam CT

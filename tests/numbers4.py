@@ -75,23 +75,8 @@ if worst > 0.004: fails.append(f"printed PDD and TMR disagree through the conver
 print(f"data set: PDD and TMR tables agree through the conversion formula to within {worst:.4f}")
 # ---------------------------------------------------------------- the questions
 p = find("pdd", "PDD at 9 cm depth"); t = tab(p["q"], "percent depth dose"); c = col(t, 10.0); check("PDD at 9 cm by interpolation", right(p), lin(9, list(c.items())), 1e-9)
-p = [x for x in BY["pdd"]["problems"] if "180 cGy at 12 cm depth" in plain(x["q"])][0]; c = col(tab(p["q"], "percent depth dose"), 15.0); check("dose at dmax from the PDD table", right(p), 180 / (c[12.0] / 100), 1e-9)
-p = find("pdd", "fall to 50%"); c = col(tab(p["q"], "percent depth dose"), 10.0); its = sorted(c.items()); (d0, v0), (d1, v1) = next((x, y) for x, y in zip(its, its[1:]) if x[1] >= 50 > y[1]); check("depth of the 50% PDD", right(p), d0 + (v0 - 50) / (v0 - v1) * (d1 - d0), 1e-9)
-p = find("tmr", "10 cm setup to the 20 cm setup"); c = col(tab(p["q"], "TMR"), 10.0); check("dose change from the TMR ratio", right(p), c[20.0] / c[10.0] - 1, 1e-9)
-p = find("tmr", "TMR equal to 0.600"); c = col(tab(p["q"], "TMR"), 10.0); its = sorted(c.items()); (d0, v0), (d1, v1) = next((x, y) for x, y in zip(its, its[1:]) if x[1] >= 0.6 > y[1]); check("depth where TMR = 0.600", right(p), d0 + (v0 - 0.6) / (v0 - v1) * (d1 - d0), 1e-9)
 p = find("scatter", "open rectangular field of 10 × 20 cm"); sc, sp = scatter(p["q"]); es = 2 * 10 * 20 / (10 + 20)
 check("Scp of 10 x 20 from the table", right(p), lin(es, list(sc.items())) * lin(es, list(sp.items())), 1e-9)
-p = find("scatter", "equivalent square of 8 × 8 cm"); sc, sp = scatter(p["q"]); check("Scp of the blocked field", right(p), sc[15.0] * sp[8.0], 1e-9)
-p = find("scatter", "open rectangular field of 5 × 20 cm"); sc, sp = scatter(p["q"]); es = 2 * 5 * 20 / 25; check("Scp of 5 x 20 from the table", right(p), sc[es] * sp[es], 1e-9)
-p = find("mu-calc", "250 cGy at 8 cm depth"); sc, sp = scatter(p["q"]); pdd = col(tab(p["q"], "percent depth dose"), 20.0); check("MU, SSD technique from tables", right(p), 250 / (sc[20.0] * sp[20.0] * pdd[8.0] / 100), 1e-9)
-p = find("mu-calc", "patient separation = 28 cm"); sc, sp = scatter(p["q"]); tm = col(tab(p["q"], "TMR"), 15.0); check("MU per field, SAD pair with SSD calibration, from tables", right(p), 100 / (sc[15.0] * sp[15.0] * tm[14.0] * (101.5 / 100) ** 2), 1e-9)
-p = find("mu-calc", "Only the SSD 100 PDD is tabulated"); sc, sp = scatter(p["q"]); pdd = col(tab(p["q"], "percent depth dose"), 15.0)[10.0]
-f = lambda ssd, x: 1 / (ssd + x) ** 2
-F = (f(120, 10) / f(120, 1.5)) / (f(100, 10) / f(100, 1.5)); sc125 = lin(12.5, list(sc.items())); iv = f(120, 1.5) / f(100, 1.5)
-check("MU, extended SSD from tables", right(p), 200 / (sc125 * sp[15.0] * pdd * F / 100 * iv), 1e-9)
-hits = [x for x in BY["mu-calc"]["problems"] if "SAD calibration" in plain(x["q"]) and "200 cGy at 12 cm depth" in plain(x["q"])]; assert len(hits) == 1; p = hits[0]
-sc, sp = scatter(p["q"]); pdd = col(tab(p["q"], "percent depth dose"), 15.0)[12.0]; check("MU, SSD technique on a SAD-calibrated machine, from tables", right(p), 200 / (sc[15.0] * sp[15.0] * pdd / 100 * (100 / 101.5) ** 2), 1e-9)
-p = find("mu-calc", "wedge factor = 0.71"); sc, sp = scatter(p["q"]); tm = col(tab(p["q"], "TMR"), 15.0); check("MU, wedge and tray from tables", right(p), 120 / (sc[15.0] * sp[15.0] * tm[10.0] * 0.71 * 0.97), 1e-9)
 # every table printed in a question is a faithful copy of the data set
 for t in TOPICS:
     for q in t["problems"]:

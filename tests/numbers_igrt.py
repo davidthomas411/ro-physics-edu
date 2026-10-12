@@ -78,19 +78,13 @@ check(G.ex_pct < G.TG180_PCT, "below the TG-180 threshold")
 p = prob("weighted dose of the scan")
 close(value(p), disc_mean(G.w_dc, G.w_dp), 1e-7, "question: weighted dose"); close(value(p), 1.6, 1e-9, "1.60 cGy")
 close(sorted(p["vals"])[3], G.w_dp, 1e-12, "decoy: the periphery alone"); close(sorted(p["vals"])[0], disc_mean(G.w_dp, G.w_dc), 1e-7, "decoy: the weights swapped"); close(sorted(p["vals"])[1], (G.w_dc + G.w_dp) / 2, 1e-12, "decoy: the plain mean")
-gy = G.f_n * G.f_d / 100
-close(value(prob("percentage of the prescription")), 100 * gy / G.f_rx, 1e-9, "typed question: imaging share of a course"); close(100 * (G.f_d / 100) / (G.f_rx / G.f_n), 100 * gy / G.f_rx, 1e-12, "the same share per fraction")
 
 # ---- electron radius in the field: relativistic momentum from SI constants
 M, C, E, MEV = 9.1093837015e-31, 299792458.0, 1.602176634e-19, 1.602176634e-13
-def r_si(t_mev, b, kind="rel"):
+def r_si(t_mev, b):
     t = t_mev * MEV; mc2 = M * C * C
-    p = {"rel": math.sqrt((t + mc2) ** 2 - mc2 ** 2) / C, "classical": math.sqrt(2 * M * t), "ke": t / C}[kind]
+    p = math.sqrt((t + mc2) ** 2 - mc2 ** 2) / C
     return 1000 * p / (E * b)                                                  # mm
-p = prob("radius of its path")
-close(value(p), r_si(G.m_t, G.m_b), 1e-4, "question: radius of a 2 MeV electron at 1.5 T")
-close(G.m_cl, r_si(G.m_t, G.m_b, "classical"), 1e-4, "decoy: classical momentum"); close(G.m_ke, r_si(G.m_t, G.m_b, "ke"), 1e-4, "decoy: kinetic energy as pc")
-close(G.m_lo, r_si(G.m_t, 0.35), 1e-4, "decoy: the radius at 0.35 T"); check(sorted(p["vals"]) == sorted([G.m_r, G.m_cl, G.m_ke, G.m_lo]), "the options are the answer and the three decoys")
 close(G.r1_15, r_si(1.0, 1.5), 1e-4, "text: 1 MeV at 1.5 T"); close(G.r1_035, r_si(1.0, 0.35), 1e-4, "text: 1 MeV at 0.35 T")
 check(f"{r_si(1.0, 1.5):.1f} mm at 1.5 T and {r_si(1.0, 0.35):.1f} mm at 0.35 T" in text, "the text prints the radii")
 close(r_si(1.0, 0.35) / r_si(1.0, 1.5), 1.5 / 0.35, 1e-9, "the radius goes as 1/B")

@@ -146,7 +146,6 @@ TOPIC = dict(
         F("TG-218 universal limits", f"At {DD:g}%/{DTA:g} mm, global normalization, and a {THR:g}% threshold: tolerance limit {TL:g}% of points passing, action limit {AL:g}%."),
         F("Global and local normalization", "Global: the dose difference as a percentage of one reference dose, usually the maximum. Local: a percentage of the dose at the point, stricter in low-dose regions."),
         F("Limits of patient-specific QA", "It tests the delivery of the plan in a phantom. It does not test the patient's anatomy, contours, prescription, or setup."),
-        F("Detector size in commissioning", "A large chamber averages over a steep gradient: it widens the measured penumbra and lowers the measured small-field output."),
         F("End-to-end test", "A phantom taken through CT, planning, data transfer, image guidance, and delivery, with the dose measured in it."),
     ],
 )
@@ -156,8 +155,6 @@ PROBLEMS = [
     SORT("Match each stage of linac testing to what it establishes.", ["Acceptance testing", "Commissioning", "Periodic QA", "End-to-end test"],
          [("The machine meets the specification agreed in the purchase", 0), ("Beam data are measured and the planning model is built", 1), ("The machine has not drifted from its baseline", 2), ("The whole chain from CT to delivery gives the planned dose", 3)],
          "Acceptance testing checks the machine against the purchase specification, commissioning gathers the beam data and builds the planning model, periodic QA checks for drift from the baseline, and an end-to-end test checks the whole chain at once.", lvl="Easy", mode="match", cap=1),
-    PR(STEM(ask="Where do the baseline values for periodic linac QA come from?"), "Measurements at acceptance and commissioning", ["The values from the previous month's QA", "The vendor's specifications for the model", "The tolerance values listed in TG-142"],
-       "The baseline is measured on the machine itself when it is accepted and commissioned. Comparing each result with last month's value would let a slow drift pass unnoticed, the vendor's specification is what acceptance tests against, and a tolerance is a permitted change, not a reference value.", lvl="Easy"),
     # ---- 3-13: TG-142
     PRN(STEM(ask="What is the TG-142 [[tolerance]] for the daily photon output constancy check?"), OUT_D, [OUT_M, OUT_A, 5.0], "{:.0f}%",
         f"TG-142 sets {OUT_D:g}% for the daily constancy check. {OUT_M:g}% is the monthly tolerance for a calibrated chamber, and {OUT_A:g}% applies to the annual calibration.", lvl="Easy"),
@@ -186,16 +183,12 @@ PROBLEMS = [
     PR(STEM(f"A sliding-window field has an effective gap of {b_g:g} mm. QA finds both leaf banks displaced by {b_e:g} mm in the same direction.", ask="What is the effect on the dose that the gap delivers?"),
        f"The same dose, displaced by {b_e:g} mm", [f"A dose {b_one:.0f}% higher, in the same place", f"A dose {b_two:.0f}% higher, in the same place", f"A dose {b_one:.0f}% lower, in the same place"],
        f"The gap keeps its {b_g:g} mm width, so every point receives the same dose, displaced by {b_e:g} mm. An error in one bank alone would change the gap by {b_e:g} mm and the dose by {b_e:g} / {b_g:g} = {b_one:.0f}%, and adding the two shifts as if they widened the gap gives {b_two:.0f}%.", lvl="Challenging"),
-    TYPED(STEM("A sliding-window field. The dose through the gap goes as its effective width.", [f"effective gap = {acc_g:g} mm", f"allowed dose error = {acc_lim:g}%"], "What is the [[largest error in the gap width]] that keeps the dose within the allowed error?"), acc, 0.01, "mm",
-          f"Δx / g ≤ {acc_lim / 100:.2f} gives Δx ≤ {acc_lim / 100:.2f} × {acc_g:g} mm = {acc:.1f} mm, a tenth of the {mm(MLC)} monthly tolerance for leaf position. For small gaps the gap width, set by the relative position of opposing leaves, needs the tighter control.", lvl="Challenging"),
     # ---- 14-20: patient-specific QA
     PR(STEM(ask=f"In a gamma analysis at {DD:g}%/{DTA:g} mm, what does γ ≤ 1 at a measured point mean?"), f"A calculated point lies inside the {DD:g}%, {DTA:g} mm ellipse", [f"The dose difference at the same position is below {DD:g}%", "The measured and calculated doses differ by less than 1%", "The nearest calculated point is less than 1 mm away"],
        f"γ is the smallest combined distance, in units of the two criteria, from the measured point to any calculated point. A dose difference below {DD:g}% at the same position is only one way to pass, and γ is a ratio to the criteria, not a percentage or a distance.", lvl="Easy"),
     PRN(STEM(f"A planar comparison at {DD:g}%/{DTA:g} mm with global normalization. For one measured point, the calculated point with the smallest Γ is described below.", [f"distance from the measured point = {q_r:.1f} mm", f"dose difference = {q_d:.1f}% of the maximum dose"], "What is [[γ]] at the measured point?"),
         q_gam, [q_d / DD, q_r / DTA, q_d / DD + q_r / DTA, (q_r / DTA) ** 2 + (q_d / DD) ** 2], "{:.2f}",
         f"Γ = √[({q_r:.1f}/{DTA:g})² + ({q_d:.1f}/{DD:g})²] = √({(q_r / DTA) ** 2:.2f} + {(q_d / DD) ** 2:.2f}) = {q_gam:.2f}, so the point passes. The dose term alone gives {q_d / DD:.2f} and the distance term alone {q_r / DTA:.2f}; adding the two ratios gives {q_d / DD + q_r / DTA:.2f}, and leaving out the square root gives {(q_r / DTA) ** 2 + (q_d / DD) ** 2:.2f}.", lvl="Moderate"),
-    TYPED(STEM(f"A planar comparison at {t_dd:g}%/{DTA:g} mm with global normalization. At one measured point, the calculated point with the smallest Γ lies {t_r:.1f} mm away and differs by {t_d:.1f}% of the maximum dose.", ask="What is [[γ]] at the measured point?"), t_gam, 0.02, "",
-          f"Γ = √[({t_r:.1f}/{DTA:g})² + ({t_d:.1f}/{t_dd:g})²] = √({(t_r / DTA) ** 2:.2f} + {(t_d / t_dd) ** 2:.4f}) = {t_gam:.3f}. At {DD:g}%/{DTA:g} mm the same point gives {t_gam3:.3f}: the tighter dose criterion raises γ.", lvl="Moderate"),
     PR(STEM(f"A planar comparison at {DD:g}%/{DTA:g} mm with a {THR:g}% threshold. At one measured point in a low-dose region, the calculated point at the same position gives the smallest Γ.", [f"dose at the point = {100 * loc_p:g}% of the maximum dose", f"calculated minus measured = {loc_d:g}% of the maximum dose"], "How does the point fare under global and under local normalization?"),
        "It passes with global normalization and fails with local", ["It fails with global normalization and passes with local", "It passes with both normalizations", "It fails with both normalizations"],
        f"Globally the difference is {loc_d:g}% of the maximum, a third of the {DD:g}% criterion, so γ = {loc_gg:.2f}. Locally it is {loc_d:g} / {loc_p:.2f} = {loc_pct:.1f}% of the dose at the point, so γ = {loc_gl:.2f} and the point fails. At {100 * loc_p:g}% of the maximum the point lies above the {THR:g}% threshold and is evaluated.", lvl="Moderate"),
@@ -210,15 +203,12 @@ PROBLEMS = [
         ["A prescription dose entered wrongly in the plan", "A target contour drawn too small", "A patient setup error on the first day"],
         "QA compares the measured dose with the dose calculated for that plan, so a fault in the delivery, the beam model, or the measurement shows up. A wrong prescription or contour is part of both the plan and its calculation, so the two still agree, and the patient's setup is not part of the test.", lvl="Moderate"),
     # ---- 21-22: commissioning and the planning system
-    PR(STEM("During commissioning, the beam profiles for the planning system are measured with a large-volume ion chamber.", ask="What is the effect on later plans?"),
-       "Penumbrae calculated too wide in every plan", ["An error only in plans made that day", "An error removed by the daily output check", "An error only on the central axis of large fields"],
-       "The chamber averages the dose across the steep edge of the field, so the measured penumbra is wider than the true one. The model applies it to every field, so the error is systematic and largest where edges and small fields dominate, as in IMRT. Machine QA compares the linac with its own baseline, so it cannot find an error in the planning model.", lvl="Challenging"),
     PR(STEM("The planning system receives a software upgrade.", ask="Which check confirms that its dose calculations have not changed?"),
        "Recalculating stored reference plans", ["Running each linac's daily output check", "Measuring QA for the next plan only", "Repeating each linac's acceptance tests"],
        "Recalculating stored reference plans with the new version shows whether the calculation changed. Linac checks test the machine, not the planning software, and one patient's QA covers only one plan.", lvl="Easy"),
 ]
 
-INLINE = {0: [1, 2], 1: [3, 4, 7, 9, 11], 2: [14, 15, 17, 18]}            # questions on the last section, and the rest, form the practice set
+INLINE = {0: [1], 1: [2, 3, 6, 8, 10], 2: [12, 13, 14, 15]}
 
 TERMS = ["acceptance testing", "commissioning", "baseline", "tolerance", "action level", "picket fence", "gamma index", "end-to-end test"]
 

@@ -37,7 +37,6 @@ TOPIC = dict(
         F("Radiopharmaceutical", "A radioactive isotope conjugated to a compound that probes a biological process of interest."),
         F("Technetium-99m", "Isomeric transition, half-life 6.0 h, 140 keV photon. An excited state of Tc, the daughter of <sup>99</sup>Mo, supplied by a generator."),
         F("Iodine-123 and iodine-131", "<sup>123</sup>I: electron capture, 13.2 h, 159 keV, cyclotron. <sup>131</sup>I: beta-minus, 8.01 d, 364 keV, reactor."),
-        F("Indium-111 and xenon-133", "<sup>111</sup>In: electron capture, 2.81 d, 171 and 245 keV. <sup>133</sup>Xe: beta-minus, 5.24 d, 81 keV."),
         F("Fluorine-18 and gallium-68", "Beta-plus emitters with half-lives of 109.8 min and 67.6 min. The 511 keV photons come from annihilation."),
         F("Neutron-rich and proton-rich isotopes", "Neutron-rich isotopes decay by beta-minus, have relatively long half-lives, and are made in reactors. Proton-rich isotopes decay by beta-plus or electron capture, usually have shorter half-lives, and are made in cyclotrons."),
         F("SPECT", "Single photon emission computed tomography: emission tomography of an isotope that emits single photons, with a rotating gamma camera."),
@@ -60,8 +59,6 @@ PROBLEMS = [
        "The scintillator converts the photons to light and the photomultiplier tubes register it. The collimator selects the direction.", lvl="Easy"),
     PRN(STEM("A <sup>99m</sup>Tc preparation has a half-life of 6.0 h.", [], "What fraction of the activity remains after [[12 h]]?"), tc12, [0.5, 0.125, 1 / 12], "{:.3f}",
         f"12 h is two half-lives, so the fraction is (1/2)² = {tc12:.2f}. One half-life would leave 0.5, and three would leave 0.125.", lvl="Moderate"),
-    PRN(STEM("An <sup>18</sup>F preparation has a half-life of 109.8 min.", [], "What fraction of the activity remains after [[220 min]]?"), f18_220, [0.5, 0.125, 1 - 0.25], "{:.3f}",
-        f"220 / 109.8 = 2.00 half-lives, so the fraction is (1/2)<sup>2.00</sup> = {f18_220:.3f}.", lvl="Moderate"),
     PR("Which isotope gives the highest PET signal 45 minutes after injection, for the same injected activity and the same uptake?", "<sup>18</sup>F, half-life 109.8 min", ["<sup>68</sup>Ga, half-life 67.6 min", "<sup>11</sup>C, half-life 20.4 min", "<sup>13</sup>N, half-life 10.0 min"],
        f"The fractions remaining after 45 min are {100 * r45['F-18']:.0f}% for <sup>18</sup>F, {100 * r45['Ga-68']:.0f}% for <sup>68</sup>Ga, {100 * r45['C-11']:.0f}% for <sup>11</sup>C, and {100 * r45['N-13']:.0f}% for <sup>13</sup>N. The longest half-life leaves the most activity.", lvl="Moderate"),
     PR("Compared with SPECT in oncology, PET has:", "higher sensitivity, the ability to quantify uptake, and often higher spatial resolution", ["lower sensitivity and a lower resolution", "no need for a CT scan", "photons of lower energy"],
@@ -70,8 +67,6 @@ PROBLEMS = [
        "Many scanners combine the two so that the activity can be placed on the anatomy.", lvl="Moderate"),
     PR("SPECT image reconstruction is similar to CT reconstruction, but SPECT is:", "emission tomography, with the source inside the patient", ["transmission tomography with a source outside the patient", "done with a fixed head", "limited to a single projection"],
        "The camera rotates around the patient and the projections are reconstructed to give the distribution of the isotope.", lvl="Challenging"),
-    PRN(STEM("A <sup>99m</sup>Tc preparation has a half-life of 6.0 h.", [], "After how many hours does [[30% of the activity]] remain?"), t30, [6.0 * 0.3, 6.0 * 0.5, 6.0 * 2.5], "{:.1f} h",
-        f"2<sup>−t/6</sup> = 0.3 gives t = 6 × log<sub>2</sub>(1/0.3) = 6 × 1.737 = {t30:.1f} h. Multiplying 6 by 0.3 gives 1.8 h, which ignores the exponential decay.", lvl="Challenging"),
     PR("Why is <sup>18</sup>F more convenient than <sup>15</sup>O for a PET centre that has no cyclotron on site?", "Its half-life of 109.8 min is long enough to ship it, but that of <sup>15</sup>O, about 2 min, is not", ["It emits no positrons", "It has a higher photon energy", "It decays by isomeric transition"],
        "The shortest half-lives are hard to work with, and the 110-minute half-life of <sup>18</sup>F allows time for transport.", lvl="Challenging"),
 ]
@@ -88,22 +83,12 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
-    SORT("How is each isotope produced?", ["Reactor", "Cyclotron", "Generator"],
-         [("<sup>131</sup>I", 0), ("<sup>133</sup>Xe", 0), ("<sup>18</sup>F", 1), ("<sup>123</sup>I", 1), ("<sup>111</sup>In", 1), ("<sup>99m</sup>Tc", 2)],
-         "Neutron-rich beta-minus emitters such as <sup>131</sup>I and <sup>133</sup>Xe come from reactors. Proton-rich isotopes such as <sup>18</sup>F, <sup>123</sup>I, and <sup>111</sup>In come from cyclotrons. <sup>99m</sup>Tc is the daughter of <sup>99</sup>Mo in a generator.", lvl="Moderate"),
-    TYPED(STEM("A <sup>99m</sup>Tc preparation has a half-life of 6.0 h.", [], "What [[percentage of the activity]] remains after 3 h?"), 100 * tc3, 0.02, "%",
-          f"3 h is half a half-life, so the fraction is 2<sup>−0.5</sup> = {tc3:.3f}, which is {100 * tc3:.1f}%.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the percentage of the <sup>99m</sup>Tc activity remaining against time.", [], "Tap the [[time at which 30% of the activity remains]]."),
-         FS(x=dict(min=0, max=24, ticks=[0, 6, 12, 18, 24], label="Time (h)"), y=dict(min=0, max=100, ticks=[0, 25, 50, 75, 100], label="Activity remaining (%)"), series=[dict(pts=PTS(lambda t: 100 * 0.5 ** (t / 6), 0, 24), color="plot-1")], xunit=" h", xdec=1, xname="Time", label="Activity remaining against time"),
-         [(t30 - 2.0, t30 + 2.0)], f"2<sup>−t/6</sup> = 0.3 gives t = {t30:.1f} h. The level 30% is not marked on the axis.", lvl="Challenging", note=f"about {t30:.0f} h"),
 ]
-INLINE = {0: [1, 2, 3, _n0 + 1], 1: [4, 8, 9], 2: [5, 7, _n0 + 2]}
+INLINE = {0: [1, 2, 3, 11], 1: [4, 7, 8, 12, 13], 2: [5, 6]}
 
 
 # ---------------------------------------------------------------- agents by name, and two isotopes at once
-_n1 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Which scanner is used with each radiopharmaceutical?", ["PET", "SPECT or planar imaging"],
          [("<sup>18</sup>F-FDG", 0), ("<sup>68</sup>Ga-DOTATATE", 0), ("<sup>68</sup>Ga-PSMA-11", 0), ("<sup>18</sup>F-fluoride", 0), ("<sup>99m</sup>Tc-MDP", 1), ("<sup>99m</sup>Tc-sestamibi", 1), ("<sup>111</sup>In-pentetreotide", 1), ("<sup>99m</sup>Tc-MAA", 1)],
@@ -111,10 +96,7 @@ PROBLEMS += [
     PR("Two isotopes are injected together, and separate images of each are needed. Which statement is correct?", "SPECT can do it if the photon energies differ, because each isotope gets its own energy window, but PET cannot, because both give 511 keV photons", ["PET can do it, because each positron emitter has its own annihilation energy", "SPECT cannot, because a gamma camera registers only one photon energy at a time", "Neither can, because the collimator mixes the photons of the two isotopes"],
        "A gamma camera sorts the photons by their energy, so two isotopes with different photon energies, such as 140 keV and 245 keV, give two sets of images. Every positron emitter gives two 511 keV photons, so the energy does not identify the tracer.", lvl="Challenging"),
 ]
-INLINE[0].append(_n1 + 1)
 PROBLEMS += [
     PR("The main reason that PET registers a larger fraction of the emitted photons than SPECT is that:", "PET finds the direction from the timing of two photons, so it needs no absorbing collimator", ["PET isotopes are injected at about ten times the activity", "the 511 keV photons are not attenuated in the patient", "the energy resolution of a PET detector is far better than that of a gamma camera"],
        "A gamma camera defines the direction of each photon with a collimator that absorbs nearly all of them, so of the order of one in ten thousand is registered. A PET scanner defines the line of response from two coincident photons, with no absorbing collimator, and registers of the order of 1% of the decays. The injected activities are similar, the photons are attenuated, and the energy resolution is not better.", lvl="Challenging"),
 ]
-INLINE[1].append(_n1 + 2)
-INLINE[1].append(_n1 + 3)

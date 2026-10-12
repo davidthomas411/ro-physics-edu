@@ -59,38 +59,19 @@ TOPIC = dict(
 )
 
 PROBLEMS = [
-    PR("In a decay scheme, an arrow that slants down and to the right indicates:", "β⁻ decay, with Z increasing by one", ["β⁺ decay", "α decay", "γ emission"],
-       "Atomic number increases to the right. β⁻ turns a neutron into a proton, raising Z by one at constant A.", lvl="Easy"),
-    PR("A straight vertical downward arrow in a decay scheme indicates:", "γ emission or internal conversion, with no change in Z or A", ["β⁻ decay", "electron capture", "α decay"],
-       "The nucleus drops to a lower energy level without changing its proton or neutron numbers.", lvl="Easy"),
     PR("Which radiation has a continuous energy spectrum?", "β⁻ particles", ["α particles", "Characteristic x-rays", "γ-rays from an isomeric transition"],
        "The decay energy is shared between the β particle and the antineutrino in every proportion. The others are emitted with fixed energies.", lvl="Easy"),
     PR("Which particle shares the decay energy with the electron in β⁻ decay?", "An antineutrino", ["A neutrino", "A positron", "An α particle"],
        "β⁻ decay emits an electron and an electron antineutrino; β⁺ decay emits a positron and a neutrino.", lvl="Easy"),
-    PRM("Which of these radiations are emitted with discrete energies?", ["α particles", "γ-rays", "characteristic x-rays"], ["β⁻ particles", "bremsstrahlung photons"],
-        "α particles, γ-rays, and characteristic x-rays come from transitions between fixed levels. β spectra and bremsstrahlung are continuous.", lvl="Moderate"),
     PRN("A Co-60 nucleus emits γ-rays of <v>1.173 MeV</v> and <v>1.332 MeV</v> in cascade. What <f>total photon energy</f> is emitted per decay?", 1.173 + 1.332, [1.173, 1.332, q_co], "{:.3f} MeV",
         "Both photons are emitted in every decay: 1.173 + 1.332 = 2.505 MeV, the energy of the Ni-60 level.", lvl="Moderate"),
-    PRN(STEM("", ["1000 Cs-137 decays", "94.4% of decays reach Ba-137m", "about 90.2% of Ba-137m transitions emit a photon"], "About how many [[662 keV photons]] are emitted?"), ph_cs, [56.0, 944.0, 1000.0], "{:.0f}",
-        f"1000 × 0.944 × 0.902 = {ph_cs:.0f}. The rest of the Ba-137m transitions are internal conversions, not photons.", lvl="Moderate"),
-    PR("Which production route is used for Ir-192 sources for HDR brachytherapy?", "Neutron capture on stable Ir-191 in a reactor, <sup>191</sup>Ir(n,γ)<sup>192</sup>Ir",
-       ["Proton bombardment of Os-192 in a cyclotron", "Fission of U-235 in a reactor", "Elution from a Pt-192 generator"],
-       "Iridium-191 is a stable, abundant isotope of iridium; irradiating it with neutrons adds one neutron.", lvl="Moderate"),
     PR("A nuclide produced by neutron capture in a reactor will most likely decay by:", "β⁻ decay, because the product is neutron-rich", ["β⁺ decay, because the product is proton-rich", "electron capture", "α decay"],
        "Adding neutrons moves the nucleus above the stable band. β⁻ decay converts a neutron to a proton and moves it back toward stability.", lvl="Moderate"),
-    PR("F-18 is made by the reaction <sup>18</sup>O(p,n)<sup>18</sup>F. Where is this done, and how does F-18 decay?", "In a cyclotron; F-18 is proton-rich and decays mainly by β⁺ emission",
-       ["In a reactor; F-18 is neutron-rich and decays by β⁻", "In a reactor; F-18 decays by α emission", "On a generator column; F-18 decays by β⁻"],
-       "Bombarding with protons adds protons. The proton-rich product decays by β⁺ (or electron capture) and gives the annihilation photons used in PET.", lvl="Moderate"),
-    PRN(STEM("", ["decay energy to the Ni-60 ground state = 2.824 MeV", "the dominant branch feeds the 2.505 MeV level"], "What is [[E<sub>max</sub>]] of that β⁻ branch?"), emax_co, [emax_co / 2, 1.173, q_co], "{:.2f} MeV",
-        f"The cascade carries off 2.505 MeV, leaving {emax_co:.3f} MeV for the β⁻ and antineutrino. E<sub>max</sub> = {emax_co:.2f} MeV.", lvl="Challenging"),
     PRN("A β⁻ emitter has <v>E<sub>max</sub> = 1.80 MeV</v>. Approximately what is the <f>mean β energy</f>?", 0.60, [0.18, 0.90, 1.80], "{:.2f} MeV",
         "The mean of a β⁻ spectrum is roughly one third of E<sub>max</sub>: 1.80 / 3 = 0.60 MeV.", lvl="Challenging"),
-    PR("Which statement about a Cs-137 source is correct?", "The 662 keV photon is emitted by the Ba-137m daughter, not by Cs-137",
-       ["Cs-137 emits the 662 keV photon at the moment of β⁻ emission", "The 662 keV photon is emitted only after electron capture", "Cs-137 decays by α emission followed by a 662 keV photon"],
-       "Cs-137 decays by β⁻ to Ba-137m. Ba-137m is a metastable level (T<sub>1/2</sub> = 2.55 min) that emits the photon. In a sealed source the two are in equilibrium.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 6], 1: [3, 4, 5]}
+INLINE = {0: [3, 6], 1: [1, 2, 7], 2: [8]}
 
 TERMS = ['branching ratio', 'metastable']
 
@@ -105,7 +86,6 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting and matching questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Match each process to its arrow in a decay scheme.", ["Down and to the right", "Short, down and to the left", "Steep, down and to the left", "Straight down"],
          [("β⁻", 0), ("β⁺ or electron capture", 1), ("α", 2), ("γ or internal conversion", 3)],
@@ -117,16 +97,10 @@ PROBLEMS += [
          [("Co-60", 0), ("Ir-192", 0), ("Cs-137", 1), ("Mo-99", 1), ("F-18", 2)],
          "Stable Co-59 and Ir-191 each capture a neutron to become Co-60 and Ir-192, which are neutron-rich and decay by β⁻. Cs-137 and Mo-99 are products of fission, also neutron-rich. F-18 is made in a cyclotron by proton bombardment of O-18, which leaves a proton-rich nucleus that decays by β⁺.", lvl="Moderate"),
 ]
-INLINE.setdefault(0, []).append(_n0 + 1); INLINE.setdefault(1, []).append(_n0 + 2); INLINE.setdefault(2, []).append(_n0 + 3)
 
 
 # ---------------------------------------------------------------- tap-the-figure question
 import math as _math
 _gb = lambda E: _math.sqrt(E) * (1 - E) ** 2 / 0.286216
-_n0 = len(PROBLEMS)
 PROBLEMS += [
-    FIGQ(STEM("A β⁻ emitter has the energy spectrum shown. The horizontal axis is the energy as a fraction of E<sub>max</sub>.", [], "Tap the [[mean energy]] of the β particles."),
-         FS(x=dict(min=0, max=1, ticks=[0, 0.2, 0.4, 0.6, 0.8, 1], label="Energy as a fraction of the maximum"), y=dict(min=0, max=1.25, ticks=[]), series=[dict(pts=PTS(_gb, 0, 1), color="plot-1")], xunit=" × E<sub>max</sub>".replace("<sub>", "").replace("</sub>", ""), xdec=2, xname="Energy", label="Energy spectrum of β⁻ particles", h=250),
-         [(0.26, 0.40)], "The mean energy of a β spectrum is about E<sub>max</sub>/3 = 0.33 E<sub>max</sub>. The peak of the curve is lower, at about 0.2 E<sub>max</sub>, and the spectrum has a long tail to E<sub>max</sub> that pulls the mean above the peak.", lvl="Moderate", note="about 0.33 × Emax"),
 ]
-INLINE.setdefault(1, []).append(_n0 + 1)

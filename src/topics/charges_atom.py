@@ -74,14 +74,9 @@ PROBLEMS = [
        "A few α particles scattered through large angles, which requires the positive charge to be concentrated in a small volume.", lvl="Easy"),
     PRN("What <f>energy</f> is needed to ionize a hydrogen atom in its ground state?", 13.6, [1.36, 136.0, 13600.0], "{:g} eV",
         "E<sub>1</sub> = −13.6 eV, so 13.6 eV lifts the electron to zero binding energy.", lvl="Easy"),
-    PRN("Two protons are separated by <v>2.0 fm</v>. What is the <f>repulsive Coulomb force</f> between them?", F2, [F2 / 10, F1, 4 * F1], "{:.3g} N",
-        f"F = ke²/r² = {F2:.1f} N. The answer at 1.0 fm would be {F1:.0f} N, and the strong force must exceed these.", lvl="Moderate",
-        calc=CALC("N", [TILE("k", 8.99e9, "N·m²/C²", disp="8.99 × 10⁹"), TILE("e", 1.602e-19, "C", disp="1.602 × 10⁻¹⁹"), TILE("r", 2.0, "fm", disp="2.0"), CONV("fm", "m", 1e-15), TILE("c", 3.00e8, "m/s", disp="3.00 × 10⁸")], ops=("×", "÷", "(", ")", "²"), solution=["k", "×", "e", "²", "÷", "(", "r", "×", "fm→m", ")", "²"])),
     PRN("What is the <f>energy of the photon</f> emitted when hydrogen drops from <v>n = 2</v> to <v>n = 1</v>?", E21, [E32, 3.40, calc.RY_EV], "{:.3g} eV",
         f"ΔE = 13.6 (1/1² − 1/2²) = {E21:.1f} eV.", lvl="Moderate",
         calc=CALC("eV", [TILE("Ry", 13.6, "eV"), NUM(1), NUM(2), NUM(3), NUM(4)], ops=("×", "÷", "+", "−", "(", ")", "²"), solution=["Ry", "×", "(", "1", "÷", "1", "²", "−", "1", "÷", "2", "²", ")"])),
-    PRN("What <f>energy</f> is needed to ionize a hydrogen atom whose electron is in the <v>n = 2</v> shell?", 3.40, [E32, 6.80, E21], "{:.3g} eV",
-        "E<sub>2</sub> = −13.6/4 = −3.40 eV, so 3.40 eV is needed.", lvl="Moderate"),
     PRN(STEM("Tungsten has these electron binding energies.", ["K shell = 69.5 keV", "L<sub>III</sub> shell = 10.2 keV"], "What is the [[energy of the characteristic photon]] emitted in an L → K transition?"), Ka_W, [L_W, K_W, K_W + L_W], "{:.1f} keV",
         f"The photon carries the difference: 69.5 − 10.2 = {Ka_W:.1f} keV.", lvl="Moderate"),
     PR("Which transition in hydrogen emits the highest-energy photon?", "n = 2 → n = 1", ["n = 3 → n = 2", "n = 4 → n = 3", "n = 5 → n = 4"],
@@ -89,16 +84,12 @@ PROBLEMS = [
     PR("Compared with an outer-shell electron in the same atom, an inner-shell electron is:", "bound more tightly, so more energy is needed to remove it",
        ["bound less tightly, because it is shielded by outer electrons", "bound equally, because binding depends only on Z", "bound more tightly only in elements with Z above 50"],
        "Inner electrons feel almost the full nuclear charge; outer electrons are shielded. K-shell binding energy is the largest in every atom.", lvl="Moderate"),
-    PRN("A <v>6.0 MeV</v> electron moves perpendicular to a uniform <v>0.20 T</v> magnetic field. What is the <f>radius</f> of its path?", r6, [r_cl, 2 * r6, 3 * r6], "{:.1f} cm",
-        f"pc = √(KE² + 2·KE·m₀c²) = {pc6:.2f} MeV, so r = pc / (299.8 B) = {pc6:.3f} / (299.8 × 0.20) = {r6 / 100:.4f} m = {r6:.1f} cm. The non-relativistic momentum gives {r_cl:.1f} cm.", lvl="Challenging"),
     PR("An inner-shell vacancy in an atom can be filled with emission of a characteristic x-ray or an Auger electron. Which statement is correct?", "In the Auger process the transition energy is given to another orbital electron, which is ejected instead of a photon being emitted",
        ["Auger electrons come from the nucleus", "A characteristic x-ray has an energy that depends on the energy of the particle that created the vacancy", "The Auger electron always has more energy than the characteristic x-ray from the same transition"],
        "Both release the vacancy energy. The Auger electron carries away the transition energy minus its own binding energy, so it has less energy than the x-ray would. Characteristic x-ray energy is set by the shells, not by the projectile.", lvl="Challenging"),
-    PRN("Two protons <v>2.0 fm</v> apart repel with a force of <v>57.7 N</v>. At what <f>separation</f> is the force <v>14.4 N</v>?", 4.0, [1.0, 2.8, 8.0], "{:g} fm",
-        "F fell by a factor of 57.7 / 14.4 = 4, so r grew by √4 = 2: r = 4.0 fm.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 5], 1: [2, 11]}
+INLINE = {0: [1], 1: [2]}
 
 TERMS = ["Coulomb's law", 'magnetic force', 'binding energy']
 
@@ -121,10 +112,6 @@ PROBLEMS += [
        "The field is the force per unit charge, N/C, and it is also the potential difference per unit length, V/m. The volt is a potential difference, the farad is a capacitance, and the coulomb is a charge.", lvl="Easy"),
     PRN(STEM("An electron crosses a gap of 2.5 cm along a uniform electric field of 8.0 MV/m, in the direction of the force.", [], "What [[energy]] does it gain?"), E_gap_keV, [E_gap_keV / 10, E_gap_keV * 10, E_gap_keV * 2], "{:.0f} keV",
         f"The potential difference is E d = 8.0 × 10<sup>6</sup> V/m × 0.025 m = 200 kV, and an electron that crosses 200 kV gains 200 keV. A length wrong by a factor of ten gives a value ten times too small or too large.", lvl="Moderate"),
-    PR("Which statement about electric current is correct?", "Conventional current points from the positive terminal toward the negative one, opposite to the motion of the electrons in a wire", ["Conventional current points in the direction in which the electrons move", "Direct current reverses its direction periodically", "The unit of current is the coulomb"],
-       "By convention the current points the way positive charge would flow, so in a wire it is opposite to the electron motion. Alternating current is the one that reverses, and the unit of current is the ampere, one coulomb per second.", lvl="Easy"),
-    PR("The current through a resistor and the potential difference across it are to be measured. The ammeter and the voltmeter are connected:", "the ammeter in series with the resistor, and the voltmeter in parallel across it", ["both in series with the resistor", "both in parallel across the resistor", "the ammeter in parallel across the resistor, and the voltmeter in series"],
-       "The ammeter has to carry the current that is to be measured, so it is in series. The voltmeter compares the potentials at the two ends of the component, so it is in parallel.", lvl="Easy"),
     PR("In the accelerating waveguide of a linac, the electrons gain energy from:", "an alternating radiofrequency electric field that points forward when they are in the accelerating gaps", ["a constant voltage of several MV applied across the whole structure", "the static magnetic field of the bending magnet", "the electron gun, which sets the final energy"],
        "Each gap adds the energy qΔV, and the timing of the microwave field keeps the field pointing forward whenever the electrons are in a gap. A magnetic field only bends the path, and the gun sets the starting energy.", lvl="Moderate"),
     PR("The SI unit of magnetic field is the tesla. How does it compare with the gauss?", "1 T = 10,000 G", ["1 T = 1 G", "1 T = 100 G", "1 T = 0.0001 G"],

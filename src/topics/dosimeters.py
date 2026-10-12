@@ -177,14 +177,10 @@ TOPIC = dict(
         F("Stem effect in plastic scintillators", "Cerenkov light from electrons crossing the optical fibre, which grows with the length of fibre in the field. It is removed with a blank fibre or by its spectrum."),
         F("TLD glow curve", "The light emitted against temperature as the chip is heated at a steady rate. The main LiF:Mg,Ti peak lies near 200 °C."),
         F("TLD annealing", "LiF:Mg,Ti: about 1 h at 400 °C, then about 2 h at 100 °C, empties the traps and restores the sensitivity before reuse."),
-        F("Supralinearity of LiF:Mg,Ti", "The light per gray is constant up to about 1 Gy or more and then rises; the onset lies between about 1 and 10 Gy, so higher doses need a linearity correction."),
         F("Element correction factor", "The batch mean reading divided by the chip's own reading after the same dose. D = M × ECF × D<sub>cal</sub> / M<sub>cal</sub>."),
         F("OSLD readout and reuse", "Green light releases the charge stored in Al<sub>2</sub>O<sub>3</sub>:C as blue light near 420 nm. A reading uses a small fraction of the signal, and optical bleaching resets the dosimeter."),
-        F("Low-energy over-response by material", "Near 30 keV, against a megavoltage calibration: LiF (Z<sub>eff</sub> 8.2) about 1.2 to 1.4 times, Al<sub>2</sub>O<sub>3</sub> (about 11) three to four times, and unshielded silicon and silver-halide film more."),
         F("Radiochromic film", "Close to tissue and self-developing. It darkens fast in the first hours and slowly for days after exposure, so films are scanned at a fixed delay, and its reading depends on the scan orientation and the position on the scanner bed."),
         F("Optical density", "OD = log<sub>10</sub>(I<sub>0</sub>/I), so OD 1 transmits 10% and OD 2 transmits 1%. Net OD subtracts the OD of unexposed film."),
-        F("Fricke dosimeter", f"Radiation oxidizes Fe<sup>2+</sup> to Fe<sup>3+</sup>, read by absorbance at 304 nm. G ≈ {G_100EV:g} ions per 100 eV ({1e6 * g_mol_per_j(G_100EV):.2f} μmol/J), and D = ΔA / (ε l ρ G)."),
-        F("Gel dosimeters", "Read in 3D by MRI or optical CT. Fricke gels blur as ferric ions diffuse; polymer gels are inhibited by oxygen and can depend on dose rate."),
     ],
 )
 
@@ -221,11 +217,6 @@ PROBLEMS = [
     PR(STEM("Profiles of a 30 × 30 cm 6 MV field at 20 cm depth are scanned with an unshielded silicon diode and with an ion chamber. Outside the field edge the diode reads several percent higher.", [], "What causes the difference?"),
        "Silicon absorbs low-energy scattered photons more strongly than water", ["The diode's sensitivity rises with the dose per pulse", "Radiation damage has lowered the diode's sensitivity", "The diode is warmer than the ion chamber"],
        "Outside a large field at depth much of the dose comes from low-energy scatter, which silicon (Z = 14) absorbs far more strongly per gram than water. A sensitivity that rises with the dose per pulse would make the diode read lower outside the field, where the dose per pulse is lower, and damage or warmth would change every reading by the same fraction.", lvl="Moderate"),
-    PRN(STEM("A silicon diode is compared with an air cavity of the same volume.", [f"energy per charge pair: silicon {W_SI:g} eV, air {W_AIR} eV", f"density: silicon {RHO_SI} g/cm³, air {RHO_AIR} g/cm³"],
-             "For the same absorbed dose in each, how many times more [[charge per unit volume]] does the diode free?"),
-        sens, [q_e, q_dens, q_dens / q_e], lambda v: sig2(v) + " times",
-        f"Charge per unit volume is the density divided by the energy per pair: ({RHO_SI} / {RHO_AIR}) × ({W_AIR} / {W_SI:g}) = {q_dens:,.0f} × {q_e:.2f} = {sens:,.0f}, about {sens_r:,}. The density ratio alone gives {dens_r:,}, and the ratio of the energies alone {q_e:.1f}.",
-        w=[f"Density ratio: {RHO_SI} / {RHO_AIR} = {q_dens:,.0f}", f"Pairs per unit energy: {W_AIR} / {W_SI:g} = {q_e:.2f}", f"Product: {q_dens:,.0f} × {q_e:.2f} = {sens:,.0f}"], lvl="Moderate"),
     PRM(STEM("An in vivo diode reading is converted to the entrance dose under conditions that differ from its calibration.", [], "Which of these correction factors apply?"),
         ["SSD", "Field size", "Temperature of the diode"], ["Air density (temperature and pressure)", "Polarity of the collecting voltage", "Stopping-power ratio of water to air"],
         "A diode has no air cavity and no bias, so the ion-chamber corrections for air density, polarity, and the water-to-air stopping-power ratio play no part. Its sensitivity changes with the dose per pulse (SSD), the scatter in the field (field size), and its temperature; TG-62 also lists wedge and beam-angle factors.", lvl="Moderate"),
@@ -245,11 +236,6 @@ PROBLEMS = [
     PRN(STEM("Every chip of a TLD batch receives the same dose.", ["batch mean reading = 20.0 nC", "reading of one chip = 19.2 nC"], "What is the [[element correction factor]] of that chip?"),
         q_ecf, [19.2 / 20.0, 0.8 / 19.2, 0.8], "{:.3f}",
         f"ECF = batch mean / chip reading = 20.0 / 19.2 = {q_ecf:.3f}, so a reading from this chip is multiplied by {q_ecf:.3f}. The inverse ratio, {19.2 / 20.0:.3f}, would make a chip that reads low read lower still.", lvl="Easy"),
-    PRN(STEM("A LiF chip is read after an in vivo measurement.", [f"chip reading = {q_tm:.1f} nC", f"ECF of the chip = {q_tecf:.3f}", f"calibration chips: {q_tdcal:.2f} Gy gives a mean corrected reading of {q_tmcal:.1f} nC"],
-             "What [[dose]] did the chip receive?"),
-        q_tld, [q_tld_div, q_tld_no, q_tld_nocal], "{:.3f} Gy",
-        f"D<sub>cal</sub> / M<sub>cal</sub> = {q_tdcal:.2f} / {q_tmcal:.1f} = {q_tdcal / q_tmcal:.5f} Gy/nC, and D = {q_tm:.1f} × {q_tecf:.3f} × {q_tdcal / q_tmcal:.5f} = {q_tld:.3f} Gy. Dividing by the ECF gives {q_tld_div:.3f} Gy, and leaving it out gives {q_tld_no:.3f} Gy.",
-        w=[f"{q_tdcal:.2f} Gy / {q_tmcal:.1f} nC = {q_tdcal / q_tmcal:.5f} Gy/nC", f"{q_tm:.1f} × {q_tecf:.3f} = {q_tm * q_tecf:.3f} nC corrected", f"{q_tm * q_tecf:.3f} × {q_tdcal / q_tmcal:.5f} = {q_tld:.3f} Gy"], lvl="Moderate"),
     PR(STEM("LiF TLDs and Al<sub>2</sub>O<sub>3</sub>:C OSLDs, both calibrated in a 6 MV beam, are placed side by side in a 50 kV x-ray beam, and no energy correction is applied.", [], "How do their readings compare with the true dose to water?"),
        "Both read high, the OSLDs far more than the TLDs", ["Both read high, the TLDs far more than the OSLDs", "Both read low, by about the same fraction", "Both read correctly, because each was calibrated"],
        "Photoelectric absorption per gram rises steeply with atomic number. LiF (effective atomic number 8.2) is close to water (7.4) and reads about 1.2 to 1.4 times high near 30 keV, while Al<sub>2</sub>O<sub>3</sub> (about 11) reads three to four times high. A calibration at 6 MV does not carry over to a low-energy beam.", lvl="Challenging"),
@@ -267,24 +253,11 @@ PROBLEMS = [
     PRM(STEM("Radiochromic film is chosen for a plan check.", [], "Which of these describe radiochromic film?"),
         ["It forms its image without chemical processing", "It keeps darkening after exposure, fast at first and then slowly"], ["It over-responds strongly below about 150 keV", "It is read by heating it in a reader", "Its reading is the same in any scanner orientation"],
         "Radiochromic film polymerizes and darkens by itself, most of it in the first hours. The strong low-energy over-response belongs to silver-halide film, heating reads a TLD, and portrait and landscape scans can differ by up to about 10%.", lvl="Easy"),
-    SORT("Four detectors are calibrated in a megavoltage beam. Rank them by their over-response to 30 keV photons, least first.", ["1st (least)", "2nd", "3rd", "4th (most)"],
-         [("Radiochromic film", 0), ("LiF TLD", 1), ("Al<sub>2</sub>O<sub>3</sub>:C OSLD", 2), ("Silver-halide film", 3)],
-         "Photoelectric absorption per gram rises steeply with atomic number, so the over-response follows the effective atomic number: radiochromic film is close to water, LiF is 8.2, and Al<sub>2</sub>O<sub>3</sub> about 11, while the emulsion holds silver (47) and bromine (35) and reads up to about ten times high.", lvl="Challenging", mode="rank", cap=1),
 
     # ---- arrays, gels, and chemical dosimeters
     PR(STEM("A VMAT plan is checked with a diode array whose detectors are 10 mm apart, and it passes. Film in the same phantom shows a strip of low dose 3 mm wide where one MLC leaf lagged.", [], "Why did the array miss the strip?"),
        "The strip fell between detectors, which sample the dose only at their positions", ["Diodes over-respond to low-energy scatter in the strip", "The array was calibrated against an ion chamber", "The film over-responds in regions of low dose"],
        "An array measures the dose only at its detectors, so a feature narrower than the 10 mm spacing can lie between two of them. The over-response of silicon would not hide a 3 mm strip, and a calibration against an ion chamber sets the dose scale of every detector, not where it samples.", lvl="Moderate"),
-    PR(STEM("A Fricke gel is irradiated with a stereotactic plan and imaged by MRI the next day. The dose edges look blurred compared with the plan.", [], "What is the most likely cause?"),
-       "Ferric ions diffused through the gel before imaging", ["Oxygen inhibited polymerization at the edges", "The MRI signal does not depend on the ferric ions", "The gel over-responds to low-energy scatter"],
-       "Radiation turns ferrous into ferric ions, which change the MR relaxation rate, but the ions diffuse through the gel within hours and blur steep gradients. Oxygen inhibition belongs to polymer gels, where the polymer stays in place.", lvl="Moderate"),
-    PRN(STEM("A Fricke solution is read in a 1.00 cm cell at 304 nm.", ["ΔA = 0.090", f"ε = {EPS_FE:,.0f} L mol<sup>−1</sup> cm<sup>−1</sup>", f"ρ = {RHO_FRICKE:.3f} kg/L", f"G = {G_100EV:g} Fe<sup>3+</sup> ions per 100 eV"],
-             "What [[dose]] did the solution absorb?"),
-        q_fr, [q_fr_norho, q_fr_xrho, q_fr_g], "{:.1f} Gy",
-        f"G = {G_100EV:g} / (100 eV × 1.602 × 10<sup>−19</sup> J/eV × 6.022 × 10<sup>23</sup> mol<sup>−1</sup>) = {1e6 * q_g:.3f} μmol/J, and D = ΔA / (ε l ρ G) = {q_fr:.1f} Gy. Leaving out the density gives {q_fr_norho:.1f} Gy, and reading G as {G_100EV:g} μmol/J gives {q_fr_g:.1f} Gy.",
-        w=[f"G = {G_100EV:g} / {sci(100 * E_CHARGE * N_A, 4)} J mol<sup>−1</sup> = {1e6 * q_g:.4f} μmol/J",
-           f"Ferric ions: 0.090 / ({EPS_FE:,.0f} × 1.00) = {sci(0.090 / EPS_FE, 3)} mol/L, or {sci(0.090 / EPS_FE / RHO_FRICKE, 3)} mol/kg",
-           f"D = {sci(0.090 / EPS_FE / RHO_FRICKE, 3)} / ({1e6 * q_g:.4f} × 10<sup>−6</sup>) = {q_fr:.1f} Gy"], lvl="Challenging"),
 
     # ---- detector choice by task
     PR(STEM("The output factor of a 5 mm diameter stereotactic cone is measured in a 6 MV beam.", [], "Which detector suits the measurement best?"),
@@ -299,7 +272,7 @@ PROBLEMS = [
          "A diode collects charge pairs in its junction, a MOSFET keeps the dose as trapped charge that shifts its threshold voltage, and a scintillator emits light at once. A TLD releases its stored charge as light when heated and an OSLD when stimulated with light. Radiochromic film darkens as its monomer polymerizes.", lvl="Moderate", mode="match", cap=1),
 ]
 
-INLINE = {0: [1, 2, 3, 4], 1: [6, 7, 8, 9], 2: [11, 12, 13, 14], 3: [16, 17], 4: [19, 20]}
+INLINE = {0: [1, 2, 3], 1: [5, 6, 7], 2: [9, 10, 11, 12], 3: [13], 4: [14, 15]}
 
 TERMS = ["threshold voltage", "stem effect", "glow curve", "supralinearity", "element correction factor", "optical bleaching", "net optical density", "G value"]
 

@@ -39,25 +39,18 @@ DECAY_LAW = [
         f"D<sub>∞</sub> = Ḋ<sub>0</sub> τ = 7.5 cGy/h × (1.443 × 59.4 × 24 h) = {d_inf * 100:,.0f} cGy = {d_inf:.0f} Gy. Using T<sub>1/2</sub> instead of τ gives {7.5 * 59.4 * 24 / 100:.0f} Gy.", lvl="Challenging"),
     PRN("What <f>percentage of the total dose</f> from a permanent I-125 implant has been delivered after <v>119 days</v> (two half-lives)?", 75.0, [50.0, 63.2, 87.5], "{:g}%",
         "The fraction delivered is 1 − e<sup>−t/τ</sup> = 1 − 2<sup>−t/T<sub>1/2</sub></sup> = 1 − ¼ = 75%.", lvl="Challenging"),
-    PRN("What is the <f>mean life</f> of Tc-99m (<v>T<sub>1/2</sub> = 6.0 h</v>)?", calc.mean_life(6.0), [0.693 * 6.0, 6.0, 12.0], "{:.2f} h",
-        f"τ = 6.0 / 0.693 = {calc.mean_life(6.0):.2f} h.", lvl="Challenging"),
 ]
 
 DECAY_MODES = [
     PR("What is the daughter nuclide when Po-210 (Z = 84) decays by α emission?", "Pb-206 (Z = 82)", ["Pb-210 (Z = 82)", "Bi-210 (Z = 83)", "Rn-206 (Z = 86)"],
        "An α particle carries off 2 protons and 2 neutrons: A falls by 4 and Z by 2.", lvl="Easy"),
     PR("Which of these radionuclides is a positron emitter used for PET?", "F-18", ["Tc-99m", "I-125", "Cs-137"], "F-18 is proton-rich and decays mainly by β⁺. Tc-99m emits γ-rays, I-125 decays by electron capture, and Cs-137 by β⁻.", lvl="Easy"),
-    PR("Which decay raises Z by one without changing A?", "β⁻ decay", ["β⁺ decay", "Electron capture", "α decay"], "A neutron becomes a proton and an electron is emitted.", lvl="Easy"),
     PRM("Which radiations can follow an electron-capture event in the daughter atom?", ["Characteristic x-rays", "Auger electrons"], ["511 keV annihilation photons", "β⁻ particles"],
         "Capture leaves an inner-shell vacancy, which is filled with emission of a characteristic x-ray or an Auger electron. No positron is emitted, so there are no annihilation photons.", lvl="Easy"),
     PR("A nuclide has a decay energy (atomic mass difference) of <v>0.80 MeV</v> between parent and daughter. Which proton-rich <f>decay</f> can occur?", "Electron capture only", ["β⁺ decay only", "Both β⁺ decay and electron capture", "Neither"],
        "β⁺ decay needs at least 1.022 MeV (two electron masses) of available energy. Electron capture needs only a positive decay energy, which 0.80 MeV satisfies.", lvl="Moderate"),
-    PR("Why does a positron emitter produce two 511 keV photons?", "The positron annihilates with an electron, and momentum conservation sends two photons in opposite directions",
-       ["The nucleus emits two γ-rays at each decay", "The positron splits into two photons in flight", "Electron capture accompanies every β⁺ decay"],
-       "Annihilation turns the two rest masses (2 × 511 keV) into radiation. Starting at rest, the photons must be back to back.", lvl="Moderate"),
     PRM("Which statements about internal conversion are correct?", ["The excitation energy is given to an orbital electron", "It leaves a shell vacancy, so characteristic x-rays or Auger electrons follow", "It competes with γ emission"], ["The atomic number changes by one", "A positron is ejected"],
         "Internal conversion is an alternative to γ emission: the nucleus de-excites by ejecting an orbital electron. Z and A are unchanged.", lvl="Moderate"),
-    PR("I-131 (Z = 53) decays by β⁻ emission. What is the daughter nuclide?", "Xe-131 (Z = 54)", ["Te-131 (Z = 52)", "I-130 (Z = 53)", "Xe-127 (Z = 54)"], "β⁻ raises Z by one at constant A.", lvl="Moderate"),
     PR("Tc-99m decays by:", "isomeric transition (γ emission or internal conversion) to Tc-99, with no change in Z or A", ["β⁻ decay to Ru-99", "α decay to Nb-95", "electron capture to Mo-99"],
        "Tc-99m is an excited, metastable state of Tc-99. It drops to the ground state, emitting a 140 keV γ-ray.", lvl="Moderate"),
     PRN("A positron emitter has an atomic mass difference of <v>1.70 MeV</v> between parent and daughter. What is the <f>maximum positron kinetic energy</f>?", emax_beta_plus, [calc.ME, 1.70, 1.70 + 2 * calc.ME], "{:.3f} MeV",
@@ -79,28 +72,19 @@ EQUILIBRIUM = [
        "Mo-99 (65.9 h) outlives Tc-99m (6.0 h) by a factor of 11, which is not large enough for secular equilibrium. The other three parents live far longer than their daughters.", lvl="Easy"),
     PRN(STEM("A parent decays to a daughter.", ["parent T<sub>1/2</sub> = 12.0 h", "daughter T<sub>1/2</sub> = 2.0 h"], "At transient equilibrium, what is the [[ratio of daughter activity to parent activity]] (ignoring branching)?"), 1.2, [1 / 1.2, 1.0, 6.0], "{:.2f}",
         "A<sub>d</sub>/A<sub>p</sub> = T<sub>p</sub>/(T<sub>p</sub> − T<sub>d</sub>) = 12.0 / (12.0 − 2.0) = 1.20.", lvl="Moderate"),
-    PRN(STEM("", ["parent T<sub>1/2</sub> = 36 h", "daughter T<sub>1/2</sub> = 4 h", "no daughter present at t = 0"], "At what [[time]] does the daughter activity peak?"), tmax, [tmax / 2, 20.0, 36.0], "{:.1f} h",
-        f"t<sub>max</sub> = ln(λ<sub>d</sub>/λ<sub>p</sub>) / (λ<sub>d</sub> − λ<sub>p</sub>) = ln(9) / ({ld:.4f} − {lp:.4f}) = {tmax:.1f} h.", lvl="Moderate"),
     PRN(STEM("A sealed Sr-90 source has stood for six weeks.", ["Sr-90: T<sub>1/2</sub> = 28.8 y, A = 40 MBq", "Y-90: T<sub>1/2</sub> = 64 h"], "What is the [[activity of the Y-90 daughter]]?"), 40.0, [4.0, 20.0, 80.0], "{:g} MBq",
         "Sr-90 is long-lived compared with Y-90, so the pair is in secular equilibrium and the daughter activity equals the parent's, 40 MBq.", lvl="Moderate"),
-    PR("In transient equilibrium the daughter activity is:", "higher than the parent's, by the factor T<sub>p</sub>/(T<sub>p</sub> − T<sub>d</sub>)", ["equal to the parent's", "lower than the parent's", "zero"],
-       "With a shorter-lived daughter the activity ratio is above one: each daughter atom decays faster, so a given number of atoms gives more activity.", lvl="Moderate"),
-    PRN("Ignoring branching, what is the <f>ratio of Tc-99m to Mo-99 activity</f> at transient equilibrium (T<sub>1/2</sub> = <v>6.01 h</v> and <v>65.94 h</v>)?", mo_tc, [1 / mo_tc, 1.0, 1.5], "{:.2f}",
-        f"65.94 / (65.94 − 6.01) = {mo_tc:.2f}. (The real ratio is about 0.97 because only about 88% of Mo-99 decays feed Tc-99m.)", lvl="Moderate"),
     PRN("In secular equilibrium starting with no daughter, what <f>percentage</f> of the final daughter activity has grown in after <v>one daughter half-life</v>?", 50.0, [25.0, 63.2, 75.0], "{:g}%",
         "The daughter activity grows as 1 − 2<sup>−t/T<sub>d</sub></sup>. At t = T<sub>d</sub> that is 1 − ½ = 50%. (63.2% is the answer for one mean life.)", lvl="Challenging"),
-    PRN("In secular equilibrium, about how many <f>daughter half-lives</f> are needed to reach <v>99%</v> of the equilibrium activity?", n_hl, [3.3, 5.0, 10.0], "{:.1f}",
-        f"1 − 2<sup>−n</sup> = 0.99 gives 2<sup>−n</sup> = 0.01, so n = log<sub>2</sub>100 = {n_hl:.1f}.", lvl="Challenging"),
     PR("Which statement about transient equilibrium is correct?", "The daughter activity stays above the parent's by a constant factor, and both fall with the parent's half-life", ["The daughter and parent activities become equal", "The daughter activity stays constant while the parent decays", "The daughter decays with its own half-life from the start"],
        "In transient equilibrium the daughter activity is higher than the parent's by a constant factor, and both fall with the parent's half-life. Equal activities are the secular limit, a constant daughter activity needs a parent that barely decays, and the daughter's own half-life governs only the early build-up.", lvl="Challenging"),
 ]
 EXTRA = {"decay-law": DECAY_LAW, "decay-modes": DECAY_MODES, "equilibrium": EQUILIBRIUM}
-PLACE = {"decay-law": {0: [1, 2], 1: [3, 4], 2: [5, 8]}, "decay-modes": {0: [3, 11], 1: [1, 5, 6], 2: [4, 7]}, "equilibrium": {0: [5], 1: [1, 2, 3]}}
+PLACE = {"decay-modes": {0: [8], 1: [1, 4, 11], 2: [3, 5, 12], 3: [10]}, "decay-law": {0: [1, 2], 1: [3, 4, 15], 2: [5, 8, 14]}, "equilibrium": {1: [1, 2, 3]}}
 
 
 # ---------------------------------------------------------------- sorting, matching, and typed-number questions
 import math as _m, calc as _calc
-_n_dm = len(DECAY_MODES)
 DECAY_MODES += [
     SORT("Sort each radionuclide into the decay mode it mainly uses.", ["β⁻ emitter", "β⁺ emitter", "Electron capture", "α emitter"],
          [("Y-90", 0), ("Lu-177", 0), ("I-131", 0), ("Ir-192", 0), ("F-18", 1), ("I-125", 2), ("Pd-103", 2), ("Ra-223", 3)],
@@ -112,59 +96,33 @@ DECAY_MODES += [
          [("Electron capture", 0), ("Internal conversion", 0), ("β⁻ decay", 1), ("α decay", 1), ("γ emission", 1)],
          "Electron capture takes an inner-shell electron into the nucleus, and internal conversion ejects an orbital electron, so both leave a vacancy that is filled with a characteristic x-ray or an Auger electron. β⁻ decay, α decay, and γ emission do not remove an orbital electron.", lvl="Moderate"),
 ]
-PLACE["decay-modes"].setdefault(3, []).append(_n_dm + 1); PLACE["decay-modes"].setdefault(1, []).append(_n_dm + 2); PLACE["decay-modes"].setdefault(2, []).append(_n_dm + 3)
-_n_dl = len(DECAY_LAW)
 DECAY_LAW += [
     TYPED(STEM("A Co-60 source with T<sub>1/2</sub> = 5.27 y.", ["time in use = 10 y"], "What [[percentage of the activity]] remains?"), 100 * 2 ** (-10 / 5.27), 0.015, "%",
         "10 y is 10/5.27 = 1.90 half-lives, so the fraction left is (½)<sup>1.90</sup> = 0.268, or 26.8%.", lvl="Moderate"),
-    TYPED(STEM("A source loses 2.0% of its activity each day.", [], "What is its [[half-life]]?"), _m.log(2) / -_m.log(1 - 0.02), 0.004, "d",
-        "“2% per day” means that 0.98 of the activity remains after a day, so λ is −ln(0.98) and not 0.02. Taking λ = 0.02 gives 34.7 d, which is too long.",
-        w=[STEP("Decay constant", "λ = −ln(1 − f), f the fraction lost per day", "λ = −ln(1 − 0.020)", f"{-_m.log(1 - 0.02):.4f} d<sup>−1</sup>", "f is the fraction of the activity lost in one day"),
-           STEP("Half-life", "T<sub>1/2</sub> = ln 2 / λ", f"T<sub>1/2</sub> = 0.693 ÷ {-_m.log(1 - 0.02):.4f} d<sup>−1</sup>", f"{_m.log(2) / -_m.log(1 - 0.02):.1f} d", "λ is the decay constant")], lvl="Challenging"),
 ]
-PLACE["decay-law"].setdefault(2, []).extend([_n_dl + 1, _n_dl + 2])
-_n_eq = len(EQUILIBRIUM)
 EQUILIBRIUM += [
-    TYPED(STEM("Mo-99 (T<sub>1/2</sub> = 65.94 h) decays to Tc-99m (T<sub>1/2</sub> = 6.007 h) in a generator immediately after elution.", [], "After how many hours is the [[Tc-99m activity at its peak]]?"), _calc.t_max(65.94, 6.0067), 0.015, "h",
-        "The peak is at t = ln(λ<sub>d</sub>/λ<sub>p</sub>) / (λ<sub>d</sub> − λ<sub>p</sub>), with λ<sub>p</sub> = 0.01051 h<sup>−1</sup> and λ<sub>d</sub> = 0.1154 h<sup>−1</sup>: ln(10.98) / 0.1049 = 22.8 h. There the daughter activity equals the parent activity.", lvl="Challenging"),
 ]
-PLACE["equilibrium"].setdefault(2, []).append(_n_eq + 1)
 
 
 # ---------------------------------------------------------------- tap-the-figure questions
 _t12 = 59.4
 _fig_decay = FS(x=dict(min=0, max=180, ticks=[0, 30, 60, 90, 120, 150, 180], label="Time (days)"), y=dict(min=0, max=100, ticks=[0, 25, 50, 75, 100], label="Activity (% of initial)", fmt="pct"),
                 series=[dict(pts=PTS(lambda t: 100 * 0.5 ** (t / _t12), 0, 180), color="plot-1")], xunit=" d", xdec=0, xname="Time", label="Activity of an I-125 source against time")
-_n_f = len(DECAY_LAW)
 DECAY_LAW += [
-    FIGQ(STEM("An I-125 source decays as shown.", ["T<sub>1/2</sub> = 59.4 d"], "Tap the [[time]] at which its activity has fallen to 25% of the initial value."), _fig_decay, [(2 * _t12 - 8, 2 * _t12 + 8)],
-         "25% is two half-lives, because ½ × ½ = ¼. That is 2 × 59.4 = 118.8 d. On the graph, follow the 25% line across to the curve and read the time below it.", lvl="Easy", note="about 119 d"),
-    FIGQ(STEM("An I-125 source.", ["T<sub>1/2</sub> = 59.4 d"], "Tap the [[mean life]] τ on the time axis."), _fig_decay, [(_t12 / math.log(2) - 8, _t12 / math.log(2) + 8)],
-         "The mean life is τ = T<sub>1/2</sub> / 0.693 = 1.44 × T<sub>1/2</sub> = 85.7 d. It is the time at which the activity has fallen to 1/e = 36.8%, not to 50%.", lvl="Moderate", note="about 86 d"),
 ]
-PLACE["decay-law"].setdefault(1, []).extend([_n_f + 1, _n_f + 2])
 _lp, _ld = math.log(2) / 65.94, math.log(2) / 6.0067
 _adf = lambda t: 0.88 * _ld / (_ld - _lp) * (math.exp(-_lp * t) - math.exp(-_ld * t))
 _fig_eq = FS(x=dict(min=0, max=120, ticks=[0, 24, 48, 72, 96, 120], label="Time after elution (h)"), y=dict(min=0, max=100, ticks=[0, 25, 50, 75, 100], label="Activity (% of initial Mo-99)", fmt="pct"),
              series=[dict(pts=PTS(lambda t: 100 * math.exp(-_lp * t), 0, 120), color="plot-1")],
              texts=[dict(x=70, y=52, t="Mo-99", color="plot-1", b=True)], xunit=" h", xdec=0, xname="Time", label="Mo-99 activity after elution")
-_n_f = len(EQUILIBRIUM)
 EQUILIBRIUM += [
-    FIGQ(STEM("A Mo-99/Tc-99m generator is eluted at time zero. The graph shows the Mo-99 activity only.", [], "Tap the [[time]] at which the Tc-99m activity is greatest."), _fig_eq, [(_calc.t_max(65.94, 6.0067) - 3, _calc.t_max(65.94, 6.0067) + 3)],
-         "The daughter activity peaks at t<sub>max</sub> = ln(λ<sub>d</sub>/λ<sub>p</sub>) / (λ<sub>d</sub> − λ<sub>p</sub>), which is about 23 h for Tc-99m (6.01 h) growing from Mo-99 (65.9 h). The Tc-99m curve is not plotted, so the time has to be calculated or recalled.", lvl="Moderate", note="about 23 h"),
 ]
-PLACE["equilibrium"].setdefault(2, []).append(_n_f + 1)
 
 
 # ---------------------------------------------------------------- two sources with equal activity, and the chance of decay
-_n_dl2 = len(DECAY_LAW)
 _lx, _ly = math.log(2) / 12, math.log(2) / 40
 _t_eq = math.log(9.0 / 2.5) / (_lx - _ly)
 DECAY_LAW += [
-    PRN(STEM("Source X has an activity of 9.0 mCi and a half-life of 12 d. Source Y has 2.5 mCi and a half-life of 40 d.", [], "After how many [[days]] do the two sources have the same activity?"), _t_eq, [12 * math.log2(9.0 / 2.5), 12 + 40.0, 40 * math.log2(9.0 / 2.5)], "{:.1f} d",
-        f"The activities are equal when 9.0 e<sup>−λ<sub>X</sub>t</sup> = 2.5 e<sup>−λ<sub>Y</sub>t</sup>, so t = ln(9.0 / 2.5) / (λ<sub>X</sub> − λ<sub>Y</sub>). With λ<sub>X</sub> = {_lx:.5f} d<sup>−1</sup> and λ<sub>Y</sub> = {_ly:.5f} d<sup>−1</sup>, t = {math.log(9.0 / 2.5):.3f} / {_lx - _ly:.5f} = {_t_eq:.1f} d. Letting X fall to 2.5 mCi while ignoring the decay of Y gives {12 * math.log2(9.0 / 2.5):.1f} d, and adding the two half-lives gives 52.0 d.", lvl="Challenging"),
     PR("A radionuclide has a half-life of 10 days. One nucleus has survived for 30 days without decaying. What is the probability that it decays during the next 10 days?", "50%, the same as for any nucleus, because the chance of decay does not depend on the age of the nucleus", ["12.5%, because most of the activity has already gone", "100%, because the nucleus is overdue", "87.5%, the fraction that has decayed after three half-lives"],
        "The decay constant is the same for every nucleus of the nuclide, whatever its age, so each interval of one half-life carries the same 50% chance. A sample loses half of its nuclei in each half-life because each surviving nucleus has that same chance.", lvl="Moderate"),
 ]
-PLACE["decay-law"].setdefault(2, []).append(_n_dl2 + 1)
-PLACE["decay-law"].setdefault(1, []).append(_n_dl2 + 2)

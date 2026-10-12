@@ -155,14 +155,9 @@ TOPIC = dict(
         F("High-risk CTV", "The whole cervix with any tumour remaining at brachytherapy, contoured on MR or CT and reported as D<sub>90</sub>."),
         F("D<sub>2cc</sub> of an organ at risk", "The minimum dose in the most exposed 2 cm³ of the organ."),
         F("Cervix EQD2 goals of the ABS", "High-risk CTV D<sub>90</sub> 80 to 90 Gy in total. D<sub>2cc</sub> at most about 90 Gy for the bladder and 70 to 75 Gy for the rectum and sigmoid."),
-        F("Geometric optimization", "Dwell times set from the positions alone: longer where neighbouring positions add less dose, as at the ends of a catheter."),
-        F("TRAK as the source decays", "The times of the same plan grow as 1/S<sub>K</sub>, so the TRAK stays the same.",
-          w=[f"40,000 U for {t0:.1f} s and {SK0 * f45:,.0f} U for {t45:.1f} s both give {trak0:,.0f} µGy at 1 m."]),
         F("Prostate seed prescriptions", "Implant alone, to full decay: 145 Gy for I-125, 125 Gy for Pd-103, 115 Gy for Cs-131."),
         F("Timing of the postimplant CT", "About 30 days after an I-125 implant, sooner after Pd-103 or Cs-131, once the edema has largely resolved."),
         F("Peripheral loading", "Most seeds near the edge of the gland and few at the centre, to keep the urethral dose down."),
-        F("COMS eye plaque prescription", "85 Gy to the tumour apex, or to 5 mm for a thinner tumour, at 0.60 to 1.05 Gy/h over 3 to 7 days. It was 100 Gy before the COMS adopted TG-43 dosimetry in 1996."),
-        F("Skin surface applicators", "Prescribed at 3 mm depth: 40 Gy in 8 fractions or 42 Gy in 6."),
     ],
 )
 
@@ -194,17 +189,9 @@ PROBLEMS = [
              ["external beam = 45 Gy in 25 fractions", "rectum D<sub>2cc</sub> per HDR fraction = 4.2 Gy, in 4 fractions", "α/β = 3 Gy for the rectum"],
              "What is the [[total EQD2]] of the rectum D<sub>2cc</sub>?"), r_tot, [r_phys, r_ab10, r_bed], "{:.1f} Gy",
         f"External beam: 45 × (1.8 + 3) / (2 + 3) = {r_eb:.1f} Gy. HDR: {RQ_D * HDR_N:.1f} × (4.2 + 3) / (2 + 3) = {r_hdr:.1f} Gy. Total = {r_tot:.1f} Gy, below the ABS limit of 70 to 75 Gy. The physical sum is {r_phys:.1f} Gy, α/β = 10 Gy gives {r_ab10:.1f} Gy, and adding the BEDs gives {r_bed:.1f} Gy.", lvl="Challenging"),
-    TYPED(STEM("An HDR course for a cervical cancer must keep the rectum within a stated limit. The rectum is taken to receive the full external beam dose.",
-               ["external beam = 45 Gy in 25 fractions", "HDR = 4 fractions", "limit for the rectum D<sub>2cc</sub> = 75 Gy EQD2", "α/β = 3 Gy"],
-               "What is the [[largest rectal D<sub>2cc</sub> per HDR fraction]] that stays within the limit?"), d_max, 0.02, "Gy",
-          f"The external beam uses 45 × 4.8 / 5 = {r_eb:.1f} Gy, leaving {r_left:.1f} Gy. Four fractions of d give 4 d (d + 3) / 5, so d² + 3d − {r_left * 5 / 4:.2f} = 0 and d = {d_max:.2f} Gy. Dividing the remaining {r_left:.1f} Gy by four, as if it were physical dose, gives {r_left / 4:.2f} Gy per fraction, far too much.", lvl="Challenging"),
     PRN(STEM("One dwell position of an Ir-192 HDR source treats a point on its transverse axis. Use the point-source form with g(r) and the anisotropy taken as 1.",
              ["S<sub>K</sub> = 36,000 U", "Λ = 1.11 cGy h<sup>−1</sup> U<sup>−1</sup>", "distance = 1.5 cm", "dose at the point = 6.0 Gy"], "What [[dwell time]] delivers this dose?"), tq, [tq_noinv, tq_lin, tq_mul], "{:.0f} s",
         f"Ḋ = 36,000 × 1.11 / 1.5² = {rate_q:,.0f} cGy/h = {rate_q / 3600:.3f} cGy/s, so t = 600 / {rate_q / 3600:.3f} = {tq:.0f} s. Leaving out the inverse square gives {tq_noinv:.0f} s, dividing by r in place of r² gives {tq_lin:.0f} s, and multiplying by r² gives {tq_mul:.0f} s.", lvl="Challenging"),
-    PRN(STEM("A hand check of an HDR plan recalculates the dose at a reference point from two dwell positions. Use the point-source form with g(r) and the anisotropy taken as 1.",
-             ["S<sub>K</sub> = 40,000 U", "Λ = 1.11 cGy h<sup>−1</sup> U<sup>−1</sup>", "dwell 1: 2.0 cm from the point, 100 s", "dwell 2: 2.5 cm from the point, 150 s"],
-             "What [[dose]] do the two dwells give at the point?"), pd_sum / 100, [pd_noinv / 100, pd_lin / 100, pd_each[0] / 100], "{:.2f} Gy",
-        f"Each dwell gives S<sub>K</sub> Λ t / r²: 40,000 × 1.11 × (100 / 3600 h) / 2.0² = {pd_each[0]:.1f} cGy and 40,000 × 1.11 × (150 / 3600 h) / 2.5² = {pd_each[1]:.1f} cGy, so D = {pd_sum:.1f} cGy = {pd_sum / 100:.2f} Gy. Leaving out the inverse square gives {pd_noinv / 100:.2f} Gy, dividing by r in place of r² gives {pd_lin / 100:.2f} Gy, and the first dwell alone gives {pd_each[0] / 100:.2f} Gy.", lvl="Moderate"),
     PR("An HDR plan is recalculated 30 days later to deliver the same dose distribution with the decayed source. How does the total reference air kerma of the plan change?",
        "It stays the same, because the times grow as the strength falls",
        ["It falls in proportion to the source strength", "It rises in proportion to the treatment time", "It changes by the square of the decay factor"],
@@ -227,21 +214,6 @@ PROBLEMS = [
     PRN(STEM("An I-125 prostate implant. Licences count activity, so the strength is converted with the exposure rate constant.", ["seeds = 90", "S<sub>K</sub> per seed = 0.45 U", "1 mCi of apparent activity = 1.27 U for I-125"],
              "What is the [[total apparent activity]] implanted?"), a_q, [skq_tot, skq_tot * U_MCI, SKQ_SEED / U_MCI], "{:.3g} mCi",
         f"Total S<sub>K</sub> = 90 × 0.45 = {skq_tot:.2f} U, and {skq_tot:.2f} / {U_MCI:.3f} = {a_q:.1f} mCi. Reading the strength in U as mCi gives {skq_tot:.1f}, multiplying by the factor gives {skq_tot * U_MCI:.1f}, and one seed alone is {SKQ_SEED / U_MCI:.3f} mCi.", lvl="Moderate"),
-    PR("A choroidal melanoma lies against the optic disc. Which plaque design lets the plaque cover the tumour base with a margin?",
-       "A notched plaque, cut away to fit around the optic nerve",
-       ["A plaque with a thicker gold-alloy backing", "A smaller plaque loaded with stronger seeds", "A plaque loaded with Pd-103 in place of I-125"],
-       "The notch lets the plaque sit against the nerve, so its seeds still reach the tumour edge at the disc. A thicker backing, stronger seeds, or another isotope does not change where the plaque can sit.", lvl="Easy"),
-    PRM("An I-125 episcleral plaque is sutured over a choroidal melanoma. Which of these limit the dose to the tissue behind and beside the plaque?",
-        ["The gold-alloy shell behind the seeds", "The lip of the shell around the seeds"],
-        ["The Silastic carrier that holds the seeds", "The notch cut for the optic nerve", "A lower apex dose rate with a longer implant"],
-        "The low-energy I-125 photons are absorbed in a fraction of a millimetre of gold, so the shell shields the orbit behind the plaque and its lip collimates the dose at the sides. The Silastic carrier sits between the seeds and the eye, the notch only shapes the plaque, and a lower dose rate delivers the same total dose.", lvl="Moderate"),
-    PR("A COMS plaque plan for an I-125 plaque is calculated in water with the TG-43 formalism, ignoring the gold-alloy shell and the Silastic carrier. How does the dose delivered at 5 mm depth compare with this calculation?",
-       f"Lower: about {TG129_I:.0f} Gy where the water calculation gives {APEX:.0f} Gy",
-       [f"Higher: about {2 * APEX - TG129_I:.0f} Gy, from backscatter off the gold", "The same, because the plaque materials lie behind the seeds", f"Lower: about {APEX / 2:.1f} Gy, because the gold absorbs half"],
-       f"TG-129 found that the plaque materials lower the dose: the Silastic carrier attenuates the photons, and the gold scatters back less than the water it replaces, so {APEX:.0f} Gy calculated in water at 5 mm is about {TG129_I:.0f} Gy for I-125. The gold adds no backscatter at these energies, and it lies behind the seeds, not between them and the tumour.", lvl="Challenging"),
-    TYPED(STEM("An I-125 plaque treats a choroidal melanoma. Include the decay of I-125 during the implant.", ["prescription = 85 Gy to the tumour apex", "initial dose rate at the apex = 0.65 Gy/h", "T<sub>1/2</sub> = 59.4 d"],
-               "What [[treatment time]] delivers the prescription?"), tq_plaque, 0.015, "h",
-          f"Mean life τ = 59.4 × 24 / ln 2 = {tau_h:,.0f} h. The dose by time t is Ḋ₀ τ (1 − e<sup>−t/τ</sup>), so t = −τ ln(1 − 85 / (0.65 × {tau_h:,.0f})) = {tq_plaque:.1f} h, about {tq_plaque / 24:.1f} days. Ignoring the decay gives 85 / 0.65 = {tq_plaque0:.1f} h, {100 * (1 - tq_plaque0 / tq_plaque):.1f}% short.", lvl="Challenging"),
     PR("A thin basal cell carcinoma is treated with an HDR surface applicator. To what depth is the dose usually prescribed?",
        "3 mm below the skin surface", ["The skin surface itself", "5 mm below the skin surface", "10 mm below the skin surface"],
        "The ABS working group gives 3 mm as the standard depth for a skin cancer without significant thickness, and a thicker lesion needs a deeper prescription. 5 mm is the usual depth for a vaginal cylinder, and with the steep fall of dose with depth a prescription at the surface would leave the base of the lesion short.", lvl="Easy"),
@@ -251,7 +223,7 @@ PROBLEMS = [
          "D quantities are doses read from the dose–volume histogram at a stated volume, and V quantities are volumes read at a stated dose. TRAK uses no patient data: it is the source strength times the time, expressed at 1 m.", lvl="Moderate", mode="match", cap=1),
 ]
 
-INLINE = {0: [1, 2, 3, 5], 1: [9, 10, 11, 12], 2: [13, 14, 15, 16], 3: [17, 18, 21]}
+INLINE = {0: [1, 2, 3, 5], 1: [8, 9, 10], 2: [11, 12, 13, 14], 3: [15]}
 
 TERMS = ["point A", "point B", "total reference air kerma", "high-risk CTV", "dwell time", "geometric optimization", "peripheral loading", "episcleral plaque"]
 

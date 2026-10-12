@@ -43,7 +43,6 @@ TOPIC = dict(
         F("Reference depth for electron calibration", "d<sub>ref</sub> = 0.6 R<sub>50</sub> − 0.1 cm. It replaces d<sub>max</sub>, because the dose maximum covers a wide range of depths."),
         F("Choosing the electron energy", "Choose the energy whose R<sub>90</sub> (or R<sub>80</sub>) reaches the distal edge of the target: E ≈ 3.3 × depth for R<sub>90</sub>."),
         F("Energy and the dose maximum", "A higher energy gives a broader dose maximum and a deeper range."),
-        F("Field size and the electron PDD", "It matters when the field is smaller than R<sub>p</sub>, because lateral equilibrium is lost."),
         F("Small electron fields", "For fields smaller than R<sub>p</sub>, the depth of maximum dose moves toward the surface and the surface dose increases."),
         F("Large electron fields", "For fields at least as large as R<sub>p</sub>, the PDD curves are the same. For 18 MeV, R<sub>p</sub> is about 9 cm."),
     ],
@@ -58,25 +57,19 @@ PROBLEMS = [
        "The electrons have stopped. The remaining dose, about 1% to 5% of the maximum, is photon contamination.", lvl="Easy"),
     PRN(STEM("A 15 MeV electron beam.", [], "What is [[R<sub>90</sub>]]?"), r90(15), [15 / 3.0, 15 / 2.0, 15 / 2.33], "{:.1f} cm",
         f"R<sub>90</sub> ≈ E / 3.3 = 15 / 3.3 = {r90(15):.1f} cm. The factors 3, 2.33, and 2 belong to R<sub>80</sub>, R<sub>50</sub>, and R<sub>p</sub>.", lvl="Moderate"),
-    PRN(STEM("A 14 MeV electron beam.", [], "What is [[R<sub>50</sub>]]?"), r50(14), [14 / 3.3, 14 / 3.0, 14 / 2.0], "{:.1f} cm",
-        f"R<sub>50</sub> ≈ E / 2.33 = 14 / 2.33 = {r50(14):.1f} cm.", lvl="Moderate"),
     PRN(STEM("A 12 MeV electron beam.", [], "What is the [[reference depth]] d<sub>ref</sub> = 0.6 R<sub>50</sub> − 0.1?"), dref(12), [0.6 * r50(12), r50(12), 0.6 * 6.0 - 0.1], "{:.2f} cm",
         f"R<sub>50</sub> = 12 / 2.33 = {r50(12):.2f} cm, so d<sub>ref</sub> = 0.6 × {r50(12):.2f} − 0.1 = {dref(12):.2f} cm.", lvl="Moderate"),
     PR("A target extends to 3.0 cm depth and is to be covered by the 90% line. The lowest standard energy that does this is:", "12 MeV", ["6 MeV", "9 MeV", "16 MeV"],
        "R<sub>90</sub> ≈ E / 3.3, so E ≈ 3.3 × 3.0 = 9.9 MeV. A 9 MeV beam has R<sub>90</sub> = 2.7 cm and falls short. The next standard energy, 12 MeV, has R<sub>90</sub> = 3.6 cm.", lvl="Moderate"),
     PR("Compared with a 9 MeV beam, an 18 MeV electron beam has:", "a broader dose maximum, a deeper range, and a larger photon tail", ["a narrower dose maximum and a shorter range", "a higher surface dose and a smaller photon tail", "the same range but a larger photon tail"],
        "Higher energy raises the range, widens the dose maximum, and raises the radiative stopping power, which increases the photon contamination.", lvl="Moderate"),
-    PRM("Which statements about the photon tail of an electron beam are correct?", ["It is about 1% to 5% of the maximum dose", "It arises in the head of the linac and in the patient", "It is larger at higher energy"], ["It is caused by electrons that reach deep tissue", "It is smaller at higher energy"],
-        "The tail is bremsstrahlung. It comes from the scattering foil and from the patient, and the radiative stopping power rises with energy.", lvl="Moderate"),
     PR("An 18 MeV beam has a practical range of about 9 cm. Compared with a 12 × 12 cm field, a 6 × 6 cm field has:", "a depth of maximum dose closer to the surface and a higher surface dose", ["the same PDD", "a deeper maximum and a lower surface dose", "a longer practical range"],
        "The field is smaller than R<sub>p</sub>, so lateral equilibrium is lost and the PDD changes.", lvl="Challenging"),
-    PRN(STEM("An electron beam has a practical range of 7.5 cm.", [], "What is its [[energy]], from R<sub>p</sub> ≈ E / 2?"), 2 * 7.5, [3.3 * 7.5, 2.33 * 7.5, 3.0 * 7.5], "{:.1f} MeV",
-        "E ≈ 2 R<sub>p</sub> = 2 × 7.5 = 15.0 MeV. The factors 3.3, 3, and 2.33 belong to R<sub>90</sub>, R<sub>80</sub>, and R<sub>50</sub>.", lvl="Challenging"),
     PR("The reference depth for calibrating an electron beam is based on R<sub>50</sub> rather than d<sub>max</sub> because:", "the dose maximum of an electron beam covers a wide range of depths", ["R<sub>50</sub> is always the deepest point", "d<sub>max</sub> is at the surface", "photon contamination is zero at R<sub>50</sub>"],
        "A calibration point must be well defined. The broad maximum makes d<sub>max</sub> ambiguous, whereas 0.6 R<sub>50</sub> − 0.1 cm is a definite depth.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 3], 1: [4, 5, 7], 2: [8]}
+INLINE = {0: [1, 3], 1: [4, 6], 2: [7, 11]}
 
 TERMS = ['bremsstrahlung', 'practical range', 'reference depth']
 
@@ -88,24 +81,15 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- ranking, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Rank these depths for one electron beam, most superficial first.", ["1st (most superficial)", "2nd", "3rd", "4th (deepest)"],
          [("R<sub>90</sub>", 0), ("R<sub>80</sub>", 1), ("R<sub>50</sub>", 2), ("R<sub>p</sub>", 3)],
          "The dose falls with depth, so the depth at 90% is shallower than the depth at 80%, which is shallower than the depth at 50%. The practical range is the deepest, where the steepest fall-off meets the bremsstrahlung tail.", lvl="Moderate", mode="rank", cap=1),
-    TYPED(STEM("An 18 MeV electron beam.", [], "What is [[R<sub>80</sub>]]?"), r80(18), 0.015, "cm",
-          f"R<sub>80</sub> ≈ E / 3 = 18 / 3 = {r80(18):.1f} cm.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows a schematic PDD of a 12 MeV electron beam.", [], "Tap the [[depth of the 80% dose, R<sub>80</sub>]], on the fall-off."),
-         FS(x=dict(min=0, max=8, ticks=[0, 2, 4, 6, 8], label="Depth (cm)"), y=dict(min=0, max=105, ticks=[0, 25, 50, 75, 100], label="Percent depth dose", fmt="pct"), series=[dict(pts=PTS(pdd_e(12), 0, 8), color="plot-1")], xunit=" cm", xdec=1, xname="Depth", label="Electron PDD, 12 MeV (schematic)"),
-         [(3.7, 4.3)], f"R<sub>80</sub> ≈ E / 3 = 12 / 3 = {r80(12):.1f} cm. The 90% depth is shallower, at {r90(12):.1f} cm, and the 50% depth is deeper, at {r50(12):.1f} cm. The curve is schematic and passes through these points.", lvl="Challenging", note="4.0 cm"),
 ]
-INLINE = {0: [1, 3], 1: [4, 5, 7, _n0 + 3], 2: [8]}
 
 
 # ---------------------------------------------------------------- surface dose against energy
-_np = len(PROBLEMS)
 PROBLEMS += [
     PR("An open photon beam and an open electron beam are each used without bolus. As the beam energy rises, the surface dose relative to the maximum:", "falls for the photon beam and rises for the electron beam", ["falls for both beams", "rises for both beams", "rises for the photon beam and falls for the electron beam"],
        "Higher-energy photons set the electrons in motion more forward, so the dose maximum is deeper and the surface dose is lower. Higher-energy electrons scatter less, so less build-up of the fluence is needed, and the surface dose is a larger fraction of the maximum, roughly 80% at 6 MeV and above 90% at the highest energies.", lvl="Moderate"),
 ]
-INLINE.setdefault(2, []).append(_np + 1)

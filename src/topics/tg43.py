@@ -68,7 +68,6 @@ TOPIC = dict(
         C("Define the dose rate constant Λ and give its units.", "The dose rate to water at the reference point per unit air kerma strength, in cGy h<sup>−1</sup> U<sup>−1</sup>. It is fixed by the seed model."),
         C("What does the geometry function G account for?", "The inverse-square fall-off for the shape of the source. For a point source G = 1/r²."),
         C("Write the line-source geometry function.", "G<sub>L</sub>(r, θ) = β / (L r sin θ) off the axis, and 1 / (r² − L²/4) on the axis. L is the active length and β the angle the source subtends."),
-        C("When does a line source differ from a point source?", f"Close to the seed. For a 3 mm seed the two agree to within 1% beyond about {r_1pct:.1f} cm, five source lengths."),
         C("What does the radial dose function g(r) account for, and what is g(1 cm)?", "Scatter and attenuation in water along the transverse axis. g(1 cm) = 1 by definition."),
         C("How does g(r) depend on photon energy?", "It falls faster for low-energy sources (Pd-103, I-125) than for high-energy ones (Ir-192), because low-energy photons are attenuated more."),
         C("What does the anisotropy function F(r, θ) account for?", "The angular dependence of the dose from absorption in the capsule, welds, and marker. F = 1 at 90°, and it is lower along the seed axis."),
@@ -102,13 +101,9 @@ PROBLEMS = [
        "φ<sub>an</sub> is below 1 because the capsule and marker absorb photons. Setting it to 1 ignores that absorption, so the calculation overestimates the dose.", lvl="Moderate"),
     PRN(STEM("A Pd-103 Model 200 seed.", ["S<sub>K</sub> = 1 U", "Λ = 0.686 cGy h<sup>−1</sup> U<sup>−1</sup>", "L = 4.23 mm,   g(2 cm) = 0.555", "point: r = 2 cm on the transverse axis"], "What is the [[dose rate]]?"), d_pd2, [lam_pd * g_pd, lam_pd * calc.tg43_gl(2, 90, l_pd) / calc.tg43_gl(1, 90, l_pd), lam_pd], "{:.4f} cGy/h",
         f"The geometry ratio G<sub>L</sub>(2, 90°) / G<sub>L</sub>(1, 90°) is {calc.tg43_gl(2, 90, l_pd) / calc.tg43_gl(1, 90, l_pd):.4f}, close to 1/4. Ḋ = 0.686 × {calc.tg43_gl(2, 90, l_pd) / calc.tg43_gl(1, 90, l_pd):.4f} × 0.555 = {d_pd2:.4f} cGy/h. Leaving out g gives {lam_pd * calc.tg43_gl(2, 90, l_pd) / calc.tg43_gl(1, 90, l_pd):.4f}.", lvl="Challenging"),
-    PRN(STEM("An I-125 prostate implant.", ["prescription = 145 Gy", "T<sub>1/2</sub> = 59.4 d"], "What [[initial dose rate]] delivers this over the life of the implant?"), rate145, [rate145_wrong, 14.5, rate145 / 2], "{:.2f} cGy/h",
-        f"D<sub>total</sub> = 1.44 T<sub>1/2</sub> Ḋ₀, so Ḋ₀ = 14,500 cGy / ({1.4427:.4f} × 59.4 × 24 h) = {rate145:.2f} cGy/h. Using the half-life in place of the mean life gives {rate145_wrong:.1f} cGy/h.", lvl="Challenging"),
-    PR("For a 3 mm seed, how does the line-source geometry function at r = 1 cm on the long axis compare with the point-source value 1/r²?", "It is about 2% larger", ["It is about 2% smaller", "It is identical", "It is about 50% larger"],
-       f"G<sub>L</sub>(1, 0) = 1 / (1 − 0.15²) = {gr_ax:.3f}, which is {100 * (gr_ax - 1):.1f}% above 1. On the transverse axis it is slightly below 1 ({gr_tr:.3f}).", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [4, 13], 2: [5, 10], 3: [6, 7], 4: [8, 9]}
+INLINE = {0: [1, 2, 3], 1: [4], 2: [5, 10, 12], 3: [6, 7], 4: [8, 9, 13]}
 
 TERMS = ['air kerma strength', 'dose rate constant', 'geometry function', 'radial dose function', 'anisotropy function']
 
@@ -122,7 +117,6 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- matching, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 _t12 = 59.4
 _t131 = 9.7
 _fig_rate = FS(x=dict(min=0, max=300, ticks=[0, 50, 100, 150, 200, 250, 300], label="Time after implant (days)"), y=dict(min=0, max=100, ticks=[0, 20, 40, 60, 80, 100], label="Dose rate (% of the initial dose rate)", fmt="pct"),
@@ -132,11 +126,6 @@ PROBLEMS += [
          [("Inverse-square fall-off for the shape of the source", 0), ("Scatter and attenuation in water", 1), ("Absorption in the capsule and marker along the seed axis", 2),
           ("Dose rate at 1 cm per unit source strength, for the seed model", 3), ("The strength of the source, which decays with time", 4)],
          "G removes the geometry, g describes how water attenuates and scatters the photons along the transverse axis, and F describes the angular dependence caused by the source construction. Λ links source strength to dose rate for a given seed model, and S<sub>K</sub> is the strength itself.", lvl="Moderate", mode="match", cap=1),
-    TYPED(STEM("An I-125 Model 6711 seed.", ["S<sub>K</sub> = 0.60 U", "Λ = 0.965 cGy h<sup>−1</sup> U<sup>−1</sup>", "G / G₀ = 1.031,   F(1 cm, 0°) = 0.370", "point: r = 1 cm on the seed axis"], "What is the [[dose rate]]?"), 0.60 * d_ax1, 0.012, "cGy/h",
-          f"Ḋ = S<sub>K</sub> Λ (G / G₀) g F = 0.60 × 0.965 × 1.031 × 1 × 0.370 = {0.60 * d_ax1:.3f} cGy/h. This is the per-unit value ({d_ax1:.3f}) times S<sub>K</sub>.", lvl="Moderate"),
     FIGQ(STEM("The graph shows the dose rate of a permanent I-125 implant (T<sub>1/2</sub> = 59.4 d) as a percentage of its initial value.", [], "Tap the [[time by which 75% of the total dose]] has been delivered."), _fig_rate, [(2 * _t12 - 12, 2 * _t12 + 12)],
          "The fraction of the total dose delivered by time t is 1 − R(t)/R(0), where R is the dose rate. So 75% delivered means the rate has fallen to 25%, which takes two half-lives: 2 × 59.4 = 118.8 d. The graph shows the rate, not the cumulative dose.", lvl="Moderate", note="about 119 d"),
-    FIGQ(STEM("The graph shows the dose rate of a permanent I-125 implant (T<sub>1/2</sub> = 59.4 d) as a percentage of its initial value. A Cs-131 implant (T<sub>1/2</sub> = 9.7 d) starts with the same dose rate.", [], "Tap the [[time by which the Cs-131 implant]] has delivered 90% of its total dose."), _fig_rate, [(_t131 * math.log2(10) - 6, _t131 * math.log2(10) + 6)],
-         "90% delivered means ½<sup>t/T</sup> = 0.10, so t = 3.32 half-lives = 3.32 × 9.7 = 32 d. The plotted curve belongs to I-125, which needs 197 d, so the answer cannot be read from it. The shorter half-life delivers the dose about six times faster.", lvl="Challenging", note="about 32 d"),
 ]
-INLINE = {0: [1, 2, 3], 1: [4, 13], 2: [5, 10, _n0 + 1], 3: [6, 7, _n0 + 2], 4: [8, 9, _n0 + 3, _n0 + 4]}

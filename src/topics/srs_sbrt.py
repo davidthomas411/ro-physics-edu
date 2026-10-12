@@ -110,8 +110,6 @@ TOPIC = dict(
           w=["Overlap of two spheres of radius R whose centres are d apart = π (4R + d)(2R − d)² / 12", f"R = 5 mm, d = 1 mm: overlap = {math.pi * 21 * 81 / 12:.1f} mm³ of {4 / 3 * math.pi * 125:.1f} mm³, so {100 * out10:.0f}% lies outside"]),
         F("Gamma Knife", "192 Co-60 sources (201 in older models) aimed at one focal point, with 4, 8, and 16 mm collimators (helmets of 4 to 18 mm on older models). A frame, or on recent models a mask with cone-beam CT."),
         F("Small-field conditions (TRS-483)", "Loss of lateral charged-particle equilibrium on the axis, partial occlusion of the source, or a detector as large as the field. Any one makes a field small."),
-        F("Lateral equilibrium range at 6 MV", f"r<sub>LCPE</sub> = 8.369 TPR<sub>20,10</sub> − 4.382 cm: {r66:.1f} to {r68:.1f} cm for TPR<sub>20,10</sub> of 0.66 to 0.68. Fields narrower than about {2 * r66:.1f} to {2 * r68:.1f} cm lack lateral equilibrium on the axis.",
-          w=[f"TPR<sub>20,10</sub> = 0.66: 8.369 × 0.66 − 4.382 = {r66:.3f} cm", f"TPR<sub>20,10</sub> = 0.68: 8.369 × 0.68 − 4.382 = {r68:.3f} cm"]),
         F("Size of a small field", "The FWHM of the measured profile at the measurement depth, which exceeds the collimator setting once the penumbrae overlap. The equivalent square is √(A × B)."),
         F("Field output factor", "Ω = (M<sub>clin</sub> / M<sub>msr</sub>) × k: the ratio of detector readings times the output correction factor for that detector and field size (TRS-483)."),
         F("Detector response in small fields", "Diodes over-read (k below 1) and air-filled chambers under-read (k above 1). Plastic scintillators and film are close to water."),
@@ -140,9 +138,6 @@ REG = [(8, 7.5), (1, 25), (3, 12), (5, 9)]                                  # re
 
 PROBLEMS = [
     # 1 to 3: systems and localization
-    PR(STEM("An MR scan is fused to the planning CT for radiosurgery.", [], "Where is the geometric distortion caused by gradient nonlinearity largest?"),
-       "Far from the centre of the magnet", ["At the centre of the magnet", "Equal at every point of the image", "Only where contrast agent has been given"],
-       "Gradient nonlinearity grows with distance from the centre of the magnet, so a target near the edge of the field of view shifts most. It is not uniform, and it does not depend on contrast agent; susceptibility differences near air and bone add a separate shift.", lvl="Easy"),
     PR(STEM("A brain metastasis is treated with frameless SRS on a C-arm linac, with the head in a thermoplastic mask.", [], "What provides the targeting accuracy of about 1 mm?"),
        "Imaging before and during treatment, with couch corrections of translation and rotation",
        ["The mask alone, once it has set around the head", "Alignment of the skin marks to the room lasers", "A planning CT taken with the head in the mask"],
@@ -162,9 +157,6 @@ PROBLEMS = [
         ["Loss of lateral charged-particle equilibrium", "Partial occlusion of the source by the collimator"],
         ["Volume averaging in the detector", "Over-response of an unshielded diode", "Perturbation of the fluence by an air cavity"],
         "Electrons leave the narrow beam and are not replaced, and the collimator hides part of the focal spot from the axis; both lower the dose to water. Volume averaging, diode over-response, and cavity perturbation change what a detector reads, which is what k corrects.", lvl="Moderate"),
-    SORT("Rank these detectors from the largest to the smallest volume-averaging error at the centre of a 6 MV field 8 mm across.", ["1st, largest error", "2nd", "3rd", "4th, smallest error"],
-         [("Farmer-type chamber, 0.6 cm³, 23 mm long", 0), ("Scanning chamber, 0.125 cm³, 6 mm across", 1), ("Small ion chamber, 0.015 cm³, 2 mm across", 2), ("Unshielded diode, sensitive region about 1 mm across", 3)],
-         "Volume averaging grows with the extent of the sensitive volume across the peaked profile. A chamber longer than the field averages over the penumbra and beyond it, while a diode about 1 mm across samples close to the centre. Diodes over-read for another reason, the density of silicon.", lvl="Easy", mode="rank", cap=1),
     PR(STEM("Profiles of a 5 mm cone are needed to find its FWHM and penumbra.", [], "Which detector suits this measurement best?"),
        "Radiochromic film", ["A Farmer-type chamber scanned across the field", "A 0.125 cm³ scanning chamber", "Alanine pellets"],
        "Film is close to water and resolves well under 1 mm, so the steep edges are not blurred. A chamber several millimetres across averages over the penumbra and widens it, and an alanine pellet about 5 mm across is as large as the field.", lvl="Moderate"),
@@ -172,9 +164,6 @@ PROBLEMS = [
        "They are overdosed, because the reading is too low and the system assigns too many monitor units",
        ["They are underdosed, because the reading is too low and the system assigns too few monitor units", "They are underdosed, because the chamber over-reads small fields", "They receive the planned dose, because the system corrects for detector size"],
        "The chamber averages over the peaked profile and under-reads, so the output factor entered is too low. The system believes each monitor unit gives less dose and assigns more of them, so the patient receives the planned dose times k; a low output factor raises the monitor units, never lowers them. In Toulouse in 2006 and 2007, small-field data from an unsuitable detector affected 145 radiosurgery patients.", lvl="Challenging"),
-    PRN(STEM("A 6 MV beam is measured with a detector placed on the axis.", ["TPR<sub>20,10</sub> = 0.680", "outer width of the detector d = 3.0 mm", "r<sub>LCPE</sub> (cm) = 8.369 TPR<sub>20,10</sub> − 4.382"], "What is the [[smallest FWHM]] for which lateral equilibrium holds over the whole detector?"),
-        q_fw, [2 * r_lcpe(0.680), r_lcpe(0.680) + 0.30, 2 * r_lcpe(0.680) + 0.60], "{:.2f} cm",
-        f"r<sub>LCPE</sub> = 8.369 × 0.680 − 4.382 = {r_lcpe(0.680):.3f} cm. The edge of the detector must lie r<sub>LCPE</sub> inside each field edge, so FWHM = 2 r<sub>LCPE</sub> + d = 2 × {r_lcpe(0.680):.3f} + 0.30 = {q_fw:.2f} cm. Leaving out the detector gives {2 * r_lcpe(0.680):.2f} cm, using r<sub>LCPE</sub> once gives {r_lcpe(0.680) + 0.30:.2f} cm, and adding the width twice gives {2 * r_lcpe(0.680) + 0.60:.2f} cm.", lvl="Challenging"),
     PRM(STEM("A small air-filled ion chamber measures the output of a 6 MV field 6 mm across.", [], "Which of these make its ratio of readings lower than the true ratio of doses?"),
         ["Volume averaging over the peaked profile", "Fluence perturbation by the low-density air cavity"],
         ["Over-response of dense silicon", "Cerenkov light produced in the stem", "Partial occlusion of the source"],
@@ -190,21 +179,11 @@ PROBLEMS = [
     PRN(STEM("A radiosurgery plan.", ["target volume = 1.60 cm³", "prescription isodose volume = 1.85 cm³", "volume inside half the prescription dose = 5.90 cm³"], "What is the [[gradient index]]?"),
         q_gi, [1.85 / 5.90, 5.90 / 1.60, ci_rtog(1.85, 1.60)], "{:.2f}",
         f"GI = PIV<sub>50%</sub> / PIV = 5.90 / 1.85 = {q_gi:.2f}. Dividing by the target volume gives {5.90 / 1.60:.2f}, the inverted ratio is {1.85 / 5.90:.2f}, and {ci_rtog(1.85, 1.60):.2f} is the RTOG conformity index.", lvl="Moderate"),
-    SORT("Match each plan metric to its definition.", ["RTOG conformity index", "Paddick conformity index", "Gradient index", "R<sub>50%</sub> of lung SBRT", "D<sub>2cm</sub> of lung SBRT"],
-         [("PIV / TV", 0), ("TV<sub>PIV</sub>² / (TV × PIV)", 1), ("PIV<sub>50%</sub> / PIV", 2), ("PIV<sub>50%</sub> / PTV", 3), ("Maximum dose 2 cm from the PTV, as a percentage of the prescription", 4)],
-         "The RTOG index compares the prescription isodose volume with the target, the Paddick index also counts how much of each lies inside the other, and the gradient index compares the half-prescription volume with the prescription volume. R<sub>50%</sub> has the PTV in the denominator, which separates it from the gradient index, and D<sub>2cm</sub> is a dose, not a ratio of volumes.", lvl="Easy", mode="match", cap=1),
     PRN(STEM("An SBRT regimen.", ["4 fractions of 12 Gy", "tumour α/β = 10 Gy"], "What is the tumour [[BED]]?"),
         q_bed, [48.0, 48 * (1 + 10 / 12), bed(4, 12, 3)], "{:.1f} Gy",
         f"BED = n d (1 + d/(α/β)) = 48 × (1 + 12/10) = {q_bed:.1f} Gy, above the 100 Gy associated with better local control of early lung cancer. The physical dose is 48 Gy, inverting the ratio gives {48 * (1 + 10 / 12):.1f} Gy, and α/β = 3 Gy gives {bed(4, 12, 3):.1f} Gy.", lvl="Moderate"),
-    PR(STEM("For early lung cancer, a tumour BED of at least 100 Gy (α/β = 10 Gy) is associated with better local control.", [], "Which of these regimens reaches it?"),
-       "8 × 7.5 Gy", ["1 × 25 Gy", "3 × 12 Gy", "5 × 9 Gy"],
-       "BED = n d (1 + d/10): " + ", ".join(f"{bed(n, d, 10):.1f} Gy for {n} × {d:g} Gy" for n, d in REG) + ". The single fraction has the largest dose per fraction, but its total dose is too small.", lvl="Challenging"),
 
     # 18 to 22: motion, QA, and end-to-end tests
-    PR(STEM("A Winston-Lutz test is run before an SRS treatment.", [], "What does it measure?"),
-       "How far the beam axis passes from a ball at the imaging isocentre, over many angles",
-       ["How the output of the smallest cone compares with the reference field", "How far each MLC leaf lies from its planned position", "How the dose to a hidden target compares with the plan"],
-       "The ball's shadow is imaged in a small field at many gantry, couch, and collimator angles, and its offset from the centre of the field shows how far the beam axis passes from the ball. Leaf positions are checked with a picket-fence pattern, and the dose to a hidden target is an end-to-end test.", lvl="Easy"),
     PRN(STEM("A lung SBRT fraction is delivered with respiratory gating.", ["monitor units = 1800", "dose rate with the beam on = 1400 MU/min", "duty cycle, the fraction of each breath with the beam on = 30%"], "How long does [[delivery]] take, leaving out setup and imaging?"),
         q_gt, [1800 / 1400, 1800 * 0.30 / 1400, 1800 / (1400 * 0.70)], "{:.1f} min",
         f"The beam is on for 30% of the time, so delivery takes 1800 / (1400 × 0.30) = {q_gt:.1f} min, against {1800 / 1400:.1f} min without gating. Multiplying by the duty cycle instead of dividing gives {1800 * 0.30 / 1400:.1f} min, and dividing by the beam-off fraction gives {1800 / (1400 * 0.70):.1f} min.", lvl="Moderate"),
@@ -219,7 +198,7 @@ PROBLEMS = [
           f"The total targeting error is the length of the offset vector: √(0.42² + 0.38² + 0.55²) = {q_te:.2f} mm, within the 0.95 mm specification for a static target. Adding the components gives {0.42 + 0.38 + 0.55:.2f} mm, which overstates it.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 7], 2: [13, 14, 15], 3: [18, 19, 20]}
+INLINE = {0: [1, 2], 1: [3, 4, 5], 2: [10, 11], 3: [13, 14]}
 
 TERMS = ['stereotactic radiosurgery', 'stereotactic body radiotherapy', 'lateral charged-particle equilibrium', 'source occlusion', 'output correction factor', 'gradient index', 'Winston-Lutz test', 'end-to-end test']
 

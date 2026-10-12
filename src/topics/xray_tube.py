@@ -142,14 +142,9 @@ TOPIC = dict(
         F("Rotating anode", "A tungsten–rhenium track on a disc spinning at about 3,000 to 10,000 rpm spreads the heat, so a small focal spot takes a high power."),
         F("Line-focus principle", "Effective focal spot = actual length × sin θ. A smaller anode angle gives a smaller spot but covers a smaller field.", w=[f"{L2:.1f} mm × sin {TH2:.0f}° = {s2:.2f} mm"]),
         F("Heel effect", "Lower intensity toward the anode side, from the longer path through the anode. Stronger with a smaller anode angle, a larger field, and a shorter distance; the thick body part goes toward the cathode."),
-        F("Heat units", f"HU = kVp × mA × s × f, with f = {F_1PH:.1f} single-phase, {F_6P} three-phase six-pulse, {F_12P} twelve-pulse or high-frequency. 1 HU ≈ {1 / F_12P:.2f} J."),
         F("Effect of added filtration", "The output falls; the mean energy and the HVL rise (beam hardening); E<sub>max</sub> is unchanged."),
         F("kVp and mA", "kVp raises E<sub>max</sub>, the mean energy, and the output (about as kVp²). mA multiplies the photons at every energy."),
-        F("Homogeneity coefficient", "HVL<sub>1</sub> / HVL<sub>2</sub>, with HVL<sub>2</sub> the extra thickness from 50% to 25%: 1 for a monoenergetic beam, below 1 for a spectrum.",
-          w=[f"50% at {x50_4:.1f} mm Cu, 25% at {x25_4:.1f} mm Cu: HC = {x50_4:.1f} / {hvl2_4:.1f} = {hc4:.2f}"]),
         F("Effective energy", "The energy of a monoenergetic beam with the same first HVL: about one third to one half of the peak for a filtered beam."),
-        F("Kilovoltage therapy beams", ["Grenz rays: below 20 kV", "Contact: 40 to 50 kV, SSD 2 cm or less", "Superficial: 50 to 150 kV, HVL 1 to 8 mm Al", "Orthovoltage: 150 to 500 kV, HVL about 0.5 to 4 mm Cu"]),
-        F("TG-61 calibration methods", "In-air method, with a backscatter factor, for points at or near the surface; in-phantom method at 2 cm depth for 100 kV and above."),
     ],
 )
 
@@ -195,22 +190,14 @@ PROBLEMS = [
          "The filament releases electrons by thermionic emission, the focusing cup shapes them into a beam aimed at the focal spot, the rotating anode shares the heat over a ring, the vacuum lets the electrons cross the gap freely, and the oil insulates and cools.", lvl="Easy", mode="match", cap=1),
     PRN(STEM("A tube has a small anode angle.", ["actual focal spot length = 6.0 mm", "anode angle θ = 10°"], "What is the [[effective focal spot size]] along the central ray?"), q_spot, [6.0 * cs10, 6.0 / s10, 2 * q_spot], "{:.2f} mm",
         f"Effective = L sin θ = 6.0 × {s10:.4f} = {q_spot:.2f} mm. Using cos θ gives {6.0 * cs10:.2f} mm, the strip seen almost side-on, and dividing by sin θ gives {6.0 / s10:.2f} mm, the actual length that a 6.0 mm effective spot would need.", lvl="Moderate"),
-    PRN(STEM("An exposure is made with a three-phase six-pulse generator.", ["80 kVp", "300 mA", "0.20 s"], "How many [[heat units]] does it produce?"), q_hu, [q_hu0, q_hu12, q_hudiv], lambda v: f"{v:,.0f} HU",
-        f"HU = kVp × mA × s × f = 80 × 300 × 0.20 × {F_6P} = {q_hu:,.0f} HU. Leaving out the factor gives {q_hu0:,.0f} HU, the single-phase value; {F_12P} belongs to twelve-pulse and high-frequency generators ({q_hu12:,.0f} HU); and dividing by {F_6P} gives {q_hudiv:,.0f} HU.", lvl="Moderate"),
     PRM(STEM("A radiograph shows a heel effect across the field.", [], "Which of these make the [[heel effect]] stronger?"),
         ["A smaller anode angle", "A shorter source-to-image distance"], ["A smaller field at the image receptor", "A longer source-to-image distance", "A higher tube current"],
         "The heel effect comes from the longer path through the anode for rays leaving toward the anode side, and that path grows as the anode angle falls. A shorter distance or a larger field uses rays farther from the central ray, where the loss is larger; a smaller field or a longer distance uses only the central part of the beam. The tube current scales the whole field in proportion.", lvl="Moderate"),
     PR(STEM("A body part is radiographed with its long axis along the anode–cathode axis of the tube.", ["thickness at one end of the field = 20 cm", "thickness at the other end = 12 cm"], "Where should the [[cathode end]] of the tube be placed?"),
        "Over the 20 cm end, where the beam is more intense", ["Over the 12 cm end, where the beam is more intense", "Over the 12 cm end, so the harder anode-side photons cross the 20 cm end", "At either end, since the heel effect is symmetric about the central ray"],
        "The intensity falls toward the anode side, so the thicker end goes on the cathode side and the exposure at the receptor evens out; in mammography the cathode faces the chest wall for the same reason. The photons on the anode side are slightly harder, but their lower intensity outweighs that.", lvl="Challenging"),
-    PR(STEM("A tube is replaced by one with a smaller anode angle and the same actual focal spot length.", ["old anode angle = 16°", "new anode angle = 10°"], "How do the [[effective focal spot, the field covered, and the heel effect]] change?"),
-       "The spot shrinks, the field covered shrinks, and the heel effect grows", ["The spot grows, the field covered grows, and the heel effect shrinks", "The spot shrinks, the field covered grows, and the heel effect shrinks", "The spot shrinks, and the field covered and the heel effect stay the same"],
-       f"The effective spot scales as sin θ: sin 10° / sin 16° = {q_shrink:.2f}, so it is {100 * (1 - q_shrink):.0f}% smaller. Rays more than θ from the central ray on the anode side run into the anode, so the field covered shrinks, and rays toward the anode side cross more anode metal, so the heel effect grows. A smaller spot does not come with a larger field.", lvl="Challenging"),
 
     # ---- filtration, technique, and waveform
-    PR(STEM("Two generators make exposures at the same kVp and mAs, one single-phase and one high-frequency.", [], "How does the [[high-frequency beam]] compare?"),
-       "More output and a higher mean energy", ["The same output and the same mean energy", "The same output and a higher maximum energy", "More output at the same mean energy"],
-       f"A single-phase supply falls to zero twice in each cycle ({100 * ripple(2):.0f}% ripple), so much of the exposure is made below the peak voltage, where fewer and softer photons are made. A high-frequency generator stays near the peak, so more photons are made and their mean energy is higher. The maximum energy is the kVp in both.", lvl="Easy"),
     PRM(STEM("The first HVL of an x-ray beam is measured before and after a change.", [], "Which of these [[raise the first HVL]]?"),
         ["Raising the kVp", "Adding copper filtration"], ["Raising the tube current", "Lengthening the exposure time", "Using the larger focal spot"],
         "Raising the kVp adds higher-energy photons and filtration removes low-energy ones, so both raise the mean energy and the HVL. The tube current and the time multiply the photons at every energy without changing the shape of the spectrum, and the focal spot size changes the sharpness of the image, not the spectrum.", lvl="Easy"),
@@ -222,9 +209,6 @@ PROBLEMS = [
         f"The maximum energy rises from 80 to 100 keV, the output rises about as kVp², by (100/80)² = {(100 / 80) ** 2:.2f} or more, and the added high-energy photons raise the HVL. The K lines stay at 58 to 69 keV because the binding energies of tungsten do not change, the inherent filtration is part of the tube, and the effective spot is the actual spot times sin θ.", lvl="Moderate"),
 
     # ---- beam quality and kV therapy
-    PR(STEM("A 250 kV orthovoltage beam is commissioned for treatment.", [], "How is its [[beam quality]] usually specified?"),
-       "By its HVL in millimetres of copper, with the kVp", ["By its HVL in millimetres of lead, with the kVp", "By its percentage depth dose at 10 cm, %dd(10)<sub>x</sub>", "By its tube current and its exposure time"],
-       "Orthovoltage beams are specified by a copper HVL together with the kVp; aluminium serves for diagnostic and superficial beams. %dd(10)<sub>x</sub> is the TG-51 specifier for megavoltage photons, lead HVLs describe shielding, and the mA and time set the quantity of radiation, not its quality.", lvl="Easy"),
     PRN(STEM("Narrow-beam transmission measurements are made for a superficial beam.", ["air kerma falls to 50% behind 2.5 mm Al", "air kerma falls to 25% behind 6.0 mm Al"], "What is the [[homogeneity coefficient]]?"), q_hc, [2.5 / 6.0, 3.5 / 2.5, 6.0 / 2.5], "{:.2f}",
         f"HVL<sub>2</sub> is the extra thickness from 50% to 25%: 6.0 − 2.5 = 3.5 mm Al, so HC = 2.5 / 3.5 = {q_hc:.2f}. Using the total 6.0 mm as HVL<sub>2</sub> gives {2.5 / 6.0:.2f}, and inverting the ratio gives {3.5 / 2.5:.2f}, above 1, which a polyenergetic beam does not reach.", lvl="Moderate"),
     SORT(STEM("Four kilovoltage beams are described by their first HVL.", [], "Rank the [[beams]] from the lowest to the highest effective energy."), ["1st (lowest)", "2nd", "3rd", "4th (highest)"], [(t, i) for i, (t, _) in enumerate(RANK)],
@@ -232,15 +216,9 @@ PROBLEMS = [
     PRN(STEM("A 100 kVp superficial beam has a first HVL of 3.0 mm Al.", [f"ρ(Al) = {RHO_AL} g/cm³"], "What is the [[effective energy]] of the beam?", tables=[AL_TABLE]), q_E, [q_E_nd, q_E_l10, 100.0], "{:.0f} keV",
         f"μ<sub>eff</sub> = ln 2 / 0.30 cm = {q_mu:.3f} cm<sup>−1</sup> and μ<sub>eff</sub>/ρ = {q_mu:.3f} / {RHO_AL} = {q_mr:.3f} cm²/g, between the 30 and 40 keV values; interpolating on a log–log scale gives {q_E:.0f} keV, about one third of the peak. Leaving out the density gives {q_E_nd:.0f} keV, log<sub>10</sub> 2 in place of ln 2 gives {q_E_l10:.0f} keV, and the peak itself is 100 keV.",
         w=[f"μ<sub>eff</sub> = ln 2 / 0.30 cm = {q_mu:.3f} cm<sup>−1</sup>", f"μ<sub>eff</sub>/ρ = {q_mu:.3f} / {RHO_AL} = {q_mr:.4f} cm²/g", f"E = 30 keV × ({AL[30]} / {q_mr:.4f})<sup>1/{q_n:.3f}</sup> = {q_E:.1f} keV, with n = ln({AL[30]} / {AL[40]}) / ln(40 / 30) = {q_n:.3f}"], lvl="Challenging"),
-    TYPED(STEM("Narrow-beam readings are taken for a superficial beam with aluminium added. The HVL is found by interpolating ln(reading) between the two readings that bracket half the open value.", ["no added aluminium: 100.0", "2.0 mm Al: 54.5", "3.0 mm Al: 45.2"], "What is the [[first HVL]]?"), q_x50, 0.02, "mm Al",
-          f"The reading falls exponentially between the two points, so x = 2.0 + 1.0 × ln(54.5 / 50) / ln(54.5 / 45.2) = {q_x50:.2f} mm Al. A straight-line interpolation of the readings gives {q_x50_lin:.2f} mm Al, close here because both points are near 50. Treating the 2.0 mm reading as one exponential from zero gives {q_x50_one:.2f} mm Al, too low, because the first millimetres remove the softest photons.",
-          w=[f"ln(54.5 / 50) = {math.log(54.5 / 50):.4f}", f"ln(54.5 / 45.2) = {math.log(54.5 / 45.2):.4f}", f"x = 2.0 + {math.log(54.5 / 50):.4f} / {math.log(54.5 / 45.2):.4f} = {q_x50:.2f} mm Al"], lvl="Challenging"),
-    PR(STEM("A 70 kV superficial beam treats a skin lesion, and the dose at the skin surface is calibrated with AAPM TG-61.", [], "Which [[method]] applies?"),
-       "The in-air method, with a backscatter factor to reach the surface dose", ["The in-phantom method, with the chamber at 2 cm depth in water", "The TG-51 method, with a beam quality conversion factor k<sub>Q</sub>", "The in-phantom method, with the chamber at the depth of maximum dose"],
-       "TG-61 uses the in-air method for points at or near the surface: the chamber, calibrated in air kerma, reads free in air, and the backscatter factor and the water-to-air ratio of mass energy-absorption coefficients give the dose to water at the surface. The in-phantom method at 2 cm is for tube potentials of 100 kV and above, and TG-51 covers megavoltage beams.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [6, 7, 8, 11], 2: [13, 15, 16], 3: [17, 18, 19, 22]}
+INLINE = {0: [1, 2, 3], 1: [6, 7, 8, 10], 2: [12, 13], 3: [14, 15]}
 
 TERMS = ['bremsstrahlung', 'thermionic emission', 'space charge', 'line-focus principle', 'heel effect', 'beam hardening', 'homogeneity coefficient', 'effective energy']
 

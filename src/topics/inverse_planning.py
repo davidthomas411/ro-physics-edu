@@ -31,11 +31,8 @@ TOPIC = dict(
         F("Planner choices in inverse planning", "The beam arrangement, such as five to nine fixed gantry angles for IMRT or one or two arcs for VMAT."),
         F("Inverse planning as optimization", "A cost function measures how far a plan is from the wanted dose, and the optimizer changes the fluence until the cost is as small as possible."),
         F("Quadratic cost function", "f = w Σ (d<sub>i</sub> − d<sub>Rx</sub>)² over the voxels. Squaring keeps it positive and penalizes large deviations heavily."),
-        F("Cost of an ideal plan", "Zero for a target, when every voxel receives the intended dose."),
         F("Objectives for organs at risk", "Limits on the DVH, for example that no more than 30% of the rectum receives a stated dose. They penalize only the voxels above the limit."),
         F("Weights", "Raising the weight of the organ term relative to the target term prioritizes sparing over coverage, and lowering it prioritizes coverage."),
-        F("Target DVH shoulder", "When an organ is spared at the target's expense, the target DVH falls gradually below the prescription dose instead of abruptly at it."),
-        F("Other terms in a cost function", "Several organs, how tightly the dose conforms to the target, and the spillage of low doses can all be added."),
         F("Quantity the optimizer changes", "The fluence of the beams across each field. The leaf sequence that delivers it is calculated afterwards."),
         F("Meaning of a low cost", "A plan with a lower cost is better only for the objectives and weights that were given. The DVH and the dose distribution are still reviewed."),
     ],
@@ -54,19 +51,13 @@ PROBLEMS = [
        "Without the square, an overdose and an underdose would cancel, and the sum could be zero for a poor plan.", lvl="Moderate"),
     PR("The weight of the rectum objective is increased relative to the target objective. The optimized plan will tend to:", "spare the rectum more, at some cost to target coverage", ["cover the target more uniformly", "increase the dose to the rectum", "leave the plan unchanged"],
        "A larger weight makes the organ dose count more in the total cost, so the optimizer will lower it.", lvl="Moderate"),
-    PR("A target DVH has a shoulder below the prescription dose after optimization. The most likely reason is that:", "the plan has traded some target coverage for sparing of a nearby organ", ["the beam energy was too low", "the dose grid was too large", "the prescription was lowered"],
-       "A shoulder means part of the target receives less than the prescription dose.", lvl="Moderate"),
-    PRN(STEM("A total cost has two terms.", ["target voxels 76, 78, 80 Gy against 78 Gy with weight 1", "organ voxels 35 and 45 Gy against an upper limit of 30 Gy, weight 0.1"], "What is the [[total cost]]?"), f_tot1, [f_t, f_o1, f_t + 0.1 * (5 + 15) ** 2], "{:.0f}",
-        f"Target: 4 + 0 + 4 = 8. Organ: 0.1 × (5² + 15²) = {f_o1:.0f}. Total {f_tot1:.0f}. The target term alone is 8, the organ term alone is {f_o1:.0f}, and adding the deviations before squaring gives {f_t + 0.1 * (5 + 15) ** 2:.0f}.", lvl="Moderate"),
     PR("A plan with a lower value of the cost function than another plan is:", "better only for the objectives and weights that were used", ["always the better plan clinically", "always the more deliverable plan", "always the plan with the lower organ dose"],
        "The cost function encodes the planner's choices. Different weights can reverse the ranking, so plans are also judged on the DVH and the dose distribution.", lvl="Challenging"),
-    PRN(STEM("The organ weight w in a total cost is raised from 0.1 to 0.3, with the same dose distribution.", ["target term = 8, organ term = w × 250"], "What is the [[new total cost]]?"), f_tot3, [f_tot1, 3 * f_tot1, f_t * 3 + f_o1], "{:.0f}",
-        f"Organ term: 0.3 × 250 = {f_o3:.0f}. Total {f_t:.0f} + {f_o3:.0f} = {f_tot3:.0f}. Only the organ term triples, so the total rises from {f_tot1:.0f} to {f_tot3:.0f} and not to {3 * f_tot1:.0f}.", lvl="Challenging"),
     PR("An IMRT optimization uses a simplified dose model, and the final dose is recalculated with the full algorithm. The reason is that:", "the optimization needs many fast calculations, and the final dose must be accurate", ["the full algorithm cannot be used for optimization in principle", "the simplified model is always more accurate", "recalculation changes the beam energy"],
        "Optimization evaluates the dose many times, so a fast model is used, and the accurate calculation is made once at the end.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 7], 2: [8, 9]}
+INLINE = {0: [1, 2, 3], 1: [4, 5, 6], 2: [7]}
 
 TERMS = ['forward planning', 'inverse planning', 'cost function', 'fluence']
 
@@ -78,15 +69,5 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
-    SORT("Is each task done by the planner or by the optimizer in inverse planning?", ["Planner", "Optimizer"],
-         [("Choosing the beam arrangement", 0), ("Setting the DVH objectives", 0), ("Setting the weights", 0), ("Calculating the fluence of each beamlet", 1), ("Minimizing the cost function", 1), ("Calculating the leaf sequence", 1)],
-         "The planner sets the beam arrangement, the objectives, and the weights. The optimizer finds the fluence, and a leaf sequence that delivers it follows.", lvl="Moderate"),
-    TYPED(STEM("A target with an intended dose of 70 Gy has voxels at 68, 70, 71, and 73 Gy.", ["cost function f = w Σ (d<sub>i</sub> − d<sub>Rx</sub>)², with w = 2"], "What is [[f]]?"), cost([68, 70, 71, 73], 70, 2), 0.01, "(cost units)",
-          f"Squared deviations: 4 + 0 + 1 + 9 = 14, and f = 2 × 14 = {cost([68, 70, 71, 73], 70, 2):.0f}.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the cost of one target voxel against its dose, for an intended dose of 78 Gy and a weight of 1.", [], "Tap the [[dose below the intended dose at which the cost of the voxel is 36]]."),
-         FS(x=dict(min=60, max=96, ticks=[60, 66, 72, 78, 84, 90, 96], label="Voxel dose (Gy)"), y=dict(min=0, max=400, ticks=[0, 100, 200, 300, 400], label="Cost of the voxel"), series=[dict(pts=PTS(lambda d: (d - 78) ** 2, 60, 96), color="plot-1")], xunit=" Gy", xdec=1, xname="Dose", label="Cost of a voxel against its dose"),
-         [(71, 73)], "(d − 78)² = 36 gives d = 78 ± 6, so 72 Gy below the intended dose (84 Gy above it). The cost is the same for an underdose and an overdose of the same size, and the level 36 is not marked on the axis.", lvl="Challenging", note="72 Gy"),
 ]
-INLINE = {0: [1, 2, 3, _n0 + 2], 1: [4, 5, 6, 7, _n0 + 1], 2: [8, 9, _n0 + 3]}

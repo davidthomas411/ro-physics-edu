@@ -52,7 +52,6 @@ TOPIC = dict(
         C("How does the beam angle affect the skin dose?", "A glancing angle of incidence gives a higher skin dose than perpendicular incidence."),
         C("What are the two effects of the couch on a beam passing through it?", "About 2% attenuation at depth, and a higher skin dose."),
         C("Name devices in the beam that raise the skin dose.", "The couch, vacuum immobilization bags, thermoplastic masks, and plastic block trays."),
-        C("How does stretching a thermoplastic mask change the skin dose?", "A mask stretched thinner raises the skin dose less."),
         C("How does the position of a block tray affect the skin dose?", "The closer the tray is to the patient, the higher the skin dose."),
         C("What is bolus, and when is it used?", "Material placed on the skin to raise the skin dose, used when the target includes the skin or a scar."),
         C("What dose does a bolus of thickness t give at depth d below the skin?", "The dose at depth t + d in the beam without bolus."),
@@ -69,25 +68,17 @@ PROBLEMS = [
        "More electrons from the head of the linac reach the skin as the field grows.", lvl="Easy"),
     PR("In a megavoltage photon beam, the dose at the skin is delivered mainly by:", "electrons produced in the head of the linac, in the air, and in the patient", ["photons absorbed directly at the surface", "neutrons from the target", "characteristic x-rays from the skin"],
        "Photons set electrons in motion. The surface dose is low because of build-up, and what is present comes from electrons produced upstream.", lvl="Easy"),
-    PR("Why does the skin dose increase when the field size increases?", "More electrons from the collimators and other head components reach the skin", ["d<sub>max</sub> moves deeper", "The beam energy becomes softer", "The inverse-square effect increases"],
-       "A larger field is irradiated through larger openings, and more electron contamination from the head reaches the patient.", lvl="Moderate"),
     PR("A posterior field passes through the treatment couch. Compared with a calculation that ignores the couch, the real dose is:", "about 2% lower at depth and higher at the skin", ["higher at depth and lower at the skin", "about 2% higher at depth and at the skin", "unchanged at depth and at the skin"],
        "The couch attenuates the beam by about 2% and adds electrons that increase the skin dose.", lvl="Moderate"),
-    PR("A thermoplastic mask is stretched thinner over the patient. The skin dose:", "decreases", ["increases", "does not change", "becomes zero"],
-       "A thinner mask places less material in the beam, so fewer electrons are added.", lvl="Moderate"),
     PRN(STEM("A 6 MV, 10 × 10 cm field at SSD 100 cm.", ["prescription = 200 cGy at 3 cm below the skin, MU set without bolus", f"PDD(3 cm) = {p3}%,   PDD(4 cm) = {p4}%", "1.0 cm bolus is added and the MU are unchanged"], "What [[dose]] does the target receive?"), dose_b, [200.0, 200 * p3 / p4, 200 * p4 / 100], "{:.1f} cGy",
         f"With 1.0 cm of bolus the target is at depth 4.0 cm in the beam. Dose = 200 × {p4} / {p3} = {dose_b:.1f} cGy. Leaving the MU unchanged does not keep the dose at 200 cGy.", lvl="Moderate"),
     PR("What bolus thickness places d<sub>max</sub> of a 6 MV beam at the skin surface?", "About 1.5 cm", ["About 0.5 mm", "About 5 mm", "About 3 cm"],
        "The maximum dose is at depth d<sub>max</sub> = 1.5 cm in the beam. A tissue-equivalent bolus of that thickness moves it to the skin.", lvl="Moderate"),
-    PRM("Which of these raise the skin dose of a 6 MV beam?", ["A treatment couch in the beam path", "A vacuum immobilization bag", "A plastic block tray close to the patient"], ["A smaller field size", "A higher monitor unit rate"],
-        "Devices in the beam add electrons that reach the skin. A smaller field lowers the skin dose, and the dose rate does not change it.", lvl="Challenging"),
     PR("Bolus is placed on a patient, but a thin air gap remains between the bolus and the skin. Compared with full contact, the skin dose is:", "lower, because the gap reduces the bolus effect", ["higher, because of added scatter", "the same", "zero"],
        "The build-up region is moved only partly toward the skin when the bolus is not in contact.", lvl="Challenging"),
-    PRN(STEM("A 6 MV beam.", ["dose at d<sub>max</sub> = 180 cGy", "skin dose = 30% of the d<sub>max</sub> dose for 10 × 10 cm", "a 40 × 40 cm field doubles the skin dose"], "What is the [[skin dose]] for the 40 × 40 cm field?"), 0.30 * 180 * 2, [54.0, 180.0 * 0.3 * 4, 36.0], "{:.0f} cGy",
-        "10 × 10 cm: 0.30 × 180 = 54 cGy. Doubling for the 40 × 40 cm field gives 108 cGy.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2], 1: [4, 5], 2: [8]}
+INLINE = {0: [1, 2, 8], 1: [4], 2: [6]}
 
 TERMS = ['basal layer', 'skin sparing', 'bolus']
 
@@ -99,16 +90,8 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Does each change raise or lower the skin dose of a 6 MV beam?", ["Raises it", "Lowers it"],
          [("Larger field size", 0), ("Couch in the beam path", 0), ("Vacuum immobilization bag", 0), ("Mask stretched thinner", 1), ("Block tray moved closer to the patient", 0), ("Block tray moved farther from the patient", 1), ("Bolus on the skin", 0), ("Smaller field size", 1)],
          "Anything that adds electrons or removes build-up raises the skin dose: larger fields, devices in the beam, trays close to the patient, and bolus. A thinner mask, a tray farther away, and a smaller field lower it.", lvl="Moderate"),
-    TYPED(STEM("A 6 MV beam with bolus.", [f"PDD(3 cm) = {p3}%,   PDD(4 cm) = {p4}%", "bolus thickness = 1.0 cm, target 3 cm below the skin"], "By what [[percentage]] must the MU increase to restore the dose at the target?"), mu_up, 0.03, "%",
-          f"The target is at depth 4 cm in the beam, so the MU factor is PDD(3) / PDD(4) = {p3} / {p4} = {p3 / p4:.4f}, which is {mu_up:.1f}% more.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the dose against depth below the skin for a 6 MV beam with no bolus, as a percentage of the maximum. A 1.0 cm tissue-equivalent bolus is now placed on the skin.", [], "Tap the [[depth below the skin at which the dose is greatest]] with the bolus in place."),
-         FS(x=dict(min=0, max=4, ticks=[0, 1, 2, 3, 4], label="Depth below the skin (cm)"), y=dict(min=0, max=100, ticks=[0, 20, 40, 60, 80, 100], label="Dose (% of the maximum)", fmt="pct"),
-            series=[dict(pts=PTS(buildup, 0, 4), color="plot-1")], xunit=" cm", xdec=2, xname="Depth below the skin", label="Dose against depth below the skin without bolus (schematic)"),
-         [(0.2, 0.8)], "With bolus of thickness t the dose at depth d below the skin is the dose at depth t + d. The maximum, at d<sub>max</sub> = 1.5 cm in the beam, now lies at 1.5 − 1.0 = 0.5 cm below the skin. The plotted curve is the no-bolus curve, so its peak is not the answer. The curve is schematic.", lvl="Challenging", note="about 0.5 cm"),
 ]
-INLINE = {0: [1, 2, _n0 + 1], 1: [4, 5], 2: [8, _n0 + 3]}

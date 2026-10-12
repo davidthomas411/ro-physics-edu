@@ -150,10 +150,6 @@ TOPIC = dict(
         F("Effective half-life", "1/T<sub>eff</sub> = 1/T<sub>p</sub> + 1/T<sub>b</sub>, so T<sub>eff</sub> = T<sub>p</sub> T<sub>b</sub> / (T<sub>p</sub> + T<sub>b</sub>), shorter than either."),
         F("Cumulated activity", "The area under the activity–time curve: Ã = 1.443 A<sub>0</sub> T<sub>eff</sub> for instantaneous uptake and single-exponential clearance."),
         F("Local deposition approximation", "A pure β emitter in a region much larger than its β range deposits all its energy there, so S = E<sub>mean</sub>/m for the self-dose."),
-        F("Y-90 dose per unit activity", "About 50 Gy per GBq per kg when all of it decays in the tissue.",
-          w=[f"Decays per GBq: 10<sup>9</sup> × 1.443 × {T_Y90:g} h × 3600 s/h = {sci(NDEC, 3)}", f"Energy: {sci(NDEC, 3)} × {E_Y90:g} MeV × 1.602 × 10<sup>−13</sup> J/MeV = {K_Y90:.1f} J, so {K_Y90:.1f} Gy per kg"]),
-        F("Lung shunt fraction", "Lung counts / (lung + liver counts) on planar Tc-99m MAA images, from the geometric means of anterior and posterior counts."),
-        F("Lung dose in radioembolization", "D<sub>lung</sub> = 50 × A (GBq) × LSF, with the lungs taken as 1 kg: about 30 Gy per treatment and 50 Gy in total for glass spheres. For resin spheres an LSF above 20% excludes treatment."),
         F("Written directive for unsealed sources", "Required for any therapeutic dosage of unsealed byproduct material and for I-131 sodium iodide above 1.11 MBq (30 µCi) (10 CFR 35.40)."),
         F("Release of patients", "Allowed when no other individual is likely to receive more than 5 mSv (0.5 rem); written instructions are needed above 1 mSv (10 CFR 35.75)."),
         F("Release estimate for I-131", f"D(∞) = 34.6 Γ Q<sub>0</sub> T<sub>p</sub> E / r². With Γ = {G131:g}, E = {OCC:g}, and r = 100 cm, 33 mCi gives about 0.5 rem.",
@@ -191,9 +187,6 @@ PROBLEMS = [
          [("α particles; bone metastases of prostate cancer", 0), ("Pure β, range up to 11 mm; liver microspheres", 1), ("β and a 364 keV γ ray; thyroid disease", 2),
           ("β with 113 and 208 keV γ rays; PSMA ligands", 3), ("β and a 103 keV γ ray; bone pain, as a phosphonate", 4)],
          "Ra-223 is the α emitter that behaves as calcium. Y-90 has no γ ray and the longest β range. I-131 is known by its 364 keV line, Lu-177 by its 113 and 208 keV lines, and Sm-153 by its 103 keV line; Sm-153 lexidronam binds to bone.", lvl="Easy", mode="match", cap=1),
-    SORT("Rank these radionuclides by the maximum range of their particles in soft tissue, from the shortest to the longest.", RANK_BINS, [(name, i) for i, name in enumerate(RANGE_ORDER)],
-         "The maximum range follows the maximum energy. The α particles of Ra-223 stop within 0.1 mm; then come β particles with E<sub>max</sub> " +
-         ", ".join(f"{EMAX_TXT[k]} MeV ({k}, about {RMAX[k]:g} mm)" for k in RANGE_ORDER[1:]) + ".", lvl="Moderate", mode="rank", cap=1),
     PRN(STEM("Radioiodine is retained in thyroid tissue (illustrative values).", ["T<sub>p</sub> = 8.02 d", "T<sub>b</sub> = 6.0 d"], "What is the [[effective half-life]]?"), q_te, [8.02 + 6.0, (8.02 + 6.0) / 2, 8.02 * 6.0 / (8.02 - 6.0)], "{:.2f} d",
         f"T<sub>eff</sub> = T<sub>p</sub> T<sub>b</sub> / (T<sub>p</sub> + T<sub>b</sub>) = 8.02 × 6.0 / 14.02 = {q_te:.2f} d, shorter than either. Adding the half-lives gives 14.02 d and averaging them gives 7.01 d, both longer than the shorter half-life.", lvl="Easy"),
     PR(STEM("A Lu-177 agent clears from a tumour with a biological half-life of 3.0 d. A new ligand raises the biological half-life to 6.0 d, and the activity taken up is unchanged.", [f"T<sub>p</sub> = {TP_LU:g} d"], "By what factor does the [[cumulated activity]] in the tumour change?"),
@@ -205,16 +198,6 @@ PROBLEMS = [
     PRM(STEM("The S value for the dose that a tumour receives from its own activity is looked up for a treatment.", [], "Which of these change the [[S value]]?"),
         ["The mass of the tumour", "The radionuclide attached to the agent"], ["The activity administered", "The biological half-life in the tumour", "The time over which the dose is summed"],
         "S is the mean dose to the target per decay in the source: it holds the energy per decay of the nuclide, the fraction absorbed, and the target mass. The activity, the clearance, and the time enter through the cumulated activity, not through S.", lvl="Moderate"),
-    PR(STEM("Before radioembolization of the liver, Tc-99m macroaggregated albumin is injected into the hepatic artery and imaged.", [], "Which quantity for the dosimetry does this scan [[provide]]?"),
-       "The fraction of the activity that shunts to the lungs", ["The mass of the perfused liver", "The activity of Y-90 in the vial", "The biological half-life of the spheres"],
-       "The MAA particles lodge as the spheres will, so lung counts over lung plus liver counts give the lung shunt fraction, and the tumour-to-normal uptake ratio feeds the partition model. The perfused mass comes from CT, and the spheres stay where they lodge, so only physical decay applies.", lvl="Easy"),
-    PRN(STEM("Glass Y-90 microspheres are planned for a liver lobe, with uniform uptake assumed.", ["intended mean dose = 120 Gy", "perfused mass = 1.2 kg", "lung shunt fraction = 10%", "dose constant = 50 Gy kg GBq<sup>−1</sup>"], "What [[activity]] is needed?"),
-        q_a, [q_a_nolsf, q_a_times, q_a_nom], "{:.2f} GBq",
-        f"A = D m / [50 (1 − LSF)] = 120 × 1.2 / (50 × 0.90) = {q_a:.2f} GBq: a tenth of it goes to the lungs, so more is given to deliver 120 Gy to the liver. Ignoring the shunt gives {q_a_nolsf:.2f} GBq, multiplying by 0.90 in place of dividing gives {q_a_times:.2f} GBq, and leaving out the mass gives {q_a_nom:.2f} GBq.", lvl="Challenging"),
-    TYPED(STEM("A patient has a lung shunt fraction of 18% on the MAA scan. Glass Y-90 microspheres are planned, with the lungs taken as 1 kg.", ["lung dose limit = 30 Gy for one treatment", "dose constant = 50 Gy kg GBq<sup>−1</sup>"], "What is the [[largest activity]] that keeps the lung dose within the limit?"),
-          q_amax, 0.02, "GBq",
-          f"D<sub>lung</sub> = 50 A × LSF / 1 kg, so A = 30 / (50 × 0.18) = {q_amax:.2f} GBq. Using 1 − LSF in place of LSF gives {q_amax_wrong:.2f} GBq.",
-          w=["A = 30 / (50 × 0.18)", f"= {q_amax:.2f} GBq"], lvl="Challenging"),
     PR(STEM("A patient is to go home after treatment with an unsealed radionuclide, and 10 CFR 35.75 sets the condition for release.", [], "Which [[dose to any other individual]] must not be likely to be exceeded?"),
        "5 mSv (0.5 rem)", ["1 mSv (0.1 rem)", "50 mSv (5 rem)", "0.5 mSv (0.05 rem)"],
        "Release is allowed when the total effective dose equivalent to any other individual is not likely to exceed 5 mSv. 1 mSv is the level above which written instructions are required, not the release limit.", lvl="Easy"),
@@ -236,15 +219,12 @@ PROBLEMS = [
     PRN(STEM("An IORT boost is given in one fraction to a tumour bed.", ["dose = 12 Gy", "tumour α/β = 10 Gy"], "What is the [[EQD2]] for the tumour?"),
         q_eq, [12.0, q_eq_bed, q_eq_late], "{:.1f} Gy",
         f"EQD2 = D (d + α/β) / (2 + α/β) = 12 × 22 / 12 = {q_eq:.1f} Gy. The BED is {q_eq_bed:.1f} Gy and the physical dose 12 Gy; α/β = 3 Gy gives {q_eq_late:.1f} Gy, the value for late-responding tissue in the field.", lvl="Moderate"),
-    PRN(STEM("A 50 kV IORT source sits at the centre of a spherical applicator. Illustrative model: inverse square from the centre and an effective attenuation coefficient.", ["applicator diameter = 4 cm", "dose at the applicator surface = 20 Gy", f"µ<sub>eff</sub> = {MU_X:g} cm<sup>−1</sup>", "point: 1 cm into the tissue"], "What [[dose]] does the point receive?"),
-        q_x, [q_x_is, q_x_lin, q_x_att], "{:.1f} Gy",
-        f"D = 20 × (2/3)² × e<sup>−{MU_X:g} × 1</sup> = 20 × {(2 / 3) ** 2:.3f} × {math.exp(-MU_X):.3f} = {q_x:.1f} Gy, with the distance running from the centre, 2 cm to 3 cm. Inverse square alone gives {q_x_is:.1f} Gy, the first power of 2/3 gives {q_x_lin:.1f} Gy, and attenuation alone gives {q_x_att:.1f} Gy.", lvl="Moderate"),
     PR(STEM("A hospital plans IORT with a mobile electron linac of up to 12 MeV in an existing operating room with ordinary walls.", [], "Which [[radiation protection plan]] fits?"),
        "A beam stopper under the patient, a survey at the highest energy, and a weekly case limit", ["A maze and a borated polyethylene door, as for an 18 MV photon vault", "No added measures, because the electrons stop within the patient's tissue", "Lead aprons for the surgical team, who stay at the table during the beam"],
        "Mobile IORT linacs have low leakage and a beam stopper that intercepts the primary beam, and a survey at the highest energy sets how many cases a week keep nearby areas within their limits (AAPM TG-72). Neutron shielding belongs to high-energy photon vaults, bremsstrahlung and leakage still leave the patient, and staff leave the room during the beam.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3, 4], 1: [6, 7, 8], 2: [10, 11], 3: [13, 14, 15, 17], 4: [18, 19, 21]}
+INLINE = {0: [1, 2, 3, 4], 1: [5, 6, 7], 3: [9, 10, 11, 13], 4: [14, 15, 16]}
 
 TERMS = ['crossfire', 'cumulated activity', 'S value', 'effective half-life', 'local deposition approximation', 'lung shunt fraction', 'partition model', 'written directive']
 

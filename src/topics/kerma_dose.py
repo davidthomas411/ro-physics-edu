@@ -50,9 +50,7 @@ TOPIC = dict(
         C("In which region is D = K<sub>col</sub>, and what is D relative to K<sub>col</sub> in the build-up region?", "D = K<sub>col</sub> where charged-particle equilibrium holds. In the build-up region D < K<sub>col</sub>, because electrons from upstream have not yet arrived.", fig="kerma_dose"),
         C("Beyond d<sub>max</sub> in a megavoltage beam, why does D stay slightly above K<sub>col</sub>?", "Transient CPE: the electrons depositing dose at a point were set in motion at slightly shallower points, where the photon fluence was higher. D = β K<sub>col</sub> with β slightly above 1."),
         C("Define exposure, give its SI unit, and state its energy limit.", "Charge of one sign produced in air per unit mass by photons, once secondary electrons have stopped. SI unit C/kg; 1 R = 2.58 × 10<sup>−4</sup> C/kg. Defined for photons below about 3 MeV."),
-        C("A free-air chamber records 50 R. What is the dose to air?", f"{xc:.1f} cGy.", w=["1 R = 0.876 cGy in air.", f"50 × 0.876 = {xc:.1f} cGy."]),
         C("How does W<sub>air</sub>/e = 33.97 J/C give the dose per roentgen?", "1 R = 2.58 × 10<sup>−4</sup> C/kg, and each coulomb of ionization corresponds to 33.97 J absorbed. 2.58 × 10<sup>−4</sup> × 33.97 = 8.76 × 10<sup>−3</sup> J/kg = 0.876 cGy."),
-        C("Co-60 photons in water have an energy fluence of 0.50 J/m² and μ<sub>en</sub>/ρ = 0.0297 cm²/g. What is K<sub>col</sub>?", f"{k*100:.2f} cGy.", w=["0.0297 cm²/g = 2.97 × 10<sup>−3</sup> m²/kg.", f"K<sub>col</sub> = Ψ μ<sub>en</sub>/ρ = 0.50 × 2.97 × 10<sup>−3</sup> = {sci(k, 3)} Gy."]),
         C("Distinguish equivalent dose from effective dose, and give w<sub>R</sub> for photons, protons, and α particles.", "Equivalent dose weights absorbed dose by radiation type: H = Σ w<sub>R</sub> D. Effective dose weights equivalent doses by tissue sensitivity: E = Σ w<sub>T</sub> H<sub>T</sub>. Both are in Sv. w<sub>R</sub>: photons 1, protons 2, α 20 (ICRP 103)."),
         C("Convert: 1 Gy in cGy and in rad; 1 Sv in rem.", "1 Gy = 100 cGy = 100 rad. 1 Sv = 100 rem."),
     ],
@@ -91,9 +89,6 @@ PROBLEMS = [
     PRN(STEM("A 1.0 MeV photon beam irradiates water. Use the table.", ["energy fluence Ψ = 0.80 J/m²"], "Find the [[collision kerma]] in water.", tables=[nd.table_one("water", [0.5, 1.0, 1.25, 1.5])]),
         q_kw, [0.80 * nd.WATER[1.0][0] * 0.1 * 1000, q_kw * 10, 0.80 * nd.WATER[1.25][1] * 0.1 * 1000], "{:.2f} mGy",
         f"Collision kerma uses the energy-absorption coefficient: μ<sub>en</sub>/ρ = {nd.WATER[1.0][1]} cm²/g = {nd.WATER[1.0][1] * 0.1:.5f} m²/kg at 1.0 MeV. K<sub>col</sub> = Ψ × μ<sub>en</sub>/ρ = 0.80 × {nd.WATER[1.0][1] * 0.1:.5f} = {q_kw / 1000:.5f} Gy = {q_kw:.2f} mGy. The attenuation column gives {0.80 * nd.WATER[1.0][0] * 0.1 * 1000:.2f} mGy, skipping the cm²/g to m²/kg conversion gives {q_kw * 10:.1f} mGy, and the 1.25 MeV row gives {0.80 * nd.WATER[1.25][1] * 0.1 * 1000:.2f} mGy.", lvl="Moderate"),
-    PRN(STEM("Monoenergetic 2.0 MeV photons irradiate water. Use the table.", ["fluence Φ = 5.0 × 10<sup>11</sup> m<sup>−2</sup>"], "What is the [[collision kerma]] in water?", tables=[nd.table_one("water", [1.0, 1.25, 1.5, 2.0, 3.0])]),
-        q_k2, [5.0e11 * 2.0 * EJ * nd.WATER[2.0][0] * 0.1 * 1000, q_k2 * 10, 5.0e11 * 2.0 * EJ * nd.WATER[1.0][1] * 0.1 * 1000], "{:.3f} mGy",
-        f"Ψ = Φ E = 5.0 × 10<sup>11</sup> × 2.0 × 1.602 × 10<sup>−13</sup> = {5.0e11 * 2.0 * EJ:.4f} J/m². Read μ<sub>en</sub>/ρ = {nd.WATER[2.0][1]} cm²/g at 2.0 MeV = {nd.WATER[2.0][1] * 0.1:.5f} m²/kg. K<sub>col</sub> = {5.0e11 * 2.0 * EJ:.4f} × {nd.WATER[2.0][1] * 0.1:.5f} = {sci(q_k2 / 1000, 3)} Gy = {q_k2:.3f} mGy. Using μ/ρ gives {5.0e11 * 2.0 * EJ * nd.WATER[2.0][0] * 0.1 * 1000:.3f} mGy, and reading the 1.0 MeV row gives {5.0e11 * 2.0 * EJ * nd.WATER[1.0][1] * 0.1 * 1000:.3f} mGy.", lvl="Challenging"),
     PRN(STEM("Photons of 100 keV with the same energy fluence irradiate cortical bone and water. Use the table.", [], "Energy is absorbed per gram in bone at how many [[times the rate]] in water?", tables=[nd.table_two(["bone", "water"], [0.1, 0.5, 1.0, 6.0])]),
         q_bw, [nd.WATER[0.1][1] / nd.BONE[0.1][1], nd.BONE[0.1][0] / nd.WATER[0.1][0], nd.BONE[0.1][1] * 1.92 / nd.WATER[0.1][1]], "{:.2f}",
         f"Energy absorbed per gram is Ψ × μ<sub>en</sub>/ρ, so the ratio is the ratio of the energy-absorption coefficients: {nd.BONE[0.1][1]} / {nd.WATER[0.1][1]} = {q_bw:.2f}. Inverting gives {nd.WATER[0.1][1] / nd.BONE[0.1][1]:.2f}, using the attenuation column gives {nd.BONE[0.1][0] / nd.WATER[0.1][0]:.2f}, and multiplying by the density ratio (per cm³ instead of per gram) gives {nd.BONE[0.1][1] * 1.92 / nd.WATER[0.1][1]:.2f}. At 6 MeV the two media absorb almost equally per gram ({nd.BONE[6.0][1] / nd.WATER[6.0][1]:.2f}).", lvl="Challenging"),
@@ -114,30 +109,22 @@ PROBLEMS = [
     PRN(STEM("A tissue is irradiated by two radiations.", ["photon dose = 0.50 Gy", "α-particle dose = 0.10 Gy", "w<sub>R</sub>: photons 1, α particles 20"], "What is the [[equivalent dose]]?"), q_h, [0.50 + 0.10, 0.50 + 0.10 * 2, 0.50 * 20 + 0.10 * 1], "{:.2f} Sv",
         f"H = Σ w<sub>R</sub> D = 1 × 0.50 + 20 × 0.10 = {q_h:.2f} Sv. Adding the doses gives 0.60, using 2 for the α particles gives 0.70, and swapping the weights gives {0.50 * 20 + 0.10:.2f} Sv.", lvl="Moderate"),
 ]
-INLINE = {0: [0, 1], 1: [2, 3], 2: [6, 7], 3: [11], 4: [13]}
+INLINE = {0: [1, 2], 1: [3, 4], 2: [6, 7], 3: [10, 11, 15, 16], 4: [9, 12, 13, 14]}
 
 
 # ---------------------------------------------------------------- matching and typed-number questions
-_n0 = len(PROBLEMS)
 q_cpk = 120 * 2.58e-4
 PROBLEMS += [
-    SORT("Match each region of a megavoltage photon beam to the relation between the absorbed dose D and the collision kerma K<sub>col</sub>.", ["Build-up region", "Where charged-particle equilibrium holds", "Beyond d<sub>max</sub>"],
-         [("D &lt; K<sub>col</sub>", 0), ("D = K<sub>col</sub>", 1), ("D = β K<sub>col</sub>, with β slightly above 1", 2)],
-         "In the build-up region the electrons have not yet reached equilibrium, so the dose is below the kerma. Where charged-particle equilibrium holds, the dose equals the collision kerma. Beyond d<sub>max</sub> the beam is attenuating, so the electrons come from slightly upstream, where the photon fluence was higher, and the dose stays a little above the kerma.", lvl="Moderate", mode="match", cap=1),
     SORT("Match each quantity to its SI unit.", ["m<sup>−2</sup>", "J/m²", "Gy (J/kg)", "C/kg", "Sv"],
          [("Fluence", 0), ("Energy fluence", 1), ("Kerma", 2), ("Absorbed dose", 2), ("Exposure", 3), ("Equivalent dose", 4)],
          "Fluence counts particles per area, and energy fluence adds the energy they carry per area. Kerma and absorbed dose are both energy per mass, which is the gray. Exposure is charge per mass of air. Equivalent dose is energy per mass weighted by radiation type, and it is given its own name, the sievert, so it is not confused with the gray.", lvl="Easy", mode="match"),
     SORT("Match each radiation to its radiation weighting factor w<sub>R</sub> (ICRP 103).", ["1", "2", "20"],
          [("Photons", 0), ("Electrons", 0), ("Protons", 1), ("α particles", 2)],
          "Photons and electrons have w<sub>R</sub> = 1. Protons are 2. α particles, which deposit their energy densely, are 20. Equivalent dose is the absorbed dose multiplied by w<sub>R</sub>.", lvl="Easy", mode="match"),
-    TYPED(STEM("A free-air chamber records an exposure.", ["X = 120 R"], "What is the exposure in [[C/kg]]?"), q_cpk, 0.01, "C/kg",
-          "1 R = 2.58 × 10<sup>−4</sup> C/kg, so 120 R = 120 × 2.58 × 10<sup>−4</sup> = 3.10 × 10<sup>−2</sup> C/kg.", lvl="Easy"),
 ]
-INLINE = {0: [1, 2], 1: [3, 4], 2: [7, 8, _n0 + 1], 3: [11, 12, _n0 + 4], 4: [10, 13, _n0 + 2, _n0 + 3]}
 
 
 # ---------------------------------------------------------------- dose in a medium from exposure
-_nk = len(PROBLEMS)
 _men_air, _men_mus = 0.0267, 0.0296                                                  # cm^2/g at 1.25 MeV
 d_air30 = 30 * 0.876
 d_mus30 = d_air30 * _men_mus / _men_air
@@ -147,4 +134,3 @@ PROBLEMS += [
     PR("In the quantity W/e = 33.97 J/C, W is:", "the mean energy that a charged particle spends in air for each ion pair it forms", ["the energy needed to remove the least bound electron of an air molecule", "the work function of the wall of the chamber", "the energy of the photon that enters the chamber"],
        "Each ion pair costs an average energy W of about 33.97 eV, which includes the energy that goes to excitation and not only to ionization. Multiplying the charge per unit mass, in C/kg, by W/e gives the dose to air in J/kg.", lvl="Moderate"),
 ]
-INLINE.setdefault(3, []).extend([_nk + 1, _nk + 2])

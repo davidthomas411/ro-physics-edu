@@ -44,14 +44,9 @@ TOPIC = dict(
         C("State the condition and the result of transient equilibrium.", "Parent T<sub>1/2</sub> is longer than the daughter's but not by a large factor. After several daughter half-lives A<sub>d</sub>/A<sub>p</sub> = λ<sub>d</sub>/(λ<sub>d</sub> − λ<sub>p</sub>) = T<sub>1/2,p</sub>/(T<sub>1/2,p</sub> − T<sub>1/2,d</sub>) > 1, and both fall with the parent's half-life.", fig="equilibrium"),
         C("State the condition and the result of secular equilibrium.", "Parent T<sub>1/2</sub> is much longer than the daughter's. A<sub>d</sub> ≈ A<sub>p</sub>, and the parent activity is nearly constant over many daughter half-lives."),
         C("Name one example of transient and one of secular equilibrium.", "Transient: Mo-99 (66 h) → Tc-99m (6 h). Secular: Ra-226 (1600 y) → Rn-222 (3.8 d); also Sr-90 → Y-90 and Cs-137 → Ba-137m."),
-        C("When does the daughter's activity peak, and how does it compare with the parent's then?", "At t<sub>max</sub> = ln(λ<sub>d</sub>/λ<sub>p</sub>) / (λ<sub>d</sub> − λ<sub>p</sub>). The daughter's number is not changing at the peak, so A<sub>d</sub> = A<sub>p</sub> (when every parent decay feeds the daughter)."),
         C("Mo-99 has T<sub>1/2</sub> = 65.9 h and Tc-99m has T<sub>1/2</sub> = 6.01 h. What is A<sub>d</sub>/A<sub>p</sub> in transient equilibrium, ignoring branching?", f"{ratio:.2f}.", w=["T<sub>1/2,p</sub>/(T<sub>1/2,p</sub> − T<sub>1/2,d</sub>) = 65.9 / (65.9 − 6.01)."]),
         C("About when does the Tc-99m activity of a freshly eluted generator peak?", f"About {tmax:.0f} h after elution."),
-        C("A generator holds 18.5 GBq of Mo-99 when fully eluted. Estimate the Tc-99m activity 4 h later, ignoring branching.", f"About {ad:.1f} GBq.",
-          w=[f"A<sub>d</sub> = A<sub>p</sub>(0) × {ratio:.3f} × (e<sup>−λ<sub>p</sub>t</sup> − e<sup>−λ<sub>d</sub>t</sup>).", f"= 18.5 × {ratio:.3f} × ({x1:.4f} − {x2:.4f}) = {ad:.2f} GBq."]),
-        C("Why is the Tc-99m activity below the Mo-99 activity at equilibrium, even though the ratio is 1.10?", f"Only about 88% of Mo-99 decays feed Tc-99m; the rest decay straight to Tc-99. The activity ratio is 0.88 × 1.10 ≈ {BR*ratio:.2f}."),
         C("How many daughter half-lives until the daughter reaches 99% of its secular-equilibrium activity?", "About 7: 1 − (½)<sup>7</sup> = 99.2%."),
-        C("A Cs-137 source emits 662 keV photons from Ba-137m (T<sub>1/2</sub> 2.55 min). Why does that output fall with Cs-137's 30-year half-life?", "Secular equilibrium: Ba-137m is continually regenerated, and its activity tracks Cs-137's (about 94% of it, from the branching). The output therefore decays with the parent's half-life."),
     ],
 )
 

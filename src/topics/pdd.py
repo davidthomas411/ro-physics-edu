@@ -46,7 +46,6 @@ TOPIC = dict(
         C("A 6 MV beam (d<sub>max</sub> = 1.5 cm) has PDD = 67.0% at 10 cm depth and SSD 100 cm. Estimate the PDD at SSD 120 cm.", f"About {p2:.1f}%.", w=[f"F = (121.5/130)² / (101.5/110)² = {a2**2:.4f} / {a1**2:.4f} = {F:.3f}.", f"67.0 × {F:.3f} = {p2:.1f}%."]),
         C("A field is 10 × 10 cm at the surface at SSD 100 cm. How large is it at 10 cm depth?", "11 × 11 cm.", w=["10 × (100 + 10)/100 = 11."]),
         C("Beyond d<sub>max</sub> at fixed SSD, which two effects make PDD fall with depth?", "Exponential attenuation of the primary beam and the inverse-square fall-off. Scatter partly offsets them."),
-        C("Why is the usual SSD about 100 cm and not larger?", "A larger SSD raises PDD but lowers the dose rate by the inverse square, so 100 cm (the SAD) is the common compromise."),
     ],
 )
 
@@ -82,8 +81,6 @@ PROBLEMS = [
     PRN(STEM("A single 6 MV field.", ["prescription = 200 cGy at 10 cm depth", "PDD at 10 cm = 67.0%"], "What is the [[dose at d<sub>max</sub>]]?"), q_dmaxdose, [200 * 0.670, 200.0, 200 / (1 - 0.670)], "{:.1f} cGy",
         f"D(10 cm) = PDD × D(d<sub>max</sub>), so D(d<sub>max</sub>) = 200 / 0.670 = {q_dmaxdose:.1f} cGy. Multiplying instead of dividing gives {200 * 0.670:.1f} cGy.", lvl="Moderate",
         calc=CALC("cGy", [TILE("D", 200, "cGy", id="D"), TILE("PDD", 0.670, "", disp="0.670")], solution=["D", "÷", "PDD"])),
-    PRM("Which of the following does the PDD of a photon beam depend on?", ["Beam energy", "Field size at the surface", "SSD"], ["Prescribed dose", "Monitor-unit setting"],
-        "PDD is a ratio of two doses, so the amount of dose cancels. It depends on depth, energy, the field size at the surface, and the SSD.", lvl="Moderate"),
     PR("Increasing the field size raises the PDD at depth mainly because:", "more scattered photons reach the point, and scatter is a larger share of the dose at depth than at d<sub>max</sub>",
        ["the inverse-square fall-off between d<sub>max</sub> and the point is smaller", "the beam is attenuated less in a larger field", "the primary beam has a higher energy"],
        "A larger field puts more tissue around the point to scatter photons into it. Scatter is a bigger part of the dose at depth than at d<sub>max</sub>, so the ratio rises. Attenuation of the primary beam and the inverse square do not change with field size.", lvl="Moderate"),
@@ -94,15 +91,11 @@ PROBLEMS = [
         calc=CALC("cm", [TILE("A", 10, "cm"), TILE("f", 100, "cm"), TILE("d", 15, "cm")], ops=("+", "×", "÷", "(", ")"), solution=["A", "×", "(", "f", "+", "d", ")", "÷", "f"])),
     PRN(STEM("A 6 MV beam.", ["d<sub>max</sub> = 1.5 cm", "PDD = 67.0% at 10 cm depth, SSD 100 cm", "new SSD = 140 cm"], "Estimate the [[PDD]] at 10 cm depth for SSD 140 cm."), q_p140, [67.0 / q_F140, 67.0, 67.0 * q_F140 ** 2], "{:.1f}%",
         f"F = [(141.5/150)²] / [(101.5/110)²] = {(141.5/150)**2:.4f} / {(101.5/110)**2:.4f} = {q_F140:.3f}. PDD = 67.0 × {q_F140:.3f} = {q_p140:.1f}%. Dividing by F gives {67.0 / q_F140:.1f}%, leaving PDD unchanged gives 67.0%, and applying F twice gives {67.0 * q_F140 ** 2:.1f}%.", lvl="Moderate"),
-    PRN(STEM("A 10 MV beam.", ["d<sub>max</sub> = 2.5 cm", "PDD = 71.0% at 12 cm depth, SSD 100 cm", "new SSD = 80 cm"], "Estimate the [[PDD]] at 12 cm depth for SSD 80 cm."), q_p80, [71.0 / q_F80, 71.0 * q_F80_nodmax, 71.0], "{:.1f}%",
-        f"F = [(82.5/92)²] / [(102.5/112)²] = {(82.5/92)**2:.4f} / {(102.5/112)**2:.4f} = {q_F80:.3f}. A smaller SSD lowers the PDD: 71.0 × {q_F80:.3f} = {q_p80:.1f}%. Inverting F gives {71.0 / q_F80:.1f}%. Leaving d<sub>max</sub> out of the distances gives {71.0 * q_F80_nodmax:.1f}%.", lvl="Challenging"),
-    PRN(STEM("A 6 MV, 10 × 10 cm field delivers 200 cGy at 10 cm depth.", ["setup A: SSD 100 cm, PDD at 10 cm = 67.0%", "setup B: SSD 140 cm, PDD at 10 cm = 70.0%"], "The dose at d<sub>max</sub> in setup A is how many [[times that in setup B]]?"), q_ratio, [67.0 / 70.0, 1.0, q_ratio ** 2], "{:.3f}",
-        f"D(d<sub>max</sub>) = 200 / PDD. Setup A: 200/0.670 = {200/0.670:.1f} cGy. Setup B: 200/0.700 = {200/0.700:.1f} cGy. Ratio = {q_ratio:.3f}. Inverting it gives {67.0/70.0:.3f}. The higher PDD at the larger SSD is why extended-SSD setups reduce the dose to the superficial tissues for the same dose at depth.", lvl="Challenging"),
     PR("A single beam must deliver 200 cGy at 10 cm depth at SSD 100 cm. Which beam gives the largest dose at d<sub>max</sub>?", "6 MV, 10 × 10 cm", ["6 MV, 30 × 30 cm", "18 MV, 10 × 10 cm", "18 MV, 30 × 30 cm"],
        "Dose at d<sub>max</sub> = prescription / PDD, so the beam with the lowest PDD at 10 cm needs the most dose at d<sub>max</sub>. PDD rises with both energy and field size, so the lowest is the lower energy with the smaller field.", lvl="Challenging"),
 ]
 
-INLINE = {0: [0, 1], 1: [2, 3], 2: [7, 8]}
+INLINE = {0: [1, 2, 13], 1: [3, 4, 11, 12], 2: [7, 8, 9]}
 
 
 # ---------------------------------------------------------------- practice questions that use a data table
@@ -117,25 +110,15 @@ PROBLEMS += [
         q_tpd9, [bd.PDD[(8, 10)], bd.PDD[(10, 10)], bd.PDD[(12, 10)]], "{:.1f}%",
         f"9 cm lies halfway between 8 and 10 cm, so PDD = ({bd.PDD[(8, 10)]:.1f} + {bd.PDD[(10, 10)]:.1f}) / 2 = {q_tpd9:.1f}%. Reading the 8 cm row gives {bd.PDD[(8, 10)]:.1f}%, the 10 cm row gives {bd.PDD[(10, 10)]:.1f}%, and the 12 cm row gives {bd.PDD[(12, 10)]:.1f}%.", lvl="Moderate",
         calc=CALC("", [TILE("P8", bd.PDD[(8, 10)], "", disp=f"{bd.PDD[(8, 10)]:.1f}"), TILE("P10", bd.PDD[(10, 10)], "", disp=f"{bd.PDD[(10, 10)]:.1f}"), TILE("2", 2)], ops=("+", "÷", "(", ")"), solution=["(", "P8", "+", "P10", ")", "÷", "2"])),
-    PRN(STEM("A single 6 MV field at SSD 100 cm. Use the table.", ["prescription = 180 cGy at 12 cm depth", "field = 15 × 15 cm at the surface"], "What is the [[dose at d<sub>max</sub>]]?", tables=[bd.table_pdd([8, 10, 12, 14], [10, 12, 15, 20])]),
-        q_trx12, [180 / (bd.PDD[(10, 15)] / 100), 180 * bd.PDD[(12, 15)] / 100, 180.0], "{:.1f} cGy",
-        f"Read the 15 × 15 column at 12 cm: PDD = {bd.PDD[(12, 15)]:.1f}%. D(d<sub>max</sub>) = 180 / {bd.PDD[(12, 15)] / 100:.3f} = {q_trx12:.1f} cGy. The 10 cm row gives {180 / (bd.PDD[(10, 15)] / 100):.1f} cGy, multiplying by the PDD gives {180 * bd.PDD[(12, 15)] / 100:.1f} cGy, and using the prescription as the d<sub>max</sub> dose gives 180 cGy.", lvl="Moderate",
-        calc=CALC("cGy", [TILE("D", 180, "cGy"), TILE("PDD", bd.PDD[(12, 15)] / 100, "", disp=f"{bd.PDD[(12, 15)] / 100:.3f}")], solution=["D", "÷", "PDD"])),
-    PRN(STEM("A 6 MV beam with a 10 × 10 cm field at the surface, SSD 100 cm. Use the table.", [], "At what [[depth]] does the PDD fall to 50%? Interpolate linearly.", tables=[bd.table_pdd([12, 14, 16, 18, 20], [10])]),
-        q_td50, [14.0, 16.0, 15.0], "{:.1f} cm",
-        f"50% lies between {bd.PDD[(14, 10)]:.1f}% at 14 cm and {bd.PDD[(16, 10)]:.1f}% at 16 cm. The fraction of the way is ({bd.PDD[(14, 10)]:.1f} − 50) / ({bd.PDD[(14, 10)]:.1f} − {bd.PDD[(16, 10)]:.1f}) = {_f50:.2f}, so d = 14 + {_f50:.2f} × 2 = {q_td50:.1f} cm. The midpoint, 15.0 cm, ignores where 50% sits between the two values.", lvl="Challenging"),
 ]
-INLINE = {0: [0, 1], 1: [2, 3, 13], 2: [7, 8]}
 
 
 # ---------------------------------------------------------------- sorting question
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("How does the PDD beyond d<sub>max</sub> respond when each of these increases?", ["PDD rises", "PDD falls", "PDD does not change"],
          [("Beam energy", 0), ("Field size", 0), ("SSD", 0), ("Depth", 1), ("Prescribed dose", 2), ("Monitor-unit setting", 2)],
          "A more energetic beam penetrates further, a larger field adds scatter, and a larger SSD weakens the inverse-square fall-off with depth, so all three raise the PDD. Going deeper lowers it. The PDD is a ratio of two doses in the same beam, so the prescribed dose and the number of monitor units cancel.", lvl="Moderate"),
 ]
-INLINE = {0: [1, 2], 1: [3, 4, 6, 14, _n0 + 1], 2: [8, 9, 10]}
 
 
 # ---------------------------------------------------------------- tap-the-figure questions
@@ -149,13 +132,8 @@ for _ in range(50):
 _g = lambda d: 1 - 0.9 * math.exp(-_k * d)
 _pdd_curve = lambda d: 100 * _ext(d) * _g(d) / (_ext(bd.DMAX) * _g(bd.DMAX))
 _d50 = next(i * 0.001 for i in range(1500, 30000) if _pdd_curve(i * 0.001) <= 50)
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     FIGQ(STEM("A 6 MV beam, 10 × 10 cm field, SSD 100 cm. The graph shows the percent depth dose (illustrative).", [], "Tap the [[depth of d<sub>max</sub>]]."),
          FS(x=dict(min=0, max=6, ticks=[0, 1, 2, 3, 4, 5, 6], label="Depth (cm)"), y=dict(min=0, max=100, ticks=[0, 20, 40, 60, 80, 100], label="Percent depth dose", fmt="pct"), series=[dict(pts=PTS(_pdd_curve, 0, 6), color="plot-1")], xunit=" cm", xdec=1, xname="Depth", label="Percent depth dose against depth near the surface"),
          [(1.0, 2.0)], "d<sub>max</sub> is the depth of the maximum dose, where the curve peaks. For a 6 MV beam it is about 1.5 cm. Dose rises over the first 1.5 cm as the secondary electrons build up, and then falls slowly as the beam is attenuated.", lvl="Easy", note="about 1.5 cm"),
-    FIGQ(STEM("A 6 MV beam, 10 × 10 cm field, SSD 100 cm. The graph shows the percent depth dose (illustrative) over the full depth range.", [], "Tap the [[depth at which the PDD is 50%]]."),
-         FS(x=dict(min=0, max=25, ticks=[0, 5, 10, 15, 20, 25], label="Depth (cm)"), y=dict(min=0, max=100, ticks=[0, 25, 50, 75, 100], label="Percent depth dose", fmt="pct"), series=[dict(pts=PTS(_pdd_curve, 0, 25, 200), color="plot-1")], xunit=" cm", xdec=1, xname="Depth", label="Percent depth dose against depth"),
-         [(_d50 - 1.2, _d50 + 1.2)], f"The curve reaches 50% at about {_d50:.0f} cm for this illustrative 6 MV curve. The PDD at 10 cm is about 67%, so 50% is well beyond it.", lvl="Easy", note=f"about {_d50:.0f} cm"),
 ]
-INLINE.setdefault(0, []).append(_n0 + 1); INLINE.setdefault(1, []).append(_n0 + 2)

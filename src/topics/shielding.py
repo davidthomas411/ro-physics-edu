@@ -171,9 +171,6 @@ PROBLEMS = [
     PR(STEM("A primary barrier is designed with B = P d² / (W U T).", [], "Between which two points is the [[distance d]] measured?"),
        "From the target to a point 0.3 m beyond the outer face of the barrier", ["From the isocenter to a point 0.3 m beyond the outer face of the barrier", "From the target to the outer face of the barrier itself", "From the target to the inner face of the barrier itself"],
        "The design goal applies where a person can stand, taken as 0.3 m beyond the barrier, and the inverse square runs from the source of the beam, the target. Stopping at the face of the wall leaves out the 0.3 m and overstates the dose.", lvl="Easy"),
-    PRN(STEM("A 6 MV primary barrier protects a staff work area (controlled).", ["P = 0.1 mSv/week", "W = 500 Gy/week", "U = 0.25", "T = 1", "d = 5.5 m"], "What [[transmission B]] is required?"),
-        qB, [qB_noU, qB_d, qB_year], lambda v: sci(v, 3),
-        f"B = P d² / (W U T) = 10<sup>−4</sup> × 5.5² / (500 × 0.25 × 1) = {sci(qB, 3)}. Leaving out U gives {sci(qB_noU, 3)}, using d in place of d² gives {sci(qB_d, 3)}, and using the annual 5 mSv gives {sci(qB_year, 3)}.", lvl="Moderate"),
     PR(STEM("Two primary walls of one 6 MV vault receive the same workload and use factor, and the areas behind them have the same weekly dose goal.", ["wall A: office behind it, T = 1, d = 7.0 m", "wall B: corridor behind it, T = 1/5, d = 4.0 m", f"TVL<sub>e</sub> = {PRI6[1]:.0f} cm"], "Which wall needs the [[thicker concrete]], and by about how much?"),
        f"Wall A, by about {q_two:.0f} cm", [f"Wall B, by about {q_two:.0f} cm", f"Wall A, by about {q_two_T:.0f} cm", f"Wall B, by about {q_two_d:.0f} cm"],
        f"B is proportional to d² / T: 49 for wall A and 16 × 5 = 80 for wall B, so A needs log<sub>10</sub>(80/49) = {dA:.2f} TVL more, {q_two:.0f} cm. Counting only the occupancy gives {q_two_T:.0f} cm for A, and counting only the distance gives {q_two_d:.0f} cm for B.", lvl="Moderate"),
@@ -215,20 +212,12 @@ PROBLEMS = [
         ["Treating a larger share of the patients with IMRT", "Turning a storage room behind the wall into an office"],
         ["Raising the largest field from 35 × 35 cm to 40 × 40 cm", "Lowering the use factor of the opposite primary wall", "Moving the protected point farther from the isocenter"],
         "B<sub>L</sub> = 1000 P d<sub>L</sub>² / (W C<sub>I</sub> T). More IMRT raises C<sub>I</sub> and an office raises T from 1/20 to 1, and both lower B. The field size enters the scatter term and the primary barrier width, not the leakage term, and a larger distance raises B.", lvl="Moderate"),
-    SORT("Match each symbol in the barrier equations to its meaning.", ["P", "W", "U", "T", "C<sub>I</sub>"],
-         [("Weekly dose equivalent allowed at the protected point", 0), ("Dose per week at 1 m from the target", 1), ("Fraction of the workload aimed at the barrier", 2),
-          ("Fraction of the beam-on time the most exposed person is present", 3), ("Monitor units per unit dose with IMRT relative to without", 4)],
-         "P is the design goal, W the workload, U the use factor, T the occupancy factor, and C<sub>I</sub> the IMRT factor. U is 1 for secondary barriers, and C<sub>I</sub> multiplies only the leakage workload.", lvl="Easy", mode="match", cap=1),
-    SORT(STEM("A 6 MV vault with an uncontrolled area beyond each barrier.", ["P = 0.02 mSv/week", f"W = {W1:.0f} Gy/week", "U = 0.25 for primary barriers, 1 for secondary barriers", "C<sub>I</sub> = 1",
-                                                                          f"concrete TVL<sub>1</sub>/TVL<sub>e</sub>: primary {PRI6[0]:.0f}/{PRI6[1]:.0f} cm, leakage {LEAK6[0]:.0f}/{LEAK6[1]:.0f} cm; scatter at 90°: {SCA6:.0f} cm", f"a(90°) = {sci(A6, 3)}", "F = 400 cm²", "d<sub>sca</sub> = 1.0 m"], "Rank the [[barriers]] from the thickest to the thinnest."),
-         ["1st (thickest)", "2nd", "3rd", "4th (thinnest)"], [(t, i) for i, (t, _) in enumerate(RANK)],
-         f"Primary wall {RANK[0][1]:.0f} cm, primary ceiling {RANK[1][1]:.0f} cm (the low occupancy saves log<sub>10</sub> 40 = 1.6 TVL), leakage wall {RANK[2][1]:.0f} cm (leakage is 0.1% of the beam), and scatter wall {RANK[3][1]:.0f} cm (scatter at 90° is weak and soft).", lvl="Challenging", mode="rank", cap=1),
     TYPED(STEM("An 18 MV primary barrier of ordinary concrete protects a corridor (uncontrolled).", ["P = 0.02 mSv/week", "W = 500 Gy/week", "U = 0.25", "T = 1/5", "d = 7.0 m", f"TVL<sub>1</sub> = {PRI18[0]:.0f} cm, TVL<sub>e</sub> = {PRI18[1]:.0f} cm"], "What [[concrete thickness]] is required?"), q_t18, 0.01, "cm",
           f"B = 2 × 10<sup>−5</sup> × 7.0² / (500 × 0.25 × 0.2) = {sci(q_B18, 3)}, n = {n_tvl(q_B18):.3f}, and t = {PRI18[0]:.0f} + ({n_tvl(q_B18):.3f} − 1) × {PRI18[1]:.0f} = {q_t18:.1f} cm. Using TVL<sub>e</sub> for every layer gives {n_tvl(q_B18) * PRI18[1]:.1f} cm.",
           w=[f"B = {sci(q_B18, 3)}", f"n = log<sub>10</sub>(1/B) = {n_tvl(q_B18):.3f}", f"t = {PRI18[0]:.0f} + {n_tvl(q_B18) - 1:.3f} × {PRI18[1]:.0f} = {q_t18:.1f} cm"], lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 8], 2: [9, 10, 11], 3: [13, 14, 15, 16]}
+INLINE = {0: [1, 2, 3], 1: [4, 5, 7], 2: [8, 9, 10], 3: [12, 13, 14, 15]}
 
 TERMS = ['shielding design goal', 'workload', 'use factor', 'occupancy factor', 'primary barrier', 'secondary barrier', 'IMRT factor', 'scatter fraction']
 

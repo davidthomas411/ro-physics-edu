@@ -129,13 +129,7 @@ TOPIC = dict(
         F("Cavity theory", "Converts the dose to a detector's sensitive material, the cavity, into the dose the surrounding medium would receive at that point without the detector."),
         F("Bragg–Gray conditions", ["The cavity is small against the ranges of the electrons crossing it, and it leaves their fluence unchanged.", "Its dose comes from electrons set in motion in the medium; photon interactions in the cavity are negligible."]),
         F("Bragg–Gray relation", "D<sub>med</sub> = D<sub>gas</sub> × (S̄<sub>col</sub>/ρ)<sub>med</sub> / (S̄<sub>col</sub>/ρ)<sub>gas</sub>, the mass collision stopping powers averaged over the electron spectrum. No charged-particle equilibrium is needed."),
-        F("Spencer–Attix theory", "Adds delta rays: the restricted collision stopping power L<sub>Δ</sub>/ρ counts energy transfers below a cutoff Δ, set by the size of the cavity, plus a track-end term. TG-51 and TRS-398 use Δ = 10 keV."),
-        F("Water-to-air ratio in photon beams", "About 1.13 in Co-60, falling to about 1.10 at 18 MV; nearly constant with depth beyond the build-up region."),
-        F("Water-to-air ratio in electron beams", f"Rises with depth as the electrons slow down. For R<sub>50</sub> = {R50A:.1f} cm: about {S_SURF:.2f} near the surface, {S_REF:.2f} at d<sub>ref</sub>, and {S_R50:.2f} at R<sub>50</sub>."),
         F("Chamber perturbation factors", ["P<sub>wall</sub>: a wall that is not water.", "P<sub>cel</sub>: the central electrode.", "P<sub>fl</sub>: electrons scattered into the cavity in electron beams; below 1.", "P<sub>dis</sub> (TG-51 P<sub>gr</sub>): water displaced in a dose gradient."]),
-        F("W<sub>air</sub>/e in k<sub>Q</sub>", "33.97 J/C, taken as constant with electron energy, so it cancels in k<sub>Q</sub>, the ratio of s<sub>w,air</sub> × perturbation factors in the beam and in Co-60."),
-        F("Large-cavity limit", f"For a cavity larger than the electron ranges, D<sub>med</sub> / D<sub>cav</sub> = (μ̄<sub>en</sub>/ρ)<sub>med</sub> / (μ̄<sub>en</sub>/ρ)<sub>cav</sub>. Burlin's theory weights the two limits by d, 1 for a small cavity and 0 for a large one."),
-        F("Conversion by detector", ["Ion chamber, megavoltage beam: Spencer–Attix water-to-air ratio and perturbation factors.", "Diode: water-to-silicon stopping-power ratio in electron beams; over-response to low-energy photons.", "TLD: intermediate cavity in megavoltage beams, near the large-cavity limit at low photon energies."]),
     ],
 )
 
@@ -163,54 +157,19 @@ PROBLEMS = [
        "The same electron fluence crosses the cavity and the water, and each material absorbs energy from it in proportion to its collision stopping power. The ratio of energy-absorption coefficients belongs to a cavity large enough for charged-particle equilibrium, and in an electron beam the dose comes from the electrons, not from photons interacting in the cavity.", lvl="Easy"),
 
     # ---- delta rays and Spencer–Attix theory
-    PRM(STEM("Spencer–Attix theory refines the Bragg–Gray relation for an ion chamber.", [], "Which of these does it [[add]]?"),
-        ["Delta rays above the cutoff energy counted in the electron fluence", "A stopping power restricted to energy transfers below the cutoff", "A track-end term for electrons that slow below the cutoff"],
-        ["Photon interactions in the air of the cavity", "The ratio of mass energy-absorption coefficients", "A correction for ions that recombine in the gas"],
-        "Spencer and Attix follow every electron above Δ, delta rays included, count only energy transfers below Δ as deposited locally, and add the energy of electrons that fall below Δ. Photon interactions in the gas remain negligible, the energy-absorption ratio belongs to large cavities, and recombination is corrected by P<sub>ion</sub>.", lvl="Moderate"),
 
     # ---- chamber perturbation factors
     SORT(STEM("Four factors correct an ion chamber's reading for the ways it departs from a Bragg–Gray cavity.", [], "What does each [[factor]] correct for?"),
          ["P<sub>wall</sub>", "P<sub>cel</sub>", "P<sub>fl</sub>", "P<sub>dis</sub> (P<sub>gr</sub> in TG-51)"],
          [("A wall made of a material other than water", 0), ("An aluminium electrode on the axis of the cavity", 1), ("Electrons scattered into the low-density cavity", 2), ("Water displaced by the cavity in a dose gradient", 3)],
          "P<sub>wall</sub> allows for electrons that start in the wall, P<sub>cel</sub> for the extra signal from the electrode, P<sub>fl</sub> for in-scatter into the air in electron beams, and P<sub>dis</sub> for the shift of the reading to a point upstream of the cavity center.", lvl="Easy", mode="match", cap=1),
-    PR(STEM("A cylindrical chamber is read at d<sub>ref</sub> in a 6 MeV electron beam, and its fluence perturbation correction P<sub>fl</sub> is below 1.", [], "Why does the chamber [[read high]] without this correction?"),
-       "More electrons scatter into the low-density cavity than out of it",
-       ["Air scatters electrons more strongly than the water it replaces", "Electrons lose more energy per gram in air than in water", "The aluminium electrode adds electrons to the cavity"],
-       "Water scatters electrons out of any small region as often as into it, but the air of the cavity scatters few out, so electrons scattered in from the surrounding water raise the fluence. Air scatters less than water, not more; at these energies an electron loses less energy per gram in air, which is why s<sub>w,air</sub> exceeds 1; and the electrode is corrected by P<sub>cel</sub>.", lvl="Moderate"),
-    PR(STEM("TG-51 writes k<sub>Q</sub> as a ratio of stopping-power ratios and perturbation factors in the user's beam and in Co-60.", [], "What happens to [[W<sub>air</sub>/e]] in this ratio?"),
-       "It cancels, because it is taken as constant over therapy electron energies",
-       ["It is replaced by P<sub>TP</sub>, which corrects the mass of air", "It drops out, because it applies only to photons below 3 MeV", "It is folded into P<sub>ion</sub> for each beam"],
-       f"W<sub>air</sub>/e, {W_E} J/C, is the same in Co-60 and in the user's beam, so it divides out of k<sub>Q</sub>. P<sub>TP</sub> corrects the mass of air for its temperature and pressure, the 3 MeV limit belongs to exposure, and P<sub>ion</sub> corrects recombination.", lvl="Easy"),
 
     # ---- water-to-air ratios in clinical beams
-    PR(STEM("The water-to-air stopping-power ratio is followed with depth in a 6 MV photon beam and in a 12 MeV electron beam.", [], "Why does the ratio change far more with depth in the [[electron beam]]?"),
-       "Its electrons slow down with depth, while photons set new electrons in motion at every depth",
-       ["Photon beams produce no delta rays in water, so their ratio stays fixed", "The in-scatter of electrons into the cavity grows with depth", "The air in the cavity becomes denser at greater depth"],
-       f"The ratio follows the electron spectrum. In an electron beam the spectrum shifts to lower energies with depth, where the ratio is higher: for R<sub>50</sub> = {R50A:.1f} cm it rises from about {S_SURF:.2f} near the surface to {S_R50:.2f} at R<sub>50</sub>. A photon beam keeps setting electrons in motion, so beyond the build-up region its spectrum, and the ratio, barely change. Photon beams do produce delta rays, and in-scatter is the separate factor P<sub>fl</sub>.", lvl="Moderate"),
-    PR(STEM("A well-guarded plane-parallel chamber measures a depth-ionization curve on the axis of a 9 MeV electron beam.", [], "Which [[step]] turns the curve into a depth-dose curve?"),
-       "Multiply each reading by the water-to-air ratio at its depth, then renormalize",
-       ["Multiply every reading by the water-to-air ratio at d<sub>ref</sub>, then renormalize", "Divide each reading by the water-to-air ratio at its depth, then renormalize", "Use the readings as they are, since the guard removes the perturbation"],
-       "The dose is the reading times the stopping-power ratio at each depth, and that ratio rises with depth. A single ratio for every depth cancels on renormalization and changes nothing, dividing inverts the correction, and the guard ring makes P<sub>fl</sub> close to 1 but leaves the change of the stopping-power ratio.", lvl="Moderate"),
-    TYPED(STEM(f"A well-guarded plane-parallel chamber reads on the axis of an electron beam with R<sub>50</sub> = {R50B:.1f} cm. Perturbation factors are taken as equal at both depths.",
-               [f"reading at d<sub>ref</sub> = {Z10A:.1f} cm: 1.000 (relative)", f"reading at {Z10B:.1f} cm: {M10B:.3f}", f"s<sub>w,air</sub> at {Z10A:.1f} cm = {S10A:.3f}", f"s<sub>w,air</sub> at {Z10B:.1f} cm = {S10B:.3f}"],
-               f"What is the [[dose at {Z10B:.1f} cm relative to the dose at d<sub>ref</sub>]]?"), DR10, 0.005, "(ratio)",
-          f"Each reading times the ratio at its depth: {M10B:.3f} × {S10B:.3f} / {S10A:.3f} = {DR10:.3f}. The uncorrected reading, {M10B:.3f}, lies outside the tolerance, and inverting the ratio gives {M10B * S10A / S10B:.3f}.", lvl="Challenging"),
 
     # ---- large cavities and solid detectors
-    PR(STEM(f"A LiF TLD chip 0.9 mm thick measures the dose at 1 cm from an I-125 seed, whose photons have energies from about 27 to 35 keV. The electrons they set in motion travel less than {R125_BOUND} µm in water.", [], "Which [[relation]] converts the dose to the LiF into the dose to water?"),
-       "The ratio of mass energy-absorption coefficients, water to LiF",
-       ["The Spencer–Attix stopping-power ratio, water to LiF", "The ratio of mass attenuation coefficients, water to LiF", "The ratio of densities, water to LiF"],
-       "The electrons stop well inside the chip, so charged-particle equilibrium holds within the LiF: a large cavity, whose dose is the collision kerma of LiF. A stopping-power ratio applies only when electrons cross the cavity from the medium, and neither attenuation nor density sets the energy absorbed per gram.", lvl="Moderate"),
-    PRN(STEM("The dose to the air of a small chamber in water in a Co-60 beam is known.", [f"D<sub>air</sub> = {DA17:.3f} Gy", f"Spencer–Attix s<sub>w,air</sub> = {S_CO:.3f}", f"(μ<sub>en</sub>/ρ)<sub>water</sub> / (μ<sub>en</sub>/ρ)<sub>air</sub> = {LARGE17:.3f}"], "What is the [[dose to water]]?"),
-        DW17, [DW17_large, DW17_inv, DW17_linv], "{:.3f} Gy",
-        f"The air cavity is small against the ranges of the Co-60 electrons, so the Spencer–Attix ratio applies: {DA17:.3f} × {S_CO:.3f} = {DW17:.3f} Gy. The large-cavity ratio gives {DW17_large:.3f} Gy, {100 * (1 - LARGE17 / S_CO):.1f}% low, and dividing by either ratio gives {DW17_inv:.3f} or {DW17_linv:.3f} Gy.", lvl="Challenging"),
-    PR(STEM("A 9 MeV electron beam is scanned on its axis with an unshielded diode and with a well-guarded plane-parallel chamber. Each curve is normalized to 100% at its own maximum, and neither is corrected.", [], "Beyond the maximum, how does the [[chamber curve]] compare with the diode curve?"),
-       "Lower, because the water-to-air ratio rises with depth more than the water-to-silicon ratio",
-       ["Higher, because the water-to-air ratio falls with depth", "The same, because both detectors are small cavities", "Higher, because the diode under-responds to electrons at depth"],
-       "A chamber reading is proportional to the dose divided by s<sub>w,air</sub>, which rises with depth, so the uncorrected ionization curve falls below the dose curve. The water-to-silicon ratio changes less with depth, so the diode curve lies closer to the dose. Both detectors are small cavities, but their stopping-power ratios change by different amounts.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2], 1: [3], 2: [4, 5, 6], 3: [7, 8, 9], 4: [10, 11]}
+INLINE = {0: [1, 2], 2: [3]}
 
 TERMS = ["cavity theory", "mass collision stopping power", "Bragg–Gray conditions", "delta rays", "restricted collision stopping power", "fluence perturbation", "general cavity theory"]
 

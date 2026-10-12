@@ -160,10 +160,6 @@ PROBLEMS = [
     PR(STEM("After a near miss in which an electron field was nearly treated with the wrong applicator, four changes are proposed.", [], "Which change is the [[strongest]]?"),
        "An interlock that holds the beam until the applicator code matches the plan", ["A checklist item to confirm the applicator before each field", "Retraining all therapists on the electron setup procedure", "A sign at the console reminding staff to check the applicator"],
        "An interlock is a forcing function: the wrong applicator cannot be used whether or not anyone is paying attention. A checklist and a sign depend on a person reading them and acting every time, and retraining leaves the process unchanged.", lvl="Easy"),
-    SORT("Match each quality-management tool to its example.", ["Forcing function", "Automation", "Standardization", "Checklist", "Training"],
-         [("The beam is held until the applicator code matches the plan", 0), ("Plan parameters reach the machine without retyping", 1), ("Every prostate plan starts from one approved template", 2),
-          ("A printed list of items confirmed at each physics plan check", 3), ("A yearly session on the treatment procedure", 4)],
-         "An interlock makes the error impossible, electronic transfer removes the retyping, one template removes variation, a checklist prompts a person to confirm each item, and training relies on memory. The tools are listed from strongest to weakest.", lvl="Easy", mode="match", cap=1),
     SORT("Rank these quality-management tools from strongest to weakest.", ["1, strongest", "2", "3", "4", "5, weakest"],
          [("An interlock that holds the beam", 0), ("Electronic transfer of the plan to the machine", 1), ("A standard template for each treatment site", 2), ("An independent second check of the plan", 3), ("A training session for the staff", 4)],
          "TG-100, following the Institute for Safe Medication Practices, ranks forcing functions first, then automation, protocols and standards, independent checks, rules and policies, and training. The weaker a tool, the more it depends on a person acting correctly every time.", lvl="Moderate", mode="rank", cap=1),
@@ -182,16 +178,9 @@ PROBLEMS = [
     PRN(STEM("Errors enter treatment plans before two independent checks.", [f"error rate before the checks = {g0 * 100:g}% of plans", f"detected by the physics plan check = {g1 * 100:.0f}%", f"detected by the therapist's check = {g2 * 100:.0f}%"], "What [[error rate]] reaches the patient?"),
         g_res, [g_one, g_det, g_pair], "{:.1f} per 1000 plans",
         f"Each check passes the fraction it misses: {g0:g} × {1 - g1:.2f} × {1 - g2:.2f} = {g_res / 1000:.4f}, or {g_res:.1f} per 1000 plans. Stopping after the first check gives {g_one:.1f}, multiplying by the detection probabilities gives {g_det:.1f}, and treating the pair as one check that detects {g1:.1f} × {g2:.1f} gives {g_pair:.1f}.", lvl="Moderate"),
-    PRN(STEM("A top event, treatment with the wrong setup, sits on an OR gate with two independent branches.", [f"branch 1, a wrong couch shift is entered = {c1 * 100:g}% of fractions", f"branch 1, detected by the imaging check = {k1 * 100:.0f}%", f"branch 2, another patient's plan is opened = {c2 * 100:g}% of fractions", f"branch 2, detected by the time-out = {k2 * 100:.0f}%"], "What is the [[probability of the top event]] per fraction?"),
-        ft, [ft_one, ft_det, ft_none], "{:.3f}%",
-        f"Each branch is an AND gate with the miss probability: {c1:g} × {1 - k1:.1f} = {c1 * (1 - k1):.4f} and {c2:g} × {1 - k2:.1f} = {c2 * (1 - k2):.5f}. The OR gate gives 1 − (1 − {c1 * (1 - k1):.4f})(1 − {c2 * (1 - k2):.5f}) = {ft / 100:.5f}, or {ft:.3f}%. Using the detection probabilities in place of the miss probabilities gives {ft_det:.3f}%, leaving out the checks gives {ft_none:.3f}%, and dropping branch 2 gives {ft_one:.3f}%.", lvl="Challenging"),
     TYPED(STEM("Treating the wrong patient needs three independent failures in one fraction.", [f"another patient's plan is opened: p = {w0:g}", f"the photo check misses it: p = {w1:g}", f"the time-out misses it: p = {w2:g}"], "What is the [[probability of treating the wrong patient]], per million fractions?"),
           w_ppm, 0.01, "per million fractions",
           f"An AND gate multiplies: {w0:g} × {w1:g} × {w2:g} = {w_ppm / 1e6:.5f}, or {w_ppm:.0f} per million fractions. Each independent barrier multiplies the rate by its miss probability.", lvl="Moderate"),
-    TYPED(STEM("A clinic estimates how many planning errors get past its checks.", [f"plans per year = {y_n}", f"error rate before the checks = 1 in {1 / y0:.0f} plans", f"detected by the physics plan check = {y1 * 100:.0f}%", f"detected by the therapist's check = {y2 * 100:.0f}%"], "How many [[errors per year]] reach a patient, if the checks are independent?"),
-          y_res, 0.02, "per year",
-          f"{y_n} × {y0:g} = {y_n * y0:.0f} errors enter. The physics check passes {100 * (1 - y1):.0f}% of them ({y_n * y0 * (1 - y1):.1f}) and the therapist's check {100 * (1 - y2):.0f}% of those: {y_res:.1f} per year. Checks that share information or trust each other let more through.", lvl="Challenging",
-          w=[f"{y_n} × {y0:g} = {y_n * y0:.0f}", f"{y_n * y0:.0f} × {1 - y1:.2f} = {y_n * y0 * (1 - y1):.1f}", f"{y_n * y0 * (1 - y1):.1f} × {1 - y2:.2f} = {y_res:.1f}"]),
     # incident learning and root cause analysis
     PR(STEM("Before the first fraction, a therapist finds that the plan loaded at the machine is an earlier version than the one the physician approved. The treatment is held and the approved plan is delivered.", [], "What [[response]] fits best?"),
        "A report to the incident learning system and an analysis of how the unapproved version reached the machine", ["No report, because the error did not reach the patient", "A report to the NRC as a medical event within a day", "A disciplinary review of the planner who exported the plan"],
@@ -229,7 +218,7 @@ PROBLEMS = [
         f"An HDR course {ME_TOTAL}% or more short is a medical event, because underdoses count as well as overdoses, and treating the wrong side puts far more than {ME_SV} Sv and {ME_SITE}% above the expected dose on a site outside the target. The linac is outside the NRC rule, {dev(7.8, 6.0):.0f}% in one fraction is under {ME_FRAC}% and {dev(sum(_hdr_o), 30.0):.0f}% in total under {ME_TOTAL}%, and a dosage {dev(4255, 3700):.0f}% high is under the {ME_TOTAL}% limit.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 8], 2: [12, 13, 15]}
+INLINE = {0: [1, 2], 1: [3, 4, 5, 7], 2: [9, 10, 12]}
 
 TERMS = ["failure mode", "forcing function", "risk priority number", "fault tree", "near miss", "root cause", "medical event", "written directive"]
 

@@ -198,8 +198,6 @@ PROBLEMS = [
     PRN(STEM("A proton prescription.", ["RBE-weighted dose = 70 Gy(RBE) in 35 fractions", "RBE = 1.1"], "What [[physical dose per fraction]] is delivered?"), q_fx,
         [2.0 * RBE, 2.0, 2.0 / RBE ** 2], "{:.2f} Gy",
         f"Each fraction is 70 / 35 = 2.00 Gy(RBE), and the physical dose is 2.00 / 1.1 = {q_fx:.2f} Gy. Multiplying by 1.1 gives {2.0 * RBE:.2f} Gy, ignoring the RBE gives 2.00 Gy, and dividing twice gives {2.0 / RBE ** 2:.2f} Gy.", lvl="Moderate"),
-    TYPED(STEM("A proton field delivers a physical dose in one fraction.", ["physical dose = 1.80 Gy", "RBE = 1.1"], "What is the [[RBE-weighted dose]]?"), q_typed, 0.01, "Gy(RBE)",
-          f"D<sub>RBE</sub> = 1.1 × 1.80 = {q_typed:.2f} Gy(RBE). Dividing by 1.1 instead gives {1.80 / RBE:.2f}.", lvl="Moderate"),
     PR("A proton beam for a skull-base tumour passes through the sphenoid sinus. At simulation the sinus was full of fluid; at a later fraction it holds air. What is the effect on the dose?", "The protons stop deeper, beyond the distal edge of the target",
        ["The protons stop shallower, short of the distal edge", "The range is unchanged, because air has almost no mass", "Only the lateral penumbra widens, and the range is unchanged"],
        "Fluid has an RSP near 1 and air near 0, so the clear sinus shortens the WEPL by about its length, and the protons travel that much farther into the tissue beyond the target. Fluid or bone added to the path would do the opposite.", lvl="Moderate"),
@@ -209,14 +207,10 @@ PROBLEMS = [
     PR("A clival chordoma abuts the brainstem. In the draft plan one beam's distal edge ends immediately in front of the brainstem. Which change best protects the brainstem?", "Rotate that beam so its lateral penumbra, not its distal edge, lies against the brainstem",
        ["Increase that beam's distal margin from 3.5% + 1 mm to 3.5% + 3 mm", "Keep that beam, since its dose falls to nearly zero beyond the distal edge", "Give that beam a larger share of the dose so the other beams avoid the brainstem"],
        "A range error of a few millimetres, or the higher RBE at the end of range, would put the distal fall-off and its high dose into the brainstem. The lateral penumbra does not depend on the range, so placing it against the organ is safer. A larger distal margin pushes more dose into the brainstem.", lvl="Challenging"),
-    PRN(STEM("A proton beam reaches the distal edge of a target through these layers.", [f"soft tissue: {QE[0][0]:.1f} cm, RSP {QE[0][1]:.2f}", f"bone: {QE[1][0]:.1f} cm, RSP {QE[1][1]:.2f}", f"soft tissue: {QE[2][0]:.1f} cm, RSP {QE[2][1]:.2f}", "range margin = 3.5% of the range + 1 mm", "R = 0.0022 E<sup>1.77</sup> (R in cm of water, E in MeV)"], "What [[beam energy]] covers the distal edge with the margin?"), q_e,
-        [q_e_nomargin, q_e_phys, q_e_cm], "{:.0f} MeV",
-        f"WEPL = 5.0 × 1.04 + 2.0 × 1.60 + 7.0 × 1.04 = {q_w:.2f} cm. Margin = 0.035 × {q_w:.2f} + 0.10 = {margin(q_w):.2f} cm, so R = {q_w + margin(q_w):.2f} cm and E = ({q_w + margin(q_w):.2f} / 0.0022)<sup>1/1.77</sup> = {q_e:.1f} MeV. Leaving out the margin gives {q_e_nomargin:.0f} MeV, using the physical depth gives {q_e_phys:.0f} MeV, and adding 1 cm in place of 1 mm gives {q_e_cm:.0f} MeV.", lvl="Challenging"),
     TYPED(STEM("The distal edge of an SOBP lies at the boundary of an organ at risk.", ["planned dose at a point on the boundary = 1.00 Gy(RBE) per fraction, with RBE = 1.1", "RBE at that point = 1.35 (in-vitro average at the distal edge)"], "What would the [[RBE-weighted dose]] at that point be?"), q_distal, 0.01, "Gy(RBE)",
           f"Physical dose = 1.00 / 1.1 = {1.00 / RBE:.3f} Gy, so with RBE 1.35 the RBE-weighted dose is {1.00 / RBE:.3f} × 1.35 = {q_distal:.2f} Gy(RBE), {100 * (q_distal - 1):.0f}% more than planned. Multiplying 1.00 by 1.35 treats the RBE-weighted dose as the physical dose.", lvl="Challenging"),
 ]
 
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Match each part of a proton therapy system to its feature.", ["Cyclotron", "Synchrotron", "Passive scattering", "Pencil beam scanning"],
          [("One fixed energy; a degrader gives lower energies", 0), ("Energy set for each spill, with no degrader", 1), ("Range modulator wheel, aperture, and range compensator", 2), ("A narrow beam steered by magnets, spot by spot", 3)],
@@ -224,17 +218,12 @@ PROBLEMS += [
     PRM("Which of these are features of pencil beam scanning compared with double scattering?", ["It can shape the high dose to the proximal edge of the target", "It produces less neutron dose from the nozzle"],
         ["It needs a range compensator for every field", "It is less sensitive to target motion", "It gives the same modulation width across the field"],
         "Scanning sets the dose of every spot, so the high dose can follow the proximal surface of the target as well as the distal one, and with no scatterers in the nozzle fewer neutrons reach the patient. Scanning is more sensitive to motion (the interplay effect), and the fixed modulation width and the compensator belong to double scattering.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows a calculated depth-dose curve of a proton SOBP in water, from 6 cm deep.", [], "Tap the [[depth at which the RBE of the protons is highest]]."), _fig, [(FIG_X0, FIG_X1)],
-         f"LET rises as the protons slow, and the RBE rises with it, so the RBE is highest in the distal fall-off, from the distal 90% point ({D90:.1f} cm) to the end of the fall-off ({Z01:.1f} cm). In-vitro averages are about 1.35 at the distal edge and about 1.7 in the fall-off (TG-256), against about 1.1 in the plateau. The highest dose is not where the RBE is highest.", lvl="Moderate", note=f"the distal fall-off, about {D90:.1f} to {Z01:.1f} cm"),
     PRM("A lung tumour moves 20 mm with breathing and is to be treated with pencil beam scanning. Which of these reduce the interplay effect?", ["Rescanning each energy layer several times", "Gating the beam to one phase of breathing"],
         ["Using smaller spots", "Delivering the dose in fewer fractions", "Planning on one breathing phase without gating"],
         "Rescanning spreads each layer over several passes so that the errors average out, and gating delivers the dose only while the tumour is near one position. Smaller spots and fewer fractions make the interplay effect larger, and planning on one phase does nothing about motion during delivery.", lvl="Challenging"),
-    SORT("Beams of these particles have the same range in water. Rank them from the most lateral scatter to the least.", ["1st (most)", "2nd", "3rd", "4th (least)"],
-         [("Electrons", 0), ("Protons", 1), ("Helium ions", 2), ("Carbon ions", 3)],
-         "Multiple Coulomb scattering deflects light particles most. Electrons, with 1/1836 of the proton mass, scatter far more than any ion. Among ions of the same range, the heavier ion scatters less, so helium ions scatter less than protons and carbon ions least, which gives carbon its sharp lateral penumbra.", lvl="Challenging", mode="rank", cap=1),
 ]
 
-INLINE = {0: [1, 3, 5, 8], 1: [14, _n0 + 1, _n0 + 2], 2: [4, 9, 10, 13]}            # questions on the last section go to the practice set
+INLINE = {0: [1, 3, 5, 8], 1: [13, 16, 17], 2: [4, 9, 10, 12]}
 
 TERMS = ["Bragg peak", "range straggling", "spread-out Bragg peak", "pencil beam scanning", "interplay effect", "relative stopping power", "water-equivalent path length", "relative biological effectiveness"]
 

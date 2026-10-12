@@ -72,16 +72,12 @@ PROBLEMS = [
        "The echo time is set by the delay between the 90° and 180° pulses.", lvl="Easy"),
     PRN(STEM("Illustrative values: T1 = 250 ms for fat and 3000 ms for CSF.", ["TR = 500 ms"], "What is [[M<sub>z</sub> / M<sub>0</sub>]] for fat at the end of the repetition time?"), fat500, [csf500, math.exp(-2), 1.0], "{:.2f}",
         f"M<sub>z</sub>/M<sub>0</sub> = 1 − e<sup>−500/250</sup> = 1 − e<sup>−2</sup> = {fat500:.2f}. The CSF value is {csf500:.2f}, and e<sup>−2</sup> alone is {math.exp(-2):.2f}.", lvl="Moderate"),
-    PRN(STEM("Illustrative values: T1 = 250 ms for fat and 3000 ms for CSF.", ["TR = 500 ms"], "What is [[M<sub>z</sub> / M<sub>0</sub>]] for CSF at the end of the repetition time?"), csf500, [fat500, math.exp(-500 / 3000), 500 / 3000], "{:.2f}",
-        f"M<sub>z</sub>/M<sub>0</sub> = 1 − e<sup>−500/3000</sup> = 1 − e<sup>−0.167</sup> = {csf500:.2f}. Little has recovered, so CSF is dark on the T1-weighted image.", lvl="Moderate"),
     PR("Gadolinium contrast shortens T1, so on a T1-weighted image the enhanced tissue appears:", "brighter", ["darker", "unchanged", "as null"],
        "A shorter T1 gives more recovered M<sub>z</sub> at the end of a short TR, so a larger signal.", lvl="Moderate"),
     PRN(STEM("Illustrative values: T2 = 90 ms for brain and 2000 ms for CSF.", ["TE = 100 ms"], "What is [[M<sub>xy</sub> / M<sub>0</sub>]] for brain at the echo?"), b100, [c100, 1 - b100, math.exp(-90 / 100)], "{:.2f}",
         f"M<sub>xy</sub>/M<sub>0</sub> = e<sup>−100/90</sup> = e<sup>−1.11</sup> = {b100:.2f}. For CSF the value is {c100:.2f}, so CSF is much brighter on this T2-weighted image.", lvl="Moderate"),
     PR("Which pair of times gives a T2-weighted image?", "A long TR and a long TE", ["A short TR and a short TE", "A short TR and a long TE", "A long TR and a short TE"],
        "T1 weighting needs a short TR. T2 weighting needs a long TE, with a long TR so that T1 differences have recovered.", lvl="Moderate"),
-    PR("Which sequence gives the T2-weighted image with the best contrast?", "TR 3000 ms, TE 100 ms", ["TR 200 ms, TE 15 ms", "TR 500 ms, TE 15 ms", "TR 3000 ms, TE 50 ms"],
-       "The contrast between tissues grows with TE, and a long TR removes the T1 differences. The longest TE with a long TR is the best.", lvl="Moderate"),
     PRN(STEM("A tissue with T1 = 3000 ms is to be nulled by an inversion recovery sequence.", [], "What is the [[inversion time]]?"), null(3000), [3000.0, 3000 * 0.5, 3000 * math.log(10)], "{:.0f} ms",
         f"M<sub>z</sub> = 0 when 1 − 2 e<sup>−t/T1</sup> = 0, so t = T1 ln 2 = 3000 × 0.693 = {null(3000):.0f} ms. Using T1 itself gives 3000, and using half of T1 gives 1500.", lvl="Challenging"),
     PR("In FLAIR the CSF appears dark on a T2-weighted image because:", "the sequence starts when the CSF magnetization passes through zero, which nulls its signal", ["CSF has a short T2", "CSF has no hydrogen", "the TE is too short for CSF"],
@@ -98,15 +94,9 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Is the tissue bright or dark on each type of image?", ["Bright", "Dark"],
          [("CSF on a T2-weighted image", 0), ("Fat on a T1-weighted image", 0), ("CSF on a T1-weighted image", 1), ("Brain on a T2-weighted image, relative to CSF", 1), ("CSF on a FLAIR image", 1), ("A tumour enhanced by gadolinium on a T1-weighted image", 0)],
          "CSF has a long T1 and a long T2, so it is dark on T1 and bright on T2. Fat has a short T1, so it is bright on T1. FLAIR nulls the CSF. Gadolinium shortens T1 and brightens an enhanced tumour.", lvl="Moderate"),
-    TYPED(STEM("Illustrative values: T1 = 3000 ms for CSF.", ["TR = 1000 ms"], "What is [[M<sub>z</sub> / M<sub>0</sub>]] of CSF at the end of the repetition time?"), mz(1000, 3000), 0.02, "(ratio)",
-          f"M<sub>z</sub>/M<sub>0</sub> = 1 − e<sup>−1000/3000</sup> = {mz(1000, 3000):.2f}.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the recovery of M<sub>z</sub> of CSF (T1 = 3000 ms) after a 90° pulse.", [], "Tap the [[time at which M<sub>z</sub> has recovered to 40% of M<sub>0</sub>]]."),
-         FS(x=dict(min=0, max=6000, ticks=[0, 1000, 2000, 3000, 4000, 5000, 6000], label="Time after the pulse (ms)"), y=dict(min=0, max=1, ticks=[0, 0.25, 0.5, 0.75, 1], label="M<sub>z</sub> / M<sub>0</sub>"), series=[dict(pts=PTS(lambda t: 1 - math.exp(-t / 3000), 0, 6000), color="plot-1")], xunit=" ms", xdec=0, xname="Time", label="Recovery of M_z against time"),
-         [(tr_04 - 500, tr_04 + 500)], f"M<sub>z</sub>/M<sub>0</sub> = 0.4 when e<sup>−t/T1</sup> = 0.6, so t = −3000 ln 0.6 = {tr_04:.0f} ms. The level 0.4 is not marked on the axis.", lvl="Challenging", note=f"about {tr_04:.0f} ms"),
 ]
-INLINE = {0: [2, 3, 5, _n0 + 2], 1: [1, 4, 8, 10], 2: [11, 12, _n0 + 3]}
+INLINE = {0: [2, 3, 5], 1: [1, 4, 7], 2: [9, 10]}

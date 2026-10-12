@@ -35,8 +35,6 @@ TOPIC = dict(
     cards=[
         F("Electron penumbra and energy", "Near the surface the penumbra is smaller at higher energy, because scattering is more forward-directed. At depth it widens, more so at higher energy."),
         F("Isodose lines at depth in an electron beam", "The high isodose lines constrict toward the center of the field and the low isodose lines bulge outward, more so at higher energy."),
-        F("Electron applicators", "Typically 6, 10, 15, 20, and 25 cm square, with a Cerrobend cutout at the end."),
-        F("Standard electron setup", "SSD 100 cm. The end of the cone is 95 cm from the source, so a 5 cm air gap remains to the skin."),
         F("Cutout margin", "Drawn about 1 cm wider on each side than the treatment area, to allow for the penumbra."),
         F("Extended SSD in electron therapy", "Larger penumbra, lower output (inverse square from a virtual source), and a light field that no longer follows the radiation field edge."),
         F("Electron–photon junction with no gap", "A hot spot on the photon side near the electron d<sub>max</sub>, about 30% in one example (6 MeV with 6 MV)."),
@@ -52,8 +50,6 @@ TOPIC = dict(
 PROBLEMS = [
     PR("At a shallow depth, the penumbra of an 18 MeV electron beam compared with an 8 MeV beam is:", "smaller, because the scattering is more forward-directed", ["larger, because the electrons scatter more", "the same", "larger, because the range is longer"],
        "At higher energy the electrons are scattered less sideways near the surface. At greater depth the order reverses and the 18 MeV penumbra is wider.", lvl="Easy"),
-    PR("In the usual electron setup with the patient at SSD 100 cm, the end of the applicator is about how far from the skin?", "5 cm", ["0 cm", "10 cm", "20 cm"],
-       "The end of the cone is 95 cm from the source, so a 5 cm air gap remains.", lvl="Easy"),
     PR("Which statement about treating electron fields at an extended SSD is correct?", "The penumbra becomes larger and the output falls", ["The penumbra becomes smaller and the output rises", "The light field follows the radiation field more closely", "The output does not depend on the SSD"],
        "The inverse-square correction from a virtual source lowers the output, and the larger distance widens the penumbra.", lvl="Easy"),
     PRN(STEM("An electron field.", ["width of the treatment area = 7 cm", "margin = 1 cm on each side"], "What [[cutout width]] is drawn?"), 9.0, [7.0, 8.0, 10.0], "{:.0f} cm",
@@ -64,8 +60,6 @@ PROBLEMS = [
        "Electrons scatter into the photon side near their dose maximum, where the photon beam is also delivering dose.", lvl="Moderate"),
     PR("Increasing the gap between an abutting electron field and photon field:", "reduces the hot spot but eventually leaves a low-dose region at the surface", ["removes both the hot spot and any low-dose region", "increases the hot spot", "does not change the dose at the junction"],
        "A small gap helps, and a large gap leaves the junction underdosed. Feathering spreads the problem over a larger volume.", lvl="Moderate"),
-    PRN(STEM("A photon field and an electron field abut with no gap.", ["prescription = 200 cGy", "hot spot = 30%"], "What [[dose]] is received in the hot spot?"), hot_ep, [200.0, 230.0, 170.0], "{:.0f} cGy",
-        f"Dose = 200 × 1.30 = {hot_ep:.0f} cGy. A 30% hot spot raises the dose by 30% of the prescription.", lvl="Moderate"),
     PRM("Which occur in an electron beam under a tissue prominence, such as the nose?", ["The dose under the prominence is shifted toward the source", "The regions on either side receive more dose from scattered electrons"], ["The isodose lines under it move away from the source", "The hot spots are smaller at higher energy"],
         "The prominence shortens the path to the tissue under it, so the dose shifts toward the source. Electrons scattered out of the prominence add dose beside it, more at higher energy.", lvl="Moderate"),
     PR("An internal eye shield of tungsten has an aluminium cap on the side facing the beam. The cap is there to:", "absorb electrons backscattered from the tungsten, protecting the tissue in front of it", ["increase the attenuation of the beam", "raise the dose behind the shield", "make the shield lighter"],
@@ -76,7 +70,7 @@ PROBLEMS = [
        "Electron–electron junctions have a smaller hot spot than electron–photon junctions, about 10% for two 6 MeV fields.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 4], 1: [6, 7], 2: [5, 9]}
+INLINE = {0: [1, 3], 1: [5, 6], 2: [4, 7]}
 
 TERMS = ['cutout', 'feathering', 'virtual source']
 
@@ -90,23 +84,11 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- matching, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
-    SORT("Match each junction to its main finding.", ["Electron–photon, no gap", "Electron–photon, large gap", "Electron–electron, no gap", "Feathering"],
-         [("A hot spot of about 30% on the photon side near the electron d<sub>max</sub>", 0), ("A low-dose region at the surface", 1), ("A hot spot of about 10% where the fields abut", 2), ("The junction is moved by a small amount each day", 3)],
-         "A junction with no gap gives a hot spot, which is larger for an electron–photon pair than for two electron fields. A large gap leaves the surface underdosed, and feathering spreads whichever problem is present.", lvl="Moderate", mode="match", cap=1),
-    TYPED(STEM("An electron field.", ["width of the treatment area = 6 cm", "margin = 1 cm on each side"], "What [[cutout width]] is drawn?"), 8.0, 0.01, "cm",
-          "Width = 6 + 1 + 1 = 8 cm.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows schematic penumbra widths against depth for 8 MeV and 18 MeV electron beams.", [], "Tap the [[depth at which the 18 MeV penumbra becomes wider than the 8 MeV penumbra]]."),
-         FS(x=dict(min=0, max=8, ticks=[0, 2, 4, 6, 8], label="Depth (cm)"), y=dict(min=0, max=20, ticks=[0, 5, 10, 15, 20], label="Penumbra width (mm)"), series=[dict(pts=PTS(w8, 0, 8), color="plot-1"), dict(pts=PTS(w18, 0, 8), color="plot-2")],
-            texts=[dict(x=6.2, y=7.5, t="8 MeV", color="plot-1", b=True), dict(x=5.4, y=15.5, t="18 MeV", color="plot-2", b=True)], xunit=" cm", xdec=1, xname="Depth", label="Electron penumbra against depth (schematic)"),
-         [(z_cross - 0.5, z_cross + 0.5)], f"The curves cross at {z_cross:.1f} cm. Shallower than that the 18 MeV penumbra is smaller, because scattering is more forward-directed. Deeper, it is wider. The widths are schematic.", lvl="Challenging", note=f"about {z_cross:.1f} cm"),
 ]
-INLINE = {0: [1, 2, 4, _n0 + 3], 1: [6, 7, _n0 + 1], 2: [5, 9]}
 
 
 # ---------------------------------------------------------------- bolus
-_nb = len(PROBLEMS)
 r90_b = 12 / 3.3 - 1.5
 miss = 100 * (1 - 0.80) / 20                                                        # one fraction of 20 without bolus, the surface dose being 80% of the dose with it
 PROBLEMS += [

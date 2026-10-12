@@ -8,17 +8,14 @@ waves-photons:4|Electromagnetic spectrum by photon energy
 waves-photons:5|X-rays and γ-rays
 waves-photons:6|Doubling the intensity of a monochromatic beam
 waves-photons:7|The electron volt in joules
-waves-photons:8|Wavelength of a 100 keV photon
-waves-photons:9|De Broglie relation
+waves-photons:8|De Broglie relation
 particles-energy:1|Rest energies of the electron and the proton
 particles-energy:2|One atomic mass unit in MeV
 particles-energy:3|Total, kinetic, and rest energy
 particles-energy:4|Validity of KE = ½mv²
-particles-energy:5|Speed of a 6 MeV electron
-particles-energy:6|Positron–electron annihilation at rest
-particles-energy:7|Pair production threshold
-particles-energy:8|Pair production by a 3.0 MeV photon
-particles-energy:9|Speed of a 20 MeV electron and a 150 MeV proton
+particles-energy:5|Positron–electron annihilation at rest
+particles-energy:6|Pair production threshold
+particles-energy:7|Speed of a 20 MeV electron and a 150 MeV proton
 charges-atom:1|Coulomb's law
 charges-atom:2|Magnetic force on a moving charge
 charges-atom:3|Circular path in a uniform magnetic field
@@ -33,23 +30,17 @@ nuclear-structure:2|Isotopes, isotones, isobars, and isomers
 nuclear-structure:3|Size of the nucleus and of the atom
 nuclear-structure:4|Nuclear force and the neutron excess of heavy nuclei
 nuclear-structure:5|Mass defect and binding energy
-nuclear-structure:6|Binding energy from atomic masses
-nuclear-structure:7|Binding energy of the deuteron
-nuclear-structure:8|Binding energy per nucleon
-nuclear-structure:9|Energy release in fusion and fission
-nuclear-structure:10|Energy of D–T fusion and of U-235 fission
+nuclear-structure:6|Binding energy of the deuteron
+nuclear-structure:7|Binding energy per nucleon
+nuclear-structure:8|Energy release in fusion and fission
+nuclear-structure:9|Energy of D–T fusion and of U-235 fission
 decay-modes:1|β⁻ decay of a neutron-rich nucleus
 decay-modes:2|Ra-226 α decay
-decay-modes:3|Co-60 β⁻ decay and what follows
-decay-modes:4|β⁺ decay and electron capture: the energy condition
-decay-modes:5|Fate of a positron
-decay-modes:6|β⁻ energy spectrum
-decay-modes:7|γ emission and internal conversion
-decay-modes:8|Auger electrons after electron capture or internal conversion
-decay-modes:9|I-125 decay and its photons
-decay-modes:10|Ir-192 decay modes and photon energies
-decay-modes:11|Origin of the 662 keV photon of a Cs-137 source
-decay-modes:12|Range of α particles
+decay-modes:3|β⁺ decay and electron capture: the energy condition
+decay-modes:4|γ emission and internal conversion
+decay-modes:5|I-125 decay and its photons
+decay-modes:6|Ir-192 decay modes and photon energies
+decay-modes:7|Range of α particles
 decay-schemes:1|Arrows in a decay scheme
 decay-schemes:2|Continuous and discrete spectra
 decay-schemes:3|Continuous β spectrum
@@ -66,13 +57,9 @@ decay-law:3|Becquerel and curie: 5 mCi in MBq
 decay-law:4|Half-life, decay constant, and mean life
 decay-law:5|Activity left after one mean life
 decay-law:6|Fraction left after 4 and after 10 half-lives
-decay-law:7|Tc-99m dose from 07:00 to 10:30
-decay-law:8|I-125 seed: time to 10% of its activity
-decay-law:9|Ir-192: percentage lost per day
-decay-law:10|Half-life of a source losing 10% per hour
-decay-law:11|Half-life from 12.0 to 3.0 mCi in 9 days
-decay-law:12|Total dose of a permanent implant
-decay-law:13|Total dose of a 7.0 cGy/h I-125 implant
+decay-law:7|I-125 seed: time to 10% of its activity
+decay-law:8|Ir-192: percentage lost per day
+decay-law:9|Total dose of a permanent implant
 specific-activity:1|Specific activity and its units
 specific-activity:2|Specific activity formula
 specific-activity:3|Factors that raise specific activity
@@ -84,26 +71,20 @@ specific-activity:8|Specific activity in radiopharmaceutical therapy
 equilibrium:1|Transient equilibrium
 equilibrium:2|Secular equilibrium
 equilibrium:3|Examples of transient and secular equilibrium
-equilibrium:4|Time of the daughter's peak activity
-equilibrium:5|Transient equilibrium ratio for Mo-99 and Tc-99m
-equilibrium:6|Tc-99m peak after elution
-equilibrium:7|Tc-99m activity 4 h after eluting 18.5 GBq of Mo-99
-equilibrium:8|Tc-99m activity below Mo-99 at equilibrium
-equilibrium:9|Daughter half-lives to reach secular equilibrium
-equilibrium:10|Ba-137m output and the Cs-137 half-life
+equilibrium:4|Transient equilibrium ratio for Mo-99 and Tc-99m
+equilibrium:5|Tc-99m peak after elution
+equilibrium:6|Daughter half-lives to reach secular equilibrium
 photon-interactions:1|Directly and indirectly ionizing radiation
 photon-interactions:2|Attenuation law, μ, HVL, and TVL
-photon-interactions:3|Mean free path and the HVL
-photon-interactions:4|Lead shield: thickness for 1% transmission
-photon-interactions:5|Transmission through 5 HVLs
-photon-interactions:6|Beam hardening of a polyenergetic beam
-photon-interactions:7|Photoelectric effect: dependence on Z and E
-photon-interactions:8|Compton scattering: dependence on Z and MV image contrast
-photon-interactions:9|Pair production threshold and the positron
-photon-interactions:10|Energy ranges of the photon interactions in water
-photon-interactions:11|Compton scattering of a 1.0 MeV photon at 90°
-photon-interactions:12|Highest scattered-photon energies at 90° and 180°
-photon-interactions:13|Photodisintegration in high-energy beams
+photon-interactions:3|Transmission through 5 HVLs
+photon-interactions:4|Beam hardening of a polyenergetic beam
+photon-interactions:5|Photoelectric effect: dependence on Z and E
+photon-interactions:6|Compton scattering: dependence on Z and MV image contrast
+photon-interactions:7|Pair production threshold and the positron
+photon-interactions:8|Energy ranges of the photon interactions in water
+photon-interactions:9|Compton scattering of a 1.0 MeV photon at 90°
+photon-interactions:10|Highest scattered-photon energies at 90° and 180°
+photon-interactions:11|Photodisintegration in high-energy beams
 kerma-dose:1|Fluence and energy fluence
 kerma-dose:2|Kerma and energy fluence
 kerma-dose:3|Kerma and absorbed dose
@@ -111,11 +92,9 @@ kerma-dose:4|Kerma and collision kerma
 kerma-dose:5|D and K<sub>col</sub> in each region
 kerma-dose:6|Dose above K<sub>col</sub> beyond d<sub>max</sub>
 kerma-dose:7|Exposure: definition, unit, and energy limit
-kerma-dose:8|Dose to air from 50 R
-kerma-dose:9|Dose per roentgen from W<sub>air</sub>/e
-kerma-dose:10|K<sub>col</sub> from energy fluence and μ<sub>en</sub>/ρ
-kerma-dose:11|Equivalent dose, effective dose, and w<sub>R</sub>
-kerma-dose:12|Gy, cGy, rad, Sv, and rem
+kerma-dose:8|Dose per roentgen from W<sub>air</sub>/e
+kerma-dose:9|Equivalent dose, effective dose, and w<sub>R</sub>
+kerma-dose:10|Gy, cGy, rad, Sv, and rem
 pdd:1|Dose build-up below the surface
 pdd:2|d<sub>max</sub> and its change with energy
 pdd:3|Surface dose of 6 MV and 15 MV beams
@@ -127,18 +106,16 @@ pdd:8|Mayneord F factor and its assumption
 pdd:9|PDD at SSD 120 cm from the value at 100 cm
 pdd:10|Field size at depth in a diverging beam
 pdd:11|PDD falling with depth beyond d<sub>max</sub>
-pdd:12|Choice of an SSD near 100 cm
 tmr:1|Purpose of the TMR
 tmr:2|Tissue maximum ratio
 tmr:3|TMR at d<sub>max</sub>
 tmr:4|Dependence of the TMR
 tmr:5|PDD and TMR techniques
 tmr:6|Measuring a TMR
-tmr:7|Tissue-air ratio and backscatter factor
-tmr:8|TMR and TPR
-tmr:9|TMR at 10 cm from a PDD of 67.0%
-tmr:10|Inverse-square factor in the PDD-to-TMR conversion
-tmr:11|Field size for a PDD and for a TMR
+tmr:7|TMR and TPR
+tmr:8|TMR at 10 cm from a PDD of 67.0%
+tmr:9|Inverse-square factor in the PDD-to-TMR conversion
+tmr:10|Field size for a PDD and for a TMR
 scatter:1|Sources of field-size dependence of output
 scatter:2|Collimator scatter factor S<sub>c</sub>
 scatter:3|Phantom scatter factor S<sub>p</sub>
@@ -160,13 +137,8 @@ mu-calc:7|MU for 200 cGy at 8 cm depth, SSD 120 cm
 mu-calc:8|MU per field for a 6 MV AP/PA pair
 mu-calc:9|MU rise at an extended SSD
 mu-calc:10|Wedge factor 0.60 and the MU
-mu-calc:11|Tray factor 0.97 and the MU
-mu-calc:12|Extra factor for an SSD calibration used isocentrically
-mu-calc:13|TMR rather than PDD for isocentric calculations
-mu-calc:14|SSD calibration and SAD calibration
-mu-calc:15|Inverse-square term rule
-mu-calc:16|Inverse-square terms for each calibration and technique
-mu-calc:17|MU for 200 cGy at 8 cm with a SAD calibration
+mu-calc:11|SSD calibration and SAD calibration
+mu-calc:12|Inverse-square term rule
 profiles:1|Beam profile
 profiles:2|Field edge on a profile
 profiles:3|80%–20% penumbra
@@ -188,13 +160,12 @@ skin-bolus:5|Skin dose and beam energy
 skin-bolus:6|Skin dose and beam angle
 skin-bolus:7|Effects of the couch
 skin-bolus:8|Devices that raise the skin dose
-skin-bolus:9|Thermoplastic mask stretched thinner
-skin-bolus:10|Block tray position
-skin-bolus:11|Bolus
-skin-bolus:12|Dose below the skin with bolus
-skin-bolus:13|Bolus thickness for d<sub>max</sub> at the skin
-skin-bolus:14|MU with bolus over a deep target
-skin-bolus:15|Air gap under bolus
+skin-bolus:9|Block tray position
+skin-bolus:10|Bolus
+skin-bolus:11|Dose below the skin with bolus
+skin-bolus:12|Bolus thickness for d<sub>max</sub> at the skin
+skin-bolus:13|MU with bolus over a deep target
+skin-bolus:14|Air gap under bolus
 dose-algorithms:1|Voxel
 dose-algorithms:2|TERMA
 dose-algorithms:3|Radiological path length
@@ -202,14 +173,12 @@ dose-algorithms:4|Kernel
 dose-algorithms:5|Convolution dose calculation
 dose-algorithms:6|Kernel in lung
 dose-algorithms:7|Dose algorithms by accuracy
-dose-algorithms:8|Acuros XB
-dose-algorithms:9|Monte Carlo
-dose-algorithms:10|TPS beam model
-dose-algorithms:11|Beam-model parameters and what they set
-dose-algorithms:12|Dose to medium and dose to water
-dose-algorithms:13|CT-to-density calibration
-dose-algorithms:14|Lung in the dose distribution
-dose-algorithms:15|Dose in bone by energy
+dose-algorithms:8|Monte Carlo
+dose-algorithms:9|TPS beam model
+dose-algorithms:10|Beam-model parameters and what they set
+dose-algorithms:11|CT-to-density calibration
+dose-algorithms:12|Lung in the dose distribution
+dose-algorithms:13|Dose in bone by energy
 brachy-sources:1|ICRU 38 dose-rate classes
 brachy-sources:2|Permanent and temporary brachytherapy
 brachy-sources:3|LDR seed isotopes
@@ -218,39 +187,33 @@ brachy-sources:5|Ir-192 half-life
 brachy-sources:6|I-125 and Pd-103: half-lives and photon energies
 brachy-sources:7|Phase-out of Cs-137 and Ra-226
 brachy-sources:8|Seed capsule
-brachy-sources:9|Anisotropy around a seed
-brachy-sources:10|Remote afterloader
-brachy-sources:11|Activity of an HDR Ir-192 source
-brachy-sources:12|Low-energy photons in LDR seeds
-brachy-sources:13|Brachytherapy without seeds
+brachy-sources:9|Remote afterloader
+brachy-sources:10|Low-energy photons in LDR seeds
+brachy-sources:11|Brachytherapy without seeds
 brachy-exposure:1|Exposure
-brachy-exposure:2|Roentgen
-brachy-exposure:3|Exposure rate from a point source
-brachy-exposure:4|Exposure rate constant Γ
-brachy-exposure:5|Ir-192 and I-125 at equal activity
-brachy-exposure:6|Inverse-square law
-brachy-exposure:7|Exposure rate from 1 cm to 2 cm
-brachy-exposure:8|Air kerma strength
-brachy-exposure:9|Units of air kerma strength
-brachy-exposure:10|Air kerma strength from Γ and activity
-brachy-exposure:11|W/e for dry air
-brachy-exposure:12|Ordering seeds by air kerma strength
-brachy-exposure:13|Decay of air kerma strength
-brachy-exposure:14|Milligram radium equivalent
+brachy-exposure:2|Exposure rate from a point source
+brachy-exposure:3|Exposure rate constant Γ
+brachy-exposure:4|Ir-192 and I-125 at equal activity
+brachy-exposure:5|Inverse-square law
+brachy-exposure:6|Air kerma strength
+brachy-exposure:7|Units of air kerma strength
+brachy-exposure:8|Air kerma strength from Γ and activity
+brachy-exposure:9|W/e for dry air
+brachy-exposure:10|Ordering seeds by air kerma strength
+brachy-exposure:11|Decay of air kerma strength
 tg43:1|TG-43 dose rate equation
 tg43:2|TG-43 reference point
 tg43:3|Dose rate at the reference point
 tg43:4|Dose rate constant Λ
 tg43:5|Geometry function G
 tg43:6|Line-source geometry function
-tg43:7|Line source and point source
-tg43:8|Radial dose function g(r)
-tg43:9|g(r) and photon energy
-tg43:10|Anisotropy function F(r, θ)
-tg43:11|Using φ<sub>an</sub> = 1 in a prostate implant
-tg43:12|Total dose of a permanent implant
-tg43:13|Implant dose in one half-life and in 3.3 half-lives
-tg43:14|Starting dose rates of Pd-103 and I-125
+tg43:7|Radial dose function g(r)
+tg43:8|g(r) and photon energy
+tg43:9|Anisotropy function F(r, θ)
+tg43:10|Using φ<sub>an</sub> = 1 in a prostate implant
+tg43:11|Total dose of a permanent implant
+tg43:12|Implant dose in one half-life and in 3.3 half-lives
+tg43:13|Starting dose rates of Pd-103 and I-125
 """
 TITLES = dict(l.split("|", 1) for l in _RAW.strip().split("\n"))
 
@@ -259,7 +222,6 @@ HEADS = {
     "nuclear-structure:9": "Fusion and fission both move nuclei toward the peak of the binding-energy curve, where they are more tightly bound. The extra binding energy is released.",
     "decay-modes:7": "γ emission and internal conversion both release nuclear excitation energy without changing Z or A.",
     "decay-law:8": "197 d: the activity of an I-125 seed (T<sub>1/2</sub> = 59.4 d) falls to 10% after 3.32 half-lives.",
-    "decay-law:11": "4.5 d: a fall from 12.0 to 3.0 mCi in 9 d is two half-lives.",
     "equilibrium:5": "A<sub>d</sub>/A<sub>p</sub> = 1.10 for Mo-99 (65.9 h) and Tc-99m (6.01 h), ignoring branching.",
     "scatter:6": "9.0 cm: s = 2ab/(a + b) for a 6 × 18 cm rectangle.",
     "scatter:9": "S<sub>cp</sub> = 0.975, the product of S<sub>c</sub> = 0.985 and S<sub>p</sub> = 0.990.",

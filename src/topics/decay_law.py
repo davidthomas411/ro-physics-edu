@@ -58,15 +58,9 @@ TOPIC = dict(
         C("Relate half-life, decay constant, and mean life.", "T<sub>1/2</sub> = ln 2 / λ = 0.693/λ, and τ = 1/λ = 1.443 T<sub>1/2</sub>."),
         C("What fraction of the activity remains after one mean life?", "1/e = 36.8%."),
         C("What fraction remains after 4 half-lives? After 10?", "(½)<sup>4</sup> = 1/16 = 6.25%. (½)<sup>10</sup> ≈ 0.1%.", fig="decay_curve"),
-        C("A Tc-99m dose (T<sub>1/2</sub> = 6.0 h) holds 740 MBq at 07:00. What is the activity at 10:30?", f"{a_tc:.0f} MBq ({a_tc/37:.1f} mCi).",
-          w=["t/T<sub>1/2</sub> = 3.5/6.0 = 0.583 half-lives.", f"Fraction = 2<sup>−0.583</sup> = {f_tc:.3f}.", f"740 × {f_tc:.3f} = {a_tc:.0f} MBq."]),
         C("An I-125 seed (T<sub>1/2</sub> = 59.4 d): how long until 10% of its activity remains?", f"{t10:.0f} d.", w=["t = T<sub>1/2</sub> × log<sub>2</sub>(10) = 59.4 × 3.32."]),
         C("Ir-192 has T<sub>1/2</sub> = 73.8 d. Roughly what percentage of its activity is lost per day?", "About 0.9% per day.", w=[f"λ = 0.693 / 73.8 = {lam_ir:.5f} d<sup>−1</sup> ≈ 0.94% per day."]),
-        C("A source decays 10% per hour. What is its half-life?", f"About 6.6 h (roughly 7 h).",
-          w=[f"Fraction remaining per hour is 0.90, so λ = −ln 0.90 = {lam10:.3f} h<sup>−1</sup>.", f"T<sub>1/2</sub> = 0.693 / {lam10:.3f} = {calc.LN2/lam10:.1f} h.", "Using λ = 0.10 h<sup>−1</sup> instead gives 6.9 h."]),
-        C("A source decays from 12.0 mCi to 3.0 mCi in 9 days. What is its half-life?", "4.5 d.", w=["3.0/12.0 = ¼ = (½)<sup>2</sup>, so two half-lives in 9 d."]),
         C("How is the total dose from a permanent implant related to its initial dose rate?", "D<sub>∞</sub> = Ḋ<sub>0</sub> τ = 1.443 Ḋ<sub>0</sub> T<sub>1/2</sub>. At t = T<sub>1/2</sub> half of D<sub>∞</sub> has been delivered."),
-        C("An I-125 implant (T<sub>1/2</sub> = 59.4 d) starts at 7.0 cGy/h. What total dose does it deliver?", f"About {round(dinf,-2):,.0f} cGy ({dinf/100:.0f} Gy).", w=[f"τ = 59.4/0.693 = {tau_i:.1f} d = {tau_i*24:.0f} h.", f"D<sub>∞</sub> = 7.0 × {tau_i*24:.0f} = {round(dinf,-2):,.0f} cGy."]),
     ],
 )
 

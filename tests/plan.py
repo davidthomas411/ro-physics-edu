@@ -30,7 +30,8 @@ with sync_playwright() as pw:
         txt = pg.locator("#ref-plan + p").inner_text(); check(f"{nb} of {nb + np_} planned topics are built" in txt, f"{name}: the plan summary states {nb} of {nb + np_} ({txt[:70]!r})")
         rows = pg.evaluate("[...document.querySelectorAll('.plan .sub')].map(r=>[r.dataset.sub, +r.dataset.b, +r.dataset.p])")
         tot_b = sum(r[1] for r in rows); tot_p = sum(r[2] for r in rows); check((tot_b, tot_p) == (nb, np_) and len(rows) == len(subs), f"{name}: the rows add up to {tot_b} built and {tot_p} to build over {len(rows)} subsections")
-        det = pg.locator(".plan details").first; det.locator("summary").click(); check(det.evaluate("d=>d.open") and det.locator("li").count() >= 1 and det.locator("ul").bounding_box()["width"] > (w * 0.6 if name == "phone" else 300), f"{name}: a subsection opens to a full-width list of its remaining topics")
+        det = pg.locator(".plan details").first
+        if np_: det.locator("summary").click(); check(det.evaluate("d=>d.open") and det.locator("li").count() >= 1 and det.locator("ul").bounding_box()["width"] > (w * 0.6 if name == "phone" else 300), f"{name}: a subsection opens to a full-width list of its remaining topics")
         sw = pg.evaluate("[document.documentElement.scrollWidth, innerWidth]"); check(sw[0] <= sw[1], f"{name}: no sideways scroll on the Reference page {sw}")
         if name == "phone": pg.locator("#ref-plan").scroll_into_view_if_needed(); pg.screenshot(path="/tmp/shots/plan_phone.png")
         else: pg.locator("#ref-plan").scroll_into_view_if_needed(); pg.screenshot(path="/tmp/shots/plan_desktop.png")

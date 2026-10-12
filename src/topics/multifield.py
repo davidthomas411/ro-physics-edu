@@ -60,19 +60,11 @@ PROBLEMS = [
         "Each lateral field delivers 0.20 × 240 = 48 cGy. The AP and PA fields deliver 72 cGy each, and the four add to 240 cGy.", lvl="Moderate"),
     PR("Two perpendicular beams are used instead of a parallel-opposed pair. Compared with the pair, the plan has:", "a lower superficial dose, but a hot region where the beams cross and a low-dose region opposite", ["a higher superficial dose and a uniform target dose", "the same dose distribution", "a low-dose region where the beams cross and a hot region opposite"],
        "The beams cross near the surface on one side, where their doses add, and are far apart on the other. Wedges, heels together, correct the gradient.", lvl="Moderate"),
-    PRM("Which changes lower the hot spot of a parallel-opposed pair?", ["A higher beam energy", "A larger field size", "Adding more fields"], ["A larger patient separation", "A lower beam energy"],
-        "Anything that makes the PDD fall off more slowly lowers the ratio, and spreading the entrance dose over more surfaces lowers the superficial dose. A larger separation and a lower energy raise it.", lvl="Moderate"),
-    PR("Why does a higher beam energy lower the hot spot of a parallel-opposed pair?", "The PDD falls off less steeply, so the midplane dose is closer to the maximum dose", ["The entrance dose increases", "The beams scatter less in the patient", "The exit dose is removed"],
-       "The hot spot ratio compares the superficial dose with the midplane dose. A flatter PDD raises the midplane dose and leaves the superficial dose almost unchanged.", lvl="Moderate"),
-    PRN(STEM("A parallel-opposed pair of 6 MV beams, equal weights.", ["separation = 40 cm", f"PDD(1.5 cm) = 100%,   PDD(38.5 cm) = {p40a}%", f"PDD(20 cm) = {p40b}%"], "What is the [[hot spot ratio]]?"), h40, [h20, (100 + p40a) / p40b, 1 / h40], "{:.2f}",
-        f"Ratio = (100 + {p40a}) / (2 × {p40b}) = {h40:.2f}. The midplane dose is low at this depth, so the superficial dose is about {100 * (h40 - 1):.0f}% higher.", lvl="Challenging"),
     PR("A parallel-opposed pair is replaced by a four-field box that delivers the same dose at the isocenter. The superficial dose at each entrance surface:", "falls, because the entrance dose is shared among four surfaces", ["rises, because more beams enter", "stays the same", "becomes uniform and zero"],
        "Each beam delivers a smaller share of the isocenter dose, so each entrance surface receives less.", lvl="Challenging"),
-    PR("The hot spot ratio of a parallel-opposed pair is 1.0 when:", "the PDD at the midplane equals the dose at the entrance, which only happens for a patient of negligible thickness", ["the field is larger than 20 × 20 cm", "the beam energy is 6 MV", "the beams are unweighted"],
-       "The ratio is [ PDD(d<sub>max</sub>) + PDD(S − d<sub>max</sub>) ] / [ 2 PDD(S / 2) ]. It approaches 1 as S falls toward 2 d<sub>max</sub>, where the two entrance maxima meet in the middle.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 4], 1: [2, 7], 2: [5, 6]}
+INLINE = {0: [1, 4], 1: [2, 8], 2: [5, 6]}
 
 TERMS = ['parallel-opposed', 'hot spots']
 
@@ -84,15 +76,8 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Does each change raise or lower the superficial hot spot of a parallel-opposed pair?", ["Raises it", "Lowers it"],
          [("Thicker patient", 0), ("Higher beam energy", 1), ("Larger field size", 1), ("Lateral beams instead of AP/PA on the same patient", 0), ("Adding two more fields", 1), ("Lower beam energy", 0), ("Thinner patient", 1), ("Smaller field size", 0)],
          "The ratio rises when the midplane dose falls relative to the entrance dose: thicker patients, lower energies, smaller fields, and fewer beams. It falls with the opposite changes.", lvl="Moderate"),
-    TYPED(STEM("A parallel-opposed pair of 6 MV beams, equal weights.", ["separation = 30 cm", f"PDD(1.5 cm) = 100%,   PDD(28.5 cm) = {p30a}%", f"PDD(15 cm) = {p30b}%"], "What is the [[hot spot ratio]]?"), h30, 0.01, "(ratio)",
-          f"Ratio = (100 + {p30a}) / (2 × {p30b}) = {h30:.3f}.", lvl="Moderate"),
-    FIGQ(STEM("Two parallel-opposed 6 MV beams, A and B, have equal weights and a separation of 24 cm. The graph shows the PDD of one beam.", [], "Tap the [[depth on this curve whose value is the dose that beam B adds]] at the depth of d<sub>max</sub> of beam A."),
-         FS(x=dict(min=0, max=30, ticks=[0, 5, 10, 15, 20, 25, 30], label="Depth (cm)"), y=dict(min=0, max=100, ticks=[0, 25, 50, 75, 100], label="Percent depth dose", fmt="pct"), series=[dict(pts=PTS(pd, 1.5, 30), color="plot-1")], xunit=" cm", xdec=1, xname="Depth", label="PDD of one 6 MV beam"),
-         [(21.5, 23.5)], "The d<sub>max</sub> of beam A is 1.5 cm from A's surface, so the point is 24 − 1.5 = 22.5 cm from B's surface. Beam B contributes its PDD at 22.5 cm, which is read from this curve at that depth. This is the term PDD(S − d<sub>max</sub>) in the hot spot ratio.", lvl="Challenging", note="22.5 cm"),
 ]
-INLINE = {0: [1, 4, _n0 + 3], 1: [2, 7, _n0 + 1], 2: [5, 6]}

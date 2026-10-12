@@ -102,10 +102,7 @@ TOPIC = dict(
         F("Electron mode", "Target out, scattering foils in place of the flattening filter, and an electron current about 100 to 1000 times lower than in photon mode."),
         F("FFF beam at the same electron energy", "Softer (lower TPR<sub>20,10</sub>), with less change of spectrum across the field, less head leakage per MU, and more dose per pulse."),
         F("Monitor chambers", "Two independent transmission chambers. The primary stops the beam at the set MU, the secondary a small margin later, and a timer last."),
-        F("Leaking sealed monitor chamber", "Its reading, and so the output, follows the air temperature and pressure."),
-        F("Steering servo and steering faults", "Segmented electrodes compare opposite halves of the beam and adjust the steering coils. A steering fault makes the profile asymmetric."),
         F("Half-beam block", "A jaw closed to the central axis gives an edge that does not diverge, for matching adjacent fields."),
-        F("Light field", "A thin mirror reflects a lamp at the mirror image of the target, so the jaws cast a light field that matches the radiation field."),
     ],
 )
 
@@ -137,24 +134,16 @@ PROBLEMS = [
         f"The gain is 6 MeV ÷ 0.30 m = {G2:.0f} MeV/m, so 15 MeV needs 15 ÷ {G2:.0f} = {L15:.2f} m. Inverting the ratio of the energies gives {L15_inv:.2f} m, and reading the ratio 15/6 as a length gives {L15_ratio:.2f} m.", lvl="Moderate"),
     PRN(STEM("Electrons are bent in the magnet of a linac.", ["kinetic energy T = 12 MeV", "radius of the path r = 8.0 cm", "m<sub>e</sub>c² = 0.511 MeV"], "What [[magnetic field]] holds them on this path?"), BF12, [BNR12, BF12 / 2, BF12 / 100], "{:.3g} T",
         f"pc = √(12² + 2 × 12 × 0.511) = {PC12:.2f} MeV, and B = pc / (299.8 r) = {PC12:.2f} ÷ (299.8 × 0.080) = {BF12:.3f} T. The non-relativistic momentum, √(2 m<sub>e</sub>c² T) = {PNR12:.2f} MeV, gives {BNR12:.3f} T, far too low for a 12 MeV electron.", lvl="Moderate"),
-    PRN(STEM("A bending magnet holds electrons on a fixed path. The machine changes from a 6 MeV to a 20 MeV electron beam.", ["m<sub>e</sub>c² = 0.511 MeV"], "By what [[factor]] must the magnetic field rise?"), RAT20, [20 / 6, math.sqrt(20 / 6), 1 / RAT20], "{:.2f}",
-        f"On a fixed radius B is proportional to p. pc = √(T² + 2T m<sub>e</sub>c²) is {PC6:.2f} MeV at 6 MeV and {PC20:.2f} MeV at 20 MeV, a ratio of {RAT20:.2f}. The ratio of the kinetic energies, {20 / 6:.2f}, ignores the rest energy, and its square root, {math.sqrt(20 / 6):.2f}, uses the non-relativistic momentum.", lvl="Challenging"),
 
     # ---- 11-15: treatment head
     PRN(STEM("Electrons of 6 MeV strike the target of a linac.", [], "About what [[mean photon energy]] does the x-ray beam have?"), M6, [6.0, 3.0, 1.0], "{:.1f} MeV",
         f"The bremsstrahlung spectrum runs from zero up to the electron kinetic energy, 6 MeV, and its mean is about one third of that, {M6:.0f} MeV. Few photons reach the maximum, and half of it overestimates the mean.", lvl="Easy"),
-    PR(STEM("A linac is switched from photon mode to electron mode.", [], "Why is the flattening filter moved out of the beam?"), "It would stop most of the electrons that cross it near the axis",
-       ["It would focus the electrons into a narrow pencil on the axis", "It would make the monitor chambers read the electrons as photons", "It would raise the energy of the electrons that pass through it"],
-       "The filter is thickest on the axis, beyond the range of the electrons there, so it would leave a weak mix of bremsstrahlung and slowed electrons. A thin scattering foil spreads the beam instead. Metal in the beam cannot add energy, and it spreads the electrons rather than focusing them.", lvl="Moderate"),
     PRM("A linac changes from a photon beam to an electron beam. Which of these changes are made?", ["The target moves out of the beam", "A scattering foil replaces the flattening filter", "The electron beam current is lowered"],
         ["The electron beam current is raised", "The monitor chambers move out of the beam", "The bending magnet is switched off"],
         "Photon mode needs an electron current about 100 to 1000 times higher, because most of the electron energy becomes heat in the target, so the current is lowered once the target is out; the photon-mode current would overdose by about that factor. The monitor chambers stay in the beam to measure the electron dose, and the bending magnet still turns the beam and selects its energy.", lvl="Moderate"),
     PR(STEM("The flattening filter is removed from a 6 MV beam, and the electron energy is left unchanged.", [], "How does the beam quality specifier, TPR<sub>20,10</sub> or %dd(10)<sub>x</sub>, change?"), "It falls, because the filter no longer hardens the beam",
        ["It rises, because the dose rate on the axis is higher", "It stays the same, because the electron energy is unchanged", "It rises, because there is less head scatter"],
        "The filter removes more low-energy photons than high-energy ones, so without it the spectrum is softer and the depth dose falls faster: in one study TPR<sub>20,10</sub> was 0.629 without the filter and 0.665 with it. The dose rate does not change a ratio of doses, and a design that keeps the depth dose of the flattened beam must raise the electron energy.", lvl="Moderate"),
-    PR(STEM("Monthly profiles of a 6 MV beam show the off-axis dose about 3% above baseline on both sides, with the symmetry unchanged. The PDD at 10 cm depth has fallen slightly.", [], "What is the most likely cause?"), "The energy of the electrons striking the target has fallen",
-       ["The electron beam strikes the target off-centre", "A sealed monitor chamber has started to leak", "The flattening filter has moved out of the beam"],
-       "At a lower energy the bremsstrahlung is less sharply peaked forward, so the filter over-corrects and the off-axis dose rises on both sides, while the PDD falls a little; off-axis ratios respond more than the PDD to an energy change. A steering fault makes the profile asymmetric, a leaking chamber changes the output rather than the shape, and without the filter the profile would peak on the axis.", lvl="Challenging"),
 
     # ---- 16-21: collimation and dose monitoring, and the whole machine (practice set)
     PR(STEM("One jaw of a linac is closed to the central axis as a half-beam block.", [], "What does it give at that edge of the field?"), "An edge that does not diverge",
@@ -163,20 +152,12 @@ PROBLEMS = [
     PRM("The primary dose channel of a linac fails during a treatment. Which of these can still stop the beam?", ["The secondary dose channel", "The backup timer"],
         ["The automatic frequency control", "The circulator", "The energy slits"],
         "The secondary channel of the monitor chambers stops the beam a small margin above the set MU, and the timer stops it after a set time if both channels fail. The AFC tunes the RF source, the circulator protects it, and the slits select the electron energy; none of them counts dose.", lvl="Moderate"),
-    PR(STEM("A crossplane profile of a 6 MV beam is 4% higher on one side than on the other. The output and the PDD on the axis are unchanged.", [], "Which fault is most likely?"), "The electron beam strikes the target off-centre or at an angle",
-       ["The energy of the electrons striking the target has fallen", "A sealed monitor chamber has started to exchange air with the room", "The automatic frequency control has drifted off the guide frequency"],
-       "A steering error tilts the forward-peaked x-ray beam against the flattening filter, so one side of the profile is higher. The segmented monitor chamber senses it, and the servo corrects the steering coils or an interlock stops the beam. A lower energy changes both sides alike, a leaking chamber changes the output, and a drifting AFC lowers the dose rate.", lvl="Challenging"),
-    PR(STEM("The daily output of a linac varies by up to 2% from day to day. The changes follow the room temperature and pressure, although the field chamber is corrected for both.", [], "Which fault is the most likely?"), "A sealed monitor chamber has started to exchange air with the room",
-       ["The current of the bending magnet has drifted from its setting", "The flattening filter has shifted off the central axis", "The magnetron is near the end of its working life"],
-       "A sealed monitor chamber reads the same at any air density. Once it leaks, its reading per unit dose follows temperature and pressure, and because the beam stops at a set reading, the dose per MU follows them too. The other faults would change the energy, the profile, or the dose rate, not in step with temperature and pressure.", lvl="Challenging"),
-    PRN(STEM("A 10 MV FFF beam runs at its highest dose rate (illustrative values).", ["dose rate = 2400 MU/min", "1 MU = 1 cGy at the reference point", "pulse repetition rate = 360 per second"], "What is the [[dose per pulse]] at the reference point?"), 10 * DP2400, [10 * 2400 / 360, 10 * 2400 / 60, DP2400], "{:.3g} mGy",
-        f"2400 cGy/min ÷ 60 = {2400 / 60:.0f} cGy/s, and ÷ 360 pulses/s = {DP2400:.4f} cGy = {10 * DP2400:.2f} mGy per pulse. Leaving out the 60 s per minute gives {10 * 2400 / 360:.1f} mGy, leaving out the pulse rate gives {10 * 2400 / 60:.0f} mGy, and stopping at cGy gives {DP2400:.3f}.", lvl="Challenging"),
     SORT("Rank these parts of a linac in photon mode in the order the beam passes through them.", ["1st", "2nd", "3rd", "4th", "5th", "6th"],
          [("Electron gun", 0), ("Accelerating guide", 1), ("Bending magnet", 2), ("Target", 3), ("Flattening filter", 4), ("Monitor chambers", 5)],
          "The gun injects electrons into the guide, and the bending magnet turns them onto the target. The x-rays from the target pass the primary collimator and the flattening filter, and then the monitor chambers, which measure the final beam ahead of the jaws.", lvl="Easy", mode="rank", cap=1),
 ]
 
-INLINE = {0: [1, 2, 3, 4, 5], 1: [6, 7, 8, 9, 10], 2: [11, 12, 13, 14, 15]}     # questions on the last section, and the ranking, form the practice set
+INLINE = {0: [1, 2, 3, 4, 5], 1: [6, 7, 8, 9], 2: [10, 11, 12]}
 
 TERMS = ["pulse-forming network", "magnetron", "klystron", "circulator", "automatic frequency control", "scattering foil", "half-beam block", "monitor chambers"]
 

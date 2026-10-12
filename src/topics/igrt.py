@@ -138,8 +138,6 @@ TOPIC = dict(
         F("Commercial MR-linacs", "1.5 T with a 7 MV linac; 0.35 T with three cobalt-60 sources, later a 6 MV linac. The field is perpendicular to the beam."),
         F("Electron return effect", "Electrons leaving tissue for air curve back in the magnetic field and raise the dose in the tissue at the interface. The dose calculation includes the field."),
         F("Online adaptive treatment", "Recontouring, reoptimizing, and an independent dose check with the patient on the couch. A fraction often takes 45 minutes or more."),
-        F("Imaging dose per session", ["MV portal image pair: about 1–5 cGy", "kV CBCT: about 0.2–2 cGy, highest in the pelvis", "MV CBCT: about 3–10 cGy", "At kV energy, bone receives two to four times the soft-tissue dose"]),
-        F("TG-180 imaging dose threshold", f"Imaging dose is included in the plan when it exceeds {TG180_PCT}% of the therapeutic target dose."),
         F("TG-142 imaging tests", f"Daily: imaging and treatment isocenters within {TG142_ISO:g} mm ({TG142_SRS:g} mm for SRS/SBRT). Monthly: CBCT distortion within {TG142_ISO:g} mm ({TG142_SRS:g} mm), and image quality and HU constancy against baseline."),
     ],
 )
@@ -186,17 +184,12 @@ PROBLEMS = [
         ["Surface imaging", "Transabdominal ultrasound", "Electromagnetic transponder tracking"],
         ["Kilovoltage CBCT", "Megavoltage portal imaging", "Stereoscopic kV imaging of implanted markers"],
         "Surface imaging uses visible light, ultrasound uses sound, and the transponders respond to an alternating electromagnetic field, so none adds ionizing dose. Every x-ray method does, from well under 1 cGy for a kV pair to several cGy for an MV pair.", lvl="Easy"),
-    SORT("Match each guidance method to its main limit.", ["MV portal imaging", "kV radiographs matched to DRRs", "Surface imaging", "Electromagnetic transponders", "Ultrasound"],
-         [("Low contrast from the megavoltage beam", 0), ("Projections that align bone, not the soft-tissue target", 1), ("Only the skin, not the internal target", 2), ("An invasive implant", 3), ("Dependence on the operator and the probe pressure", 4)],
-         "The portal image has low contrast, kV radiographs align the bones, surface imaging sees only the skin, transponders must be implanted, and ultrasound depends on the operator and can push the prostate with the probe.", lvl="Moderate", mode="match", cap=1),
     # ---- 15-18: MR-guided treatment
     PR(STEM(ask="What field strengths do the two commercial MR-linac designs use?"), "1.5 T and 0.35 T", ["3.0 T and 1.5 T", "7.0 T and 3.0 T", "0.5 T and 0.1 T"],
        "One design pairs a 7 MV linac with a 1.5 T magnet; the other uses 0.35 T, first with three cobalt-60 sources and later with a 6 MV linac. 3.0 T and 7.0 T magnets serve diagnostic and research MR.", lvl="Easy"),
     PR(STEM("A beam on a 1.5 T MR-linac exits the patient through the skin into air.", ask="Where does the magnetic field raise the dose most?"),
        "In the tissue at the exit surface", ["In the air beyond the exit surface", "In the build-up region at the entrance", "Evenly throughout the target"],
        "Electrons that leave the tissue are turned back by the field and deposit their energy in the tissue they left, the electron return effect. Air absorbs almost nothing, and the entrance build-up changes less.", lvl="Moderate"),
-    PRN(STEM(f"A secondary electron moves perpendicular to the field of a {m_b:.1f} T MR-linac.", [f"kinetic energy = {m_t:.1f} MeV", f"electron rest energy = {ME} MeV", f"r [m] = pc [MeV] / ({CB} B [T])"], "What is the [[radius of its path]]?"), m_r, [m_cl, m_ke, m_lo], "{:.1f} mm",
-        f"pc = √(T² + 2T·mc²) = √({m_t:.1f}² + 2 × {m_t:.1f} × {ME}) = {pc_rel(m_t):.3f} MeV, so r = {pc_rel(m_t):.3f} / ({CB} × {m_b:.1f}) m = {m_r:.1f} mm. The classical momentum √(2T·mc²) gives {m_cl:.1f} mm, the kinetic energy taken as pc gives {m_ke:.1f} mm, and {m_lo:.1f} mm is the radius at 0.35 T.", lvl="Challenging"),
     PR(STEM("In an online adaptive fraction on an MR-linac, the plan is reoptimized on the day's anatomy while the patient lies on the couch.", ask="How is the new plan checked before delivery?"),
        "By an independent calculation of its dose", ["By a measurement of the new plan in a phantom", "By the QA of the original plan, which covers it", "By the morning output check of the linac"],
        "A phantom measurement is not possible with the patient on the couch, so the dose of the new plan is checked by an independent calculation before the beam. The QA of the original plan does not cover the new fluences, and the output check tests the machine, not the plan.", lvl="Challenging"),
@@ -205,11 +198,9 @@ PROBLEMS = [
         f"TG-142 sets {TG142_SRS:g} mm for SRS and SBRT and {TG142_ISO:g} mm for a conventional machine. A machine is held to the tolerance of its most demanding use.", lvl="Easy"),
     PRN(STEM("A kV CBCT protocol is measured in a cylindrical body phantom.", [f"dose at the center = {w_dc:.1f} cGy", f"mean dose at the periphery = {w_dp:.1f} cGy"], "What is the [[weighted dose]] of the scan?"), w_dw, [w_avg, w_swap, w_dp], "{:.2f} cGy",
         f"D<sub>w</sub> = ⅓ × {w_dc:.1f} + ⅔ × {w_dp:.1f} = {w_dw:.2f} cGy. The periphery carries two-thirds of the weight because it stands for the larger part of the cross-section. The plain mean gives {w_avg:.2f} cGy, and swapping the weights gives {w_swap:.2f} cGy.", lvl="Moderate"),
-    TYPED(STEM("A kV CBCT is acquired before each fraction of a course.", [f"weighted dose per scan = {f_d:.1f} cGy", f"fractions = {f_n}", f"prescription = {f_rx:.0f} Gy"], "What [[percentage of the prescription]] does the imaging add?"), f_pct, 0.02, "%",
-          f"Imaging dose = {f_n} × {f_d:.1f} = {f_tot:.1f} cGy, and {f_tot:.1f} / {100 * f_rx:,.0f} cGy = {f_pct:.2f}%. The ratio is the same per fraction, {f_d:.1f} cGy against {100 * f_rx / f_n:.0f} cGy, because a scan is taken every fraction. It is far below the TG-180 threshold of {TG180_PCT}%.", lvl="Moderate"),
 ]
 
-INLINE = {0: [1, 2], 1: [4, 5, 7, 9], 2: [11, 12], 3: [15, 16]}          # questions on the last section, and the rest, form the practice set
+INLINE = {0: [1, 2], 1: [4, 5, 7, 9], 2: [11, 12], 3: [14, 15]}
 
 TERMS = ["electronic portal imaging device", "digitally reconstructed radiograph", "half-fan", "action level", "offline protocol", "surface-guided radiotherapy", "electron return effect", "online adaptive treatment"]
 

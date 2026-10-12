@@ -55,17 +55,16 @@ def find(tid, phrase):
     assert len(hits) == 1, (tid, phrase, len(hits)); return hits[0]
 def right(p): i = "ABCDEFG".index(re.search(r"<b>([A-G])\.", p["a"][0]).group(1)); return p["vals"][i]
 CASES = [("pdd", "dose at d<sub>max</sub> = 150 cGy", pdd.q_dose10, ["150", "67.0%"]), ("pdd", "prescription = 200 cGy at 10 cm depth", pdd.q_dmaxdose, ["200", "67.0%"]),
-         ("pdd", "new SSD = 140 cm", pdd.q_p140, ["1.5 cm", "67.0%", "SSD 100"]), ("pdd", "new SSD = 80 cm", pdd.q_p80, ["2.5 cm", "71.0%", "12 cm"]),
-         ("pdd", "setup B: SSD 140 cm", pdd.q_ratio, ["67.0%", "70.0%", "200 cGy"]),
-         ("tmr", "PDD = 58.0% at 15 cm", tmr.q_tmr15, ["58.0%", "1.5 cm"]), ("tmr", "PDD = 71.0% at 12 cm depth, SSD 80", tmr.q_tmr80, ["0.99", "2.5 cm"]),
-         ("tmr", "PDD = 68.7% at 10 cm", tmr.q_tmr120, ["68.7%", "SSD 120"]), ("tmr", "SSD-100 PDD in place of the TMR", tmr.q_wk, ["0.670", "0.787"]),
-         ("scatter", "S<sub>c</sub> = 0.940", scatter.q_scp, ["0.940", "0.975"]), ("scatter", "S<sub>cp</sub> = 1.072", scatter.q_sp, ["1.072", "1.028"]),
-         ("scatter", "8 × 20 cm", scatter.q_es820, ["8 × 20"]), ("scatter", "S<sub>cp</sub>(8 × 8) = 0.976", scatter.q_interp, ["0.976", "1.000", "6 × 18"]),
+         ("pdd", "new SSD = 140 cm", pdd.q_p140, ["1.5 cm", "67.0%", "SSD 100"]), 
+         ("tmr", "PDD = 58.0% at 15 cm", tmr.q_tmr15, ["58.0%", "1.5 cm"]), 
+         ("tmr", "SSD-100 PDD in place of the TMR", tmr.q_wk, ["0.670", "0.787"]),
+         ("scatter", "S<sub>c</sub> = 0.940", scatter.q_scp, ["0.940", "0.975"]), 
+         ("scatter", "8 × 20 cm", scatter.q_es820, ["8 × 20"]), 
          ("scatter", "S<sub>c</sub>(14 × 14) = 1.010", scatter.q_blocked, ["1.010", "1.012", "1.000"]),
          ("mu-calc", "surface at 100 cm.prescription = 250 cGy at 10 cm depth", mu_calc.q_mua, ["250", "1.017", "1.014", "68.0%"]), ("mu-calc", "S<sub>c</sub>(12.5 × 12.5", mu_calc.q_muc, ["200", "1.009", "1.014", "71.4%", "120 cm"]),
-         ("mu-calc", "dose per field = 100 cGy at 12 cm", mu_calc.q_mub, ["100", "1.021", "1.013", "0.738"]), ("mu-calc", "patient separation 24 cm", mu_calc.q_mud, ["1.011", "1.010", "0.742", "0.757", "0.723"]),
-         ("mu-calc", "MU without the wedge = 120", mu_calc.q_muw, ["120", "0.62"]), ("mu-calc", "MU without the tray = 200", mu_calc.q_mut, ["200", "0.97"]),
-         ("mu-calc", "second machine is calibrated by the SAD convention", mu_calc.q_mue, ["127", "SAD convention"]), ("mu-calc", "SSD = 125 cm", mu_calc.q_ac, ["15 × 15", "125"])]
+         ("mu-calc", "dose per field = 100 cGy at 12 cm", mu_calc.q_mub, ["100", "1.021", "1.013", "0.738"]), 
+         ("mu-calc", "MU without the wedge = 120", mu_calc.q_muw, ["120", "0.62"]), 
+         ]
 for tid, phrase, want, shown in CASES:
     p = find(tid, phrase); n += 1
     got = right(p)

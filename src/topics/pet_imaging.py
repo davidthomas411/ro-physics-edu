@@ -84,8 +84,6 @@ PROBLEMS = [
         f"The injected activity per gram is 370,000 kBq / 74,000 g = 5.0 kBq/g, and SUV = 20 / 5.0 = {suv_a:.1f}. Dividing by the dose alone gives {20 / 370:.2f}.", lvl="Moderate"),
     PRN(STEM("A line of response passes through 20 cm of water-equivalent tissue. μ = " + f"{mu511:.4f}" + " cm<sup>−1</sup> at 511 keV.", [], "What is the [[attenuation correction factor]]?"), acf(20), [surv(20), 1 + mu511 * 20, math.exp(mu511 * 10)], "{:.1f}",
         f"The factor is e<sup>μL</sup> = e<sup>{mu511 * 20:.2f}</sup> = {acf(20):.1f}. The inverse, {surv(20):.3f}, is the probability that both photons escape.", lvl="Moderate"),
-    PRN(STEM("A line of response passes through 20 cm of water-equivalent tissue. μ = " + f"{mu511:.4f}" + " cm<sup>−1</sup> at 511 keV.", [], "What [[percentage of the photon pairs]] escape the patient?"), 100 * surv(20), [100 * math.exp(-mu511 * 10), 100 * math.exp(-mu511 * 20) * 2, 100 - 100 * surv(20)], "{:.1f}%",
-        f"Both photons escape with e<sup>−μL</sup> = e<sup>−{mu511 * 20:.2f}</sup> = {surv(20):.3f}, which is {100 * surv(20):.1f}%. The position of the annihilation along the line does not matter.", lvl="Challenging"),
     PR("Without attenuation correction, a PET image shows:", "apparent activity in the lungs, because they attenuate the photons less", ["low activity in the lungs", "a loss of the 511 keV photons", "a higher resolution"],
        "More counts emerge from the lung, but not because it has more tracer. There is also a hot ring at the skin and a bright signal at the edge of the liver.", lvl="Moderate"),
     PR("Why is a CT unit attached to a PET scanner?", "To co-localize the activity with the anatomy and to give the attenuation correction", ["To raise the PET resolution", "To raise the positron energy", "To avoid the energy window"],
@@ -96,7 +94,7 @@ PROBLEMS = [
        "Glucose competes with FDG for uptake, so a low glucose level increases the tumour uptake.", lvl="Moderate"),
 ]
 
-INLINE = {0: [1, 2, 3, 5], 1: [6, 7], 2: [8, 10, 11], 3: [12, 13]}
+INLINE = {0: [1, 2, 3, 5], 1: [6, 7, 13, 15], 2: [8, 9, 10], 3: [11, 12, 14]}
 
 TERMS = ['line of response', 'coincidence', 'standardized uptake value', 'attenuation correction']
 
@@ -109,29 +107,17 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- select-several, sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     PRM("Which of the following limit the spatial resolution of PET?", ["The non-collinearity of the annihilation photons", "The size of the crystals in the detector ring", "The range of the positron in the tissue"], ["The photon energy of 511 keV", "The half-life of the isotope", "The weight of the patient"],
         "The two photons are not exactly anti-parallel, the crystals have a size, and the positron travels before it annihilates. The photon energy is the same for every isotope and the half-life does not blur the image.", lvl="Moderate"),
     SORT("Which process does each PET tracer follow?", ["Glucose metabolism", "Hypoxia", "Perfusion", "Bone metabolism"],
          [("<sup>18</sup>F-FDG", 0), ("<sup>18</sup>F-FMISO", 1), ("<sup>13</sup>N-ammonia", 2), ("<sup>15</sup>O-water", 2), ("<sup>18</sup>F-fluoride", 3), ("FDG in a tumour", 0)],
          "FDG follows glucose metabolism, FMISO shows hypoxia, ammonia and water follow blood perfusion, and fluoride follows bone metabolism.", lvl="Moderate"),
-    TYPED(STEM("A lesion has an activity concentration of 18 kBq/mL. The injected activity was 296 MBq in a patient of 80 kg.", [], "What is the [[SUV]]?"), suv_t, 0.02, "(ratio)",
-          f"Injected activity per gram = 296,000 / 80,000 = 3.7 kBq/g, and SUV = 18 / 3.7 = {suv_t:.2f}.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the attenuation correction factor of a line of response against the total path length through water-equivalent tissue.", [], "Tap the [[path length at which the correction factor is 4]]."),
-         FS(x=dict(min=0, max=30, ticks=[0, 10, 20, 30], label="Path length L (cm)"), y=dict(min=0, max=20, ticks=[0, 5, 10, 15, 20], label="Correction factor"), series=[dict(pts=PTS(lambda L: math.exp(mu511 * L), 0, 30), color="plot-1")], xunit=" cm", xdec=1, xname="Path length", label="Correction factor against path length"),
-         [(L_4 - 2.5, L_4 + 2.5)], f"e<sup>μL</sup> = 4 gives L = ln 4 / μ = {L_4:.1f} cm. The level 4 is not marked on the axis.", lvl="Challenging", note=f"about {L_4:.0f} cm"),
 ]
-INLINE = {0: [1, 2, 3, 5], 1: [6, 7, _n0 + 1], 2: [8, 10, 11, _n0 + 4], 3: [12, 13, _n0 + 2]}
 
 
 # ---------------------------------------------------------------- SUV with decay, and tracers by target
-_n1 = len(PROBLEMS)
 PROBLEMS += [
     PRN(STEM("A patient of 75 kg is injected with 370 MBq of <sup>18</sup>F-FDG (half-life 109.8 min). The scan starts 60 min after the injection, and the image is decay-corrected to the start of the scan. A tumour has an activity concentration of 12 kBq/mL.", [], "What is the [[SUV]]?"), suv_d, [suv_nd, suv_up, suv_d * 2], "{:.2f}",
         f"The activity left at the scan is 370 × 2<sup>−60/109.8</sup> = {370 * 2 ** (-60 / 109.8):.0f} MBq, which is {1000 * 370 * 2 ** (-60 / 109.8) / 75000:.2f} kBq/g. SUV = 12 / {1000 * 370 * 2 ** (-60 / 109.8) / 75000:.2f} = {suv_d:.2f}. Leaving out the decay gives {suv_nd:.2f}, and applying it in the wrong direction gives {suv_up:.2f}.", lvl="Challenging"),
-    SORT("Match each PET tracer to the target it binds.", ["Somatostatin receptors", "Prostate-specific membrane antigen", "Benzodiazepine receptor", "D2 receptor"],
-         [("<sup>68</sup>Ga-DOTATATE", 0), ("<sup>68</sup>Ga-PSMA-11", 1), ("<sup>11</sup>C-flumazenil", 2), ("<sup>11</sup>C-raclopride", 3)],
-         "DOTATATE binds somatostatin receptors, which neuroendocrine tumours express. PSMA-11 binds the prostate-specific membrane antigen of prostate cancer cells. Flumazenil binds the benzodiazepine receptor, and raclopride binds the D2 receptor.", lvl="Moderate", mode="match", cap=1),
 ]
-INLINE[1].append(_n1 + 1)

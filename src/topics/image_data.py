@@ -40,7 +40,6 @@ TOPIC = dict(
         F("Resolution and pixel count", "More pixels cannot make up for a large focal spot or a large object-to-detector distance, which also limit the resolution."),
         F("Bit and byte", "A binary digit (bit) holds a 0 or a 1. A byte is 8 bits and holds values up to 255."),
         F("Bit depth", "With n bits a pixel has 2<sup>n</sup> grayscale levels. 8 bits give 256 levels, and 16 bits give 65,536."),
-        F("Bit depth of medical images", "Often 16 bits (2 bytes) per pixel. A 4-bit image has only 16 levels and hides subtle soft-tissue detail."),
         F("Storage of an image", "Pixels × bytes per pixel. A 1024 × 1024 image at 16 bits needs about 2.1 MB."),
         F("Pixel size", "Field of view divided by the number of pixels. 50 cm across 512 pixels gives about 0.98 mm."),
         F("Lossless compression", "The exact image can be recovered, but the saving is only a factor of about 2 or 3."),
@@ -56,18 +55,12 @@ TOPIC = dict(
 PROBLEMS = [
     PR("A binary digit, or bit, is:", "a quantity that holds a value of 0 or 1", ["a group of 8 binary digits", "a pixel in an image", "a unit of image contrast"],
        "A byte is 8 bits. A pixel value is stored as one or more bytes.", lvl="Easy"),
-    PR("How many bytes does a 16-bit image use for each pixel?", "2", ["1", "4", "16"],
-       "A byte is 8 bits, so 16 bits is 2 bytes.", lvl="Easy"),
     PR("The DICOM standard governs:", "how medical images are stored, viewed, and transferred between systems", ["how a linac delivers a treatment", "the choice of reconstruction filter", "the exposure at the skin of the patient"],
        "Before DICOM each vendor used its own format. DICOM provides a common standard.", lvl="Easy"),
     PRN(STEM("An image is stored with 8 bits per pixel.", [], "How many [[grayscale levels]] can each pixel have?"), levels(8), [8.0, 16.0, 65536.0], "{:.0f}",
         f"Levels = 2<sup>n</sup> = 2<sup>8</sup> = {levels(8)}. Using n itself gives 8, and 2<sup>16</sup> is {levels(16):,}.", lvl="Moderate"),
     PRN(STEM("An image of 512 × 512 pixels is stored with 16 bits per pixel.", [], "What is the [[storage size]]?"), mb(s_512), [mb(512 * 512), mb(512 * 512 * 16), mb(512 * 512 * 4)], "{:.2f} MB",
         f"Storage = 512 × 512 × 2 bytes = {s_512:,} bytes = {mb(s_512):.2f} MB. Forgetting the 2 bytes per pixel gives {mb(512 * 512):.2f} MB, and using the 16 bits as bytes gives {mb(512 * 512 * 16):.1f} MB.", lvl="Moderate"),
-    PRN(STEM("A CT study has 200 slices, each 512 × 512 pixels with 16 bits per pixel.", [], "What is the [[storage]] for the study?"), mb(study(200)), [mb(s_512), mb(study(200)) * 2, mb(study(200)) / 2], "{:.0f} MB",
-        f"One slice is {mb(s_512):.2f} MB, and 200 slices need {mb(study(200)):.0f} MB.", lvl="Moderate"),
-    PR("Which CT scan has the smallest pixel size?", "80 cm field of view with 1024 × 1024 pixels", ["25 cm field of view with 128 × 128 pixels", "50 cm field of view with 512 × 512 pixels", "50 cm field of view with 256 × 256 pixels"],
-       f"The pixel size is the field of view divided by the number of pixels: 25 cm on 128 pixels gives {px(25, 128):.2f} mm, 50 cm on 512 gives {px(50, 512):.2f} mm, 50 cm on 256 gives {px(50, 256):.2f} mm, and 80 cm on 1024 gives {px(80, 1024):.2f} mm.", lvl="Moderate"),
     PR("Lossless compression of an image:", "allows the exact original to be recovered, with a saving of only a factor of about 2 or 3", ["discards detail to save a factor of 10 or more", "cannot be reversed", "is never used for medical images"],
        "Lossy compression saves much more but cannot be reversed. Lossless compression keeps every pixel value.", lvl="Moderate"),
     PR("An image with 4 bits per pixel is poor for medical use because it:", "has only 16 grayscale levels, which hides subtle soft-tissue differences", ["has too many pixels", "cannot be displayed on a screen", "cannot be compressed"],
@@ -90,15 +83,6 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
-    SORT("Which system or standard does each description fit?", ["DICOM", "PACS", "EHR", "OIS"],
-         [("A protocol for storing and transferring images", 0), ("An extension for structure sets and RT plans", 0), ("A system that stores a hospital's radiology images", 1), ("Holds a patient's demographics, history, and medications", 2), ("Interfaces with the linac and records the treatment", 3), ("Aria and Mosaiq are examples", 3)],
-         "DICOM is a standard, and DICOM-RT extends it. A PACS stores images. The EHR holds general patient information, and the oncology information system holds oncology records and interfaces with the linacs.", lvl="Moderate"),
-    TYPED(STEM("A radiograph of 2000 × 2500 pixels is stored with 16 bits per pixel.", [], "What is the [[storage]] in megabytes?"), mb(s_rad), 0.01, "MB",
-          f"Storage = 2000 × 2500 × 2 bytes = {s_rad:,} bytes = {mb(s_rad):.0f} MB.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the number of grayscale levels against the bit depth.", [], "Tap the [[bit depth that gives 1024 grayscale levels]]."),
-         FS(x=dict(min=2, max=12, ticks=[2, 4, 6, 8, 10, 12], label="Bit depth (bits)"), y=dict(min=0, max=4096, ticks=[0, 1500, 3000], label="Grayscale levels"), series=[dict(pts=PTS(lambda n: 2 ** n, 2, 12), color="plot-1")], xunit=" bits", xdec=1, xname="Bit depth", label="Grayscale levels against bit depth"),
-         [(9.2, 10.8)], "2<sup>n</sup> = 1024 gives n = 10. The level 1024 is not marked on the axis.", lvl="Challenging", note="10 bits"),
 ]
-INLINE = {0: [1, 2, 4, _n0 + 3], 1: [5, 6, 7, _n0 + 2], 2: [3, 10, 11, _n0 + 1]}
+INLINE = {0: [1, 3], 1: [4], 2: [2, 7, 8]}

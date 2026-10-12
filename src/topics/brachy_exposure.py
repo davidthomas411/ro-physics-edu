@@ -47,19 +47,16 @@ TOPIC = dict(
     ],
     cards=[
         C("Define exposure and give its units.", "The charge released by photons per unit mass of air, X = dQ/dm, in C/kg. The roentgen is 2.58 × 10<sup>−4</sup> C/kg."),
-        C("What is a roentgen?", "2.58 × 10<sup>−4</sup> C/kg of air. It was originally defined as 1 esu per cm³ of air."),
         C("Write the exposure rate from a point source in air.", "Ẋ = Γ A / r², with Γ the exposure rate constant (R cm² mCi<sup>−1</sup> h<sup>−1</sup>), A the activity (mCi), and r the distance (cm)."),
         C("What does the exposure rate constant Γ depend on?", "The number of photons emitted per decay and their energies. It is specific to each radionuclide."),
         C("Why do equal activities of Ir-192 and I-125 give different exposure rates?", f"Ir-192 photons are far more energetic and ionize more air. Γ is {GAMMA['Ir-192']} for Ir-192 and {GAMMA['I-125']} for I-125, a ratio of {ratio_ir_i:.1f}."),
         C("State the inverse-square law.", "The intensity from a point source falls as 1/r², because the photons spread over a sphere of area 4πr²."),
-        C("How does the exposure rate change from 1 cm to 2 cm?", "It falls to one quarter. Moving from 2 cm to 1 cm raises it fourfold."),
         C("Define air kerma strength.", "The air kerma rate at a distance d in free space, multiplied by d², with d taken as 1 m. Symbol S<sub>K</sub>."),
         C("Give the unit of air kerma strength and its equivalents.", "The U: 1 U = 1 μGy m² h<sup>−1</sup> = 1 cGy cm² h<sup>−1</sup>."),
         C("Relate air kerma strength to Γ and activity.", "S<sub>K</sub> = 0.876 Γ A, with Γ in R cm² mCi<sup>−1</sup> h<sup>−1</sup> and A in mCi."),
         C("What is the value of W/e for dry air, and what does it convert?", "33.97 J/C, which is 0.876 cGy/R. It converts exposure to air kerma."),
         C("Why are seeds ordered by air kerma strength rather than activity?", "S<sub>K</sub> is measured against a traceable standard and, with the seed model's dose rate constant, gives the dose rate directly. Activity depends on how it is defined and measured."),
         C("How does the air kerma strength of a seed change with time?", "It decays exponentially with the half-life of the radionuclide: S<sub>K</sub>(t) = S<sub>K</sub>(0) e<sup>−λt</sup>."),
-        C("What was the milligram radium equivalent?", "The mass of radium, filtered by 0.5 mm of platinum, that gives the same exposure rate as the source. An older way of stating source strength."),
     ],
 )
 
@@ -80,14 +77,8 @@ PROBLEMS = [
        "1 μGy m² h<sup>−1</sup> = 10<sup>−6</sup> Gy × 10<sup>4</sup> cm² h<sup>−1</sup> = 10<sup>−2</sup> Gy cm² h<sup>−1</sup> = 1 cGy cm² h<sup>−1</sup>.", lvl="Moderate"),
     PR("The distance from a point source in air is tripled. The exposure rate becomes:", "one ninth", ["one third", "one sixth", "one half"],
        "The rate scales as 1/r², and (1/3)² = 1/9.", lvl="Moderate"),
-    PRN(STEM("An I-125 seed.", ["S<sub>K</sub> at calibration = 0.60 U", "T<sub>1/2</sub> = 59.4 d", "time = 30 d"], "What is its [[air kerma strength]] after 30 d?"), sk30, [0.30, 0.60 * math.exp(-30 / 59.4), 0.60 * (1 - 30 / 59.4)], "{:.3f} U",
-        f"The fraction left is ½<sup>30/59.4</sup> = {calc.frac_remaining(30, 59.4):.3f}, so S<sub>K</sub> = {sk30:.3f} U. One half-life would give 0.30; e<sup>−t/T</sup> treats the half-life as a mean life; a straight-line fall is not exponential.", lvl="Challenging"),
     PR("Why are brachytherapy seeds ordered by air kerma strength rather than by activity?", "S<sub>K</sub> is measured against a traceable standard and, with the seed model's dose rate constant, gives the dose rate", ["Activity cannot be measured for a sealed source", "S<sub>K</sub> does not decay with time", "The dose rate constant depends on the activity ordered"],
        "Activity can be defined in several ways for an encapsulated source, while S<sub>K</sub> is the quantity the dose calculation uses. S<sub>K</sub> decays like the activity, and Λ is a fixed property of the seed model.", lvl="Challenging"),
-    PRM("Which factors determine the exposure rate constant Γ?", ["The number of photons emitted per decay", "The photon energies", "The filtration of the source"], ["The distance from the source", "The activity of the source"],
-        "Γ is the exposure rate at unit distance per unit activity. It depends on the emission spectrum, which includes the photons that survive the encapsulation, and not on distance or activity.", lvl="Challenging"),
-    PRN(STEM("A brachytherapy source in air.", ["exposure rate at 1 cm = 400 R/h"], "What is the [[exposure rate at 4 cm]]?"), 25.0, [100.0, 50.0, 6.25], "{:.3g} R/h",
-        "Ẋ(4) = 400 × (1/4)² = 400 / 16 = 25 R/h. A 1/r law would give 100 R/h.", lvl="Challenging"),
 ]
 
 INLINE = {0: [1], 1: [3, 4], 2: [2, 8], 3: [5, 7]}
@@ -104,18 +95,7 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- matching, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 _fig_inv = FS(x=dict(min=1, max=12, ticks=[1, 2, 4, 6, 8, 10, 12], label="Distance from the source (cm)"), y=dict(min=0, max=100, ticks=[0, 25, 50, 75, 100], label="Exposure rate (% of the rate at 1 cm)", fmt="pct"),
               series=[dict(pts=PTS(lambda r: 100 / r ** 2, 1, 12), color="plot-1")], xunit=" cm", xdec=2, xname="Distance", label="Exposure rate against distance from a point source")
 PROBLEMS += [
-    SORT("Match each quantity to its unit.", ["R", "R cm² mCi<sup>−1</sup> h<sup>−1</sup>", "U (cGy cm² h<sup>−1</sup>)", "mCi"],
-         [("Exposure", 0), ("Exposure rate constant", 1), ("Air kerma strength", 2), ("Activity", 3)],
-         "Exposure is in roentgens. The exposure rate constant is the exposure rate at unit distance per unit activity. Air kerma strength is in U. Activity is in curies or becquerels, and the millicurie is the usual unit for a seed.", lvl="Easy", mode="match", cap=1),
-    TYPED(STEM("An I-125 seed.", ["apparent activity = 0.50 mCi", "Γ = 1.45 R cm² mCi<sup>−1</sup> h<sup>−1</sup>"], "What is its [[air kerma strength]]?"), sk_i125, 0.015, "U",
-          f"S<sub>K</sub> = 0.876 Γ A = 0.876 × 1.45 × 0.50 = {sk_i125:.3f} U. A typical I-125 seed is a little over half a unit.", lvl="Moderate"),
-    FIGQ(STEM("The exposure rate in air from a point source is plotted as a percentage of its value at 1 cm.", [], "Tap the [[distance at which the rate has fallen to one ninth]] of its value at 1 cm."),
-         _fig_inv, [(2.6, 3.4)], "The rate scales as 1/r², so one ninth means r² = 9 and r = 3 cm. The curve is at 11% there, which is not a marked level, so the distance has to be worked out.", lvl="Moderate", note="3 cm"),
-    FIGQ(STEM("The exposure rate in air from a point source is plotted as a percentage of its value at 1 cm.", [], "Tap the [[distance at which the rate is 1%]] of its value at 1 cm."),
-         _fig_inv, [(9.3, 10.7)], "1% means 1/r² = 1/100, so r = 10 cm. At that distance the curve lies almost on the axis and cannot be read, so the inverse-square law has to be applied.", lvl="Challenging", note="10 cm"),
 ]
-INLINE = {0: [1], 1: [3, 4], 2: [2, 8, _n0 + 3, _n0 + 4], 3: [5, 7, _n0 + 1, _n0 + 2]}

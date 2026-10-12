@@ -15,8 +15,7 @@ import icru_volumes as IV, dvh_metrics as DV, bed_tcp as BT
 # ---- margins
 close(IV.m_a, 2.5 * 2 + 0.7 * 3, 1e-12, "margin for Σ 2, σ 3"); close(IV.m_a, 7.1, 1e-12, "it is 7.1 mm"); close(IV.m_b, 2.5 * 1 + 0.7 * 3, 1e-12, "margin for Σ 1, σ 3"); close(IV.m_b, 4.6, 1e-12, "it is 4.6 mm"); close(IV.m_d, 8.9, 1e-12, "margin for Σ 3, σ 2")
 close(IV.margin(1.5, 2.5), 5.5, 1e-12, "typed margin"); close(IV.m_a - IV.margin(2, 1.5), 1.05, 1e-12, "halving the random error saves 1.05 mm"); close(IV.m_a - IV.m_b, 2.5, 1e-12, "halving the systematic error saves 2.5 mm")
-close((10 - 2.1) / 2.5, 3.16, 1e-9, "Σ for a 10 mm margin"); p = fig(T["icru-volumes"], "systematic error at which the margin is 10 mm"); s = p["spec"]["series"][0]["pts"]; x10 = next(x for x, y in s if y >= 10)
-close(x10, 3.16, 0.02, "the plotted margin reaches 10 mm at 3.16 mm"); close(1 if inside(p, 3.16) and not inside(p, 2.0) and not inside(p, 4.0) else 0, 1, 0, "the margin target holds 3.2 mm and rejects 2 and 4")
+close((10 - 2.1) / 2.5, 3.16, 1e-9, "Σ for a 10 mm margin")
 close(1800 * 3, 5400, 0, "1800 cGy × 3 is 54 Gy"); close(300 * 18, 5400, 0, "300 cGy × 18 is 54 Gy"); close(200 * 32, 6400, 0, "200 cGy × 32")
 # ---- DVH: interpolation, CI, Paddick, HI
 close(DV.d95, 48 + (97 - 95) / (97 - 90) * 2, 1e-12, "D95%"); close(DV.d95, 48.571, 1e-4, "D95% is 48.57 Gy"); close(DV.v_at(50), 90, 1e-12, "V50 Gy is 90%"); close(DV.d50, 52.0, 1e-12, "D50% is 52 Gy")
@@ -35,8 +34,6 @@ close(BT.e_p1 + BT.e_p2, 53.6, 1e-12, "the two courses add to 53.6 Gy EQD2"); cl
 close(BT.eqd2(60, 2, 10), 60.0, 1e-12, "EQD2 of a regimen in 2 Gy fractions is the dose itself")
 for B, want in ((50, 0.047), (60, 0.859), (70, 0.992)): close(BT.tcp(B), math.exp(-1e7 * math.exp(-0.3 * B)), 1e-12, f"TCP at BED {B}"); close(BT.tcp(B), want, 0.0015, f"TCP at BED {B} is {want}")
 close(BT.tcp(BT.B90), 0.9, 1e-9, "TCP is 90% at the solved BED"); close(BT.B90, 61.2, 0.001, "that BED is 61.2 Gy")
-p = fig(T["bed-tcp"], "BED at which the TCP is 90%"); s = p["spec"]["series"][0]["pts"]; x90 = next(x for x, y in s if y >= 0.9)
-close(x90, BT.B90, 0.1, "the plotted TCP reaches 0.90 at 61.2 Gy"); close(1 if inside(p, BT.B90) and not inside(p, 55) and not inside(p, 70) else 0, 1, 0, "the TCP target holds 61 Gy and rejects 55 and 70")
 close(BT.sf(2, 0.3, 0.03), math.exp(-0.6 - 0.12), 1e-12, "survival at 2 Gy for α/β 10"); close(BT.sf(2, 0.3, 0.1), math.exp(-0.6 - 0.4), 1e-12, "survival at 2 Gy for α/β 3")
 close(32 * (1 + 8 / 3), 117.333333, 1e-6, "BED of the 4 × 8 Gy regimen for α/β 3"); close(60 * (1 + 2 / 3), 100.0, 1e-9, "BED of 60 Gy in 30 for α/β 3")
 for b in bad: print("FAIL", b)

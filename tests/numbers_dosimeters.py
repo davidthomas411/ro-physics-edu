@@ -38,9 +38,6 @@ close(M.sens, ratio, 1e-12, "charge per unit volume, silicon over air"); close(r
 close(M.sens_r, 18000, 0, "the text rounds it to 18,000"); close(M.dens_r, 1900, 0, "and the density ratio to 1,900")
 close(2.33 / 0.001205, 1933.6, 1e-4, "density ratio"); close(33.97 / 3.6, 9.436, 1e-3, "energy per pair, air over silicon")
 close(1 if f"{M.sens_r:,}" in txt and f"{M.dens_r:,}" in txt else 0, 1, 0, "both rounded ratios appear in the text")
-p = prob(TID, "how many times more charge per unit volume")
-close(value(p), ratio, 1e-9, "keyed value"); close(1 if has(p, 33.97 / 3.6) and has(p, 2.33 / 0.001205) and has(p, (2.33 / 0.001205) / (33.97 / 3.6)) else 0, 1, 0, "distractors: each ratio alone, and one ratio inverted")
-close(1 if p["opts"] == sorted(p["opts"], key=lambda o: float(o.split()[0].replace(",", ""))) else 0, 1, 0, "numeric options ascend")
 
 # ---- in vivo diode: solve for the dose that makes a warm diode give the reading
 def true_dose(r, n_cal, cfs, alpha, dt):
@@ -60,9 +57,6 @@ def tld(m, ecf, d_cal, m_cal):
     s_chip = (m_cal / d_cal) / ecf                                             # nC per Gy for this chip
     return m / s_chip
 close(M.tl_d, tld(26.4, 1.037, 1.00, 25.1), 1e-12, "worked example: TLD dose"); close(round(M.tl_d, 2), 1.09, 1e-12, "1.09 Gy")
-p = prob(TID, "What dose did the chip receive")
-close(value(p), tld(18.6, 0.955, 2.00, 42.0), 1e-12, "keyed TLD dose"); close(round(value(p), 3), 0.846, 1e-12, "0.846 Gy")
-close(1 if has(p, tld(18.6, 1 / 0.955, 2.00, 42.0)) and has(p, tld(18.6, 1.0, 2.00, 42.0)) else 0, 1, 0, "decoys: the ECF divided, and the ECF left out")
 ecf = bisect(lambda x: 19.2 * x - 20.0, 0.5, 2.0)                              # the factor that brings the chip to the batch mean
 p = prob(TID, "element correction factor of that chip")
 close(value(p), ecf, 1e-9, "ECF"); close(round(ecf, 3), 1.042, 1e-12, "1.042"); close(1 if has(p, 19.2 / 20.0) else 0, 1, 0, "the inverted ratio is a decoy")
@@ -82,19 +76,15 @@ close(value(p), od(850, 120), 1e-12, "typed net OD"); close(round(od(850, 120), 
 close(1 if abs(od(1000, 120) / od(850, 120) - 1) > p["tol"] else 0, 1, 0, "the OD without the unexposed film is outside the tolerance")
 
 # ---- Fricke: count the ferric ions and charge each with the energy that makes one
-def fricke(da, eps, l_cm, rho, ions_per_100ev=None, g_mol_j=None):
+def fricke(da, eps, l_cm, rho, g_mol_j):
     mol_per_kg = da / (eps * l_cm) / rho                                       # mol/L of Fe³⁺ over kg/L of solution
     ions = mol_per_kg * NA
-    ev_per_ion = 100 / ions_per_100ev if ions_per_100ev else 1 / (g_mol_j * NA * E)
+    ev_per_ion = 1 / (g_mol_j * NA * E)
     return ions * ev_per_ion * E                                               # J/kg
 close(M.fr_d, fricke(0.150, 2174, 1.00, 1.024, g_mol_j=1.61e-6), 1e-12, "worked example: Fricke dose"); close(round(M.fr_d, 1), 41.9, 1e-12, "41.9 Gy")
 close(M.fr_c, 0.150 / 2174, 1e-12, "ferric ion concentration")
 g_f = 15.5 / (100 * F)                                                         # mol/J through the Faraday constant
 close(M.g_mol_per_j(15.5), g_f, 1e-9, "15.5 per 100 eV in mol/J"); close(round(1e6 * g_f, 2), 1.61, 1e-12, "1.61 μmol/J, as the text and the card say")
-p = prob(TID, "ions per 100 eV")
-d_fr = fricke(0.090, 2174, 1.00, 1.024, ions_per_100ev=15.5)
-close(value(p), d_fr, 1e-9, "keyed Fricke dose"); close(round(d_fr, 1), 25.2, 1e-12, "25.2 Gy")
-close(1 if has(p, fricke(0.090, 2174, 1.00, 1.0, ions_per_100ev=15.5)) and has(p, fricke(0.090, 2174, 1.00, 1.024, g_mol_j=15.5e-6)) else 0, 1, 0, "decoys: no density, and G read as 15.5 μmol/J")
 
 # ---- calorimetry: the temperature rise of water per gray, with c = 1 cal g⁻¹ K⁻¹
 close(M.cal_mk, 1 / 4.184, 2e-3, "about 0.24 mK per Gy"); close(1 if f"{M.cal_mk:.2f} mK" in txt else 0, 1, 0, "the text prints 0.24 mK")
@@ -123,10 +113,6 @@ def over(mat, m):                                                              #
 for m in (3.0, 3.5):
     close(1 if 1.2 < over("LiF", m) < 1.45 else 0, 1, 0, f"LiF over-response about 1.2 to 1.4 (model, exponent {m}: {over('LiF', m):.2f})")
     close(1 if 2.9 < over("Al2O3", m) < 4.2 else 0, 1, 0, f"Al2O3 over-response three to four (model, exponent {m}: {over('Al2O3', m):.2f})")
-    close(1 if 1 < over("LiF", m) < over("Al2O3", m) < over("AgBr", m) else 0, 1, 0, "the rank question's order follows the model")
-p = [q for q in G["problems"] if q.get("kind") == "sort" and q["mode"] == "rank"][0]
-order = [c["t"] for c in sorted(p["chips"], key=lambda c: c["b"])]
-close(1 if order == ["Radiochromic film", "LiF TLD", "Al<sub>2</sub>O<sub>3</sub>:C OSLD", "Silver-halide film"] else 0, 1, 0, "the keyed rank order")
 
 for b in bad: print("FAIL", b)
 print(f"numbers_dosimeters: {n} numbers re-derived"); print("numbers_dosimeters: PASS" if not bad else f"numbers_dosimeters: {len(bad)} FAILURES"); sys.exit(1 if bad else 0)

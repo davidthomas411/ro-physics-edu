@@ -44,15 +44,10 @@ TOPIC = dict(
     cards=[
         C("Which decay occurs in a neutron-rich nucleus, and what changes?", "β⁻: a neutron becomes a proton. Z increases by 1, A is unchanged, and an electron and an antineutrino are emitted.", fig="nuclide_chart"),
         C("Ra-226 (Z = 88) decays by α emission. Give the daughter's Z and A.", "Rn-222, with Z = 86 and A = 222: α decay lowers Z by 2 and A by 4."),
-        C("Co-60 (Z = 27) decays by β⁻. What is produced and what is then emitted?", "Ni-60 (Z = 28) in an excited state, which emits γ rays of 1.17 and 1.33 MeV."),
         C("A proton-rich nucleus can decay by β⁺ or electron capture. What decides which can occur?", "β⁺ needs the parent–daughter atomic mass difference to exceed 2m<sub>e</sub>c² = 1.022 MeV. Below that only EC is possible. Above it both can occur."),
-        C("What happens to a positron after β⁺ decay?", "It slows down, annihilates with an electron, and produces two 511 keV photons emitted at about 180° (the basis of PET)."),
-        C("Why is the β⁻ energy spectrum continuous, and what is the mean energy?", "The decay energy is shared between the electron and the antineutrino. The mean β energy is about one third of E<sub>max</sub>."),
         C("How do γ emission and internal conversion differ?", ["Both release nuclear excitation energy without changing Z or A.", "γ emission gives a photon. Internal conversion gives the energy to an orbital electron, ejected with E<sub>γ</sub> minus its binding energy."]),
-        C("What are Auger electrons, and when do they matter?", "Low-energy electrons emitted when a vacancy (after EC or internal conversion) is filled and the energy goes to another orbital electron instead of an x-ray. They deposit energy within nanometres to micrometres, so they matter when the decay is next to DNA."),
         C("How does I-125 decay, and what photons result?", "By electron capture to an excited Te-125 state. The emissions are a 35.5 keV γ ray and Te characteristic x-rays of about 27–31 keV."),
         C("Ir-192 decays by which modes, and what photon energies result?", "β⁻ (about 95%) to Pt-192 and electron capture (about 5%) to Os-192. Many γ lines from 0.14 to 1.06 MeV; the mean photon energy is about 0.38–0.40 MeV."),
-        C("Which nuclide emits the 662 keV photon in a Cs-137 source?", "Ba-137m, the daughter (T<sub>1/2</sub> 2.55 min), which is fed by about 94% of Cs-137 decays."),
         C("Why does α decay deposit its energy over a short distance?", "An α particle is heavy and doubly charged, so its LET is high and its range in tissue is under 0.1 mm."),
     ],
 )

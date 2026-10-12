@@ -50,7 +50,6 @@ TOPIC = dict(
         C("How big is a nucleus compared with an atom?", "About 10<sup>−15</sup> m against 10<sup>−10</sup> m, a ratio of roughly 1 : 100,000."),
         C("What holds the nucleus together, and why do heavy nuclei contain extra neutrons?", "The strong force, which is attractive but short range. Neutrons add attraction without Coulomb repulsion, so heavy stable nuclei have N > Z (Pb-208: N/Z = 1.5)."),
         C("Define mass defect and binding energy.", "Mass defect: the separate nucleons weigh more than the nucleus. Binding energy: the energy equivalent of that difference, the work needed to disassemble the nucleus."),
-        C("How is binding energy computed from atomic masses?", "BE = [Z·M(<sup>1</sup>H) + N·m<sub>n</sub> − M(atom)] × 931.5 MeV/u. The hydrogen atom mass balances the electron masses."),
         C("What is the binding energy of the deuteron?", f"{be_h2:.2f} MeV in total, {be_h2 / 2:.2f} MeV per nucleon."),
         C("Describe the shape of the binding-energy-per-nucleon curve.", "Steep rise for light nuclei, a broad peak near Fe-56 and Ni-62 (about 8.8 MeV), then a slow decline to about 7.6 MeV for uranium.", fig="be_curve"),
         C("Why do both fusion and fission release energy?", "Both move nuclei toward the peak of the curve, where they are more tightly bound. The extra binding energy is released.", fig="be_curve"),
@@ -66,11 +65,6 @@ PROBLEMS = [
        "The Coulomb force pushes protons apart. At nuclear distances the short-range strong force between nucleons exceeds it and binds them.", lvl="Easy"),
     PR("Tc-99m and Tc-99 are best described as:", "isomers", ["isotopes of different elements", "isobars", "isotones"],
        "They have the same Z and A and differ in the energy state of the nucleus, which defines isomers. They are also isotopes of one element, but isomer is the specific relationship.", lvl="Easy"),
-    PR("Which pair are isobars?", "Co-60 and Ni-60", ["Co-60 and Co-59", "Ni-60 and Ni-62", "Ni-60 and Zn-62"],
-       "Isobars share A. Co-60 and Ni-60 both have A = 60 with different Z. The Co and Ni pairs are isotopes, and Ni-60 and Zn-62 differ in A.", lvl="Moderate"),
-    PRN(STEM("", ["M(<sup>1</sup>H) = 1.007825 u", "m<sub>n</sub> = 1.008665 u", "M(<sup>2</sup>H) = 2.014102 u"], "What is the [[binding energy]] of the deuteron?"), be_h2, [be_h2 / 2, 2 * be_h2, calc.ME], "{:.2f} MeV",
-        f"Δm = {dm_h2:.6f} u, so BE = {dm_h2:.6f} × 931.5 = {be_h2:.2f} MeV. Half of that, {be_h2 / 2:.2f} MeV, is the value per nucleon.", lvl="Moderate",
-        calc=CALC("MeV", [TILE("M(¹H)", 1.007825, "u", id="H1"), TILE("mₙ", 1.008665, "u", id="n"), TILE("M(²H)", 2.014102, "u", id="H2"), CONV("u", "MeV", 931.5), TILE("mₑ", 0.000549, "u", id="me")], ops=("×", "÷", "+", "−", "(", ")"), solution=["(", "H1", "+", "n", "−", "H2", ")", "×", "u→MeV"])),
     PRN(f"The He-4 nucleus has a total binding energy of <v>{be_he4:.3f} MeV</v>. What is its <f>binding energy per nucleon</f>?", be_he4 / 4, [be_he4 / 8, be_he4 / 2, be_he4], "{:.2f} MeV",
         f"{be_he4:.3f} MeV / 4 nucleons = {be_he4 / 4:.2f} MeV per nucleon.", lvl="Moderate"),
     PR("Why do heavy stable nuclei contain more neutrons than protons?", "Extra neutrons add strong-force attraction without adding Coulomb repulsion",
@@ -83,13 +77,9 @@ PROBLEMS = [
        "Any change that increases the binding energy per nucleon releases energy. Fusing nuclei at the peak would move them down the curve and need energy.", lvl="Moderate"),
     PRN(STEM("", ["U-235: 7.6 MeV per nucleon", "fission fragments: 8.5 MeV per nucleon"], "Estimate the [[energy released]] per fission."), fis, [fis / 10, fis / 2, fis * 2], "{:.0f} MeV",
         f"235 nucleons × (8.5 − 7.6) MeV = {fis:.0f} MeV.", lvl="Challenging"),
-    PRN(STEM("", ["M(O-16) = 15.994915 u", "M(<sup>1</sup>H) = 1.007825 u", "m<sub>n</sub> = 1.008665 u"], "What is the [[binding energy per nucleon]] of O-16?"), be_o16 / 16, [be_o16 / 32, be_o16 / 8, be_o16], "{:.2f} MeV",
-        f"Δm = 8(1.007825) + 8(1.008665) − 15.994915 = {8 * calc.M_H1 + 8 * calc.M_N - calc.M_O16:.6f} u, so BE = {be_o16:.1f} MeV. Per nucleon: {be_o16:.1f}/16 = {be_o16 / 16:.2f} MeV.", lvl="Challenging"),
-    PRN(STEM("", ["D–T fusion: 17.6 MeV from 5 nucleons", "U-235 fission: about 200 MeV from 235 nucleons"], "Fusion releases how many [[times more energy per nucleon]]?"), dt_per_nuc / u_per_nuc, [1.0, 0.24, 41.0], "{:.1f}",
-        f"Fusion: 17.6/5 = {dt_per_nuc:.2f} MeV per nucleon. Fission: 200/235 = {u_per_nuc:.2f} MeV per nucleon. Ratio {dt_per_nuc / u_per_nuc:.1f}.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 4], 1: [3, 8]}
+INLINE = {0: [1, 2, 4, 10], 1: [3, 6, 11]}
 
 TERMS = ['nuclide', 'isomer', 'strong force', 'mass defect', 'binding energy']
 
@@ -103,35 +93,23 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting question
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Is each pair of nuclides isotopes, isotones, isobars, or isomers?", ["Isotopes", "Isotones", "Isobars", "Isomers"],
          [("C-12 and C-14", 0), ("I-125 and I-131", 0), ("C-14 and N-15", 1), ("I-131 and Xe-132", 1), ("C-14 and N-14", 2), ("Mo-99 and Tc-99", 2), ("Tc-99m and Tc-99", 3), ("Co-60m and Co-60", 3)],
          "Isotopes share Z, so they are the same element. Isotones share N: C-14 has 6 protons and 8 neutrons and N-15 has 7 and 8. Isobars share A: C-14 and N-14 are both A = 14. Isomers are the same nuclide in different energy states, with the same Z and A.", lvl="Moderate"),
 ]
-INLINE.setdefault(0, []).append(_n0 + 1)
 
 
 # ---------------------------------------------------------------- tap-the-figure questions
 _zn = {5: range(5, 9), 6: range(4, 9), 7: range(5, 10), 8: range(6, 10)}; _sy = {5: "B", 6: "C", 7: "N", 8: "O"}
 _chart = FS(x=dict(min=3.5, max=9.5, ticks=[4, 5, 6, 7, 8, 9], label="Neutron number N"), y=dict(min=4.5, max=8.5, ticks=[5, 6, 7, 8], label="Proton number Z"),
             cells=[(n, z, f"{_sy[z]}-{z + n}") for z, ns in _zn.items() for n in ns], h=300, label="A small part of the chart of the nuclides")
-_n1 = len(PROBLEMS)
 PROBLEMS += [
-    FIGQ(STEM("A small part of the chart of the nuclides. Each square is one nuclide.", ["reference nuclide: C-14 (Z = 6, N = 8)"], "Tap the [[isotone of C-14]] in the nitrogen row (Z = 7)."), _chart, [(7.5, 8.5, 6.5, 7.5)],
-         "Isotones have the same number of neutrons. C-14 has N = 8, so the isotone in the nitrogen row is N-15 (7 protons, 8 neutrons). It sits directly above C-14 in the chart.", lvl="Moderate", note="N-15"),
-    FIGQ(STEM("A chart of the nuclides.", ["reference nuclide: C-14 (A = 14)"], "Tap the [[isobar of C-14]] in the nitrogen row (Z = 7)."), _chart, [(6.5, 7.5, 6.5, 7.5)],
-         "Isobars have the same mass number A = Z + N. In the nitrogen row, A = 14 means N = 7, so the isobar is N-14. Isobars lie along a diagonal in the chart.", lvl="Moderate", note="N-14"),
 ]
-INLINE.setdefault(0, []).extend([_n1 + 1, _n1 + 2])
 
 
 # ---------------------------------------------------------------- the four forces, and magic numbers
-_n2 = len(PROBLEMS)
 PROBLEMS += [
     PR("Which list orders the four fundamental forces from the strongest to the weakest?", "strong, electromagnetic, weak, gravitational", ["strong, weak, electromagnetic, gravitational", "electromagnetic, strong, weak, gravitational", "strong, electromagnetic, gravitational, weak"],
        "The strong force binds nucleons and is the strongest. The electromagnetic force comes next, then the weak force, which acts in beta decay, and gravity is by far the weakest.", lvl="Easy"),
-    PR("Which nucleus is especially stable because both its proton number and its neutron number are magic numbers?", "Pb-208, with 82 protons and 126 neutrons", ["Co-60, with 27 protons and 33 neutrons", "Ir-192, with 77 protons and 115 neutrons", "I-131, with 53 protons and 78 neutrons"],
-       "The magic numbers are 2, 8, 20, 28, 50, 82, and 126, and a nucleus with a closed shell of protons and of neutrons is especially stable. Pb-208 has 82 protons and 126 neutrons, and the other nuclei have neither number magic.", lvl="Moderate"),
 ]
-INLINE.setdefault(1, []).extend([_n2 + 1, _n2 + 2])

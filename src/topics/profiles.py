@@ -71,17 +71,13 @@ PROBLEMS = [
         "Geometric, transmission, and radiological effects shape the penumbra. The calibration and the prescription scale the dose but do not change its fall-off.", lvl="Moderate"),
     PR("Close to the edge of a treatment field, the out-of-field dose comes mainly from:", "photons scattered out of the field", ["leakage through the collimators", "activation of the linac head", "back-scatter from the couch"],
        "Scatter dominates near the edge. Leakage through the head becomes the main source farther from the field.", lvl="Moderate"),
-    PRN(STEM("Two collimator positions for the same linac.", ["source size = 3 mm", "SCD = 40 cm in case A, 50 cm in case B", "plane at 100 cm from the source"], "The geometric penumbra in case A is how many [[times that in case B]]?"), r_scd, [1.25, 0.8, 1.56], "{:.2f}",
-        f"Case A: 3 × (100 / 40 − 1) = {w_c:.1f} mm. Case B: 3 × (100 / 50 − 1) = {w_a:.1f} mm. The ratio is {r_scd:.2f}. The ratio of the distances (1.25) is not the ratio of the penumbras, because of the −1.", lvl="Challenging"),
     PR("A beam is flat at 10 cm depth. At 20 cm the profile is:", "higher at the center than at the edges", ["flat", "higher at the edges than at the center", "asymmetric"],
        "Scatter increases on the axis with depth, and the harder central spectrum falls off more slowly, so the center rises relative to the edges.", lvl="Challenging"),
-    PRN(STEM("A linac with a finite source.", ["source size = 3 mm", "SCD = 50 cm", "SSD = 100 cm"], "The geometric penumbra at 20 cm depth is how many [[times that at 5 cm depth]]?"), r_dep, [120 / 105, 4.0, 1.40], "{:.2f}",
-        f"w ∝ (f + d) / SCD − 1. At 20 cm: 120 / 50 − 1 = 1.40. At 5 cm: 105 / 50 − 1 = 1.10. The ratio is {r_dep:.2f}. The ratio of the distances (1.14) is smaller because of the −1.", lvl="Challenging"),
     PR("Which statement about out-of-field dose is correct?", "Planning systems predict it poorly far from the field, where leakage dominates", ["Planning systems are most accurate far from the field", "It is caused only by scatter in the patient", "It does not depend on the energy of the beam"],
        "Scatter dominates near the edge and head leakage far away. The model parameters of a planning system are fitted to the beam inside the field, so far-out doses are unreliable.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 5, 6], 1: [3, 4], 2: [8]}
+INLINE = {0: [1, 2, 5, 6, 11, 12], 1: [3, 4, 13], 2: [8]}
 
 TERMS = ['penumbra', 'geometric penumbra', 'horns', 'flattening filter']
 
@@ -95,7 +91,6 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 _edge = lambda x: 100 * sig(x / 0.35)
 _k = lambda d: calc_k(d)
 def calc_k(d):                                                # profile curvature: +0.04 at d_max, 0 at 10 cm, -0.05 at 20 cm (schematic)
@@ -105,20 +100,13 @@ PROBLEMS += [
     SORT("Does each change widen or narrow the penumbra?", ["Widens it", "Narrows it"],
          [("Larger source size", 0), ("Smaller focal spot", 1), ("Larger SSD", 0), ("Greater depth", 0), ("Larger source-to-collimator distance", 1), ("Lower photon energy", 1), ("Lung instead of muscle", 0), ("Collimator closer to the source", 0)],
          "Geometric penumbra grows with source size, SSD, and depth, and falls with source-to-collimator distance. Radiological penumbra grows with electron range, which is larger at higher energy and in lung.", lvl="Moderate"),
-    TYPED(STEM("A linac with a finite source.", ["source size = 2 mm", "SCD = 45 cm", "plane at 105 cm from the source"], "What is the [[geometric penumbra]]?"), w_typed, 0.01, "mm",
-          f"w = s [ (f + d) / SCD − 1 ] = 2 × (105 / 45 − 1) = {w_typed:.2f} mm.", lvl="Moderate"),
     FIGQ(STEM("The graph shows a beam profile across the edge of a field. The position is measured from the 50% point.", [], "Tap the [[field edge]]."),
          FS(x=dict(min=-2, max=2, ticks=[-2, -1, 0, 1, 2], label="Position (cm)"), y=dict(min=0, max=100, ticks=[0, 20, 50, 80, 100], label="Dose (% of the central axis)", fmt="pct"), series=[dict(pts=PTS(_edge, -2, 2), color="plot-1")], xunit=" cm", xdec=2, xname="Position", label="Dose profile across a field edge"),
          [(-0.15, 0.15)], "The field edge is defined at the 50% dose point. The 80% and 20% points lie on either side of it, about 0.3 cm away for this edge, and the distance between them is the penumbra.", lvl="Easy", note="the 50% point"),
-    FIGQ(STEM("A linac beam is flat at a reference depth of 10 cm. The graph shows the ratio of the dose near the field edge to the dose on the axis.", [], "Tap the depth at which the [[horns are largest]]."),
-         FS(x=dict(min=1.5, max=20, ticks=[2, 5, 10, 15, 20], label="Depth (cm)"), y=dict(min=0.9, max=1.1, ticks=[0.9, 0.95, 1, 1.05, 1.1], label="Edge ÷ axis dose"), series=[dict(pts=PTS(_ratio, 1.5, 20), color="plot-1")], xunit=" cm", xdec=1, xname="Depth", label="Edge-to-axis dose ratio against depth (schematic)"),
-         [(1.5, 3.5)], "Horns are higher dose near the field edges than on the axis, so they appear where the ratio is above 1. That is at depths shallower than the reference depth, and the ratio is largest at the shallowest depth, d<sub>max</sub>, where the beam is most over-corrected at the edges. At 10 cm the ratio is 1 (flat), and deeper it falls below 1, which means the center is higher. The curve is schematic.", lvl="Easy", note="at d<sub>max</sub>, about 1.5 cm"),
 ]
-INLINE = {0: [1, 2, 5, 6, _n0 + 1, _n0 + 3], 1: [3, 4, _n0 + 4], 2: [8]}
 
 
 # ---------------------------------------------------------------- flattening-filter-free beams
-_nf = len(PROBLEMS)
 t_flat, t_fff = 2400 / 600, 2400 / 1400
 PROBLEMS += [
     PR("The profile of a flattening-filter-free beam, measured across the field, is:", "peaked on the axis and falling toward the edges", ["flat to within a few percent at 10 cm depth", "higher at the edges than on the axis, with horns", "the same as that of a flattened beam, with a different energy"],
@@ -126,7 +114,4 @@ PROBLEMS += [
     PRM("Which of the following are expected of a flattening-filter-free beam, compared with a flattened beam of the same nominal energy and field size?", ["A higher dose rate on the central axis", "Less variation of the output with the field size, because there is less head scatter"],
         ["A harder mean photon energy", "A flat profile at 10 cm depth", "A much wider penumbra"],
         "Without the filter the dose rate on the axis rises by a factor of about 2 to 4. The filter hardens the beam, so the spectrum is softer without it, and the profile is peaked. Head scatter falls, so the output varies less with field size. The penumbra is similar.", lvl="Moderate"),
-    PRN(STEM("A stereotactic fraction needs 2400 MU. A flattened beam delivers 600 MU/min and an FFF beam 1400 MU/min (illustrative).", [], "By how many [[minutes]] does the FFF beam shorten the beam-on time?"), t_flat - t_fff, [t_fff, t_flat, 2400 / (1400 - 600)], "{:.1f} min",
-        f"The flattened beam needs 2400 / 600 = {t_flat:.1f} min and the FFF beam 2400 / 1400 = {t_fff:.2f} min, so the saving is {t_flat - t_fff:.1f} min. The time with the FFF beam alone is {t_fff:.1f} min, the time with the flattened beam alone is {t_flat:.1f} min, and dividing by the difference of the dose rates gives {2400 / (1400 - 600):.1f} min.", lvl="Moderate"),
 ]
-INLINE.setdefault(1, []).append(_nf + 1)

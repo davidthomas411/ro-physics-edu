@@ -156,14 +156,7 @@ TOPIC = dict(
         F("Neutron energy classes", [f"Thermal: below about 0.5 eV; 0.025 eV at about {round(v_th, -2):,.0f} m/s at 20 °C", "Epithermal: about 0.5 eV to 10 keV", "Fast: above about 10 keV"]),
         F("Largest energy transfer in elastic scattering", f"4A/(1 + A)² of the neutron energy, in a head-on collision: all of it to hydrogen, {100 * f_c:.0f}% to carbon, {100 * f_o:.0f}% to oxygen, {100 * f_pb:.0f}% to lead.",
           w=[f"Carbon: 48/169 = {f_c:.3f}", f"Oxygen: 64/289 = {f_o:.3f}", f"Lead: 832/209² = {f_pb:.4f}"]),
-        F("Collisions to thermal energy", f"n = ln(E<sub>0</sub>/E)/ξ. From 2 MeV to 0.025 eV: about {n_h:.0f} in hydrogen, {n_w:.0f} in water, {n_c:.0f} in carbon.",
-          w=[f"ln(8.0 × 10<sup>7</sup>) = {L2:.2f}", f"ξ: hydrogen 1, water 0.92, carbon {xi_c:.3f}"]),
         F("Thermal-neutron capture in tissue", f"<sup>1</sup>H(n,γ), {S_H:.2f} b: a {Q_H:.1f} MeV γ ray that travels far. <sup>14</sup>N(n,p), {S_N:.1f} b: a {e_pn:.2f} MeV proton that stops within about 10 µm."),
-        F("Capture reactions with charged products", [f"<sup>10</sup>B(n,α)<sup>7</sup>Li: {S_B:,.0f} b, {Q_B1:.2f} MeV in {100 * F_B1:.0f}% of captures", f"<sup>3</sup>He(n,p)<sup>3</sup>H: {S_HE:,.0f} b, {Q_HE:.2f} MeV"]),
-        F("Fast-neutron kerma in soft tissue", "Mostly from recoil protons: about 90% or more from hydrogen below a few MeV. Fat absorbs more per gram than muscle, and bone less."),
-        F("Shape of the neutron w<sub>R</sub> curve", f"About {wr_th:.1f} for thermal neutrons, peaking near {wr_1:.0f} at about 1 MeV, lower above as the recoil protons get faster (ICRP 103)."),
-        F("Boron neutron capture therapy", f"B-10 carried into tumour cells and an epithermal beam that becomes thermal in tissue. The α particle ({e_a:.2f} MeV) and Li-7 ion ({e_li:.2f} MeV) travel 5 to 9 µm, about one cell diameter."),
-        F("Neutron detection by capture", "BF<sub>3</sub> and He-3 counters: each capture deposits 2.3 or 0.76 MeV, far above photon pulses. A hydrogen-rich moderator slows fast neutrons so the counter can capture them."),
     ],
 )
 
@@ -179,8 +172,6 @@ PROBLEMS = [
        "It has no charge, so it interacts only with nuclei, a small target",
        ["Its larger mass keeps atomic electrons from deflecting it", "It moves too fast for atomic electrons to respond", "Its magnetic moment repels the atomic electrons"],
        "Ionization along a track needs the Coulomb force, which acts on every electron a charged particle passes. The neutron feels only the short-range nuclear force, so it interacts only when it comes close to a nucleus. Mass alone does not prevent ionization, since a proton of nearly the same mass ionizes densely, and the 2 MeV neutron is far slower than the 2 MeV electron.", lvl="Easy"),
-    PRN(STEM("The capture cross section of B-10 follows the 1/v law at low energies.", [f"σ at 0.025 eV = {S_B:,.0f} b", "neutron energy = 1.0 eV"], "What is the [[capture cross section]] at 1.0 eV?"), s_1ev, [s_1ev_e, S_B, s_1ev_inv], "{:,.0f} b",
-        f"σ varies as 1/v, that is as E<sup>−1/2</sup>, so σ = {S_B:,.0f} × √(0.025 / 1.0) = {S_B:,.0f} × {math.sqrt(E_TH):.4f} = {s_1ev:,.0f} b. Scaling with 1/E gives {s_1ev_e:,.0f} b, leaving the value unchanged gives {S_B:,.0f} b, and inverting the square root gives {s_1ev_inv:,.0f} b.", lvl="Moderate"),
     # ---- 3-5: elastic scattering and moderation
     PR(STEM(ask="Why is hydrogen the most effective nucleus for slowing fast neutrons?"),
        "Its mass nearly equals the neutron's, so one collision can transfer all the energy",
@@ -188,8 +179,6 @@ PROBLEMS = [
        f"The largest transfer in an elastic collision is 4A/(1 + A)², which is 1 for A = 1 and {f_o:.2f} for oxygen. A neutron does not ionize, hydrogen captures mainly slow neutrons and with a small cross section ({S_H:.2f} b), and an uncharged neutron feels no Coulomb repulsion.", lvl="Easy"),
     PRN(STEM("A fast neutron scatters elastically from a Pb-208 nucleus (Z = 82).", [], "What is the [[largest fraction of its energy]] that the neutron can lose in one collision?"), 100 * f_pb, [100 * ml_pb, 100 * e_max(82), 100 * alpha(208)], "{:.2f}%",
         f"4A/(1 + A)² = 4 × 208 / 209² = {f_pb:.4f}, or {100 * f_pb:.2f}%. The mean loss, (1 − α)/2, is half of that ({100 * ml_pb:.2f}%); using Z = 82 in place of A gives {100 * e_max(82):.2f}%; and {100 * alpha(208):.2f}% is the fraction the neutron keeps.", lvl="Challenging"),
-    PRN(STEM("A 1.0 MeV neutron slows to 0.025 eV in graphite by elastic scattering.", [f"ξ for carbon = {xi_c:.3f}"], "About how many [[collisions]] does it need?"), n_g, [n_g_log10, n_g_mean, n_g_h], "{:.0f}",
-        f"n = ln(1.0 × 10<sup>6</sup> / 0.025) / ξ = {L1:.2f} / {xi_c:.3f} = {n_g:.0f}. Using log<sub>10</sub> gives {n_g_log10:.0f}, using the mean fractional loss ({ml_c:.3f}) in place of ξ gives {n_g_mean:.0f}, and taking ξ = 1, the value for hydrogen, gives {n_g_h:.0f}.", lvl="Moderate"),
     # ---- 6-8: capture and other reactions
     PR(STEM(ask="What distinguishes inelastic from elastic scattering of a neutron?"),
        "The struck nucleus is left excited and emits a γ ray",
@@ -199,30 +188,15 @@ PROBLEMS = [
        "Capture by hydrogen, emitting a 2.2 MeV γ ray",
        ["Capture by oxygen, emitting a 4.1 MeV γ ray", "Capture by hydrogen, emitting a 0.48 MeV γ ray", "Capture by oxygen, emitting a 0.58 MeV proton"],
        f"Hydrogen captures thermal neutrons with a cross section of {S_H:.2f} b and oxygen with about {S_O:.4f} b, so {100 * cap_h_frac:.2f}% of the captures in water are H(n,γ)H-2, each with a 2.2 MeV γ ray. The 0.48 MeV γ ray belongs to B-10 capture, and a 0.58 MeV proton to N-14(n,p).", lvl="Easy"),
-    PRM(STEM(ask="Which of these nuclides detect slow neutrons through the charged particles of a capture reaction?"),
-        ["B-10", "He-3", "Li-6"], ["Cd-113", "H-1", "C-12"],
-        f"B-10(n,α)Li-7, He-3(n,p)H-3, and Li-6(n,α)H-3 give {Q_HE:.2f} to {Q_LI:.2f} MeV to charged particles, with cross sections of {S_LI:.0f} to {S_HE:,.0f} b. Cd-113 and H-1 capture by (n,γ) and emit γ rays, and C-12 hardly captures at all.", lvl="Easy"),
     # ---- 9-11: kerma, dose, and radiation weighting
-    PR(STEM("Adipose tissue, muscle, and cortical bone receive the same fluence of 1 MeV neutrons.", [], "How does the [[absorbed dose per gram]] compare?"),
-       "Fat > muscle > bone, following the hydrogen content",
-       ["Bone > muscle > fat, following the atomic number", "About equal, following the electrons per gram", "Muscle > fat > bone, following the water content"],
-       f"Fast neutrons give most of their kerma to recoil protons, so the dose per gram follows the hydrogen per gram: about {H_FAT}% in fat, {H_MUS}% in muscle, and {H_BONE}% in bone. The atomic-number order belongs to kilovoltage photons and the near-equal doses to megavoltage photons, and water holds only part of the hydrogen in fat.", lvl="Challenging"),
-    PR(STEM("Thermal neutrons irradiate a 1 g tissue sample and, in a separate exposure, the trunk of an adult.", [], "Which reaction gives most of the [[energy absorbed]] in each?"),
-       "N(n,p) protons in the sample; H(n,γ) γ rays in the trunk",
-       ["H(n,γ) γ rays in both the sample and the trunk", "N(n,p) protons in both the sample and the trunk", "H(n,γ) γ rays in the sample; N(n,p) protons in the trunk"],
-       f"Hydrogen capture releases about {r_hn:.0f} times as much energy as nitrogen capture, but as 2.2 MeV γ rays that travel tens of centimetres: they escape a 1 g sample and are largely absorbed in a trunk. The {e_pn:.2f} MeV proton from nitrogen deposits its energy within about 10 µm wherever the capture occurs, so it dominates only where the γ rays escape.", lvl="Challenging"),
     PR(STEM(ask="How does the radiation weighting factor w<sub>R</sub> differ from the quality factor Q?"),
        "w<sub>R</sub> is set by the radiation reaching the body; Q by the LET at a point",
        ["w<sub>R</sub> is set by the tissue irradiated; Q by the radiation type", "w<sub>R</sub> applies only to neutrons; Q applies to every radiation", "w<sub>R</sub> is measured with a survey meter; Q is calculated"],
        "ICRP 60 and 103 assign w<sub>R</sub> by the type and energy of the radiation incident on the body, and it multiplies the mean absorbed dose in an organ. Q(L) depends on the LET of the charged particles at a point and gives the dose equivalent used for operational quantities, which survey meters estimate. The tissue enters through w<sub>T</sub>, not w<sub>R</sub>, and w<sub>R</sub> covers every radiation.", lvl="Moderate"),
     # ---- 12: neutrons in radiotherapy
-    PR(STEM("In boron neutron capture therapy, thermal neutrons are captured throughout the irradiated tissue.", [], "Why is the dose from boron capture concentrated in the cells that take up B-10?"),
-       "The α particle and lithium ion stop within about one cell diameter",
-       ["Thermal neutrons are captured only inside the tumour cells", "The 0.48 MeV γ ray deposits its energy inside the cell", "Boron slows the neutrons until they stop inside the cell"],
-       f"The {e_a:.2f} MeV α particle and the {e_li:.2f} MeV lithium ion travel about 5 to 9 µm, so their energy stays in or next to the cell where the capture happened. Neutrons are captured everywhere, mostly by hydrogen and nitrogen in normal tissue; the {G_B:.2f} MeV γ ray leaves the cell; and boron absorbs neutrons rather than slowing them.", lvl="Moderate"),
 ]
 
-INLINE = {0: [1, 2], 1: [3, 4, 5], 2: [6, 7, 8], 3: [9, 10, 11]}   # the question on the last section forms the practice set
+INLINE = {0: [1], 1: [2, 3], 2: [4, 5], 3: [6]}
 
 TERMS = ["macroscopic cross section", "logarithmic energy decrement", "moderator", "inelastic scattering", "radiative capture", "activation", "quality factor"]
 

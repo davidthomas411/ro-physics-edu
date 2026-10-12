@@ -126,15 +126,6 @@ TOPIC = dict(
            f"{m_ex:.2f} mm. Adding the components directly gives Σ = {sum(SYS_EX):.1f} mm and σ = {sum(RND_EX):.1f} mm, and a margin of {m_lin:.1f} mm."),
     ],
     cards=[
-        F("CT simulator", "A CT scanner with a bore of about 80 to 90 cm, a flat couch top indexed like the treatment couch, and moveable external lasers."),
-        F("TG-66 daily checks", "Gantry lasers to the imaging plane within ±2 mm, the CT number of water 0 ± 5 HU, and the in-plane spatial integrity within ±1 mm."),
-        F("HU to electron density curve", "Measured with a phantom of inserts for each kVp used for planning, and checked annually (TG-66)."),
-        F("Contrast in the planning CT", "Absent at treatment, so the contrast-filled regions are overridden to soft tissue, or the dose is calculated on a scan without contrast."),
-        F("Rigid registration", "Six parameters: three translations and three rotations. Every distance in the image is kept."),
-        F("Mutual information", "A similarity measure that needs no equal intensities for the same tissue, so it registers CT with MR or PET."),
-        F("TG-132 registration checks", "Commission with phantoms of known transformation, then check each clinical registration: matched landmarks agree within about one voxel, 2 to 3 mm."),
-        F("MR-only planning", "MR voxels hold no electron density, so the densities come from bulk assignment or a synthetic CT."),
-        F("PET threshold contours", "A fixed SUV, such as 2.5, or a fraction of SUVmax, such as 40% to 50%. The volume depends on the lesion size, the contrast, and the reconstruction."),
         F("Free-breathing CT of a moving tumour", "Each slice catches a different moment of the breath, so the tumour can look stretched, shortened, or split."),
         F("Phase and amplitude sorting", "Usually 10 bins. Phase sorting divides each breath by time, and amplitude sorting by the height of the breathing signal."),
         F("MIP and AIP", "The MIP shows the volume a tumour sweeps through lung, but not against the diaphragm or chest wall. The AIP is used for the dose."),
@@ -149,31 +140,8 @@ TOPIC = dict(
 
 PROBLEMS = [
     # 1 to 3: CT simulation
-    PR(STEM("The daily check of a CT simulator finds the gantry lasers 3 mm from the centre of the imaging plane.", [], "What is the appropriate action?"),
-       "Realign the lasers before scanning patients, since TG-66 allows ±2 mm", ["Continue scanning, since TG-66 allows ±5 mm", "Continue scanning and realign the lasers at the monthly check", "Recalibrate the CT number of water before scanning"],
-       "TG-66 sets ±2 mm for the daily alignment of the gantry lasers with the imaging plane, so a 3 mm error is corrected before marks are placed on patients. Waiting for the monthly check leaves every reference mark in between misplaced, and the CT number of water is a separate check with a tolerance of 0 ± 5 HU.", lvl="Easy"),
-    PR(STEM("A CT simulator has one HU-to-electron-density curve, measured at 120 kVp. A large patient is scanned at 140 kVp to lower the noise, and the plan uses the 120 kVp curve.", [], "What is the effect on the dose calculation?"),
-       "Bone is given the wrong density, because its HU changes with the tube voltage", ["None, because water reads 0 HU at every tube voltage", "Soft tissue is given the wrong density, while bone is unaffected", "Only the noise changes, and the dose calculation ignores noise"],
-       "The photoelectric effect, which rises steeply with the atomic number, matters less in a harder beam, so the HU of bone falls as the tube voltage rises and the 120 kVp curve gives bone scanned at 140 kVp too low a density. Water reads 0 HU at any tube voltage by definition, which is why the error shows in bone; each kVp used for planning needs its own curve.", lvl="Moderate"),
-    PRM(STEM("A patient is scanned for planning with intravenous and oral contrast, which will not be present at treatment.", [], "Which of the following are appropriate for the dose calculation?"),
-        ["Override the contrast-filled regions to a soft-tissue value", "Calculate the dose on a scan without contrast, registered to the contrast scan"],
-        ["Rescan at a lower kVp so that the iodine attenuates less", "Assign the contrast-filled bowel the density of cortical bone"],
-        "Contrast raises the HU of vessels and bowel, so the planning system would treat them as denser than they are at treatment. An override or a scan without contrast removes the error, which is usually less than about 2% but larger for dense contrast in a beam. A lower kVp moves the spectrum toward the K-edge of iodine at 33 keV, so the iodine attenuates more, not less.", lvl="Moderate"),
 
     # 4 to 8: registration, MR, and PET
-    PR("How many parameters define a rigid registration between two three-dimensional images?", "Six: three translations and three rotations",
-       ["Three: the translations only", "Nine: translations, rotations, and scalings", "Twelve: translations, rotations, scalings, and shears"],
-       "A rigid transformation moves and turns the image without changing any distance, which takes three translations and three rotations. Adding a scaling along each axis gives nine parameters, and adding shears gives the twelve of an affine transformation, which no longer keeps distances.", lvl="Easy"),
-    PR(STEM("An MR is registered to the planning CT by an intensity-based method.", [], "Which similarity measure suits this pair of images?"),
-       "Mutual information, because the images need not share intensities", ["Sum of squared differences, because it compares intensities directly", "Cross-correlation of the HU, because MR intensities are in HU", "Mean HU inside the target, because it is stable between scans"],
-       "The same tissue has unrelated values on CT and MR. Mutual information is highest when the intensity in one image best predicts the intensity in the other, whatever the two values are. MR intensities are not calibrated in HU, and the sum of squared differences suits two CT scans.", lvl="Easy"),
-    PRN(STEM("A target edge lies 80 mm from the axis of a rigid registration of an MR to the planning CT.", ["tolerated displacement of the edge = 2 mm"], "What is the [[largest rotation error]] that keeps the edge within this?"),
-        q_th, [q_th_rad, q_th_turn, q_th_radial], "{:.2f}°",
-        f"δ = r sin θ ≤ 2 mm gives sin θ ≤ 2 / 80 = {2 / 80:.3f}, so θ ≤ {q_th:.2f}°: a rotation too small to see at the axis already moves the edge by 2 mm. Leaving the angle in radians gives {q_th_rad:.3f}, setting r θ / 360 = δ leaves out the 2π and gives {q_th_turn:.2f}°, and setting the radial change r (1 − cos θ) = δ gives {q_th_radial:.2f}°.", lvl="Moderate"),
-    PRM(STEM("MR images are used with the planning CT for a brain tumour.", [], "Which of the following are limitations of MR for treatment planning?"),
-        ["Its voxel values hold no electron density", "Its geometry is distorted most far from the centre of the magnet"],
-        ["Its soft-tissue contrast is lower than that of CT", "It cannot show a tumour that enhances with gadolinium"],
-        "The MR signal comes from protons and their relaxation, not from attenuation, so the densities come from a registered CT, bulk assignment, or a synthetic CT. Gradient nonlinearity and field inhomogeneity distort the geometry most far from the centre. MR is used for its better soft-tissue contrast, and gadolinium enhancement is one of its strengths.", lvl="Easy"),
     PR(STEM("An FDG PET-CT of a lower-lobe lung tumour that moves 15 mm is used to define the target. The CT of the PET-CT is a fast helical scan in free breathing.", [], "Which statement describes the two images of the tumour?"),
        "The PET shows it smeared along its path; the CT shows it at one instant", ["The PET shows it at end-inhale; the CT shows its mean position", "Both images show it over its full range of motion", "The attenuation correction from the CT removes the motion from the PET"],
        "A PET acquisition lasts minutes, so the counts from a moving lesion spread along its path and its SUVmax falls, while a fast helical CT catches each slice at one moment. The two can disagree in position near the diaphragm, and the attenuation correction taken from the CT is then misplaced at the edge; the correction cannot remove motion from the PET.", lvl="Challenging"),
@@ -186,12 +154,6 @@ PROBLEMS = [
     PR(STEM("A 4D-CT is acquired for a lung tumour that touches the dome of the diaphragm.", [], "Where is the ITV best drawn?"),
        "On the individual phases, because on the MIP the tumour merges with the diaphragm", ["On the MIP, because it always shows the whole swept volume", "On the average intensity projection, because it shows the full motion", "On the end-exhale phase alone, because the tumour rests there longest"],
        "The MIP keeps the highest value of each voxel over the phases. Where the diaphragm, as dense as the tumour, passes through a voxel, the MIP is bright there too, so the edge of the tumour is lost. Contouring the phases avoids this; the average intensity projection blurs the motion and understates its extent, and one phase shows one position.", lvl="Moderate"),
-    PRN(STEM("A helical 4D-CT is planned so that every point stays in the beam for one full breath.", ["gantry rotation time = 0.5 s", "breathing period = 4.0 s"], "What is the highest [[pitch]] that meets this?"),
-        q_p, [4.0 / 0.5, 1.0, q_p / 2], "{:g}",
-        f"A point stays in the beam for the rotation time divided by the pitch, so T<sub>rot</sub> / p ≥ T<sub>breath</sub> gives p ≤ 0.5 / 4.0 = {q_p:g}. At that pitch a 300 mm scan with 24 mm of detector coverage takes {t_scan:.0f} s, against {t_scan1:.2f} s at a pitch of 1. Inverting the ratio gives {4.0 / 0.5:g}, which leaves each point in the beam for {0.5 / 8.0:.4f} s.", lvl="Moderate"),
-    PRN(STEM("A spherical lung tumour moves along a straight line between its end-exhale and end-inhale positions.", [f"diameter = {2 * R2} mm", f"motion: {SI2} mm superior–inferior and {AP2} mm anterior–posterior"], "What is the [[volume of the ITV]], the volume the tumour sweeps?"),
-        q_itv, [q_itv_sph, q_itv_lin, q_itv_box], "{:.2f} cm³",
-        f"The path is √({SI2}² + {AP2}²) = {path2:.1f} mm long. The swept volume is a cylinder of radius {R2} mm and that length with a hemisphere at each end: (4/3)π × {R2}³ + π × {R2}² × {path2:.1f} = {1000 * q_itv:,.0f} mm³ = {q_itv:.2f} cm³, {q_itv / q_itv_sph:.1f} times the tumour. Adding the components, {SI2} + {AP2} = {SI2 + AP2} mm, gives {q_itv_lin:.2f} cm³, and the box that encloses the motion gives {q_itv_box:.2f} cm³.", lvl="Challenging"),
 
     # 13 to 16: managing motion
     PR(STEM("A patient is treated in breath holds with active breathing control.", [], "What sets the level of each breath hold?"),
@@ -227,7 +189,7 @@ PROBLEMS = [
         f"Σ = √(1.5² + 2.0²) = {S_q:.1f} mm and σ = √(2.4² + 3.2²) = {s_q:.1f} mm, so M = 2.5 × {S_q:.1f} + 0.7 × {s_q:.1f} = {q_m:.2f} mm. Adding the components directly gives {margin(1.5 + 2.0, 2.4 + 3.2):.2f} mm, exchanging Σ and σ gives {margin(s_q, S_q):.2f} mm, and leaving out the random errors gives {margin(S_q, 0):.2f} mm.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 7, 8], 2: [9, 10, 11, 12], 3: [13, 14, 15, 16]}
+INLINE = {1: [1], 2: [2, 3], 3: [4, 5, 6, 7]}
 
 TERMS = ["CT simulator", "deformable registration", "mutual information", "synthetic CT", "maximum intensity projection", "duty cycle", "mid-ventilation", "quadrature"]
 

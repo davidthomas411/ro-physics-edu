@@ -67,7 +67,6 @@ TOPIC = dict(
         C("What distinguishes an x-ray from a γ-ray?", "Origin, not energy. γ-rays come from the nucleus; x-rays come from electrons (bremsstrahlung or characteristic transitions)."),
         C("What does doubling the intensity of a monochromatic beam change?", "The number of photons per unit time and area doubles. Each photon's energy and wavelength are unchanged."),
         C("How many joules are in 1 eV? In 1 MeV?", "1 eV = 1.602 × 10<sup>−19</sup> J. 1 MeV = 1.602 × 10<sup>−13</sup> J."),
-        C("What is the wavelength of a 100 keV photon?", f"{lam_100k_pm:.1f} pm (0.0124 nm, 0.124 Å).", w=["λ = 1240 eV·nm / 10<sup>5</sup> eV = 0.0124 nm."]),
         C("State the de Broglie relation and what it says about electron beams.", f"λ = h/p. Particles have wavelengths: a 100 keV electron has {lam_e100_pm:.1f} pm, far below atomic spacing, so electron beams resolve atoms."),
     ],
 )
@@ -85,9 +84,6 @@ PROBLEMS = [
         calc=CALC("J", [TILE("E", 1.0, "MeV", disp="1.0"), CONV("MeV", "eV", 1e6), CONV("eV", "J", 1.602e-19, disp="1.602 × 10⁻¹⁹"), TILE("hc", 1240, "eV·nm")], solution=["E", "×", "MeV→eV", "×", "eV→J"])),
     PRM("Which of these are units of energy?", ["joule", "electron-volt", "kilowatt-hour"], ["watt", "pascal"],
         "Joules, electron-volts, and kilowatt-hours all measure energy. The watt is energy per time (power) and the pascal is pressure.", lvl="Easy"),
-    PRN(STEM("The most energetic photon in a 6 MV x-ray beam.", ["E = 6.0 MeV"], "What is its [[wavelength]]?"), lam_6m_pm, [lam_6m_pm / 10, lam_6m_pm * 10, lam_6m_pm * 100], "{:.3g} pm",
-        f"λ = hc/E = 1240 eV·nm / (6.0 × 10<sup>6</sup> eV) = 2.07 × 10<sup>−4</sup> nm = {lam_6m_pm:.3f} pm.", lvl="Moderate",
-        calc=CALC("pm", [TILE("hc", 1240, "eV·nm"), TILE("E", 6.0, "MeV", disp="6.0"), CONV("MeV", "eV", 1e6), CONV("nm", "pm", 1e3), TILE("h", 4.136e-15, "eV·s", disp="4.136 × 10⁻¹⁵"), TILE("c", 3.00e8, "m/s", disp="3.00 × 10⁸")], solution=["hc", "÷", "E", "÷", "MeV→eV", "×", "nm→pm"])),
     PRN(STEM("A linac is driven at a microwave frequency.", ["f = 2.998 GHz"], "What is the [[free-space wavelength]]?"), lam_lin_cm, [1.0, 3.0, 30.0], "{:.3g} cm",
         "λ = c/ν = (2.998 × 10<sup>8</sup> m/s) / (2.998 × 10<sup>9</sup> s<sup>−1</sup>) = 0.100 m = 10 cm.", lvl="Moderate",
         calc=CALC("cm", [TILE("c", 3.00e8, "m/s", disp="3.00 × 10⁸"), TILE("f", 2.998, "GHz", disp="2.998"), CONV("GHz", "Hz", 1e9), CONV("m", "cm", 100), TILE("h", 4.136e-15, "eV·s", disp="4.136 × 10⁻¹⁵"), TILE("hc", 1240, "eV·nm")], solution=["c", "÷", "f", "÷", "GHz→Hz", "×", "m→cm"])),
@@ -102,21 +98,12 @@ PROBLEMS = [
     PR("The intensity of a monochromatic x-ray beam is doubled with no change in wavelength. What happens?", "The number of photons per second doubles; each photon's energy is unchanged",
        ["The energy of each photon doubles", "The wavelength halves", "Each photon's energy halves because the beam is spread over more photons"],
        "At a fixed photon energy, intensity is proportional to the number of photons. Photon energy is set by wavelength, which did not change.", lvl="Moderate"),
-    PRN("What is the <f>wavelength</f> of a <v>511 keV</v> annihilation photon?", lam_511_pm, [lam_511_pm / 10, lam_511_pm * 10, lam_511_pm * 100], "{:.3g} pm",
-        f"λ = 1240 eV·nm / (5.11 × 10<sup>5</sup> eV) = 2.43 × 10<sup>−3</sup> nm = {lam_511_pm:.2f} pm. This is the Compton wavelength of the electron.", lvl="Challenging",
-        calc=CALC("pm", [TILE("hc", 1240, "eV·nm"), TILE("E", 511, "keV"), CONV("keV", "eV", 1e3), CONV("nm", "pm", 1e3), TILE("h", 4.136e-15, "eV·s", disp="4.136 × 10⁻¹⁵")], solution=["hc", "÷", "E", "÷", "keV→eV", "×", "nm→pm"])),
     PRN(STEM("Compare two photons.", ["x-ray photon: E = 100 keV", "microwave photon: f = 2.45 GHz"], "How many [[times more energy]] does the x-ray photon carry?"), 10, [4, 7, 13], lambda v: f"10<sup>{v}</sup> times",
         f"The microwave photon has E = hν = {sci(e_micro)} eV. The ratio is 10<sup>5</sup> / {sci(e_micro)} = {sci(1e5 / e_micro)}, about 10<sup>10</sup>.", lvl="Challenging",
         calc=CALC("", [TILE("E", 100, "keV"), TILE("h", 4.136e-15, "eV·s", disp="4.136 × 10⁻¹⁵"), TILE("f", 2.45, "GHz", disp="2.45"), CONV("keV", "eV", 1e3), CONV("GHz", "Hz", 1e9)], ops=("×", "÷", "(", ")", "log₁₀("), solution=["log₁₀(", "E", "×", "keV→eV", "÷", "(", "h", "×", "f", "×", "GHz→Hz", ")", ")"])),
-    PR("Which has the shorter wavelength: a 100 keV electron or a 100 keV photon?", f"The electron, at {lam_e100_pm:.2f} pm against {lam_100k_pm:.1f} pm",
-       [f"The photon, at {lam_100k_pm:.1f} pm against {lam_e100_pm:.2f} pm", "They are equal because their energies are equal", "Neither: only photons have a wavelength"],
-       "The electron's wavelength is shorter, because its momentum is greater than E/c. The reversed answer uses the photon's value for the electron, and “only photons have a wavelength” is false because every particle has a de Broglie wavelength.",
-       w=[STEP("Photon wavelength", "λ = hc/E", "λ = 1.240 MeV·pm ÷ 0.100 MeV", f"{lam_100k_pm:.1f} pm", "E is the photon energy and hc = 1.240 MeV·pm"),
-          STEP("Electron momentum", "pc = √(T² + 2T·m<sub>0</sub>c²)", "pc = √(0.100² + 2 × 0.100 × 0.511) MeV", f"{pc_e100:.3f} MeV", "T is the kinetic energy, m<sub>0</sub>c² = 0.511 MeV is the rest energy, and p is the momentum"),
-          STEP("Electron wavelength", "λ = hc/(pc)", f"λ = 1.240 MeV·pm ÷ {pc_e100:.3f} MeV", f"{lam_e100_pm:.2f} pm", "pc is the momentum times c, in MeV (de Broglie: λ = h/p)")], lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2], 1: [3, 4]}
+INLINE = {0: [1, 2, 11], 1: [3, 4]}
 
 TERMS = ['electromagnetic waves', 'photons', 'electron-volt', 'de Broglie']
 
@@ -131,10 +118,8 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- wave types
-_nw = len(PROBLEMS)
 PROBLEMS += [
     SORT("Is each wave transverse or longitudinal?", ["Transverse", "Longitudinal"],
          [("Visible light", 0), ("An x-ray", 0), ("A wave on a stretched string", 0), ("Sound in air", 1), ("Ultrasound in soft tissue", 1), ("A compression pulse along a spring", 1)],
          "In a transverse wave the oscillation is perpendicular to the direction of travel, as for light, x-rays, and a wave on a string. In a longitudinal wave the oscillation is along the direction of travel, as for sound in air or in tissue.", lvl="Easy"),
 ]
-INLINE[0].append(_nw + 1)

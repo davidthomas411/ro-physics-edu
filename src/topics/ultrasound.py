@@ -213,14 +213,7 @@ TOPIC = dict(
         F("Attenuation in soft tissue", f"About {ALPHA} dB/cm/MHz (roughly 0.3 to 1 by tissue), about proportional to frequency, and counted over the round trip.",
           w=[f"10 cm deep at 5 MHz: 0.5 × 5 × 20 cm = {card_loss:.0f} dB"]),
         F("Echo depth and time", f"d = ct/2: {us_cm:.0f} µs per centimetre of depth at 1540 m/s.", w=[f"t = 2 × 0.01 m ÷ 1540 m/s = {us_cm:.2f} µs"]),
-        F("Pulse repetition frequency and depth", "The maximum depth is c/(2 PRF). An echo arriving after the next pulse is placed too shallow.",
-          w=[f"PRF = 5 kHz: 1540 ÷ (2 × 5000) m = {card_depth:.1f} cm"]),
         F("Axial resolution", "Half the spatial pulse length, nλ/2: finer at higher frequency and with fewer cycles per pulse.", w=[f"5 MHz, 3 cycles: 3 × {lam5:.3f} ÷ 2 = {card_ax:.2f} mm"]),
-        F("Lateral and elevational resolution", "Lateral: the beam width in the image plane, smallest at the focus. Elevational: the slice thickness across the plane, usually the coarsest."),
-        F("Doppler shift", "f<sub>D</sub> = 2 f<sub>0</sub> v cos θ / c: no shift at 90°, and velocities are measured at 60° or less.",
-          w=[f"5 MHz, 0.40 m/s, 60°: 2 × 5 × 10<sup>6</sup> × 0.40 × 0.5 ÷ 1540 = {card_fd / 1000:.2f} kHz"]),
-        F("Aliasing in pulsed Doppler", "A shift above PRF/2, the Nyquist limit, wraps around to the opposite direction. A higher PRF, a lower frequency, or continuous-wave Doppler avoids it."),
-        F("Errors of transabdominal prostate localization", f"Probe pressure moving the prostate, slower sound in fat (a deeper image, about {fat_pct:.0f}% of the fat thickness), and CT and ultrasound outlines that differ. QA in AAPM TG-154."),
     ],
 )
 
@@ -239,9 +232,6 @@ PROBLEMS = [
     PR(STEM(ask="What does time gain compensation (TGC) do?"), "It amplifies later echoes more, to offset attenuation with depth",
        ["It lowers the transmit power for deep structures, to limit heating", "It shortens the pulses sent to deep structures, to sharpen them", "It delays the next pulse until the deepest echo has returned"],
        "Echoes from deeper reflectors travel farther, return weaker, and return later, so the receiver gain rises with echo time and equal reflectors look equally bright at every depth. TGC does not change the transmitted pulse, and waiting for the deepest echo sets the PRF.", lvl="Easy"),
-    PRN(STEM("A scanner transmits pulses at a fixed rate into soft tissue.", [f"pulse repetition frequency = {p_prf / 1000:.1f} kHz", "c = 1540 m/s"], "What is the [[greatest depth]] whose echo returns before the next pulse?"),
-        p_d, [2 * p_d, p_d / 2, p_d / 10], "{:.1f} cm",
-        f"The pulse repetition period is 1/{p_prf:,.0f} s = {1e6 / p_prf:.0f} µs, and it must cover the round trip: d = c/(2 PRF) = 1540 / (2 × {p_prf:,.0f}) m = {p_d:.1f} cm, or {1e6 / p_prf:.0f} µs at {us_cm:.0f} µs per cm. Forgetting the round trip gives {2 * p_d:.1f} cm. An echo from deeper arrives after the next pulse and is placed too shallow.", lvl="Moderate"),
     PR(STEM(f"A transabdominal scan at {f_hi:.0f} MHz does not show the prostate of a large patient, and the probe is changed to one of {f_lo:.1f} MHz.", ask="What is the effect of the change?"),
        "The deeper gland is seen, with coarser resolution", ["The deeper gland is seen, with finer resolution", "The depth reached falls, with finer resolution", "The depth is unchanged, with coarser resolution"],
        f"Attenuation is about proportional to frequency: at 0.5 dB/cm/MHz an echo from {f_depth:.0f} cm loses {f_loss_hi:.0f} dB over the round trip at {f_hi:.0f} MHz and {f_loss_lo:.1f} dB at {f_lo:.1f} MHz. The wavelength doubles to {f_lam_lo:.2f} mm, so the axial resolution and the beam width at the focus are coarser.", lvl="Moderate"),
@@ -250,29 +240,10 @@ PROBLEMS = [
         a_ax, [a_spl, a_lam, a_lam / 2], "{:.2f} mm",
         f"λ = 1540 / ({a_f:.1f} × 10<sup>6</sup>) m = {a_lam:.3f} mm, the spatial pulse length is {a_n}λ = {a_spl:.3f} mm, and the axial resolution is half of it, {a_ax:.2f} mm: reflectors closer than that along the beam return overlapping echoes. The whole pulse length gives {a_spl:.2f} mm, one wavelength {a_lam:.2f} mm, and half a wavelength {a_lam / 2:.2f} mm.", lvl="Moderate"),
     # ---- 8-11: Doppler and artifacts
-    PRN(STEM("Blood flows past the sample volume of a pulsed Doppler system.", [f"transmitted frequency = {d_f:.1f} MHz", f"blood velocity = {d_v:.2f} m/s", f"angle between beam and flow = {d_th:.0f}°", "c = 1540 m/s"], "What is the [[Doppler shift]]?"),
-        d_fd / 1000, [d_half / 1000, d_nocos / 1000, d_sin / 1000], "{:.2f} kHz",
-        f"f<sub>D</sub> = 2 f<sub>0</sub> v cos θ / c = 2 × {d_f:.1f} × 10<sup>6</sup> × {d_v:.2f} × {math.cos(math.radians(d_th)):.3f} / 1540 = {d_fd:,.0f} Hz. Leaving out the 2, which counts the shift on the way in and on the way back, gives {d_half / 1000:.2f} kHz; leaving out cos θ gives {d_nocos / 1000:.2f} kHz, and sin θ in place of cos θ gives {d_sin / 1000:.2f} kHz.", lvl="Moderate"),
-    SORT("Match each ultrasound artifact to its cause.", ["Reverberation", "Acoustic shadowing", "Acoustic enhancement", "Speckle", "Refraction"],
-         [("Sound bouncing between two strong reflectors", 0), ("Strong attenuation by bone, calcification, or gas", 1), ("Weak attenuation in fluid, with the gain set for tissue", 2),
-          ("Interference of echoes from scatterers smaller than the resolution", 3), ("Bending of the beam where the speed changes at an oblique boundary", 4)],
-         "Reverberation repeats an echo at equal spacing deeper; shadowing darkens the region behind a strong attenuator or reflector; enhancement brightens the region behind fluid, because the TGC assumes tissue attenuation; speckle is the interference pattern of scatterers too small to resolve; refraction shifts or doubles an object.", lvl="Moderate", mode="match", cap=1),
-    PRM(STEM("Pulsed-wave Doppler of a fast jet shows aliasing. The PRF is below its limit for this depth.", ask="Which of these reduce the aliasing?"),
-        ["Raising the pulse repetition frequency", "Lowering the transmitted frequency", "Switching to continuous-wave Doppler"],
-        ["Raising the transmitted frequency", "Aligning the beam more closely with the flow", "Narrowing the sample volume"],
-        "Aliasing appears when f<sub>D</sub> exceeds PRF/2. A higher PRF raises that limit, a lower transmitted frequency lowers f<sub>D</sub> in proportion, and continuous-wave Doppler does not sample, so it cannot alias. A higher frequency or a smaller angle between beam and flow raises f<sub>D</sub>, and the size of the sample volume does not change it.", lvl="Challenging"),
-    TYPED(STEM("Spectral Doppler measures the peak shift in an artery.", [f"transmitted frequency = {v_f:.1f} MHz", f"peak Doppler shift = {v_fd / 1000:.1f} kHz", f"angle between beam and flow = {v_th:.0f}°", "c = 1540 m/s"],
-               "What is the peak [[blood velocity]]?"), 100 * v_v, 0.02, "cm/s",
-          f"v = f<sub>D</sub> c / (2 f<sub>0</sub> cos θ) = {v_fd:,.0f} × 1540 / (2 × {v_f:.1f} × 10<sup>6</sup> × {math.cos(math.radians(v_th)):.4f}) = {v_v:.3f} m/s = {100 * v_v:.1f} cm/s. Leaving out cos θ gives {100 * v_nocos:.1f} cm/s.", lvl="Challenging"),
     # ---- 12: ultrasound in radiotherapy
-    PR(STEM("A prostate patient is localized with transabdominal ultrasound before each fraction, and implanted gold markers are imaged with kV right after the scan, with the probe removed. Today the therapist pressed hard to see the gland through a thick abdominal wall.",
-            ["ultrasound: prostate 7 mm posterior to its planned position", "markers, within a minute of the scan: within 1 mm of their planned position", f"abdominal fat = {k_thick:.1f} cm, speed of sound about {C_FAT:.0f} m/s", "daily phantom check of the ultrasound system: within tolerance"],
-            "What most likely explains the difference?"),
-       "The probe pushed the prostate posteriorly during the scan", ["Slower sound in the abdominal fat displaced its image", "The calibration of the system to the room had drifted", "The prostate drifted between the two sets of images"],
-       f"Hard pressure on the abdomen pushes the prostate posteriorly, and the markers, imaged with the probe removed, show where it lies during treatment. Slower sound in {k_thick:.1f} cm of fat places the image only {k_err:.1f} mm deeper, the phantom check rules out a calibration error, and a drift of 6 mm or more within a minute is far less likely than the displacement the pressure explains.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2], 1: [4, 5], 2: [7], 3: [8, 9]}          # questions on the last section, and the rest, form the practice set
+INLINE = {0: [1, 2], 1: [4], 2: [6]}
 
 TERMS = ["acoustic impedance", "pulse repetition frequency", "time gain compensation", "axial resolution", "lateral resolution", "near field", "Nyquist limit", "mechanical index"]
 

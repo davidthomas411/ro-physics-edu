@@ -38,8 +38,6 @@ TOPIC = dict(
         F("IMRT", "The fluence of each beam is varied across the field, with higher or lower intensity where it is needed."),
         F("Rationale for IMRT", "It conforms the high-dose region to the target, spares normal tissue, and introduces an inhomogeneous dose when that is wanted."),
         F("IMRT for a head-and-neck case", "3D conformal posterior fields have to stop at about 45 Gy to spare the cord. IMRT can treat each region to its dose and also spare a parotid."),
-        F("Evidence for IMRT", "Level I evidence of lower toxicity than 3D conformal therapy in prostate cancer, and guidelines for hypofractionated prostate treatment recommend it."),
-        F("Beam's-eye view", "The view of the beam from the source. The fluence map is displayed on it."),
         F("Fluence map", "The distribution of intensities across a beam. It can be checked with film or an electronic portal imaging device."),
         F("Step-and-shoot", "The MLC forms a shape, the beam is on for a set time, then off while the MLC moves to the next shape."),
         F("Dynamic MLC", "The beam stays on while the leaves move. Slower leaf motion gives more fluence, so leaf speed sets the intensity. Also called sliding window."),
@@ -68,8 +66,6 @@ PROBLEMS = [
         f"Time = 540 / 600 min = 0.9 min = {t_on(540, 600):.0f} s. Leaving the minutes unconverted gives 0.9, and inverting the ratio gives {600 / 540 * 60:.0f}.", lvl="Moderate"),
     PR("A physical compensator for IMRT is thicker where:", "less fluence is required", ["more fluence is required", "the patient is thinner", "the field edge lies"],
        "A thicker block attenuates more, so it is thickest where the least fluence is wanted. The compensator map is the inverse of the fluence map.", lvl="Moderate"),
-    PR("What is an advantage of compensator-based IMRT?", "It uses dose efficiently, because the beam is not blocked by the leaves for most of the delivery", ["It needs no machining for each patient", "It allows a change of field without entering the room", "It treats one slice at a time"],
-       "Compensators avoid wasting the beam behind closed leaves, but a block must be made for each field and exchanged in the room.", lvl="Challenging"),
     PRN(STEM("A 360° VMAT arc is delivered at a gantry speed of 4°/s and a dose rate of 600 MU/min.", [], "What is the [[most MU]] that the arc can deliver?"), arc_mu(600, 90), [600.0, 600 / 60 * 4, 360 / 4], "{:.0f} MU",
         f"The arc takes 360 / 4 = {arc_t(360, 4):.0f} s. At 600 MU/min = 10 MU/s the most it can deliver is 10 × {arc_t(360, 4):.0f} = {arc_mu(600, 90):.0f} MU.", lvl="Challenging"),
     PR("Why is a hand calculation of the point dose not practical for an IMRT plan?", "The fluence is modulated across each field, so there is no simple open-field geometry", ["IMRT uses no monitor units", "The calibration of an IMRT plan is unknown", "The beam energy is not defined"],
@@ -78,7 +74,7 @@ PROBLEMS = [
        "The machine moves between control points, so a series of them describes the whole delivery.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 7], 2: [9, 10]}
+INLINE = {0: [1, 2, 3], 1: [4, 5, 6, 7], 2: [9]}
 
 TERMS = ['step-and-shoot', 'dynamic MLC', 'fluence map', 'control point', "beam's-eye view"]
 
@@ -90,15 +86,5 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- sorting, typed, and tap-the-figure questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
-    SORT("Which delivery method does each description fit?", ["Step-and-shoot", "Dynamic MLC", "VMAT", "Compensator"],
-         [("Beam off while the leaves move to the next shape", 0), ("Beam on, leaves slide at a varying speed, gantry fixed", 1), ("Gantry rotates while the leaves move and the dose rate varies", 2), ("A machined block whose thickness is the inverse of the fluence map", 3)],
-         "Step-and-shoot turns the beam off between segments, dynamic MLC moves the leaves with the beam on at a fixed gantry angle, VMAT also rotates the gantry, and a compensator modulates with metal thickness.", lvl="Moderate", mode="match", cap=1),
-    TYPED(STEM("A VMAT plan of 450 MU is delivered at a dose rate of 600 MU/min.", [], "What is the [[beam-on time]]?"), t_on(450, 600), 0.01, "s",
-          f"Time = 450 / 600 × 60 = {t_on(450, 600):.0f} s.", lvl="Moderate"),
-    FIGQ(STEM("The graph shows the fluence of the four step-and-shoot segments added together, against position across the field.", [], "Tap the [[position, to the right of the center, at which the fluence falls from 70 MU to 40 MU]]."),
-         FS(x=dict(min=0, max=6, ticks=[0, 1, 2, 3, 4, 5, 6], label="Position across the field (cm)"), y=dict(min=0, max=110, ticks=[0, 25, 50, 75, 100], label="Fluence (MU)"), series=[dict(pts=[(x / 100, flu(x / 100)) for x in range(0, 601, 2)], color="plot-1")], xunit=" cm", xdec=1, xname="Position", label="Fluence of four step-and-shoot segments"),
-         [(3.5, 4.5)], "The fluence is 100 MU out to 1.5 cm, 90 MU to 3 cm, 70 MU to 4 cm, and 40 MU to 5 cm. The fall from 70 to 40 MU is at 4 cm, where the 30 MU segment ends.", lvl="Challenging", note="about 4 cm"),
 ]
-INLINE = {0: [1, 2, 3, _n0 + 1], 1: [4, 5, 6, 7, _n0 + 2], 2: [9, 10, _n0 + 3]}

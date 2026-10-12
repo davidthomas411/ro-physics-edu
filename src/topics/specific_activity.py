@@ -69,26 +69,15 @@ PROBLEMS = [
     PRN(STEM("", ["S (Ir-192) = 3.4 × 10<sup>14</sup> Bq/g", "activity = 370 GBq (10 Ci)"], "About what [[mass of Ir-192]] gives this activity?"), m_ir_given_mg, [m_ir_given_mg / 10, m_ir_given_mg * 10, m_ir_given_mg * 100], "{:.3g} mg",
         f"m = A/S = 3.7 × 10<sup>11</sup> Bq / 3.4 × 10<sup>14</sup> Bq/g = {sci(m_ir_given_mg / 1e3, 3)} g = {m_ir_given_mg:.2f} mg.", lvl="Moderate",
         calc=CALC("mg", [TILE("A", 370, "GBq"), TILE("S", 3.4e14, "Bq/g", disp="3.4 × 10¹⁴"), CONV("GBq", "Bq", 1e9), CONV("g", "mg", 1e3), TILE("T½", 73.8, "d", id="T")], solution=["A", "×", "GBq→Bq", "÷", "S", "×", "g→mg"])),
-    PR("Which has the higher specific activity: 1 g of Co-60 or 1 g of Cs-137?", "Co-60, because of its shorter half-life and lower atomic mass", ["Cs-137, because of its longer half-life", "They are equal", "It cannot be determined without knowing the activity"],
-       f"Co-60: {sci(S['Co-60'])} Bq/g. Cs-137: {sci(S['Cs-137'])} Bq/g, more than ten times lower.", lvl="Moderate"),
     PR("The activity of 1 g of Ra-226 is closest to:", "1 Ci (3.7 × 10<sup>10</sup> Bq)", ["1 mCi", "1 GBq", "1 kCi"],
        f"S = {sci(S['Ra-226'], 3)} Bq/g = {ci('Ra-226'):.2f} Ci/g. The curie was defined from this.", lvl="Moderate"),
-    PRN(STEM("", ["seed activity = 0.50 mCi", "S (I-125) = 6.5 × 10<sup>14</sup> Bq/g"], "About what [[mass of I-125]] does the seed contain?"), m_seed_given_ng, [m_seed_given_ng / 10, m_seed_given_ng * 10, m_seed_given_ng * 100], "{:.3g} ng",
-        f"A = 0.50 mCi × 3.7 × 10<sup>7</sup> Bq/mCi = 1.85 × 10<sup>7</sup> Bq. m = A/S = {m_seed_given_ng:.1f} ng.", lvl="Moderate"),
     PRN(STEM("Compare two seed isotopes.", ["Pd-103: T<sub>1/2</sub> = 17.0 d, M = 102.9 g/mol", "I-125: T<sub>1/2</sub> = 59.4 d, M = 124.9 g/mol"], "The specific activity of Pd-103 is how many [[times that of I-125]]?"), pd_over_i, [1.0, 0.24, 12.0], "{:.2g}",
         f"S ∝ 1/(T<sub>1/2</sub> · M). Ratio = (59.4 / 17.0) × (124.9 / 102.9) = {59.4 / 16.99:.2f} × {124.9 / 102.9:.2f} = {pd_over_i:.1f}.", lvl="Moderate"),
-    PR("Why is the specific activity of a real Ir-192 source lower than the theoretical value?", "It is made by neutron capture on stable Ir-191, so stable iridium remains in the source",
-       ["Ir-192 decays during the encapsulation process", "The capsule absorbs some of the activity", "The half-life of Ir-192 is longer inside the source"],
-       "Only a small fraction of the iridium atoms capture a neutron. The rest stay as stable carrier and add mass without activity.", lvl="Challenging"),
-    PRN(STEM("A Co-60 teletherapy source.", ["activity = 185 TBq (5000 Ci)", "S (Co-60) = 4.19 × 10<sup>13</sup> Bq/g"], "What [[mass of Co-60]] is that?"), m_co_g, [m_co_g / 10, m_co_g * 10, m_co_g * 100], "{:.3g} g",
-        f"m = 1.85 × 10<sup>14</sup> / 4.19 × 10<sup>13</sup> = {m_co_g:.1f} g.", lvl="Challenging"),
-    PRN(STEM("Compare the mass needed for the same activity.", ["S (Ir-192) = 3.41 × 10<sup>14</sup> Bq/g", "S (Cs-137) = 3.21 × 10<sup>12</sup> Bq/g"], "How many [[times more mass]] of Cs-137 than of Ir-192 is needed?"), S["Ir-192"] / S["Cs-137"], [1.0, 11.0, 1060.0], "{:.0f}",
-        f"m ∝ 1/S, so the ratio is {sci(S['Ir-192'])} / {sci(S['Cs-137'])} = {S['Ir-192'] / S['Cs-137']:.0f}.", lvl="Challenging"),
     PR("If the half-life and the molar mass of a nuclide were both doubled, its specific activity would:", "fall to one quarter", ["fall to one half", "stay the same", "double"],
        "S ∝ 1/(T<sub>1/2</sub> · M). Doubling both divides S by 4.", lvl="Challenging"),
 ]
 
-INLINE = {0: [1, 2, 3]}
+INLINE = {0: [1, 2, 3, 10]}
 
 TERMS = ['specific activity', 'carrier']
 
@@ -99,12 +88,8 @@ TAKE = [
 
 
 # ---------------------------------------------------------------- ranking and typed-number questions
-_n0 = len(PROBLEMS)
 PROBLEMS += [
     SORT("Rank these nuclides by specific activity, highest first.", ["1st (highest)", "2nd", "3rd", "4th", "5th", "6th (lowest)"],
          [("Pd-103", 0), ("I-125", 1), ("Ir-192", 2), ("Co-60", 3), ("Cs-137", 4), ("Ra-226", 5)],
          f"S = ln 2 · N<sub>A</sub> / (T<sub>1/2</sub> · M), so a short half-life and a light atom raise it. In Bq/g: Pd-103 {sci(S['Pd-103'])}, I-125 {sci(S['I-125'])}, Ir-192 {sci(S['Ir-192'])}, Co-60 {sci(S['Co-60'])}, Cs-137 {sci(S['Cs-137'])}, and Ra-226 {sci(S['Ra-226'])}, which is about 1 Ci/g.", lvl="Moderate", mode="rank", cap=1),
-    TYPED(STEM("A hypothetical nuclide.", ["T<sub>1/2</sub> = 100 d", "molar mass = 100 g/mol"], "What is its [[specific activity]] in Ci/g?"), calc.spec_act_bq_g(100 * calc.DAY_S, 100.0) / calc.CI_BQ, 0.015, "Ci/g",
-        f"λ = 0.693 / (100 × 86,400 s) = 8.02 × 10<sup>−8</sup> s<sup>−1</sup>. Atoms per gram = 6.022 × 10<sup>23</sup> / 100 = 6.02 × 10<sup>21</sup>. S = {sci(calc.spec_act_bq_g(100 * calc.DAY_S, 100.0))} Bq/g, and dividing by 3.7 × 10<sup>10</sup> Bq/Ci gives {calc.spec_act_bq_g(100 * calc.DAY_S, 100.0) / calc.CI_BQ:,.0f} Ci/g.", lvl="Moderate"),
 ]
-INLINE.setdefault(0, []).extend([_n0 + 1, _n0 + 2])

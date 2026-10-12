@@ -157,9 +157,7 @@ TOPIC = dict(
         F("NRC limits for members of the public", f"{mr(NRC['public'])} per year, and {mr(NRC['hour'])} in any one hour in an unrestricted area."),
         F("ICRP occupational and lens limits", f"{ICRP['avg']:g} mSv per year averaged over {ICRP['years']} years, at most {ICRP['max1']:g} mSv in one year (ICRP 103). ICRP 118 sets the same numbers for the lens."),
         F("NCRP 116 cumulative limit", f"Lifetime effective dose at most {NCRP['per_age']:g} mSv × age in years, with {NCRP['annual']:g} mSv in any one year."),
-        F("NCRP 151 shielding design goals", f"Controlled areas {GOAL['ctrl']:g} mSv per week ({GOAL['ctrl'] * GOAL['weeks']:g} mSv per year). Uncontrolled areas {GOAL['unctrl']:g} mSv per week ({GOAL['unctrl'] * GOAL['weeks']:g} mSv per year)."),
         F("Investigation levels", f"Level I at 10% and level II at 30% of a quarter of the annual limit: {l1:.2f} and {l2:.2f} mSv per quarter for the TEDE (NUREG-1556, Volume 9)."),
-        F("OSL and TLD read-out", "OSL (Al<sub>2</sub>O<sub>3</sub>:C) is read with light and can be read again. TLD (LiF) is read by heating, which erases the signal."),
         F("Badge positions with a lead apron", "Whole-body badge at the collar, outside the apron. A declared pregnant worker adds a badge at the waist, under the apron."),
         F("GM counter in a pulsed beam", "Its dead time, of the order of 100 µs, allows at most one count per linac pulse, so it reads far too low. An ion chamber survey meter is used."),
         F("Neutron survey meter", "A BF<sub>3</sub> or He-3 counter inside a polyethylene moderator, which slows fast neutrons for capture. The reading follows the dose equivalent."),
@@ -168,19 +166,12 @@ TOPIC = dict(
 
 PROBLEMS = [
     # ---- protection quantities
-    PRN(STEM("", [], "In ICRP 103, what is the [[tissue weighting factor of the gonads]]?"), W["gonads"], [W60_GONADS, W26_GONADS, W["lung"]], "{:.2f}",
-        f"ICRP 103 gives the gonads {W['gonads']:.2f}, down from {W60_GONADS:.2f} in ICRP 60. The value {W26_GONADS:.2f} comes from ICRP 26, which 10 CFR 20 still uses, and {W['lung']:.2f} belongs to lung, colon, stomach, breast, marrow, and the remainder.", lvl="Easy"),
-    PRM("Which of these tissues have a tissue weighting factor of 0.12 in ICRP 103?", ["Lung", "Stomach", "Red bone marrow"], ["Thyroid", "Gonads", "Skin"],
-        "Lung, stomach, and red bone marrow are in the 0.12 group with colon, breast, and the remainder tissues. The thyroid has 0.04, the gonads 0.08, and the skin 0.01.", lvl="Moderate"),
     PRN(STEM("A worker receives a non-uniform exposure. The other tissues receive no dose.", [f"{t} = {v:.1f} mSv" for t, v in QE.items()], "What is the [[effective dose]]?"), e_q, [e_sum, e_all12, e_mean], "{:.2f} mSv",
         f"E = {e_q_sum} = {e_q:.2f} mSv. Adding the equivalent doses without weights gives {e_sum:.2f} mSv, weighting every tissue by 0.12 gives {e_all12:.2f} mSv, and averaging them gives {e_mean:.2f} mSv.", lvl="Moderate"),
     PRN(STEM("A tissue is exposed to photons and to 2 MeV neutrons.", [f"photon absorbed dose = {dq_ph:.1f} mGy", f"neutron absorbed dose = {dq_n:.3f} mGy", f"w<sub>R</sub> for 2 MeV neutrons = {wr2:.1f} (ICRP 103)"], "What is the [[equivalent dose]]?"), h_q, [h_raw, h_w20, h_nonly], "{:.2f} mSv",
         f"H = 1 × {dq_ph:.1f} + {wr2:.1f} × {dq_n:.3f} = {h_q:.2f} mSv. Leaving out the weighting gives {h_raw:.2f} mSv, taking w<sub>R</sub> = 20 for all neutrons gives {h_w20:.2f} mSv, and the neutron term alone is {h_nonly:.2f} mSv.", lvl="Moderate"),
 
     # ---- dose limits
-    SORT("Match each person or organ to its limit under 10 CFR 20.", [f"{mr(NRC['tede'])} per year", f"{mr(NRC['lens'])} per year", f"{mr(NRC['skin'])} per year", f"{mr(NRC['public'])} per year", f"{mr(NRC['fetus'])} per pregnancy"],
-         [("Adult worker, total effective dose equivalent", 0), ("Adult worker, lens of the eye", 1), ("Adult worker, skin of the hands", 2), ("Member of the public, total effective dose equivalent", 3), ("Embryo/fetus of a declared pregnant worker", 4)],
-         "The whole-body limit for a worker controls stochastic risk. The lens and skin limits are higher because they guard against tissue reactions with thresholds. The public and the embryo/fetus neither choose the exposure nor benefit from the work, so their limits are lower.", lvl="Easy", mode="match", cap=1),
     PR(STEM("A 17-year-old student works in a radiation area during a summer program.", [], "Which limit on the total effective dose equivalent applies under 10 CFR 20?"),
        f"{NRC['minor'] * NRC['tede']:g} mSv per year, because a minor has {100 * NRC['minor']:.0f}% of each adult limit", [f"{NRC['tede']:g} mSv per year, because the work is occupational", f"{NRC['public']:g} mSv per year, because she counts as a member of the public", "0 mSv per year, because exposure under 18 is not permitted"],
        f"10 CFR 20.1207 limits a minor to 10% of each adult limit, {NRC['minor'] * NRC['tede']:g} mSv TEDE per year. Exposure under 18 is permitted, so the full adult limit and a ban are both wrong.", lvl="Easy"),
@@ -210,8 +201,6 @@ PROBLEMS = [
         f"μ = {mu_pb:.4f} × {rho_pb:.2f} = {mu_pb * rho_pb:.3f} cm<sup>−1</sup>, and T = e<sup>−{mu_pb * rho_pb:.3f} × 0.05</sup> = {t_ap:.2f}, so the apron removes only about {100 * t_ap_abs:.0f}% of Ir-192 photons. {t_ap_abs:.2f} is the fraction removed, {t_ap_mm:.2f} treats 0.5 mm as 0.5 cm, and {t_ap_rho:.2f} leaves out the density.", lvl="Challenging"),
 
     # ---- personal dosimeters
-    PR("Which detector and read-out does an OSL badge use?", "Carbon-doped aluminium oxide, read with light", ["Lithium fluoride, read by heating it in a reader", "Silver bromide film, read by developing it", "A silicon diode, read on a built-in display"],
-       "OSL stands for optically stimulated luminescence: light releases the stored signal from Al<sub>2</sub>O<sub>3</sub>:C, and the reading can be repeated. Heating lithium fluoride describes a TLD, and the diode describes an electronic dosimeter.", lvl="Easy"),
     PR(STEM("A physicist loads I-125 seeds into needles by hand behind an L-block shield.", [], "Where is the ring dosimeter worn?"),
        "On the hand nearer the seeds, under the glove, with the chip facing the seeds", ["On the hand farther from the seeds, over the glove, with the chip facing out", "On either hand, over the glove, with the chip on the back of the finger", "On the wrist of the hand nearer the seeds, over the glove, facing the seeds"],
        "The ring should record the highest skin dose to the hands, so it goes on the hand that handles the seeds, with the chip toward them; a glove over it keeps it clean without shielding much. A chip on the back of the finger or a wrist position records a lower dose than the fingertips receive.", lvl="Moderate"),
@@ -227,12 +216,9 @@ PROBLEMS = [
         ["Its dead time lets it register at most about one count per beam pulse", "Without energy compensation it over-responds to low-energy photons"],
         ["Its pulse height is proportional to the energy each photon deposits", "It needs a polyethylene moderator before it can detect photons"],
         "The linac delivers each pulse within a few microseconds, far shorter than a dead time of the order of 100 µs, so the counter misses all but one event per pulse. An uncompensated tube also over-responds to low-energy scatter. Every GM pulse has the same size, and a moderator is needed only for neutrons.", lvl="Moderate"),
-    SORT("Match each task to the instrument used for it.", ["Ion chamber survey meter", "GM counter", "Moderated BF<sub>3</sub> or He-3 counter", "Ring badge", "Whole-body badge"],
-         [("Survey outside a linac vault with the beam on", 0), ("Search of an operating room floor for a dropped seed", 1), ("Neutron dose equivalent at the door of an 18 MV vault", 2), ("Dose to the fingers of a worker who loads seeds", 3), ("Monthly whole-body dose of a radiation therapist", 4)],
-         "The ion chamber reads exposure rate correctly in a pulsed beam. Of these instruments, the GM counter is the most sensitive for finding a source. Neutrons need a moderated counter, the fingers need a ring badge, and the whole-body record comes from a badge worn on the trunk.", lvl="Moderate", mode="match", cap=1),
 ]
 
-INLINE = {0: [1, 2, 3, 4], 1: [5, 6, 8, 9], 2: [11, 12, 13], 3: [15, 16, 17]}
+INLINE = {0: [1, 2], 1: [3, 5, 6], 2: [8, 9, 10], 3: [12, 13]}
 
 TERMS = ["tissue weighting factor", "declared pregnant worker", "unrestricted area", "ALARA", "occupancy factor", "investigation levels", "dead time", "moderator"]
 
